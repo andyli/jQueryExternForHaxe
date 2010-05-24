@@ -1,4 +1,4 @@
-package jQueryExtern;
+package jQ;
 
 import js.Dom.Document;
 import js.Dom.Dom;
@@ -6,8 +6,8 @@ import js.XMLHttpRequest;
 
 extern class JQuery implements ArrayAccess<Dom>{
 	static public function __init__():Void untyped{
-		if (!window.jQueryExtern) window.jQueryExtern = {};
-		window.jQueryExtern.JQuery = jQuery;
+		if (!window.jQ) window.jQ = {};
+		window.jQ.JQuery = jQuery;
 	}
 
 	/**
@@ -682,10 +682,13 @@ extern class JQuery implements ArrayAccess<Dom>{
 	public function wrapInner(ele:Dynamic):JQuery;
 }
 
-extern class JQueryStatic {
+/**
+	JQueryS group all the static methods/properties of jQuery. It is because haXe does not allow using same name for static and non-static methods/properties.
+**/
+extern class JQueryS {
 	static public function __init__():Void untyped{
-		if (!window.jQueryExtern) window.jQueryExtern = {};
-		window.jQueryExtern.JQueryStatic = jQuery;
+		if (!window.jQ) window.jQ = {};
+		window.jQ.JQueryS = jQuery;
 	}
 
 

@@ -1,9 +1,13 @@
-package jQueryExtern;
+package jQ;
 
 import js.Dom.Document;
 import js.Dom.Dom;
 import js.Dom.HtmlCollection;
 
+/**
+	TypedJQuery list all the typed verion of the jQuery methods.
+	Use it as "using jQ.TypedJQuery;"
+**/
 //defined as extern so that the compiled JS file wouldn't include this class.
 extern class TypedJQuery{
 	/**

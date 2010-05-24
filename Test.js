@@ -487,24 +487,24 @@ Test.__name__ = ["Test"];
 Test.__super__ = haxe.unit.TestCase;
 for(var k in haxe.unit.TestCase.prototype ) Test.prototype[k] = haxe.unit.TestCase.prototype[k];
 Test.main = function() {
-	new jQueryExtern.JQuery(function() {
+	new jQ.JQuery(function() {
 		var runner = new haxe.unit.TestRunner();
 		runner.add(new Test());
 		runner.run();
 	});
 }
 Test.prototype.test1 = function() {
-	var body = new jQueryExtern.JQuery("body");
+	var body = new jQ.JQuery("body");
 	body.addClass("myclass");
-	this.assertTrue(body.hasClass("myclass"),{ fileName : "Test.hx", lineNumber : 12, className : "Test", methodName : "test1"});
-	this.assertEquals(3,body.add("html").add("title").size(),{ fileName : "Test.hx", lineNumber : 13, className : "Test", methodName : "test1"});
+	this.assertTrue(body.hasClass("myclass"),{ fileName : "Test.hx", lineNumber : 11, className : "Test", methodName : "test1"});
+	this.assertEquals(3,body.add("html").add("title").size(),{ fileName : "Test.hx", lineNumber : 12, className : "Test", methodName : "test1"});
 }
 Test.prototype.test2 = function() {
-	var div = new jQueryExtern.JQuery("div#test2")[0];
-	jQueryExtern.JQueryStatic.data(div,"test",{ first : 16, last : "pizza!"});
-	new jQueryExtern.JQuery("span:first").text(jQueryExtern.JQueryStatic.data(div,"test").first);
-	new jQueryExtern.JQuery("span:last").text(jQueryExtern.JQueryStatic.data(div,"test").last);
-	this.assertEquals("The values stored were 16 and pizza!",jQueryExtern.JQueryStatic.trim(new jQueryExtern.JQuery(div).text()),{ fileName : "Test.hx", lineNumber : 21, className : "Test", methodName : "test2"});
+	var div = new jQ.JQuery("div#test2")[0];
+	jQ.JQueryS.data(div,"test",{ first : 16, last : "pizza!"});
+	new jQ.JQuery("span:first").text(jQ.JQueryS.data(div,"test").first);
+	new jQ.JQuery("span:last").text(jQ.JQueryS.data(div,"test").last);
+	this.assertEquals("The values stored were 16 and pizza!",jQ.JQueryS.trim(new jQ.JQuery(div).text()),{ fileName : "Test.hx", lineNumber : 20, className : "Test", methodName : "test2"});
 }
 Test.prototype.__class__ = Test;
 Std = function() { }
@@ -1203,12 +1203,12 @@ js.Boot.__init();
 	}(this))));
 }
 {
-	if(!window.jQueryExtern) window.jQueryExtern = { }
-	window.jQueryExtern.JQuery = jQuery;
+	if(!window.jQ) window.jQ = { }
+	window.jQ.JQuery = jQuery;
 }
 {
-	if(!window.jQueryExtern) window.jQueryExtern = { }
-	window.jQueryExtern.JQueryStatic = jQuery;
+	if(!window.jQ) window.jQ = { }
+	window.jQ.JQueryS = jQuery;
 }
 js.Lib.onerror = null;
 $Main.init = Test.main();
