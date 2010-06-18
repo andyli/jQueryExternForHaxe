@@ -1,0 +1,7 @@
+<project name="jQueryExtern" url="http://github.com/andyli/jQueryExternForHaxe" license="BSD">
+    <user name="andyli"/>
+    <tag v="js"/>
+    <tag v="extern"/>
+    <description>jQuery extern file. Comparing to the jQuery wrapper, this one provides API closer to jQuery and smaller compiled JS file.</description>
+    <version name="1.0">First release. 100% API cover for jQuery 1.4.2.</version>
+</project>
