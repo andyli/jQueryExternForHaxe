@@ -1,15 +1,14 @@
 import haxe.unit.TestCase;
 import haxe.unit.TestRunner;
 
-import jQ.JQuery;
-using jQ.TypedJQuery;
+import JQuery;
 
 class Test extends TestCase{
 	public function test1():Void {
 		var body = new JQuery("body");
 		body.addClass("myclass");
 		this.assertTrue(body.hasClass("myclass"));
-		this.assertEquals(3,body.add0("html").add0("title").size());
+		this.assertEquals(3,body.add("html").add("title").size());
 	}
 
 	public function test2():Void {

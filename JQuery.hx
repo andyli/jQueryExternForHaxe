@@ -1,15 +1,12 @@
-package jQ;
-
 import js.Dom.Document;
 import js.Dom.Dom;
 import js.XMLHttpRequest;
 
-extern class JQuery implements ArrayAccess<Dom>{
+extern class JQuery implements ArrayAccess<Dom> {
 	static public function __init__():Void untyped{
-		if (!window.jQ) window.jQ = {};
-		window.jQ.JQuery = jQuery;
+		window.JQuery = jQuery;
 	}
-
+	
 	/**
 		Accepts a string containing a CSS selector which is then used to match a set of elements.
 	**/
@@ -83,7 +80,11 @@ extern class JQuery implements ArrayAccess<Dom>{
 	/**
 		Get the value of an attribute for the first element in the set of matched elements.
 	**/
-	public function attr(attributeNameOrMap:String, ?valueOrFunction:Dynamic):Dynamic;
+	public function attr(attributeNameOrMap:Dynamic, ?valueOrFunction:Dynamic):Dynamic;
+	
+	inline public function attrSet(attributeName:String, valueOrFunction:Dynamic):JQuery {
+		return attr(attributeName, valueOrFunction);
+	}
 
 	/**
 		Insert content, specified by the parameter, before each element in the set of matched elements.
@@ -143,7 +144,11 @@ extern class JQuery implements ArrayAccess<Dom>{
 	/**
 		Get the value of a style property for the first element in the set of matched elements.
 	**/
-	public function css(propertyNameOrMap:String, ?valueOrFunction:Dynamic):Dynamic;
+	public function css(propertyNameOrMap:Dynamic, ?valueOrFunction:Dynamic):Dynamic;
+	
+	inline public function cssSet(attributeName:String, valueOrFunction:Dynamic):JQuery {
+		return css(attributeName, valueOrFunction);
+	}
 
 	/**
 		Store arbitrary data associated with the matched elements.
@@ -687,8 +692,7 @@ extern class JQuery implements ArrayAccess<Dom>{
 **/
 extern class JQueryS {
 	static public function __init__():Void untyped{
-		if (!window.jQ) window.jQ = {};
-		window.jQ.JQueryS = jQuery;
+		window.JQueryS = jQuery;
 	}
 
 

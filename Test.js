@@ -487,24 +487,24 @@ Test.__name__ = ["Test"];
 Test.__super__ = haxe.unit.TestCase;
 for(var k in haxe.unit.TestCase.prototype ) Test.prototype[k] = haxe.unit.TestCase.prototype[k];
 Test.main = function() {
-	new jQ.JQuery(function() {
+	new JQuery(function() {
 		var runner = new haxe.unit.TestRunner();
 		runner.add(new Test());
 		runner.run();
 	});
 }
 Test.prototype.test1 = function() {
-	var body = new jQ.JQuery("body");
+	var body = new JQuery("body");
 	body.addClass("myclass");
-	this.assertTrue(body.hasClass("myclass"),{ fileName : "Test.hx", lineNumber : 11, className : "Test", methodName : "test1"});
-	this.assertEquals(3,body.add("html").add("title").size(),{ fileName : "Test.hx", lineNumber : 12, className : "Test", methodName : "test1"});
+	this.assertTrue(body.hasClass("myclass"),{ fileName : "Test.hx", lineNumber : 10, className : "Test", methodName : "test1"});
+	this.assertEquals(3,body.add("html").add("title").size(),{ fileName : "Test.hx", lineNumber : 11, className : "Test", methodName : "test1"});
 }
 Test.prototype.test2 = function() {
-	var div = new jQ.JQuery("div#test2")[0];
-	jQ.JQueryS.data(div,"test",{ first : 16, last : "pizza!"});
-	new jQ.JQuery("span:first").text(jQ.JQueryS.data(div,"test").first);
-	new jQ.JQuery("span:last").text(jQ.JQueryS.data(div,"test").last);
-	this.assertEquals("The values stored were 16 and pizza!",jQ.JQueryS.trim(new jQ.JQuery(div).text()),{ fileName : "Test.hx", lineNumber : 20, className : "Test", methodName : "test2"});
+	var div = new JQuery("div#test2")[0];
+	JQueryS.data(div,"test",{ first : 16, last : "pizza!"});
+	new JQuery("span:first").text(JQueryS.data(div,"test").first);
+	new JQuery("span:last").text(JQueryS.data(div,"test").last);
+	this.assertEquals("The values stored were 16 and pizza!",JQueryS.trim(new JQuery(div).text()),{ fileName : "Test.hx", lineNumber : 19, className : "Test", methodName : "test2"});
 }
 Test.prototype.__class__ = Test;
 Std = function() { }
@@ -1174,6 +1174,12 @@ js.Boot.__init();
 	Math.__name__ = ["Math"];
 }
 {
+	window.JQuery = jQuery;
+}
+{
+	window.JQueryS = jQuery;
+}
+{
 	js["XMLHttpRequest"] = (window.XMLHttpRequest?XMLHttpRequest:(window.ActiveXObject?function() {
 		try {
 			return new ActiveXObject("Msxml2.XMLHTTP");
@@ -1201,14 +1207,6 @@ js.Boot.__init();
 		throw "Unable to create XMLHttpRequest object.";
 		return $r;
 	}(this))));
-}
-{
-	if(!window.jQ) window.jQ = { }
-	window.jQ.JQuery = jQuery;
-}
-{
-	if(!window.jQ) window.jQ = { }
-	window.jQ.JQueryS = jQuery;
 }
 js.Lib.onerror = null;
 $Main.init = Test.main();
