@@ -274,6 +274,10 @@ extern class JQuery implements ArrayAccess<Dom> {
 		Get the current computed height for the first element in the set of matched elements.
 	**/
 	public function height(?valueOrFunction:Dynamic):Dynamic;
+	
+	inline public function heightSet(valueOrFunction:Dynamic):JQuery {
+		return height(valueOrFunction);
+	}
 
 	/**
 		Hide the matched elements.
@@ -289,6 +293,10 @@ extern class JQuery implements ArrayAccess<Dom> {
 		Get the HTML contents of the first element in the set of matched elements.
 	**/
 	public function html(?valueOrFunction:Dynamic):Dynamic;
+	
+	inline public function htmlSet(valueOrFunction:Dynamic):JQuery {
+		return html(valueOrFunction);
+	}
 
 	/**
 		Search for a given element from among the matched elements.
@@ -615,6 +623,10 @@ extern class JQuery implements ArrayAccess<Dom> {
 		Get the combined text contents of each element in the set of matched elements, including their descendants.
 	**/
 	public function text(?valueOrFunction:Dynamic):Dynamic;
+	
+	inline public function textSet(valueOrFunction:Dynamic):JQuery {
+		return text(valueOrFunction);
+	}
 
 	/**
 		Retrieve all the DOM elements contained in the jQuery set, as an array.
@@ -665,11 +677,19 @@ extern class JQuery implements ArrayAccess<Dom> {
 		Get the current value of the first element in the set of matched elements.
 	**/
 	public function val(?valueOrFunction:Dynamic):Dynamic;
+	
+	inline public function valSet(valueOrFunction:Dynamic):JQuery {
+		return val(valueOrFunction);
+	}
 
 	/**
 		Get the current computed width for the first element in the set of matched elements.
 	**/
 	public function width(?valueOrFunction:Dynamic):Dynamic;
+	
+	inline public function widthSet(valueOrFunction:Dynamic):JQuery {
+		return width(valueOrFunction);
+	}
 
 	/**
 		Wrap an HTML structure around each element in the set of matched elements.
