@@ -1,0 +1,63 @@
+package jQueryPlugins.jQueryTools;
+
+import JQuery;
+
+/**
+	Tooltip
+	http://flowplayer.org/tools/tooltip/index.html
+**/
+
+extern class Tooltip {
+	inline static public function tooltip(jQ:JQuery, ?configuration:Dynamic):TooltipAPI untyped {
+		return jQ.tooltip(configuration == null ? {} : configuration);
+	}
+}
+
+extern class TooltipS {
+	inline static public function addEffect(name:String, showfunc:Dynamic, hidefunc:Dynamic):TooltipAPI untyped {
+		return JQueryS.tools.tooltip.addEffect(name, showfunc, hidefunc);
+	}
+}
+
+extern class TooltipAPI {
+	/** 
+		Shows the tooltip.
+	**/
+	public function show():TooltipAPI;
+
+	/**
+		Hides the tooltip.
+	**/
+	public function hide():TooltipAPI;
+
+	/**
+		Returns true if the tooltip is visible. Since 1.2.0 you can supply a boolean argument that makes sure that the function returns true only if the tooltip is fully visible (in it's final position and opacity).
+	**/
+	public function isShown(?fully:Bool):Bool;
+
+	/**
+		Returns the tooltip as a jQuery object.
+	**/
+	public function getTip():JQuery;
+
+	/**
+		Returns the triggering element as a jQuery object.
+	**/
+	public function getTrigger():JQuery;
+
+	/**
+		Returns the tooltip configuration.
+	**/
+	public function getConf():Dynamic;
+}
+
+/**
+	Dynamic plugin for Tooltip
+	http://flowplayer.org/tools/tooltip/dynamic.html
+**/
+
+extern class DynamicPlugin {
+	inline static public function dynamicPlugin(tooltip:TooltipAPI, ?configuration:Dynamic):TooltipAPI untyped {
+		return Reflect.field(tooltip,"dynamic")(configuration == null ? {} : configuration);
+	}
+}
