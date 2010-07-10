@@ -14,8 +14,8 @@ extern class Tabs {
 }
 
 extern class TabsS {
-	inline static public function addEffect(name:String, func:Dynamic):TabsAPI untyped {
-		return JQueryS.tools.tabs.addEffect(name, func);
+	inline static public function addEffect(name:String, func:Dynamic):Void untyped {
+		JQueryS.tools.tabs.addEffect(name, func);
 	}
 }
 

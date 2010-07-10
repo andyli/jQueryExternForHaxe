@@ -14,8 +14,8 @@ extern class Tooltip {
 }
 
 extern class TooltipS {
-	inline static public function addEffect(name:String, showfunc:Dynamic, hidefunc:Dynamic):TooltipAPI untyped {
-		return JQueryS.tools.tooltip.addEffect(name, showfunc, hidefunc);
+	inline static public function addEffect(name:String, showfunc:Dynamic, hidefunc:Dynamic):Void untyped {
+		JQueryS.tools.tooltip.addEffect(name, showfunc, hidefunc);
 	}
 }
 
