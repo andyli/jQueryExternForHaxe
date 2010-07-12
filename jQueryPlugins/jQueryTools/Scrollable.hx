@@ -8,8 +8,8 @@ import JQuery;
 **/
 
 extern class Scrollable {
-	inline static public function scrollable(jQ:JQuery, ?configuration:Dynamic):ScrollableAPI untyped {
-		return jQ.scrollable(configuration == null ? {} : configuration);
+	inline static public function scrollable(jQ:JQuery, configuration:Dynamic):ScrollableAPI untyped {
+		return jQ.scrollable(configuration);
 	}
 }
 
@@ -96,8 +96,8 @@ extern class ScrollableAPI {
 **/
 
 extern class AutoscrollPlugin {
-	inline static public function autoscroll(scrollable:ScrollableAPI, ?configuration:Dynamic):AutoscrollPluginAPI untyped {
-		return scrollable.autoscroll(configuration == null ? {} : configuration);
+	inline static public function autoscroll(scrollable:ScrollableAPI, configuration:Dynamic):AutoscrollPluginAPI untyped {
+		return scrollable.autoscroll(configuration);
 	}
 }
 
@@ -124,7 +124,7 @@ extern class AutoscrollPluginAPI extends ScrollableAPI {
 **/
 
 extern class NavigatorPlugin {
-	inline static public function navigator(scrollable:ScrollableAPI, ?configuration:Dynamic):ScrollableAPI untyped {
-		return scrollable.navigator(configuration == null ? {} : configuration);
+	inline static public function navigator(scrollable:ScrollableAPI, configuration:Dynamic):ScrollableAPI untyped {
+		return scrollable.navigator(configuration);
 	}
 }

@@ -9,8 +9,8 @@ import JQuery;
 **/
 
 extern class Flashembed {
-	inline static public function flashembed(jQ:JQuery, configuration:Dynamic, ?flashvars:Dynamic):FlashembedAPI untyped {
-		return jQ.flashembed(configuration, flashvars == null ? {} : flashvars);
+	inline static public function flashembed(jQ:JQuery, configuration:Dynamic, flashvars:Dynamic):FlashembedAPI untyped {
+		return jQ.flashembed(configuration, flashvars);
 	}
 }
 
@@ -25,8 +25,8 @@ extern class FlashembedS {
 	/**
 		Returns the embedding code for the given embedding options and optional Flash configuration. This method is useful if you want to quickly generate the object tag for your Flash objects so that you don't need to use JavaScript on your pages.
 	**/
-	inline static public function getHTML(configuration:Dynamic, ?flashvars:Dynamic):String untyped {
-		return flashembed.getHTML(configuration, flashvars == null ? {} : flashvars);
+	inline static public function getHTML(configuration:Dynamic, flashvars:Dynamic):String untyped {
+		return flashembed.getHTML(configuration, flashvars);
 	}
 
 	/**
@@ -39,7 +39,7 @@ extern class FlashembedS {
 	/**
 		Whether the given version is supported. Example: flashembed.isSupported([9, 0]);
 	**/
-	inline static public function isSupported(version:Array<Int>	):Array<Int> untyped {
+	inline static public function isSupported(version:Array<Int>):Array<Int> untyped {
 		return flashembed.isSupported(version);
 	}
 }

@@ -8,8 +8,8 @@ import JQuery;
 **/
 
 extern class Validator {
-	inline static public function validator(jQ:JQuery, ?configuration:Dynamic):ValidatorAPI untyped {
-		return jQ.validator(configuration == null ? {} : configuration);
+	inline static public function validator(jQ:JQuery, configuration:Dynamic):ValidatorAPI untyped {
+		return jQ.validator(configuration);
 	}
 }
 
