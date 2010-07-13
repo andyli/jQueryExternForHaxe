@@ -36,6 +36,13 @@ extern class MediaS {
 	 * @param	player One of: flash, quicktime, realplayer, silverlight, winmedia or iframe
 	 */
 	inline static public function mapFormat(type:String, player:String):Void untyped {
-		jQ.fn.media.mapFormat("destroy");
+		jQ.fn.media.mapFormat(type, player);
+	}
+	
+	inline static public function getFlvPlayer():String untyped {
+		return jQ.fn.media.defaults.flvPlayer;
+	}
+	inline static public function setFlvPlayer(playerUrl:String):Void untyped {
+		jQ.fn.media.defaults.flvPlayer = playerUrl;
 	}
 }
