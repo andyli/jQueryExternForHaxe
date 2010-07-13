@@ -39,10 +39,13 @@ extern class MediaS {
 		jQ.fn.media.mapFormat(type, player);
 	}
 	
-	inline static public function getFlvPlayer():String untyped {
-		return jQ.fn.media.defaults.flvPlayer;
+	inline static var defaults(getDefaults, setDefaults):Dynamic;
+	
+	inline static private function getDefaults():Dynamic untyped {
+		return jQ.fn.media.defaults;
 	}
-	inline static public function setFlvPlayer(playerUrl:String):Void untyped {
-		jQ.fn.media.defaults.flvPlayer = playerUrl;
+	inline static private function setDefaults(val:Dynamic):Dynamic untyped {
+		jQ.fn.media.defaults = val;
+		return val;
 	}
 }
