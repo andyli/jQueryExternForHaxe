@@ -1,4 +1,4 @@
-package jQueryPlugins.jQueryUI;
+package jQueryPlugins.media;
 
 import JQuery;
 
