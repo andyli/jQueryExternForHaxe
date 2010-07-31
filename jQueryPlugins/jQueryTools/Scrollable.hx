@@ -8,8 +8,12 @@ import JQuery;
 **/
 
 extern class Scrollable {
-	inline static public function scrollable(jQ:JQuery, configuration:Dynamic):ScrollableAPI untyped {
+	inline static public function scrollable(jQ:JQuery, configuration:Dynamic):JQuery untyped {
 		return jQ.scrollable(configuration);
+	}
+
+	inline static public function getScrollableAPI(jQ:JQuery):ScrollableAPI untyped {
+		return jQ.data("scrollable");
 	}
 }
 
@@ -96,8 +100,12 @@ extern class ScrollableAPI {
 **/
 
 extern class AutoscrollPlugin {
-	inline static public function autoscroll(scrollable:ScrollableAPI, configuration:Dynamic):AutoscrollPluginAPI untyped {
+	inline static public function autoscroll(scrollable:ScrollableAPI, configuration:Dynamic):JQuery untyped {
 		return scrollable.autoscroll(configuration);
+	}
+
+	inline static public function getAutoscrollPluginAPI(jQ:JQuery):AutoscrollPluginAPI untyped {
+		return jQ.data("scrollable"); //there is no AutoscrollPluginAPI actually but the methods are added into the ScrollableAPI
 	}
 }
 

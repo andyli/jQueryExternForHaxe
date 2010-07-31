@@ -8,8 +8,12 @@ import JQuery;
 **/
 
 extern class Rangeinput {
-	inline static public function rangeinput(jQ:JQuery, configuration:Dynamic):RangeinputAPI untyped {
+	inline static public function rangeinput(jQ:JQuery, configuration:Dynamic):JQuery untyped {
 		return jQ.rangeinput(configuration);
+	}
+
+	inline static public function getRangeinputAPI(jQ:JQuery):RangeinputAPI untyped {
+		return jQ.data("rangeinput");
 	}
 }
 

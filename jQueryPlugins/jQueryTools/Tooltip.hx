@@ -8,8 +8,12 @@ import JQuery;
 **/
 
 extern class Tooltip {
-	inline static public function tooltip(jQ:JQuery, configuration:Dynamic):TooltipAPI untyped {
+	inline static public function tooltip(jQ:JQuery, configuration:Dynamic):JQuery untyped {
 		return jQ.tooltip(configuration);
+	}
+
+	inline static public function getTooltipAPI(jQ:JQuery):TooltipAPI untyped {
+		return jQ.data("tooltip");
 	}
 }
 

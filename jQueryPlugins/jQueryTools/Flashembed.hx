@@ -9,8 +9,12 @@ import JQuery;
 **/
 
 extern class Flashembed {
-	inline static public function flashembed(jQ:JQuery, configuration:Dynamic, flashvars:Dynamic):FlashembedAPI untyped {
+	inline static public function flashembed(jQ:JQuery, configuration:Dynamic, flashvars:Dynamic):JQuery untyped {
 		return jQ.flashembed(configuration, flashvars);
+	}
+
+	inline static public function getFlashembedAPI(jQ:JQuery):FlashembedAPI untyped {
+		return jQ.data("flashembed");
 	}
 }
 

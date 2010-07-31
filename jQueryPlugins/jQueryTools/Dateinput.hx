@@ -8,8 +8,12 @@ import JQuery;
 **/
 
 extern class Dateinput {
-	inline static public function dateinput(jQ:JQuery, configuration:Dynamic):DateinputAPI untyped {
+	inline static public function dateinput(jQ:JQuery, configuration:Dynamic):JQuery untyped {
 		return jQ.dateinput(configuration);
+	}
+
+	inline static public function getDateinputAPI(jQ:JQuery):DateinputAPI untyped {
+		return jQ.data("dateinput");
 	}
 }
 

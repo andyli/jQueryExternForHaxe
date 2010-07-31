@@ -8,8 +8,12 @@ import JQuery;
 **/
 
 extern class Expose {
-	inline static public function expose(jQ:JQuery, configuration:Dynamic):ExposeAPI untyped {
+	inline static public function expose(jQ:JQuery, configuration:Dynamic):JQuery untyped {
 		return jQ.expose(configuration);
+	}
+
+	inline static public function getExposeAPI(jQ:JQuery):ExposeAPI untyped {
+		return jQ.data("expose");
 	}
 }
 

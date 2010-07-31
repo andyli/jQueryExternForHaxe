@@ -8,8 +8,12 @@ import JQuery;
 **/
 
 extern class Overlay {
-	inline static public function overlay(jQ:JQuery, configuration:Dynamic):OverlayAPI untyped {
+	inline static public function overlay(jQ:JQuery, configuration:Dynamic):JQuery untyped {
 		return jQ.overlay(configuration);
+	}
+
+	inline static public function getOverlayAPI(jQ:JQuery):OverlayAPI untyped {
+		return jQ.data("overlay");
 	}
 }
 

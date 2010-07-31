@@ -8,8 +8,12 @@ import JQuery;
 **/
 
 extern class Tabs {
-	inline static public function tabs(jQ:JQuery, pane_selector:String, configuration:Dynamic):TabsAPI untyped {
+	inline static public function tabs(jQ:JQuery, pane_selector:String, configuration:Dynamic):JQuery untyped {
 		return jQ.tabs(pane_selector, configuration);
+	}
+
+	inline static public function getTabsAPI(jQ:JQuery):TabsAPI untyped {
+		return jQ.data("tabs");
 	}
 }
 
@@ -78,8 +82,12 @@ extern class TabsAPI {
 **/
 
 extern class SlideshowPlugin {
-	inline static public function slideshow(tabs:TabsAPI, configuration:Dynamic):SlideshowPluginAPI untyped {
+	inline static public function slideshow(tabs:TabsAPI, configuration:Dynamic):JQuery untyped {
 		return tabs.slideshow(configuration);
+	}
+
+	inline static public function getSlideshowPluginAPI(jQ:JQuery):SlideshowPluginAPI untyped {
+		return jQ.data("slideshow");
 	}
 }
 
