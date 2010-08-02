@@ -82,7 +82,7 @@ extern class TabsAPI {
 **/
 
 extern class SlideshowPlugin {
-	inline static public function slideshow(tabs:TabsAPI, configuration:Dynamic):JQuery untyped {
+	inline static public function slideshow(tabs:JQuery, configuration:Dynamic):JQuery untyped {
 		return tabs.slideshow(configuration);
 	}
 

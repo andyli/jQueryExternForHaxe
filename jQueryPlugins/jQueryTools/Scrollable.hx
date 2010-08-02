@@ -100,7 +100,7 @@ extern class ScrollableAPI {
 **/
 
 extern class AutoscrollPlugin {
-	inline static public function autoscroll(scrollable:ScrollableAPI, configuration:Dynamic):JQuery untyped {
+	inline static public function autoscroll(scrollable:JQuery, configuration:Dynamic):JQuery untyped {
 		return scrollable.autoscroll(configuration);
 	}
 
@@ -132,7 +132,7 @@ extern class AutoscrollPluginAPI extends ScrollableAPI {
 **/
 
 extern class NavigatorPlugin {
-	inline static public function navigator(scrollable:ScrollableAPI, configuration:Dynamic):ScrollableAPI untyped {
+	inline static public function navigator(scrollable:JQuery, configuration:Dynamic):ScrollableAPI untyped {
 		return scrollable.navigator(configuration);
 	}
 }
