@@ -1,0 +1,3 @@
+"jQuery":http://jquery.com/ extern for "haXe":http://haxe.org/
+
+Please refer to my "blog post":http://blog.onthewings.net/2010/08/03/using-jquery-in-haxe/ for usage and info.
