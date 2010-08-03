@@ -44,7 +44,7 @@ extern class Datepicker {
 	 * Set any datepicker option
 	 */
 	inline static public function datepickerOptionSet(jQ:JQuery, optionName:String, value:Dynamic):JQuery untyped {
-		return jQ.datepicker(configuration, optionName, value);
+		return jQ.datepicker("option", optionName, value);
 	}
 	
 	/**

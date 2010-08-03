@@ -44,7 +44,7 @@ extern class Draggable {
 	 * Set any draggable option
 	 */
 	inline static public function draggableOptionSet(jQ:JQuery, optionName:String, value:Dynamic):JQuery untyped {
-		return jQ.draggable(configuration, optionName, value);
+		return jQ.draggable("option", optionName, value);
 	}
 	
 	/**
