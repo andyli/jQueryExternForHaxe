@@ -1,5 +1,4 @@
-import js.Dom.Document;
-import js.Dom.Dom;
+import js.Dom;
 import js.XMLHttpRequest;
 
 extern class JQuery implements ArrayAccess<Dom> {
@@ -154,6 +153,10 @@ extern class JQuery implements ArrayAccess<Dom> {
 		Store arbitrary data associated with the matched elements.
 	**/
 	public function data(?keyOrMap:Dynamic, ?value:Dynamic):Dynamic;
+
+	inline public function dataSet(key:String, value:Dynamic):JQuery {
+		return data(key,value);
+	}
 
 	/**
 		Bind an event handler to the "dblclick" JavaScript event, or trigger that event on an element.
@@ -429,6 +432,10 @@ extern class JQuery implements ArrayAccess<Dom> {
 	**/
 	public function offset(?coordinatesOrFunction:Dynamic):Dynamic;
 
+	inline public function offsetSet(coordinatesOrFunction:Dynamic):JQuery {
+		return offset(coordinatesOrFunction);
+	}
+
 	/**
 		Get the closest ancestor element that is positioned.
 	**/
@@ -467,7 +474,7 @@ extern class JQuery implements ArrayAccess<Dom> {
 	/**
 		Get the current coordinates of the first element in the set of matched elements, relative to the offset parent.
 	**/
-	public function position():Dynamic;
+	public function position():{top:String, left:String};
 
 	/**
 		Insert content, specified by the parameter, to the beginning of each element in the set of matched elements.
@@ -497,7 +504,7 @@ extern class JQuery implements ArrayAccess<Dom> {
 	/**
 		Show the queue of functions to be executed on the matched elements.
 	**/
-	public function queue(?queueName:Dynamic, newQueue:Dynamic):Dynamic;
+	public function queue(?queueName:Dynamic, ?newQueueOrCallback:Dynamic):Dynamic;
 
 	/**
 		Specify a function to execute when the DOM is fully loaded.
@@ -549,10 +556,18 @@ extern class JQuery implements ArrayAccess<Dom> {
 	**/
 	public function scrollLeft(?value:Float):Dynamic;
 
+	inline public function scrollLeftSet(value:Float):JQuery {
+		return scrollLeft(value);
+	}
+
 	/**
 		Get the current vertical position of the scroll bar for the first element in the set of matched elements.
 	**/
 	public function scrollTop(?value:Float):Dynamic;
+
+	inline public function scrollTopSet(value:Float):JQuery {
+		return scrollTop(value);
+	}
 
 	/**
 		Bind an event handler to the "select" JavaScript event, or trigger that event on an element.
@@ -734,7 +749,14 @@ extern class JQueryS {
 	/**
 		We recommend against using this property, please try to use feature detection instead (see jQuery.support). Contains flags for the useragent, read from navigator.userAgent. While jQuery.browser will not be removed from future versions of jQuery, every effort to use jQuery.support and proper feature detection should be made.
 	**/
-	static public var browser(default,null):Dynamic;
+	static public var browser(default,null):{
+												webkit:Null<Bool>,
+												safari:Null<Bool>, //deprecated
+												opera:Null<Bool>,
+												msie:Null<Bool>,
+												mozilla:Null<Bool>,
+												version:String
+											};
 
 	/**
 		Check to see if a DOM node is within another DOM node.
@@ -913,6 +935,11 @@ extern class JQueryS {
 }
 
 extern class JQueryEvent {
+	static public function __init__():Void untyped{
+		window.JQueryEvent = jQuery.Event;
+	}
+
+	public function new(name:String):Void;
 
 	/**
 		The current DOM element within the event bubbling phase.
@@ -993,4 +1020,16 @@ extern class JQueryEvent {
 		For key or button events, this attribute indicates the specific button or key that was pressed.
 	**/
 	public var which:String;
+
+	//copied from Dom.Event:
+	public var clientX : Int;
+	public var clientY : Int;
+	public var screenX : Int;
+	public var screenY : Int;
+	public var button : Int;
+	public var keyCode : Int;
+	public var shiftKey : Bool;
+	public var ctrlKey : Bool;
+	public var altKey : Bool;
+	public var cancelBubble : Bool;
 }

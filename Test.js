@@ -496,24 +496,15 @@ Test.main = function() {
 Test.prototype.test1 = function() {
 	var body = new JQuery("body");
 	body.addClass("myclass");
-	this.assertTrue(body.hasClass("myclass"),{ fileName : "Test.hx", lineNumber : 15, className : "Test", methodName : "test1"});
-	this.assertEquals(3,body.add("html").add("title").size(),{ fileName : "Test.hx", lineNumber : 16, className : "Test", methodName : "test1"});
+	this.assertTrue(body.hasClass("myclass"),{ fileName : "Test.hx", lineNumber : 10, className : "Test", methodName : "test1"});
+	this.assertEquals(3,body.add("html").add("title").size(),{ fileName : "Test.hx", lineNumber : 11, className : "Test", methodName : "test1"});
 }
 Test.prototype.test2 = function() {
 	var div = new JQuery("div#test2")[0];
 	JQueryS.data(div,"test",{ first : 16, last : "pizza!"});
 	new JQuery("span:first").text(JQueryS.data(div,"test").first);
 	new JQuery("span:last").text(JQueryS.data(div,"test").last);
-	this.assertEquals("The values stored were 16 and pizza!",JQueryS.trim(new JQuery(div).text()),{ fileName : "Test.hx", lineNumber : 24, className : "Test", methodName : "test2"});
-}
-Test.prototype.testjQueryTools = function() {
-	var api = new JQuery("div#test2").tabs("test",(null == null?{ }:null));
-	api.slideshow((null == null?{ }:null));
-	JQueryS.tools.tabs.addEffect("abc",function() {
-		null;
-	});
-	(Reflect.field(new JQuery("div#test2").tooltip((null == null?{ }:null)),"dynamic"))((null == null?{ }:null));
-	new JQuery("div#test2").scrollable((null == null?{ }:null)).autoscroll((null == null?{ }:null)).stop().navigator((null == null?{ }:null));
+	this.assertEquals("The values stored were 16 and pizza!",JQueryS.trim(new JQuery(div).text()),{ fileName : "Test.hx", lineNumber : 19, className : "Test", methodName : "test2"});
 }
 Test.prototype.__class__ = Test;
 Std = function() { }
@@ -1187,6 +1178,9 @@ js.Boot.__init();
 }
 {
 	window.JQueryS = jQuery;
+}
+{
+	window.JQueryEvent = jQuery.Event;
 }
 {
 	js["XMLHttpRequest"] = (window.XMLHttpRequest?XMLHttpRequest:(window.ActiveXObject?function() {
