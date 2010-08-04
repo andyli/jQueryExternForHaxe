@@ -474,7 +474,7 @@ extern class JQuery implements ArrayAccess<Dom> {
 	/**
 		Get the current coordinates of the first element in the set of matched elements, relative to the offset parent.
 	**/
-	public function position():{top:String, left:String};
+	public function position():{top:Float, left:Float};
 
 	/**
 		Insert content, specified by the parameter, to the beginning of each element in the set of matched elements.
