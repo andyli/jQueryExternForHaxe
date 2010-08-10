@@ -1020,6 +1020,11 @@ extern class JQueryEvent {
 		For key or button events, this attribute indicates the specific button or key that was pressed.
 	**/
 	public var which:String;
+	
+	/**
+		The event object that haven't processed by jQuery
+	**/
+	public var originalEvent:Event;
 
 	//copied from Dom.Event:
 	public var clientX : Int;
