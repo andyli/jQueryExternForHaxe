@@ -777,6 +777,11 @@ extern class JQueryS {
 		Iterates through the array displaying each number as both a word and numeral
 	**/
 	static public function each<T>(collection:T, ?callBack:Dynamic):T;
+	
+	/**
+		Easing functions
+	**/
+	static public var easing:Dynamic < Dynamic->Float->Float->Float->Float->Float > ;
 
 	/**
 		Takes a string and throws an exception containing it.
