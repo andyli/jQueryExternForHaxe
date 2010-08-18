@@ -62,6 +62,6 @@ extern class TooltipAPI {
 
 extern class DynamicPlugin {
 	inline static public function dynamicPlugin(tooltip:JQuery, configuration:Dynamic):TooltipAPI untyped {
-		return Reflect.field(tooltip,"dynamic")(configuration);
+		return tooltip["dynamic"](configuration);
 	}
 }
