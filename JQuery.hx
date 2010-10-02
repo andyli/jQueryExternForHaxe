@@ -1,11 +1,12 @@
 import js.Dom;
 import js.XMLHttpRequest;
 
-extern class JQuery implements ArrayAccess<Dom> {
-	static public function __init__():Void untyped{
-		window.JQuery = jQuery;
-	}
-	
+#if JQUERY_NOCONFLICT
+@:native("jQuery")
+#else
+@:native("$")
+#end
+extern class JQuery implements ArrayAccess<Dom> {	
 	/**
 		Accepts a string containing a CSS selector which is then used to match a set of elements.
 	**/
@@ -725,12 +726,12 @@ extern class JQuery implements ArrayAccess<Dom> {
 /**
 	JQueryS group all the static methods/properties of jQuery. It is because haXe does not allow using same name for static and non-static methods/properties.
 **/
+#if JQUERY_NOCONFLICT
+@:native("jQuery")
+#else
+@:native("$")
+#end
 extern class JQueryS {
-	static public function __init__():Void untyped{
-		window.JQueryS = jQuery;
-	}
-
-
 	/**
 		Perform an asynchronous HTTP (Ajax) request.
 	**/
@@ -939,11 +940,12 @@ extern class JQueryS {
 	static public function unique<T>(array:Array<T>):Array<T>;
 }
 
+#if JQUERY_NOCONFLICT
+@:native("jQuery.Event")
+#else
+@:native("$.Event")
+#end
 extern class JQueryEvent {
-	static public function __init__():Void untyped{
-		window.JQueryEvent = jQuery.Event;
-	}
-
 	public function new(name:String):Void;
 
 	/**
