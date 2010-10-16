@@ -94,17 +94,17 @@ extern class JQuery implements ArrayAccess<Dom> {
 	/**
 		Attach a handler to an event for the elements.
 	**/
-	public function bind(eventType:Dynamic, ?eventData:Dynamic, ?handler:Dynamic):JQuery;
+	public function bind(eventType:Dynamic, ?eventData:Dynamic, ?handlerOrFalse:Dynamic):JQuery;
 
 	/**
 		Bind an event handler to the "blur" JavaScript event, or trigger that event on an element.
 	**/
-	public function blur(?handler:Dynamic):JQuery;
+	public function blur(?eventDataOrHandler:Dynamic, ?handler:Dynamic):JQuery;
 
 	/**
 		Bind an event handler to the "change" JavaScript event, or trigger that event on an element.
 	**/
-	public function change(?handler:Dynamic):JQuery;
+	public function change(?eventDataOrHandler:Dynamic, ?handler:Dynamic):JQuery;
 
 	/**
 		Get the children of each element in the set of matched elements, optionally filtered by a selector.
@@ -119,7 +119,7 @@ extern class JQuery implements ArrayAccess<Dom> {
 	/**
 		Bind an event handler to the "click" JavaScript event, or trigger that event on an element.
 	**/
-	public function click(?handler:Dynamic):JQuery;
+	public function click(?eventDataOrHandler:Dynamic, ?handler:Dynamic):JQuery;
 
 	/**
 		Create a copy of the set of matched elements.
@@ -162,7 +162,7 @@ extern class JQuery implements ArrayAccess<Dom> {
 	/**
 		Bind an event handler to the "dblclick" JavaScript event, or trigger that event on an element.
 	**/
-	public function dblclick(?handler:Dynamic):JQuery;
+	public function dblclick(?eventDataOrHandler:Dynamic, ?handler:Dynamic):JQuery;
 
 	/**
 		Set a timer to delay execution of subsequent items in the queue.
@@ -212,22 +212,22 @@ extern class JQuery implements ArrayAccess<Dom> {
 	/**
 		Bind an event handler to the "error" JavaScript event.
 	**/
-	public function error(handler:Dynamic):JQuery;
+	public function error(?eventDataOrHandler:Dynamic, ?handler:Dynamic):JQuery;
 
 	/**
 		Display the matched elements by fading them to opaque.
 	**/
-	public function fadeIn(?duration:Dynamic,?callBack:Dynamic):JQuery;
+	public function fadeIn(?duration:Dynamic, ?easingOrCallback:Dynamic ,?callBack:Dynamic):JQuery;
 
 	/**
 		Hide the matched elements by fading them to transparent.
 	**/
-	public function fadeOut(?duration:Dynamic,?callBack:Dynamic):JQuery;
+	public function fadeOut(?duration:Dynamic,?easingOrCallback:Dynamic ,?callBack:Dynamic):JQuery;
 
 	/**
 		Adjust the opacity of the matched elements.
 	**/
-	public function fadeTo(duration:Dynamic, opacity:Float, ?callBack:Dynamic):JQuery;
+	public function fadeTo(duration:Dynamic, opacity:Float, ?easingOrCallback:Dynamic ,?callBack:Dynamic):JQuery;
 
 	/**
 		Reduce the set of matched elements to those that match the selector or pass the function's test.
@@ -247,17 +247,17 @@ extern class JQuery implements ArrayAccess<Dom> {
 	/**
 		Bind an event handler to the "focus" JavaScript event, or trigger that event on an element.
 	**/
-	public function focus(?handler:Dynamic):JQuery;
+	public function focus(?eventDataOrHandler:Dynamic, ?handler:Dynamic):JQuery;
 
 	/**
 		Bind an event handler to the "focusin" JavaScript event.
 	**/
-	public function focusin(handler:Dynamic):JQuery;
+	public function focusin(?eventDataOrHandler:Dynamic, handler:Dynamic):JQuery;
 
 	/**
 		Bind an event handler to the "focusout" JavaScript event.
 	**/
-	public function focusout(handler:Dynamic):JQuery;
+	public function focusout(?eventDataOrHandler:Dynamic, handler:Dynamic):JQuery;
 
 	/**
 		Retrieve the DOM elements matched by the jQuery object.
@@ -286,7 +286,7 @@ extern class JQuery implements ArrayAccess<Dom> {
 	/**
 		Hide the matched elements.
 	**/
-	public function hide(?duration:Dynamic,?callBack:Dynamic):JQuery;
+	public function hide(?duration:Dynamic, ?easingOrCallback:Dynamic, ?callBack:Dynamic):JQuery;
 
 	/**
 		Bind two handlers to the matched elements, to be executed when the mouse pointer enters and leaves the elements.
@@ -335,17 +335,17 @@ extern class JQuery implements ArrayAccess<Dom> {
 	/**
 		Bind an event handler to the "keydown" JavaScript event, or trigger that event on an element.
 	**/
-	public function keydown(?handler:Dynamic):JQuery;
+	public function keydown(?eventDataOrHandler:Dynamic, ?handler:Dynamic):JQuery;
 
 	/**
 		Bind an event handler to the "keypress" JavaScript event, or trigger that event on an element.
 	**/
-	public function keypress(?handler:Dynamic):JQuery;
+	public function keypress(?eventDataOrHandler:Dynamic, ?handler:Dynamic):JQuery;
 
 	/**
 		Bind an event handler to the "keyup" JavaScript event, or trigger that event on an element.
 	**/
-	public function keyup(?handler:Dynamic):JQuery;
+	public function keyup(?eventDataOrHandler:Dynamic, ?handler:Dynamic):JQuery;
 
 	/**
 		Reduce the set of matched elements to the final one in the set.
@@ -366,7 +366,7 @@ extern class JQuery implements ArrayAccess<Dom> {
 		Load data from the server and place the returned HTML into the matched element.
 		Bind an event handler to the "load" JavaScript event.
 	**/
-	public function load(urlOrHandler:Dynamic, ?data:Dynamic, ?complete:Dynamic):JQuery;
+	public function load(urlOrEventDataOrHandler:Dynamic, ?dataOrHandler:Dynamic, ?complete:Dynamic):JQuery;
 
 	/**
 		Pass each element in the current matched set through a function, producing a new jQuery object containing the return values.
@@ -376,37 +376,37 @@ extern class JQuery implements ArrayAccess<Dom> {
 	/**
 		Bind an event handler to the "mousedown" JavaScript event, or trigger that event on an element.
 	**/
-	public function mousedown(?handler:Dynamic):JQuery;
+	public function mousedown(?eventDataOrHandler:Dynamic, ?handler:Dynamic):JQuery;
 
 	/**
 		Bind an event handler to be fired when the mouse enters an element, or trigger that handler on an element.
 	**/
-	public function mouseenter(?handler:Dynamic):JQuery;
+	public function mouseenter(?eventDataOrHandler:Dynamic, ?handler:Dynamic):JQuery;
 
 	/**
 		Bind an event handler to be fired when the mouse leaves an element, or trigger that handler on an element.
 	**/
-	public function mouseleave(?handler:Dynamic):JQuery;
+	public function mouseleave(?eventDataOrHandler:Dynamic, ?handler:Dynamic):JQuery;
 
 	/**
 		Bind an event handler to the "mousemove" JavaScript event, or trigger that event on an element.
 	**/
-	public function mousemove(?handler:Dynamic):JQuery;
+	public function mousemove(?eventDataOrHandler:Dynamic, ?handler:Dynamic):JQuery;
 
 	/**
 		Bind an event handler to the "mouseout" JavaScript event, or trigger that event on an element.
 	**/
-	public function mouseout(?handler:Dynamic):JQuery;
+	public function mouseout(?eventDataOrHandler:Dynamic, ?handler:Dynamic):JQuery;
 
 	/**
 		Bind an event handler to the "mouseover" JavaScript event, or trigger that event on an element.
 	**/
-	public function mouseover(?handler:Dynamic):JQuery;
+	public function mouseover(?eventDataOrHandler:Dynamic, ?handler:Dynamic):JQuery;
 
 	/**
 		Bind an event handler to the "mouseup" JavaScript event, or trigger that event on an element.
 	**/
-	public function mouseup(?handler:Dynamic):JQuery;
+	public function mouseup(?eventDataOrHandler:Dynamic, ?handler:Dynamic):JQuery;
 
 	/**
 		Get the immediately following sibling of each element in the set of matched elements, optionally filtered by a selector.
@@ -545,12 +545,12 @@ extern class JQuery implements ArrayAccess<Dom> {
 	/**
 		Bind an event handler to the "resize" JavaScript event, or trigger that event on an element.
 	**/
-	public function resize(?handler:Dynamic):JQuery;
+	public function resize(?eventDataOrHandler:Dynamic, ?handler:Dynamic):JQuery;
 
 	/**
 		Bind an event handler to the "scroll" JavaScript event, or trigger that event on an element.
 	**/
-	public function scroll(?handler:Dynamic):JQuery;
+	public function scroll(?eventDataOrHandler:Dynamic, ?handler:Dynamic):JQuery;
 
 	/**
 		Get the current horizontal position of the scroll bar for the first element in the set of matched elements.
@@ -573,7 +573,7 @@ extern class JQuery implements ArrayAccess<Dom> {
 	/**
 		Bind an event handler to the "select" JavaScript event, or trigger that event on an element.
 	**/
-	public function select(?handler:Dynamic):JQuery;
+	public function select(?eventDataOrHandler:Dynamic, ?handler:Dynamic):JQuery;
 
 	/**
 		A selector representing selector originally passed to jQuery().
@@ -593,7 +593,7 @@ extern class JQuery implements ArrayAccess<Dom> {
 	/**
 		Display the matched elements.
 	**/
-	public function show(?duration:Dynamic,?callBack:Dynamic):JQuery;
+	public function show(?duration:Dynamic, ?easingOrCallBack:Dynamic, ?callBack:Dynamic):JQuery;
 
 	/**
 		Get the siblings of each element in the set of matched elements, optionally filtered by a selector.
@@ -613,17 +613,17 @@ extern class JQuery implements ArrayAccess<Dom> {
 	/**
 		Display the matched elements with a sliding motion.
 	**/
-	public function slideDown(?duration:Dynamic,?callBack:Dynamic):JQuery;
+	public function slideDown(?duration:Dynamic, ?easingOrCallBack:Dynamic ,?callBack:Dynamic):JQuery;
 
 	/**
 		Display or hide the matched elements with a sliding motion.
 	**/
-	public function slideToggle(?duration:Dynamic,?callBack:Dynamic):JQuery;
+	public function slideToggle(?duration:Dynamic, ?easingOrCallBack:Dynamic ,?callBack:Dynamic):JQuery;
 
 	/**
 		Hide the matched elements with a sliding motion.
 	**/
-	public function slideUp(?duration:Dynamic,?callBack:Dynamic):JQuery;
+	public function slideUp(?duration:Dynamic, ?easingOrCallBack:Dynamic ,?callBack:Dynamic):JQuery;
 
 	/**
 		Stop the currently-running animation on the matched elements.
@@ -633,7 +633,7 @@ extern class JQuery implements ArrayAccess<Dom> {
 	/**
 		Bind an event handler to the "submit" JavaScript event, or trigger that event on an element.
 	**/
-	public function submit(?handler:Dynamic):JQuery;
+	public function submit(?eventDataOrHandler:Dynamic, ?handler:Dynamic):JQuery;
 
 	/**
 		Get the combined text contents of each element in the set of matched elements, including their descendants.
@@ -652,7 +652,7 @@ extern class JQuery implements ArrayAccess<Dom> {
 	/**
 		Bind two or more handlers to the matched elements, to be executed on alternate clicks.
 	**/
-	public function toggle(?handler:Dynamic, ?handler2:Dynamic, ?handler3:Dynamic):JQuery;
+	public function toggle(?handlerOrDurationOrBool:Dynamic, ?handler2OrEasingOrCallback:Dynamic, ?handler3OrCallback:Dynamic):JQuery;
 
 	/**
 		Add or remove one or more classes from each element in the set of matched elements, depending on either the class's presence or the value of the switch argument.
@@ -672,7 +672,7 @@ extern class JQuery implements ArrayAccess<Dom> {
 	/**
 		Remove a previously-attached event handler from the elements.
 	**/
-	public function unbind(eventType:Dynamic, ?handler:Dynamic):JQuery;
+	public function unbind(eventType:Dynamic, ?handlerOrFalse:Dynamic):JQuery;
 
 	/**
 		Remove a handler from the event for all elements which match the current selector, now or in the future, based upon a specific set of root elements.
@@ -682,7 +682,7 @@ extern class JQuery implements ArrayAccess<Dom> {
 	/**
 		Bind an event handler to the "unload" JavaScript event.
 	**/
-	public function unload(?handler:Dynamic):JQuery;
+	public function unload(?eventDataOrHandler:Dynamic, ?handler:Dynamic):JQuery;
 
 	/**
 		Remove the parents of the set of matched elements from the DOM, leaving the matched elements in their place.
@@ -797,7 +797,7 @@ extern class JQueryS {
 	/**
 		Globally disable all animations.
 	**/
-	static public var fx(default,null):{off:Bool};
+	static public var fx(default,null):{off:Bool, interval:Int};
 
 	/**
 		Load data from the server using a HTTP GET request.
@@ -854,6 +854,11 @@ extern class JQueryS {
 	**/
 	static public function isXMLDoc(obj:Dom):Bool;
 
+	/**
+		Determine whether the argument is a window.
+	**/
+	static public function isWindow(obj:Dom):Bool;
+	
 	/**
 		Convert an array-like object into a true JavaScript array.
 	**/
@@ -935,6 +940,11 @@ extern class JQueryS {
 	static public function trim(str:String):String;
 
 	/**
+		Determine the internal JavaScript [[Class]] of an object.
+	**/
+	static public function type(obj:Dynamic):String;
+
+	/**
 		Sorts an array of DOM elements, in place, with the duplicates removed. Note that this only works on arrays of DOM elements, not strings or numbers.
 	**/
 	static public function unique<T>(array:Array<T>):Array<T>;
@@ -972,6 +982,11 @@ extern class JQueryEvent {
 		Returns whether event.stopPropagation() was ever called on this event object.
 	**/
 	public function isPropagationStopped():Bool;
+
+	/**
+		This attribute contains the namespace specified when the event was triggered.
+	**/
+	public var namespace:String;
 
 	/**
 		The mouse position relative to the left edge of the document.

@@ -126,9 +126,9 @@ js.Boot.__instanceof = function(o,cl) {
 		}
 		if(js.Boot.__interfLoop(o.__class__,cl)) return true;
 	}
-	catch( $e1 ) {
+	catch( $e0 ) {
 		{
-			var e = $e1;
+			var e = $e0;
 			{
 				if(cl == null) return false;
 			}
@@ -265,7 +265,6 @@ Type.getSuperClass = function(c) {
 	return c.__super__;
 }
 Type.getClassName = function(c) {
-	if(c == null) return null;
 	var a = c.__name__;
 	return a.join(".");
 }
@@ -278,9 +277,9 @@ Type.resolveClass = function(name) {
 	try {
 		cl = eval(name);
 	}
-	catch( $e2 ) {
+	catch( $e0 ) {
 		{
-			var e = $e2;
+			var e = $e0;
 			{
 				cl = null;
 			}
@@ -294,9 +293,9 @@ Type.resolveEnum = function(name) {
 	try {
 		e = eval(name);
 	}
-	catch( $e3 ) {
+	catch( $e0 ) {
 		{
-			var err = $e3;
+			var err = $e0;
 			{
 				e = null;
 			}
@@ -390,9 +389,9 @@ Type.enumEq = function(a,b) {
 		var e = a.__enum__;
 		if(e != b.__enum__ || e == null) return false;
 	}
-	catch( $e4 ) {
+	catch( $e0 ) {
 		{
-			var e = $e4;
+			var e = $e0;
 			{
 				return false;
 			}
@@ -487,24 +486,24 @@ Test.__name__ = ["Test"];
 Test.__super__ = haxe.unit.TestCase;
 for(var k in haxe.unit.TestCase.prototype ) Test.prototype[k] = haxe.unit.TestCase.prototype[k];
 Test.main = function() {
-	new JQuery(function() {
+	new $(function() {
 		var runner = new haxe.unit.TestRunner();
 		runner.add(new Test());
 		runner.run();
 	});
 }
 Test.prototype.test1 = function() {
-	var body = new JQuery("body");
+	var body = new $("body");
 	body.addClass("myclass");
 	this.assertTrue(body.hasClass("myclass"),{ fileName : "Test.hx", lineNumber : 10, className : "Test", methodName : "test1"});
 	this.assertEquals(3,body.add("html").add("title").size(),{ fileName : "Test.hx", lineNumber : 11, className : "Test", methodName : "test1"});
 }
 Test.prototype.test2 = function() {
-	var div = new JQuery("div#test2")[0];
-	JQueryS.data(div,"test",{ first : 16, last : "pizza!"});
-	new JQuery("span:first").text(JQueryS.data(div,"test").first);
-	new JQuery("span:last").text(JQueryS.data(div,"test").last);
-	this.assertEquals("The values stored were 16 and pizza!",JQueryS.trim(new JQuery(div).text()),{ fileName : "Test.hx", lineNumber : 19, className : "Test", methodName : "test2"});
+	var div = new $("div#test2")[0];
+	$.data(div,"test",{ first : 16, last : "pizza!"});
+	new $("span:first").text($.data(div,"test").first);
+	new $("span:last").text($.data(div,"test").last);
+	this.assertEquals("The values stored were 16 and pizza!",$.trim(new $(div).text()),{ fileName : "Test.hx", lineNumber : 19, className : "Test", methodName : "test2"});
 }
 Test.prototype.__class__ = Test;
 Std = function() { }
@@ -552,8 +551,8 @@ haxe.unit.TestRunner.prototype.cases = null;
 haxe.unit.TestRunner.prototype.result = null;
 haxe.unit.TestRunner.prototype.run = function() {
 	this.result = new haxe.unit.TestResult();
-	{ var $it5 = this.cases.iterator();
-	while( $it5.hasNext() ) { var c = $it5.next();
+	{ var $it0 = this.cases.iterator();
+	while( $it0.hasNext() ) { var c = $it0.next();
 	{
 		this.runCase(c);
 	}
@@ -591,15 +590,15 @@ haxe.unit.TestRunner.prototype.runCase = function(t) {
 						haxe.unit.TestRunner.print("W");
 					}
 				}
-				catch( $e6 ) {
-					if( js.Boot.__instanceof($e6,haxe.unit.TestStatus) ) {
-						var e = $e6;
+				catch( $e0 ) {
+					if( js.Boot.__instanceof($e0,haxe.unit.TestStatus) ) {
+						var e = $e0;
 						{
 							haxe.unit.TestRunner.print("F");
 							t.currentTest.backtrace = haxe.Stack.toString(haxe.Stack.exceptionStack());
 						}
 					} else {
-						var e = $e6;
+						var e = $e0;
 						{
 							haxe.unit.TestRunner.print("E");
 							if(e.message != null) {
@@ -696,9 +695,9 @@ haxe.Stack.makeStack = function(s) {
 		try {
 			$r = eval(s);
 		}
-		catch( $e7 ) {
+		catch( $e0 ) {
 			{
-				var e = $e7;
+				var e = $e0;
 				$r = [];
 			}
 		}
@@ -803,15 +802,13 @@ StringTools.replace = function(s,sub,by) {
 	return s.split(sub).join(by);
 }
 StringTools.hex = function(n,digits) {
-	var neg = false;
-	if(n < 0) {
-		neg = true;
-		n = -n;
-	}
-	var s = n.toString(16);
-	s = s.toUpperCase();
+	var s = "";
+	var hexChars = "0123456789ABCDEF";
+	do {
+		s = hexChars.charAt(n & 15) + s;
+		n >>>= 4;
+	} while(n > 0);
 	if(digits != null) while(s.length < digits) s = "0" + s;
-	if(neg) s = "-" + s;
 	return s;
 }
 StringTools.prototype.__class__ = StringTools;
@@ -935,8 +932,8 @@ Reflect.__name__ = ["Reflect"];
 Reflect.hasField = function(o,field) {
 	if(o.hasOwnProperty != null) return o.hasOwnProperty(field);
 	var arr = Reflect.fields(o);
-	{ var $it8 = arr.iterator();
-	while( $it8.hasNext() ) { var t = $it8.next();
+	{ var $it0 = arr.iterator();
+	while( $it0.hasNext() ) { var t = $it0.next();
 	if(t == field) return true;
 	}}
 	return false;
@@ -946,9 +943,9 @@ Reflect.field = function(o,field) {
 	try {
 		v = o[field];
 	}
-	catch( $e9 ) {
+	catch( $e0 ) {
 		{
-			var e = $e9;
+			var e = $e0;
 			null;
 		}
 	}
@@ -965,19 +962,19 @@ Reflect.fields = function(o) {
 	var a = new Array();
 	if(o.hasOwnProperty) {
 		
-					for(var i in o)
-						if( o.hasOwnProperty(i) )
-							a.push(i);
-				;
+				for(var i in o)
+					if( o.hasOwnProperty(i) )
+						a.push(i);
+			;
 	}
 	else {
 		var t;
 		try {
 			t = o.__proto__;
 		}
-		catch( $e10 ) {
+		catch( $e0 ) {
 			{
-				var e = $e10;
+				var e = $e0;
 				{
 					t = null;
 				}
@@ -985,10 +982,10 @@ Reflect.fields = function(o) {
 		}
 		if(t != null) o.__proto__ = null;
 		
-					for(var i in o)
-						if( i != "__proto__" )
-							a.push(i);
-				;
+				for(var i in o)
+					if( i != "__proto__" )
+						a.push(i);
+			;
 		if(t != null) o.__proto__ = t;
 	}
 	return a;
@@ -1054,8 +1051,8 @@ haxe.unit.TestResult.prototype.success = null;
 haxe.unit.TestResult.prototype.toString = function() {
 	var buf = new StringBuf();
 	var failures = 0;
-	{ var $it11 = this.m_tests.iterator();
-	while( $it11.hasNext() ) { var test = $it11.next();
+	{ var $it0 = this.m_tests.iterator();
+	while( $it0.hasNext() ) { var test = $it0.next();
 	{
 		if(test.success == false) {
 			buf.b[buf.b.length] = "* ";
@@ -1162,6 +1159,7 @@ js.Boot.__init();
 	Void = { __ename__ : ["Void"]}
 }
 {
+	Math.__name__ = ["Math"];
 	Math.NaN = Number["NaN"];
 	Math.NEGATIVE_INFINITY = Number["NEGATIVE_INFINITY"];
 	Math.POSITIVE_INFINITY = Number["POSITIVE_INFINITY"];
@@ -1171,32 +1169,22 @@ js.Boot.__init();
 	Math.isNaN = function(i) {
 		return isNaN(i);
 	}
-	Math.__name__ = ["Math"];
-}
-{
-	window.JQuery = jQuery;
-}
-{
-	window.JQueryS = jQuery;
-}
-{
-	window.JQueryEvent = jQuery.Event;
 }
 {
 	js["XMLHttpRequest"] = (window.XMLHttpRequest?XMLHttpRequest:(window.ActiveXObject?function() {
 		try {
 			return new ActiveXObject("Msxml2.XMLHTTP");
 		}
-		catch( $e12 ) {
+		catch( $e0 ) {
 			{
-				var e = $e12;
+				var e = $e0;
 				{
 					try {
 						return new ActiveXObject("Microsoft.XMLHTTP");
 					}
-					catch( $e13 ) {
+					catch( $e1 ) {
 						{
-							var e1 = $e13;
+							var e1 = $e1;
 							{
 								throw "Unable to create XMLHttpRequest object.";
 							}
