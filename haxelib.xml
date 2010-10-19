@@ -3,5 +3,5 @@
     <tag v="js"/>
     <tag v="extern"/>
     <description>jQuery extern file. Comparing to the jQuery wrapper, this one provides API closer to jQuery and smaller compiled JS file.</description>
-    <version name="1.4.2.2">Use build-in @:native metadata. Added JQUERY_NOCONFLICT compiler switch(from using '@:native("$")' to '@:native("jQuery")').</version>
+    <version name="1.4.3">Fully updated to jQuery 1.4.3. Should be compatable with 1.4.2 expect you cannot use the 1.4.3 functions.</version>
 </project>
