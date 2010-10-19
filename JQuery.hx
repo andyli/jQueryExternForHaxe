@@ -922,7 +922,8 @@ extern class JQueryS {
 	/**
 		A collection of properties that represent the presence of different browser features or bugs.
 	**/
-	static public var support(default,null):{	boxModel:Bool,
+	static public var support(default,null):{	ajax:Bool,
+												boxModel:Bool,
 												cssFloat:Bool,
 												hrefNormalized:Bool,
 												htmlSerialize:Bool,
