@@ -19,8 +19,8 @@
   <build>
     <option directives="" />
     <option flashStrict="False" />
-    <option mainClass="Main" />
-    <option forcetraces="False" />
+    <option mainClass="Test" />
+    <option enabledebug="False" />
     <option additional="" />
   </build>
   <!-- haxelib libraries -->

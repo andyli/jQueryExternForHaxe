@@ -3,5 +3,5 @@
     <tag v="js"/>
     <tag v="extern"/>
     <description>jQuery extern file. Comparing to the jQuery wrapper, this one provides API closer to jQuery and smaller compiled JS file.</description>
-    <version name="1.4.3">Fully updated to jQuery 1.4.3. Should be compatable with 1.4.2 except you cannot use the 1.4.3 functions.</version>
+    <version name="1.4.4">Fully updated to jQuery 1.4.4. Should be compatable with previous versions except you cannot use the 1.4.4 functions.</version>
 </project>

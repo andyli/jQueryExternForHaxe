@@ -227,7 +227,12 @@ extern class JQuery implements ArrayAccess<Dom> {
 	/**
 		Adjust the opacity of the matched elements.
 	**/
-	public function fadeTo(duration:Dynamic, opacity:Float, ?easingOrCallback:Dynamic ,?callBack:Dynamic):JQuery;
+	public function fadeTo(duration:Dynamic, opacity:Float, ?easingOrCallback:Dynamic , ?callBack:Dynamic):JQuery;
+	
+	/**
+		Display or hide the matched elements by animating their opacity.
+	 **/
+	public function fadeToggle(?duration:Dynamic, ?easing:Dynamic, ?callBack:Dynamic):JQuery;
 
 	/**
 		Reduce the set of matched elements to those that match the selector or pass the function's test.
