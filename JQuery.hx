@@ -1112,6 +1112,7 @@ extern class JXHR extends XMLHttpRequest {
 	public function error(callb:Dynamic):JXHR;
 	public function success(callb:Dynamic):JXHR;
 	public function complete(callb:Dynamic):JXHR;
+	public function statusCode(callb:Dynamic):JXHR;
 	
 	/* following are already in haXe's XMLHttpRequest
 	
@@ -1158,8 +1159,22 @@ extern class JXHR extends XMLHttpRequest {
 	 * @param	failCallbacks A function, or array of functions, that are called when the Deferred is rejected.
 	 */
 	public function then(doneCallbacks:Dynamic, failCallbacks:Dynamic):JXHR;
+	
+	/**
+	 * Get a promise for this deferred.
+	 * @param	obj If obj is provided, the promise aspect is added to the object
+	 */
+	public function promise(?obj:Dynamic):JQueryPromise;
 }
 
+typedef JQueryPromise = {
+	public function promise(?obj:Dynamic):JQueryPromise;
+	public function isRejected():Bool;
+	public function isResolved():Bool;
+	public function fail(failCallbacks:Dynamic):JQueryPromise;
+	public function done(doneCallbacks:Dynamic):JQueryPromise;
+	public function then(doneCallbacks:Dynamic, failCallbacks:Dynamic):JQueryPromise;
+}
 
 /**
  * jQuery.Deferred, introduced in version 1.5, is a chainable utility object that can register multiple callbacks
@@ -1230,4 +1245,10 @@ extern class JQueryDeferred {
 	 * @param	failCallbacks A function, or array of functions, that are called when the Deferred is rejected.
 	 */
 	public function then(doneCallbacks:Dynamic, failCallbacks:Dynamic):JQueryDeferred;
+	
+	/**
+	 * Get a promise for this deferred.
+	 * @param	obj If obj is provided, the promise aspect is added to the object
+	 */
+	public function promise(?obj:Dynamic):JQueryPromise;
 }
