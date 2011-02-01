@@ -1239,7 +1239,7 @@ extern class JQueryDeferred {
 	
 	/**
 	 * Resolve a Deferred object and call any doneCallbacks with the given args.
-	 * @param	args Optional arguments that are passed to the doneCallbacks.
+	 * @param	?args Optional arguments that are passed to the doneCallbacks.
 	 */
 	public function resolve(?args:Dynamic):JQueryDeferred;
 	
