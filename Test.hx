@@ -18,6 +18,12 @@ class Test extends TestCase{
 		new JQuery("span:last").text(JQueryS.data(div, "test").last);
 		this.assertEquals("The values stored were 16 and pizza!",JQueryS.trim(new JQuery(div).text()));
 	}
+	
+	public function test3():Void {
+		var me = this;
+		var d = new JQueryDeferred().done(function () me.assertTrue(true));
+		d.resolve();
+	}
 
 	static public function main():Void {
 		new JQuery(function():Void{

@@ -948,7 +948,7 @@ Test.main = function() {
 	$s.push("Test::main");
 	var $spos = $s.length;
 	new $(function() {
-		$s.push("Test::main@23");
+		$s.push("Test::main@29");
 		var $spos = $s.length;
 		var runner = new haxe.unit.TestRunner();
 		runner.add(new Test());
@@ -974,6 +974,19 @@ Test.prototype.test2 = function() {
 	new $("span:first").text($.data(div,"test").first);
 	new $("span:last").text($.data(div,"test").last);
 	this.assertEquals("The values stored were 16 and pizza!",$.trim(new $(div).text()),{ fileName : "Test.hx", lineNumber : 19, className : "Test", methodName : "test2"});
+	$s.pop();
+}
+Test.prototype.test3 = function() {
+	$s.push("Test::test3");
+	var $spos = $s.length;
+	var me = this;
+	var d = new $.Deferred().done(function() {
+		$s.push("Test::test3@24");
+		var $spos = $s.length;
+		me.assertTrue(true,{ fileName : "Test.hx", lineNumber : 24, className : "Test", methodName : "test3"});
+		$s.pop();
+	});
+	d.resolve();
 	$s.pop();
 }
 Test.prototype.__class__ = Test;

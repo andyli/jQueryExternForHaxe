@@ -1200,7 +1200,7 @@ extern class JXHR extends XMLHttpRequest {
 @:native("$.Deferred")
 #end
 extern class JQueryDeferred {
-	public function new(callb:Dynamic):Void;
+	public function new(?callb:Dynamic):Void;
 	
 	/**
 	 * Add handlers to be called when the Deferred object is resolved.
@@ -1241,14 +1241,14 @@ extern class JQueryDeferred {
 	 * Resolve a Deferred object and call any doneCallbacks with the given args.
 	 * @param	args Optional arguments that are passed to the doneCallbacks.
 	 */
-	public function resolve(args:Dynamic):JQueryDeferred;
+	public function resolve(?args:Dynamic):JQueryDeferred;
 	
 	/**
 	 * Resolve a Deferred object and call any doneCallbacks with the given context and args.
 	 * @param	context Context passed to the doneCallbacks as the this object.
 	 * @param	?args Optional arguments that are passed to the doneCallbacks.
 	 */
-	public function recolveWith(context:Dynamic, ?args:Array<Dynamic>):JQueryDeferred;
+	public function resolveWith(context:Dynamic, ?args:Array<Dynamic>):JQueryDeferred;
 	
 	/**
 	 * Add handlers to be called when the Deferred object is resolved or rejected.
