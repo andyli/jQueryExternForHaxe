@@ -1,3 +1,11 @@
-"jQuery":http://jquery.com/ extern for "haXe":http://haxe.org/
+h1. jQueryExtern
+
+"jQuery":http://jquery.com/ extern for "haXe":http://haxe.org/.
 
 Please refer to my "blog post":http://blog.onthewings.net/2010/08/03/using-jquery-in-haxe/ for usage and info.
+
+h2. License
+
+jQueryExtern is released in the public domain. NO WARRANTY EXPRESSED OR IMPLIED. USE AT YOUR OWN RISK.
+
+jQuery's license can be found at "http://jquery.org/license":http://jquery.org/license.

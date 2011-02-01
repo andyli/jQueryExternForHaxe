@@ -15,7 +15,7 @@ js.Boot.__unhtml = function(s) {
 js.Boot.__trace = function(v,i) {
 	$s.push("js.Boot::__trace");
 	var $spos = $s.length;
-	var msg = (i != null?((i.fileName + ":") + i.lineNumber) + ": ":"");
+	var msg = i != null?i.fileName + ":" + i.lineNumber + ": ":"";
 	msg += js.Boot.__unhtml(js.Boot.__string_rec(v,"")) + "<br/>";
 	var d = document.getElementById("haxe:trace");
 	if(d == null) alert("No haxe:trace element defined\n" + msg);
@@ -102,7 +102,7 @@ js.Boot.__string_rec = function(o,s) {
 				var _g = 0;
 				while(_g < l) {
 					var i1 = _g++;
-					str += ((i1 > 0?",":"")) + js.Boot.__string_rec(o[i1],s);
+					str += (i1 > 0?",":"") + js.Boot.__string_rec(o[i1],s);
 				}
 			}
 			str += "]";
@@ -139,15 +139,15 @@ js.Boot.__string_rec = function(o,s) {
 		var k = null;
 		var str = "{\n";
 		s += "\t";
-		var hasp = (o.hasOwnProperty != null);
+		var hasp = o.hasOwnProperty != null;
 		for( var k in o ) { ;
 		if(hasp && !o.hasOwnProperty(k)) continue;
 		if(k == "prototype" || k == "__class__" || k == "__super__" || k == "__interfaces__") continue;
 		if(str.length != 2) str += ", \n";
-		str += ((s + k) + " : ") + js.Boot.__string_rec(o[k],s);
+		str += s + k + " : " + js.Boot.__string_rec(o[k],s);
 		}
 		s = s.substring(1);
-		str += ("\n" + s) + "}";
+		str += "\n" + s + "}";
 		{
 			$s.pop();
 			return str;
@@ -211,7 +211,7 @@ js.Boot.__instanceof = function(o,cl) {
 	try {
 		if(o instanceof cl) {
 			if(cl == Array) {
-				var $tmp = (o.__enum__ == null);
+				var $tmp = o.__enum__ == null;
 				$s.pop();
 				return $tmp;
 			}
@@ -280,7 +280,7 @@ js.Boot.__instanceof = function(o,cl) {
 			return false;
 		}
 		{
-			var $tmp = o.__enum__ == cl || (cl == Class && o.__name__ != null) || (cl == Enum && o.__ename__ != null);
+			var $tmp = o.__enum__ == cl || cl == Class && o.__name__ != null || cl == Enum && o.__ename__ != null;
 			$s.pop();
 			return $tmp;
 		}
@@ -291,8 +291,8 @@ js.Boot.__instanceof = function(o,cl) {
 js.Boot.__init = function() {
 	$s.push("js.Boot::__init");
 	var $spos = $s.length;
-	js.Lib.isIE = (typeof document!='undefined' && document.all != null && typeof window!='undefined' && window.opera == null);
-	js.Lib.isOpera = (typeof window!='undefined' && window.opera != null);
+	js.Lib.isIE = typeof document!='undefined' && document.all != null && typeof window!='undefined' && window.opera == null;
+	js.Lib.isOpera = typeof window!='undefined' && window.opera != null;
 	Array.prototype.copy = Array.prototype.slice;
 	Array.prototype.insert = function(i,x) {
 		$s.push("js.Boot::__init@205");
@@ -300,7 +300,7 @@ js.Boot.__init = function() {
 		this.splice(i,0,x);
 		$s.pop();
 	}
-	Array.prototype.remove = (Array.prototype.indexOf?function(obj) {
+	Array.prototype.remove = Array.prototype.indexOf?function(obj) {
 		$s.push("js.Boot::__init@208");
 		var $spos = $s.length;
 		var idx = this.indexOf(obj);
@@ -334,7 +334,7 @@ js.Boot.__init = function() {
 			return false;
 		}
 		$s.pop();
-	});
+	}
 	Array.prototype.iterator = function() {
 		$s.push("js.Boot::__init@225");
 		var $spos = $s.length;
@@ -357,19 +357,18 @@ js.Boot.__init = function() {
 					return $tmp;
 				}
 				$s.pop();
-			}}
+			}};
 			$s.pop();
 			return $tmp;
 		}
 		$s.pop();
 	}
-	var cca = String.prototype.charCodeAt;
-	String.prototype.cca = cca;
+	if(String.prototype.cca == null) String.prototype.cca = String.prototype.charCodeAt;
 	String.prototype.charCodeAt = function(i) {
 		$s.push("js.Boot::__init@239");
 		var $spos = $s.length;
-		var x = cca.call(this,i);
-		if(isNaN(x)) {
+		var x = this.cca(i);
+		if(x != x) {
 			$s.pop();
 			return null;
 		}
@@ -393,7 +392,7 @@ js.Boot.__init = function() {
 			if(pos < 0) pos = 0;
 		}
 		else if(len < 0) {
-			len = (this.length + len) - pos;
+			len = this.length + len - pos;
 		}
 		{
 			var $tmp = oldsub.apply(this,[pos,len]);
@@ -436,26 +435,26 @@ js.Lib.setErrorHandler = function(f) {
 }
 js.Lib.prototype.__class__ = js.Lib;
 ValueType = { __ename__ : ["ValueType"], __constructs__ : ["TNull","TInt","TFloat","TBool","TObject","TFunction","TClass","TEnum","TUnknown"] }
-ValueType.TBool = ["TBool",3];
-ValueType.TBool.toString = $estr;
-ValueType.TBool.__enum__ = ValueType;
-ValueType.TClass = function(c) { var $x = ["TClass",6,c]; $x.__enum__ = ValueType; $x.toString = $estr; return $x; }
-ValueType.TEnum = function(e) { var $x = ["TEnum",7,e]; $x.__enum__ = ValueType; $x.toString = $estr; return $x; }
-ValueType.TFloat = ["TFloat",2];
-ValueType.TFloat.toString = $estr;
-ValueType.TFloat.__enum__ = ValueType;
-ValueType.TFunction = ["TFunction",5];
-ValueType.TFunction.toString = $estr;
-ValueType.TFunction.__enum__ = ValueType;
-ValueType.TInt = ["TInt",1];
-ValueType.TInt.toString = $estr;
-ValueType.TInt.__enum__ = ValueType;
 ValueType.TNull = ["TNull",0];
 ValueType.TNull.toString = $estr;
 ValueType.TNull.__enum__ = ValueType;
+ValueType.TInt = ["TInt",1];
+ValueType.TInt.toString = $estr;
+ValueType.TInt.__enum__ = ValueType;
+ValueType.TFloat = ["TFloat",2];
+ValueType.TFloat.toString = $estr;
+ValueType.TFloat.__enum__ = ValueType;
+ValueType.TBool = ["TBool",3];
+ValueType.TBool.toString = $estr;
+ValueType.TBool.__enum__ = ValueType;
 ValueType.TObject = ["TObject",4];
 ValueType.TObject.toString = $estr;
 ValueType.TObject.__enum__ = ValueType;
+ValueType.TFunction = ["TFunction",5];
+ValueType.TFunction.toString = $estr;
+ValueType.TFunction.__enum__ = ValueType;
+ValueType.TClass = function(c) { var $x = ["TClass",6,c]; $x.__enum__ = ValueType; $x.toString = $estr; return $x; }
+ValueType.TEnum = function(e) { var $x = ["TEnum",7,e]; $x.__enum__ = ValueType; $x.toString = $estr; return $x; }
 ValueType.TUnknown = ["TUnknown",8];
 ValueType.TUnknown.toString = $estr;
 ValueType.TUnknown.__enum__ = ValueType;
@@ -613,14 +612,14 @@ Type.createEnum = function(e,constr,params) {
 	var f = Reflect.field(e,constr);
 	if(f == null) throw "No such constructor " + constr;
 	if(Reflect.isFunction(f)) {
-		if(params == null) throw ("Constructor " + constr) + " need parameters";
+		if(params == null) throw "Constructor " + constr + " need parameters";
 		{
 			var $tmp = f.apply(e,params);
 			$s.pop();
 			return $tmp;
 		}
 	}
-	if(params != null && params.length != 0) throw ("Constructor " + constr) + " does not need parameters";
+	if(params != null && params.length != 0) throw "Constructor " + constr + " does not need parameters";
 	{
 		$s.pop();
 		return f;
@@ -846,13 +845,13 @@ haxe.unit.TestStatus = function(p) { if( p === $_ ) return; {
 	$s.pop();
 }}
 haxe.unit.TestStatus.__name__ = ["haxe","unit","TestStatus"];
-haxe.unit.TestStatus.prototype.backtrace = null;
-haxe.unit.TestStatus.prototype.classname = null;
 haxe.unit.TestStatus.prototype.done = null;
+haxe.unit.TestStatus.prototype.success = null;
 haxe.unit.TestStatus.prototype.error = null;
 haxe.unit.TestStatus.prototype.method = null;
+haxe.unit.TestStatus.prototype.classname = null;
 haxe.unit.TestStatus.prototype.posInfos = null;
-haxe.unit.TestStatus.prototype.success = null;
+haxe.unit.TestStatus.prototype.backtrace = null;
 haxe.unit.TestStatus.prototype.__class__ = haxe.unit.TestStatus;
 haxe.Log = function() { }
 haxe.Log.__name__ = ["haxe","Log"];
@@ -879,13 +878,32 @@ haxe.unit.TestCase = function(p) { if( p === $_ ) return; {
 	$s.pop();
 }}
 haxe.unit.TestCase.__name__ = ["haxe","unit","TestCase"];
-haxe.unit.TestCase.prototype.assertEquals = function(expected,actual,c) {
-	$s.push("haxe.unit.TestCase::assertEquals");
+haxe.unit.TestCase.prototype.currentTest = null;
+haxe.unit.TestCase.prototype.setup = function() {
+	$s.push("haxe.unit.TestCase::setup");
+	var $spos = $s.length;
+	null;
+	$s.pop();
+}
+haxe.unit.TestCase.prototype.tearDown = function() {
+	$s.push("haxe.unit.TestCase::tearDown");
+	var $spos = $s.length;
+	null;
+	$s.pop();
+}
+haxe.unit.TestCase.prototype.print = function(v) {
+	$s.push("haxe.unit.TestCase::print");
+	var $spos = $s.length;
+	haxe.unit.TestRunner.print(v);
+	$s.pop();
+}
+haxe.unit.TestCase.prototype.assertTrue = function(b,c) {
+	$s.push("haxe.unit.TestCase::assertTrue");
 	var $spos = $s.length;
 	this.currentTest.done = true;
-	if(actual != expected) {
+	if(b == false) {
 		this.currentTest.success = false;
-		this.currentTest.error = ((("expected '" + expected) + "' but was '") + actual) + "'";
+		this.currentTest.error = "expected true but was false";
 		this.currentTest.posInfos = c;
 		throw this.currentTest;
 	}
@@ -903,35 +921,16 @@ haxe.unit.TestCase.prototype.assertFalse = function(b,c) {
 	}
 	$s.pop();
 }
-haxe.unit.TestCase.prototype.assertTrue = function(b,c) {
-	$s.push("haxe.unit.TestCase::assertTrue");
+haxe.unit.TestCase.prototype.assertEquals = function(expected,actual,c) {
+	$s.push("haxe.unit.TestCase::assertEquals");
 	var $spos = $s.length;
 	this.currentTest.done = true;
-	if(b == false) {
+	if(actual != expected) {
 		this.currentTest.success = false;
-		this.currentTest.error = "expected true but was false";
+		this.currentTest.error = "expected '" + expected + "' but was '" + actual + "'";
 		this.currentTest.posInfos = c;
 		throw this.currentTest;
 	}
-	$s.pop();
-}
-haxe.unit.TestCase.prototype.currentTest = null;
-haxe.unit.TestCase.prototype.print = function(v) {
-	$s.push("haxe.unit.TestCase::print");
-	var $spos = $s.length;
-	haxe.unit.TestRunner.print(v);
-	$s.pop();
-}
-haxe.unit.TestCase.prototype.setup = function() {
-	$s.push("haxe.unit.TestCase::setup");
-	var $spos = $s.length;
-	null;
-	$s.pop();
-}
-haxe.unit.TestCase.prototype.tearDown = function() {
-	$s.push("haxe.unit.TestCase::tearDown");
-	var $spos = $s.length;
-	null;
 	$s.pop();
 }
 haxe.unit.TestCase.prototype.__class__ = haxe.unit.TestCase;
@@ -939,7 +938,7 @@ haxe.unit.TestCase.__interfaces__ = [haxe.Public];
 Test = function(p) { if( p === $_ ) return; {
 	$s.push("Test::new");
 	var $spos = $s.length;
-	haxe.unit.TestCase.apply(this,[]);
+	haxe.unit.TestCase.call(this);
 	$s.pop();
 }}
 Test.__name__ = ["Test"];
@@ -1018,8 +1017,9 @@ Std["int"] = function(x) {
 Std.parseInt = function(x) {
 	$s.push("Std::parseInt");
 	var $spos = $s.length;
-	var v = parseInt(x);
-	if(Math.isNaN(v)) {
+	var v = parseInt(x,10);
+	if(v == 0 && x.charCodeAt(1) == 120) v = parseInt(x);
+	if(isNaN(v)) {
 		$s.pop();
 		return null;
 	}
@@ -1071,17 +1071,17 @@ haxe.unit.TestRunner.print = function(v) {
 haxe.unit.TestRunner.customTrace = function(v,p) {
 	$s.push("haxe.unit.TestRunner::customTrace");
 	var $spos = $s.length;
-	haxe.unit.TestRunner.print(((((p.fileName + ":") + p.lineNumber) + ": ") + Std.string(v)) + "\n");
+	haxe.unit.TestRunner.print(p.fileName + ":" + p.lineNumber + ": " + Std.string(v) + "\n");
 	$s.pop();
 }
+haxe.unit.TestRunner.prototype.result = null;
+haxe.unit.TestRunner.prototype.cases = null;
 haxe.unit.TestRunner.prototype.add = function(c) {
 	$s.push("haxe.unit.TestRunner::add");
 	var $spos = $s.length;
 	this.cases.add(c);
 	$s.pop();
 }
-haxe.unit.TestRunner.prototype.cases = null;
-haxe.unit.TestRunner.prototype.result = null;
 haxe.unit.TestRunner.prototype.run = function() {
 	$s.push("haxe.unit.TestRunner::run");
 	var $spos = $s.length;
@@ -1107,7 +1107,7 @@ haxe.unit.TestRunner.prototype.runCase = function(t) {
 	haxe.Log.trace = $closure(haxe.unit.TestRunner,"customTrace");
 	var cl = Type.getClass(t);
 	var fields = Type.getInstanceFields(cl);
-	haxe.unit.TestRunner.print(("Class: " + Type.getClassName(cl)) + " ");
+	haxe.unit.TestRunner.print("Class: " + Type.getClassName(cl) + " ");
 	{
 		var _g = 0;
 		while(_g < fields.length) {
@@ -1150,7 +1150,7 @@ haxe.unit.TestRunner.prototype.runCase = function(t) {
 							$s.push($e[0]);
 							haxe.unit.TestRunner.print("E");
 							if(e.message != null) {
-								t.currentTest.error = ((("exception thrown : " + e) + " [") + e.message) + "]";
+								t.currentTest.error = "exception thrown : " + e + " [" + e.message + "]";
 							}
 							else {
 								t.currentTest.error = "exception thrown : " + e;
@@ -1173,10 +1173,10 @@ haxe.StackItem = { __ename__ : ["haxe","StackItem"], __constructs__ : ["CFunctio
 haxe.StackItem.CFunction = ["CFunction",0];
 haxe.StackItem.CFunction.toString = $estr;
 haxe.StackItem.CFunction.__enum__ = haxe.StackItem;
-haxe.StackItem.FilePos = function(s,file,line) { var $x = ["FilePos",2,s,file,line]; $x.__enum__ = haxe.StackItem; $x.toString = $estr; return $x; }
-haxe.StackItem.Lambda = function(v) { var $x = ["Lambda",4,v]; $x.__enum__ = haxe.StackItem; $x.toString = $estr; return $x; }
-haxe.StackItem.Method = function(classname,method) { var $x = ["Method",3,classname,method]; $x.__enum__ = haxe.StackItem; $x.toString = $estr; return $x; }
 haxe.StackItem.Module = function(m) { var $x = ["Module",1,m]; $x.__enum__ = haxe.StackItem; $x.toString = $estr; return $x; }
+haxe.StackItem.FilePos = function(s,file,line) { var $x = ["FilePos",2,s,file,line]; $x.__enum__ = haxe.StackItem; $x.toString = $estr; return $x; }
+haxe.StackItem.Method = function(classname,method) { var $x = ["Method",3,classname,method]; $x.__enum__ = haxe.StackItem; $x.toString = $estr; return $x; }
+haxe.StackItem.Lambda = function(v) { var $x = ["Lambda",4,v]; $x.__enum__ = haxe.StackItem; $x.toString = $estr; return $x; }
 haxe.Stack = function() { }
 haxe.Stack.__name__ = ["haxe","Stack"];
 haxe.Stack.callStack = function() {
@@ -1222,7 +1222,7 @@ haxe.Stack.toString = function(stack) {
 haxe.Stack.itemToString = function(b,s) {
 	$s.push("haxe.Stack::itemToString");
 	var $spos = $s.length;
-	var $e = (s);
+	var $e = s;
 	switch( $e[1] ) {
 	case 0:
 	{
@@ -1347,7 +1347,7 @@ StringTools.startsWith = function(s,start) {
 	$s.push("StringTools::startsWith");
 	var $spos = $s.length;
 	{
-		var $tmp = (s.length >= start.length && s.substr(0,start.length) == start);
+		var $tmp = s.length >= start.length && s.substr(0,start.length) == start;
 		$s.pop();
 		return $tmp;
 	}
@@ -1359,7 +1359,7 @@ StringTools.endsWith = function(s,end) {
 	var elen = end.length;
 	var slen = s.length;
 	{
-		var $tmp = (slen >= elen && s.substr(slen - elen,elen) == end);
+		var $tmp = slen >= elen && s.substr(slen - elen,elen) == end;
 		$s.pop();
 		return $tmp;
 	}
@@ -1370,7 +1370,7 @@ StringTools.isSpace = function(s,pos) {
 	var $spos = $s.length;
 	var c = s.charCodeAt(pos);
 	{
-		var $tmp = (c >= 9 && c <= 13) || c == 32;
+		var $tmp = c >= 9 && c <= 13 || c == 32;
 		$s.pop();
 		return $tmp;
 	}
@@ -1400,7 +1400,7 @@ StringTools.rtrim = function(s) {
 	var $spos = $s.length;
 	var l = s.length;
 	var r = 0;
-	while(r < l && StringTools.isSpace(s,(l - r) - 1)) {
+	while(r < l && StringTools.isSpace(s,l - r - 1)) {
 		r++;
 	}
 	if(r > 0) {
@@ -1502,6 +1502,26 @@ StringTools.hex = function(n,digits) {
 	}
 	$s.pop();
 }
+StringTools.fastCodeAt = function(s,index) {
+	$s.push("StringTools::fastCodeAt");
+	var $spos = $s.length;
+	{
+		var $tmp = s.cca(index);
+		$s.pop();
+		return $tmp;
+	}
+	$s.pop();
+}
+StringTools.isEOF = function(c) {
+	$s.push("StringTools::isEOF");
+	var $spos = $s.length;
+	{
+		var $tmp = c != c;
+		$s.pop();
+		return $tmp;
+	}
+	$s.pop();
+}
 StringTools.prototype.__class__ = StringTools;
 List = function(p) { if( p === $_ ) return; {
 	$s.push("List::new");
@@ -1510,6 +1530,9 @@ List = function(p) { if( p === $_ ) return; {
 	$s.pop();
 }}
 List.__name__ = ["List"];
+List.prototype.h = null;
+List.prototype.q = null;
+List.prototype.length = null;
 List.prototype.add = function(item) {
 	$s.push("List::add");
 	var $spos = $s.length;
@@ -1520,98 +1543,20 @@ List.prototype.add = function(item) {
 	this.length++;
 	$s.pop();
 }
-List.prototype.clear = function() {
-	$s.push("List::clear");
+List.prototype.push = function(item) {
+	$s.push("List::push");
 	var $spos = $s.length;
-	this.h = null;
-	this.q = null;
-	this.length = 0;
-	$s.pop();
-}
-List.prototype.filter = function(f) {
-	$s.push("List::filter");
-	var $spos = $s.length;
-	var l2 = new List();
-	var l = this.h;
-	while(l != null) {
-		var v = l[0];
-		l = l[1];
-		if(f(v)) l2.add(v);
-	}
-	{
-		$s.pop();
-		return l2;
-	}
+	var x = [item,this.h];
+	this.h = x;
+	if(this.q == null) this.q = x;
+	this.length++;
 	$s.pop();
 }
 List.prototype.first = function() {
 	$s.push("List::first");
 	var $spos = $s.length;
 	{
-		var $tmp = (this.h == null?null:this.h[0]);
-		$s.pop();
-		return $tmp;
-	}
-	$s.pop();
-}
-List.prototype.h = null;
-List.prototype.isEmpty = function() {
-	$s.push("List::isEmpty");
-	var $spos = $s.length;
-	{
-		var $tmp = (this.h == null);
-		$s.pop();
-		return $tmp;
-	}
-	$s.pop();
-}
-List.prototype.iterator = function() {
-	$s.push("List::iterator");
-	var $spos = $s.length;
-	{
-		var $tmp = { h : this.h, hasNext : function() {
-			$s.push("List::iterator@155");
-			var $spos = $s.length;
-			{
-				var $tmp = (this.h != null);
-				$s.pop();
-				return $tmp;
-			}
-			$s.pop();
-		}, next : function() {
-			$s.push("List::iterator@158");
-			var $spos = $s.length;
-			if(this.h == null) {
-				$s.pop();
-				return null;
-			}
-			var x = this.h[0];
-			this.h = this.h[1];
-			{
-				$s.pop();
-				return x;
-			}
-			$s.pop();
-		}}
-		$s.pop();
-		return $tmp;
-	}
-	$s.pop();
-}
-List.prototype.join = function(sep) {
-	$s.push("List::join");
-	var $spos = $s.length;
-	var s = new StringBuf();
-	var first = true;
-	var l = this.h;
-	while(l != null) {
-		if(first) first = false;
-		else s.b[s.b.length] = sep;
-		s.b[s.b.length] = l[0];
-		l = l[1];
-	}
-	{
-		var $tmp = s.b.join("");
+		var $tmp = this.h == null?null:this.h[0];
 		$s.pop();
 		return $tmp;
 	}
@@ -1621,26 +1566,9 @@ List.prototype.last = function() {
 	$s.push("List::last");
 	var $spos = $s.length;
 	{
-		var $tmp = (this.q == null?null:this.q[0]);
+		var $tmp = this.q == null?null:this.q[0];
 		$s.pop();
 		return $tmp;
-	}
-	$s.pop();
-}
-List.prototype.length = null;
-List.prototype.map = function(f) {
-	$s.push("List::map");
-	var $spos = $s.length;
-	var b = new List();
-	var l = this.h;
-	while(l != null) {
-		var v = l[0];
-		l = l[1];
-		b.add(f(v));
-	}
-	{
-		$s.pop();
-		return b;
 	}
 	$s.pop();
 }
@@ -1661,16 +1589,24 @@ List.prototype.pop = function() {
 	}
 	$s.pop();
 }
-List.prototype.push = function(item) {
-	$s.push("List::push");
+List.prototype.isEmpty = function() {
+	$s.push("List::isEmpty");
 	var $spos = $s.length;
-	var x = [item,this.h];
-	this.h = x;
-	if(this.q == null) this.q = x;
-	this.length++;
+	{
+		var $tmp = this.h == null;
+		$s.pop();
+		return $tmp;
+	}
 	$s.pop();
 }
-List.prototype.q = null;
+List.prototype.clear = function() {
+	$s.push("List::clear");
+	var $spos = $s.length;
+	this.h = null;
+	this.q = null;
+	this.length = 0;
+	$s.pop();
+}
 List.prototype.remove = function(v) {
 	$s.push("List::remove");
 	var $spos = $s.length;
@@ -1696,6 +1632,39 @@ List.prototype.remove = function(v) {
 	}
 	$s.pop();
 }
+List.prototype.iterator = function() {
+	$s.push("List::iterator");
+	var $spos = $s.length;
+	{
+		var $tmp = { h : this.h, hasNext : function() {
+			$s.push("List::iterator@155");
+			var $spos = $s.length;
+			{
+				var $tmp = this.h != null;
+				$s.pop();
+				return $tmp;
+			}
+			$s.pop();
+		}, next : function() {
+			$s.push("List::iterator@158");
+			var $spos = $s.length;
+			if(this.h == null) {
+				$s.pop();
+				return null;
+			}
+			var x = this.h[0];
+			this.h = this.h[1];
+			{
+				$s.pop();
+				return x;
+			}
+			$s.pop();
+		}};
+		$s.pop();
+		return $tmp;
+	}
+	$s.pop();
+}
 List.prototype.toString = function() {
 	$s.push("List::toString");
 	var $spos = $s.length;
@@ -1714,6 +1683,57 @@ List.prototype.toString = function() {
 		var $tmp = s.b.join("");
 		$s.pop();
 		return $tmp;
+	}
+	$s.pop();
+}
+List.prototype.join = function(sep) {
+	$s.push("List::join");
+	var $spos = $s.length;
+	var s = new StringBuf();
+	var first = true;
+	var l = this.h;
+	while(l != null) {
+		if(first) first = false;
+		else s.b[s.b.length] = sep;
+		s.b[s.b.length] = l[0];
+		l = l[1];
+	}
+	{
+		var $tmp = s.b.join("");
+		$s.pop();
+		return $tmp;
+	}
+	$s.pop();
+}
+List.prototype.filter = function(f) {
+	$s.push("List::filter");
+	var $spos = $s.length;
+	var l2 = new List();
+	var l = this.h;
+	while(l != null) {
+		var v = l[0];
+		l = l[1];
+		if(f(v)) l2.add(v);
+	}
+	{
+		$s.pop();
+		return l2;
+	}
+	$s.pop();
+}
+List.prototype.map = function(f) {
+	$s.push("List::map");
+	var $spos = $s.length;
+	var b = new List();
+	var l = this.h;
+	while(l != null) {
+		var v = l[0];
+		l = l[1];
+		b.add(f(v));
+	}
+	{
+		$s.pop();
+		return b;
 	}
 	$s.pop();
 }
@@ -1842,7 +1862,7 @@ Reflect.compare = function(a,b) {
 	$s.push("Reflect::compare");
 	var $spos = $s.length;
 	{
-		var $tmp = ((a == b)?0:((((a) > (b))?1:-1)));
+		var $tmp = a == b?0:a > b?1:-1;
 		$s.pop();
 		return $tmp;
 	}
@@ -1875,7 +1895,7 @@ Reflect.isObject = function(v) {
 	}
 	var t = typeof(v);
 	{
-		var $tmp = (t == "string" || (t == "object" && !v.__enum__) || (t == "function" && v.__name__ != null));
+		var $tmp = t == "string" || t == "object" && !v.__enum__ || t == "function" && v.__name__ != null;
 		$s.pop();
 		return $tmp;
 	}
@@ -1898,7 +1918,7 @@ Reflect.deleteField = function(o,f) {
 Reflect.copy = function(o) {
 	$s.push("Reflect::copy");
 	var $spos = $s.length;
-	var o2 = { }
+	var o2 = { };
 	{
 		var _g = 0, _g1 = Reflect.fields(o);
 		while(_g < _g1.length) {
@@ -1949,6 +1969,8 @@ haxe.unit.TestResult = function(p) { if( p === $_ ) return; {
 	$s.pop();
 }}
 haxe.unit.TestResult.__name__ = ["haxe","unit","TestResult"];
+haxe.unit.TestResult.prototype.m_tests = null;
+haxe.unit.TestResult.prototype.success = null;
 haxe.unit.TestResult.prototype.add = function(t) {
 	$s.push("haxe.unit.TestResult::add");
 	var $spos = $s.length;
@@ -1956,8 +1978,6 @@ haxe.unit.TestResult.prototype.add = function(t) {
 	if(!t.success) this.success = false;
 	$s.pop();
 }
-haxe.unit.TestResult.prototype.m_tests = null;
-haxe.unit.TestResult.prototype.success = null;
 haxe.unit.TestResult.prototype.toString = function() {
 	$s.push("haxe.unit.TestResult::toString");
 	var $spos = $s.length;
@@ -2002,7 +2022,7 @@ haxe.unit.TestResult.prototype.toString = function() {
 	buf.b[buf.b.length] = " tests, ";
 	buf.b[buf.b.length] = failures;
 	buf.b[buf.b.length] = " failed, ";
-	buf.b[buf.b.length] = (this.m_tests.length - failures);
+	buf.b[buf.b.length] = this.m_tests.length - failures;
 	buf.b[buf.b.length] = " success";
 	buf.b[buf.b.length] = "\n";
 	{
@@ -2026,19 +2046,18 @@ StringBuf.prototype.add = function(x) {
 	this.b[this.b.length] = x;
 	$s.pop();
 }
-StringBuf.prototype.addChar = function(c) {
-	$s.push("StringBuf::addChar");
-	var $spos = $s.length;
-	this.b[this.b.length] = String.fromCharCode(c);
-	$s.pop();
-}
 StringBuf.prototype.addSub = function(s,pos,len) {
 	$s.push("StringBuf::addSub");
 	var $spos = $s.length;
 	this.b[this.b.length] = s.substr(pos,len);
 	$s.pop();
 }
-StringBuf.prototype.b = null;
+StringBuf.prototype.addChar = function(c) {
+	$s.push("StringBuf::addChar");
+	var $spos = $s.length;
+	this.b[this.b.length] = String.fromCharCode(c);
+	$s.pop();
+}
 StringBuf.prototype.toString = function() {
 	$s.push("StringBuf::toString");
 	var $spos = $s.length;
@@ -2049,6 +2068,7 @@ StringBuf.prototype.toString = function() {
 	}
 	$s.pop();
 }
+StringBuf.prototype.b = null;
 StringBuf.prototype.__class__ = StringBuf;
 IntIter = function(min,max) { if( min === $_ ) return; {
 	$s.push("IntIter::new");
@@ -2058,6 +2078,8 @@ IntIter = function(min,max) { if( min === $_ ) return; {
 	$s.pop();
 }}
 IntIter.__name__ = ["IntIter"];
+IntIter.prototype.min = null;
+IntIter.prototype.max = null;
 IntIter.prototype.hasNext = function() {
 	$s.push("IntIter::hasNext");
 	var $spos = $s.length;
@@ -2068,8 +2090,6 @@ IntIter.prototype.hasNext = function() {
 	}
 	$s.pop();
 }
-IntIter.prototype.max = null;
-IntIter.prototype.min = null;
 IntIter.prototype.next = function() {
 	$s.push("IntIter::next");
 	var $spos = $s.length;
@@ -2081,9 +2101,6 @@ IntIter.prototype.next = function() {
 	$s.pop();
 }
 IntIter.prototype.__class__ = IntIter;
-$Main = function() { }
-$Main.__name__ = ["@Main"];
-$Main.prototype.__class__ = $Main;
 $_ = {}
 js.Boot.__res = {}
 $s = [];
@@ -2112,14 +2129,14 @@ js.Boot.__init();
 	String.__name__ = ["String"];
 	Array.prototype.__class__ = Array;
 	Array.__name__ = ["Array"];
-	Int = { __name__ : ["Int"]}
-	Dynamic = { __name__ : ["Dynamic"]}
+	Int = { __name__ : ["Int"]};
+	Dynamic = { __name__ : ["Dynamic"]};
 	Float = Number;
 	Float.__name__ = ["Float"];
-	Bool = { __ename__ : ["Bool"]}
-	Class = { __name__ : ["Class"]}
-	Enum = { }
-	Void = { __ename__ : ["Void"]}
+	Bool = { __ename__ : ["Bool"]};
+	Class = { __name__ : ["Class"]};
+	Enum = { };
+	Void = { __ename__ : ["Void"]};
 }
 {
 	Math.__name__ = ["Math"];
@@ -2127,7 +2144,7 @@ js.Boot.__init();
 	Math.NEGATIVE_INFINITY = Number["NEGATIVE_INFINITY"];
 	Math.POSITIVE_INFINITY = Number["POSITIVE_INFINITY"];
 	Math.isFinite = function(i) {
-		$s.push("@Main::new@69");
+		$s.push("IntIter::next");
 		var $spos = $s.length;
 		{
 			var $tmp = isFinite(i);
@@ -2137,7 +2154,7 @@ js.Boot.__init();
 		$s.pop();
 	}
 	Math.isNaN = function(i) {
-		$s.push("@Main::new@81");
+		$s.push("IntIter::next");
 		var $spos = $s.length;
 		{
 			var $tmp = isNaN(i);
@@ -2148,8 +2165,8 @@ js.Boot.__init();
 	}
 }
 {
-	js["XMLHttpRequest"] = (window.XMLHttpRequest?XMLHttpRequest:(window.ActiveXObject?function() {
-		$s.push("@Main::new@53");
+	js["XMLHttpRequest"] = window.XMLHttpRequest?XMLHttpRequest:window.ActiveXObject?function() {
+		$s.push("IntIter::next");
 		var $spos = $s.length;
 		try {
 			{
@@ -2191,7 +2208,7 @@ js.Boot.__init();
 		var $r;
 		throw "Unable to create XMLHttpRequest object.";
 		return $r;
-	}(this))));
+	}(this));
 }
 js.Lib.onerror = null;
-$Main.init = Test.main();
+Test.main()
