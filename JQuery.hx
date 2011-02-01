@@ -1153,32 +1153,6 @@ extern class JXHR extends XMLHttpRequest {
 	public function isResolved():Bool;
 	
 	/**
-	 * Reject a Deferred object and call any failCallbacks with the given args.
-	 * @param	args Optional arguments that are passed to the failCallbacks.
-	 */
-	public function reject(?args:Array<Dynamic>):JXHR;
-	
-	/**
-	 * Reject a Deferred object and call any failCallbacks with the given context and args.
-	 * @param	context Context passed to the failCallbacks as the this object.
-	 * @param	?args Optional arguments that are passed to the failCallbacks.
-	 */
-	public function rejectWith(context:Dynamic, ?args:Array<Dynamic>):JXHR;
-	
-	/**
-	 * Resolve a Deferred object and call any doneCallbacks with the given args.
-	 * @param	args Optional arguments that are passed to the doneCallbacks.
-	 */
-	public function resolve(args:Dynamic):JXHR;
-	
-	/**
-	 * Resolve a Deferred object and call any doneCallbacks with the given context and args.
-	 * @param	context Context passed to the doneCallbacks as the this object.
-	 * @param	?args Optional arguments that are passed to the doneCallbacks.
-	 */
-	public function recolveWith(context:Dynamic, ?args:Array<Dynamic>):JXHR;
-	
-	/**
 	 * Add handlers to be called when the Deferred object is resolved or rejected.
 	 * @param	doneCallbacks A function, or array of functions, that are called when the Deferred is resolved.
 	 * @param	failCallbacks A function, or array of functions, that are called when the Deferred is rejected.
