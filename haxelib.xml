@@ -3,5 +3,5 @@
     <tag v="js"/>
     <tag v="extern"/>
     <description>jQuery extern file. Comparing to the jQuery wrapper, this one provides API closer to jQuery and smaller compiled JS file.</description>
-    <version name="1.5">Fully updated to jQuery 1.5. Should be compatable with previous versions except you cannot use the 1.5 functions.</version>
+    <version name="1.5.0.1">Some 1.5 updates that are mentioned after I updated the extern. JXHR is now JqXHR, which match the rename(jXHR->jqXHR) in jQuery documentation.</version>
 </project>

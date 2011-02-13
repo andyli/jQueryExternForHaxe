@@ -122,9 +122,11 @@ extern class JQuery implements ArrayAccess<Dom> {
 	public function click(?eventDataOrHandler:Dynamic, ?handler:Dynamic):JQuery;
 
 	/**
-		Create a copy of the set of matched elements.
-	**/
-	public function clone(?withDataAndEvents:Bool):JQuery;
+	 * Create a deep copy of the set of matched elements.
+	 * @param	?withDataAndEvents A Boolean indicating whether event handlers and data should be copied along with the elements. The default value is false.*For 1.5.0 the default value is incorrectly true. This will be changed back to false in 1.5.1 and up.
+	 * @param	?deepWithDataAndEvents A Boolean indicating whether event handlers and data for all children of the cloned element should be copied. By default its value matches the first argument's value (which defaults to false).
+	 */
+	public function clone(?withDataAndEvents:Bool, ?deepWithDataAndEvents:Bool):JQuery;
 
 	/**
 		Get the first ancestor element that matches the selector, beginning at the current element and progressing up through the DOM tree.
@@ -740,7 +742,7 @@ extern class JQueryS {
 	/**
 		Perform an asynchronous HTTP (Ajax) request.
 	**/
-	static public function ajax(urlOrSetting:Dynamic, ?setting:Dynamic):JXHR;
+	static public function ajax(urlOrSetting:Dynamic, ?setting:Dynamic):JqXHR;
 
 	/**
 		Set default values for future Ajax requests.
@@ -749,17 +751,17 @@ extern class JQueryS {
 	
 	/**
 	 * A prefilter is a callback function that is called before each request is sent, and prior to any $.ajax() option handling.
-	 * @param	callb function( options, originalOptions, jXHR ) {} // Modify options, control originalOptions, store jXHR, etc
+	 * @param	callb function( options, originalOptions, JqXHR ) {} // Modify options, control originalOptions, store JqXHR, etc
 	 */
-	static public function ajaxPrefilter(callb:Dynamic->Dynamic->JXHR->Void):Void;
+	static public function ajaxPrefilter(callb:Dynamic->Dynamic->JqXHR->Void):Void;
 	
 	/**
 	 * A transport is an object that provides two methods, send and abort, that are used internally by $.ajax() to issue requests. 
 	 * A transport is the most advanced way to enhance $.ajax() and should be used only as a last resort when prefilters and 
 	 * converters are insufficient.
-	 * @param	callbfunction( options, originalOptions, jXHR ) {}
+	 * @param	callbfunction( options, originalOptions, JqXHR ) {}
 	 */
-	static public function ajaxTransport(callb:Dynamic->Dynamic->JXHR->Void):Void;
+	static public function ajaxTransport(callb:Dynamic->Dynamic->JqXHR->Void):Void;
 
 	/**
 		Deprecated in jQuery 1.3 (see jQuery.support). States if the current page, in the user's browser, is being rendered using 
@@ -824,17 +826,17 @@ extern class JQueryS {
 	/**
 		Load data from the server using a HTTP GET request.
 	**/
-	static public function get(url:String, ?data:Dynamic, ?callBack:Dynamic, ?dataType:String):JXHR;
+	static public function get(url:String, ?data:Dynamic, ?callBack:Dynamic, ?dataType:String):JqXHR;
 
 	/**
 		Load JSON-encoded data from the server using a GET HTTP request.
 	**/
-	static public function getJSON(url:String, ?data:Dynamic, ?callBack:Dynamic):JXHR;
+	static public function getJSON(url:String, ?data:Dynamic, ?callBack:Dynamic):JqXHR;
 
 	/**
 		Load a JavaScript file from the server using a GET HTTP request, then execute it.
 	**/
-	static public function getScript(url:String, ?success:Dynamic):JXHR;
+	static public function getScript(url:String, ?success:Dynamic):JqXHR;
 
 	/**
 		Execute some JavaScript code globally.
@@ -915,11 +917,18 @@ extern class JQueryS {
 		Takes a well-formed JSON string and returns the resulting JavaScript object.
 	**/
 	static public function parseJSON(json:String):Dynamic;
+	
+	/**
+	 * Parses a string into an XML document.
+	 * @param	data a well-formed XML string to be parsed
+	 * @return	XMLDocument
+	 */
+	static public function parseXML(data:String):Dynamic;
 
 	/**
 		Load data from the server using a HTTP POST request.
 	**/
-	static public function post(url:String, ?data:Dynamic, ?callBack:Dynamic, ?dataType:String):JXHR;
+	static public function post(url:String, ?data:Dynamic, ?callBack:Dynamic, ?dataType:String):JqXHR;
 
 	/**
 		Takes a function and returns a new one that will always have a particular context.
@@ -979,10 +988,10 @@ extern class JQueryS {
 	static public function unique<T>(array:Array<T>):Array<T>;
 	
 	/**
-	 * Deferred helper.
-	 * @param	obj
+	 * Provides a way to execute callback functions based on one or more objects, usually Deferred objects that represent asynchronous events.
+	 * @param	deferreds One or more Deferred objects, or plain JavaScript objects.
 	 */
-	static public function when(obj:Dynamic):JQueryDeferred;
+	static public function when(deferreds:Dynamic):JQueryDeferred;
 }
 
 #if JQUERY_NOCONFLICT
@@ -1097,22 +1106,22 @@ extern class JQueryEvent {
 }
 
 /**
- * The jQuery XMLHttpRequest (jXHR) object returned by $.ajax(), as of jQuery 1.5, is a superset
+ * The jQuery XMLHttpRequest (JqXHR) object returned by $.ajax(), as of jQuery 1.5, is a superset
  * of the browser's native XMLHttpRequest object. For example, it contains responseText and
  * responseXML properties, as well as a getResponseHeader() method. When the transport mechanism 
- * is something other than XMLHttpRequest (for example, a script tag for a JSONP request) the jXHR 
+ * is something other than XMLHttpRequest (for example, a script tag for a JSONP request) the JqXHR 
  * object simulates native XHR functionality where possible.
  * 
  * http://api.jquery.com/jQuery.ajax
  */
-extern class JXHR extends XMLHttpRequest {
+extern class JqXHR extends XMLHttpRequest {
 	private function new():Void; //use JQueryS.ajax() to create;
 	
 	public var responseXML:Dom;
-	public function error(callb:Dynamic):JXHR;
-	public function success(callb:Dynamic):JXHR;
-	public function complete(callb:Dynamic):JXHR;
-	public function statusCode(callb:Dynamic):JXHR;
+	public function error(callb:Dynamic):JqXHR;
+	public function success(callb:Dynamic):JqXHR;
+	public function complete(callb:Dynamic):JqXHR;
+	public function statusCode(callb:Dynamic):JqXHR;
 	
 	/* following are already in haXe's XMLHttpRequest
 	
@@ -1128,20 +1137,20 @@ extern class JXHR extends XMLHttpRequest {
 	
 	
 	/*
-	 * The jXHR objects returned by $.ajax() implement the Promise interface, giving them all the properties, methods, and behavior of a Promise (see Deferred object for more information).
+	 * The JqXHR objects returned by $.ajax() implement the Promise interface, giving them all the properties, methods, and behavior of a Promise (see Deferred object for more information).
 	 */
 	
 	/**
 	 * Add handlers to be called when the Deferred object is resolved.
 	 * @param	doneCallbacks A function, or array of functions, that are called when the Deferred is resolved.
 	 */
-	public function done(doneCallbacks:Dynamic):JXHR;
+	public function done(doneCallbacks:Dynamic):JqXHR;
 	
 	/**
 	 * Add handlers to be called when the Deferred object is rejected.
 	 * @param	failCallbacks A function, or array of functions, that are called when the Deferred is rejected.
 	 */
-	public function fail(failCallbacks:Dynamic):JXHR;
+	public function fail(failCallbacks:Dynamic):JqXHR;
 	
 	/**
 	 * Determine whether a Deferred object has been rejected.
@@ -1158,7 +1167,7 @@ extern class JXHR extends XMLHttpRequest {
 	 * @param	doneCallbacks A function, or array of functions, that are called when the Deferred is resolved.
 	 * @param	failCallbacks A function, or array of functions, that are called when the Deferred is rejected.
 	 */
-	public function then(doneCallbacks:Dynamic, failCallbacks:Dynamic):JXHR;
+	public function then(doneCallbacks:Dynamic, failCallbacks:Dynamic):JqXHR;
 	
 	/**
 	 * Get a promise for this deferred.
@@ -1247,7 +1256,7 @@ extern class JQueryDeferred {
 	public function then(doneCallbacks:Dynamic, failCallbacks:Dynamic):JQueryDeferred;
 	
 	/**
-	 * Get a promise for this deferred.
+	 * Return a Deferred's Promise object.
 	 * @param	obj If obj is provided, the promise aspect is added to the object
 	 */
 	public function promise(?obj:Dynamic):JQueryPromise;
