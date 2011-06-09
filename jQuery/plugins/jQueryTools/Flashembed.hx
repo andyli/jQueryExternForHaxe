@@ -16,6 +16,8 @@ extern class Flashembed {
 	inline static public function getFlashembedAPI(jQ:JQuery):FlashembedAPI untyped {
 		return jQ.data("flashembed");
 	}
+	
+	inline static public var _static = FlashembedS;
 }
 
 extern class FlashembedS {

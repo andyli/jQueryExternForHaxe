@@ -15,6 +15,8 @@ extern class Dateinput {
 	inline static public function getDateinputAPI(jQ:JQuery):DateinputAPI untyped {
 		return jQ.data("dateinput");
 	}
+	
+	inline static public var _static = DateinputS;
 }
 
 extern class DateinputS {

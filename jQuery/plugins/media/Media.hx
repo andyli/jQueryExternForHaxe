@@ -27,6 +27,8 @@ extern class Media {
 	inline static public function mediaWithCallbacks(jQ:JQuery, configuration:Dynamic, fn1:Dynamic, fn2:Dynamic):JQuery untyped {
 		return jQ.media(configuration, fn1, fn2);
 	}
+	
+	inline static public var _static = MediaS;
 }
 
 extern class MediaS {

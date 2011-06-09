@@ -15,6 +15,8 @@ extern class Validator {
 	inline static public function getValidatorAPI(jQ:JQuery):ValidatorAPI untyped {
 		return jQ.data("validator");
 	}
+	
+	inline static public var _static = ValidatorS;
 }
 
 extern class ValidatorS {

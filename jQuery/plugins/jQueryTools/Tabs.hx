@@ -15,6 +15,8 @@ extern class Tabs {
 	inline static public function getTabsAPI(jQ:JQuery):TabsAPI untyped {
 		return jQ.data("tabs");
 	}
+	
+	inline static public var _static = TabsS;
 }
 
 extern class TabsS {

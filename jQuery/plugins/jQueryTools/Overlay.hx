@@ -15,6 +15,8 @@ extern class Overlay {
 	inline static public function getOverlayAPI(jQ:JQuery):OverlayAPI untyped {
 		return jQ.data("overlay");
 	}
+	
+	inline static public var _static = OverlayS;
 }
 
 extern class OverlayS {

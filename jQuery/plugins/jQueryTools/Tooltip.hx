@@ -15,6 +15,8 @@ extern class Tooltip {
 	inline static public function getTooltipAPI(jQ:JQuery):TooltipAPI untyped {
 		return jQ.data("tooltip");
 	}
+	
+	inline static public var _static = TooltipS;
 }
 
 extern class TooltipS {
