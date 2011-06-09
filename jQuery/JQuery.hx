@@ -567,6 +567,12 @@ extern class JQuery implements ArrayAccess<Dom> {
 		Remove a previously-stored piece of data.
 	**/
 	public function removeData(?name:String):JQuery;
+	
+	/**
+	 * Remove a property for the set of matched elements.
+	 * @param	propertyName The name of the property to set.
+	 */
+	public function removeProp(propertyName:String):JQuery;
 
 	/**
 		A selector expression indicating which element(s) to replace.
@@ -980,7 +986,7 @@ extern class JQueryS {
 	/**
 		Show the queue of functions to be executed on the matched element.
 	**/
-	static public function queue(element:Dom	, ?queueName:Dynamic, newQueue:Dynamic):Dynamic;
+	static public function queue(element:Dom, ?queueName:Dynamic, newQueue:Dynamic):Dynamic;
 
 	/**
 		Remove a previously-stored piece of data.
@@ -1093,12 +1099,6 @@ extern class Event {
 		This attribute contains the last value returned by an event handler that was triggered by this event, unless the value was undefined.
 	**/
 	public var result:Dynamic;
-	
-	/**
-	 * Remove a property for the set of matched elements.
-	 * @param	propertyName The name of the property to set.
-	 */
-	public function removeProp(propertyName:String):JQuery;
 
 	/**
 		Prevents other event handlers from being called.
