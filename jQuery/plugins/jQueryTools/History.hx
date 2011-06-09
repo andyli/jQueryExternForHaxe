@@ -1,4 +1,4 @@
-package jQueryPlugins.jQueryTools;
+package jQuery.plugins.jQueryTools;
 
 import jQuery.JQuery;
 
@@ -8,7 +8,7 @@ import jQuery.JQuery;
 **/
 
 extern class History {
-	inline static public function history(jQ:JQuery, _callback:JQueryEvent->String->Void):Void untyped {
+	inline static public function history(jQ:JQuery, _callback:Event->String->Void):Void untyped {
 		jQ.history(_callback);
 	}
 }

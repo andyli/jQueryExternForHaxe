@@ -1,4 +1,4 @@
-package jQueryPlugins.media;
+package jQuery.plugins.media;
 
 import jQuery.JQuery;
 

@@ -1,4 +1,4 @@
-package jQueryPlugins.jQueryTools;
+package jQuery.plugins.jQueryTools;
 
 import jQuery.JQuery;
 

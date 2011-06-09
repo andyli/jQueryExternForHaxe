@@ -1,4 +1,4 @@
-package jQueryPlugins.jQueryUI;
+package jQuery.plugins.jQueryUI;
 
 import jQuery.JQuery;
 
