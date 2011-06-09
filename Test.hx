@@ -1,7 +1,7 @@
 import haxe.unit.TestCase;
 import haxe.unit.TestRunner;
 
-import JQuery;
+import jQuery.JQuery;
 
 class Test extends TestCase{
 	public function test1():Void {
@@ -13,15 +13,15 @@ class Test extends TestCase{
 
 	public function test2():Void {
 		var div = new JQuery("div#test2")[0];
-		JQueryS.data(div, "test", { first: 16, last: "pizza!" });
-		new JQuery("span:first").text(JQueryS.data(div, "test").first);
-		new JQuery("span:last").text(JQueryS.data(div, "test").last);
-		this.assertEquals("The values stored were 16 and pizza!",JQueryS.trim(new JQuery(div).text()));
+		JQuery._static.data(div, "test", { first: 16, last: "pizza!" } );
+		new JQuery("span:first").text(JQuery._static.data(div, "test").first);
+		new JQuery("span:last").text(JQuery._static.data(div, "test").last);
+		this.assertEquals("The values stored were 16 and pizza!",JQuery._static.trim(new JQuery(div).text()));
 	}
 	
 	public function test3():Void {
 		var me = this;
-		var d = new JQueryDeferred().done(function () me.assertTrue(true));
+		var d = new Deferred().done(function () me.assertTrue(true));
 		d.resolve();
 	}
 
