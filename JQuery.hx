@@ -250,9 +250,9 @@ extern class JQuery implements ArrayAccess<Dom> {
 	public function filter(selectorOrFunction:Dynamic):JQuery;
 
 	/**
-		Get the descendants of each element in the current set of matched elements, filtered by a selector.
+		Get the descendants of each element in the current set of matched elements, filtered by a selector, jQuery object, or element.
 	**/
-	public function find(selector:String):JQuery;
+	public function find(selector:Dynamic):JQuery;
 
 	/**
 		Reduce the set of matched elements to the first in the set.
@@ -343,9 +343,9 @@ extern class JQuery implements ArrayAccess<Dom> {
 	public function insertBefore(target:Dynamic):JQuery;
 
 	/**
-		Check the current matched set of elements against a selector and return true if at least one of these elements matches the selector.
+		Check the current matched set of elements against a selector, element, or jQuery object and return true if at least one of these elements matches the given arguments.
 	**/
-	public function is(selector:String):Bool;
+	public function is(selector:Dynamic):Bool;
 
 	/**
 		Bind an event handler to the "keydown" JavaScript event, or trigger that event on an element.
@@ -855,6 +855,12 @@ extern class JQueryS {
 		Finds the elements of an array which satisfy a filter function. The original array is not affected.
 	**/
 	static public function grep<T>(array:Array<T>, ?funct:Dynamic, ?invert:Bool):Array<T>;
+	
+	/**
+	 * Holds or releases the execution of jQuery's ready event.
+	 * @param	hold Indicates whether the ready hold is being requested or released.
+	 */
+	static public function holdReady(hold:Bool):Bool;
 
 	/**
 		Search for a specified value within an array and return its index (or -1 if not found).
@@ -897,12 +903,12 @@ extern class JQueryS {
 	static public function makeArray(obj:Dynamic):Array<Dynamic>;
 
 	/**
-		Translate all items in an array or array-like object to another array of items.
+		Translate all items in an array or object to new array of items.
 	**/
-	static public function map(array:Array<Dynamic>, ?callBack:Dynamic):Array<Dynamic>;
+	static public function map(arrayOrObject:Dynamic, ?callBack:Dynamic):Array<Dynamic>;
 
 	/**
-		Merge the contents of two arrays together into the first array.
+		Merge the contents of two arraystogether into the first array.
 	**/
 	static public function merge<T>(first:Array<T>, second:Array<T>):Array<T>;
 
@@ -1054,6 +1060,25 @@ extern class JQueryEvent {
 		If this method is called, the default action of the event will not be triggered.
 	**/
 	public function preventDefault():Void;
+	
+	/**
+	 * Return a Promise object to observe when all actions of a certain type bound to the collection, queued or not, have finished.
+	 * @param	?type The type of queue that needs to be observed.
+	 * @param	?target Object onto which the promise methods have to be attached
+	 */
+	public function promise(?type:String, ?target:Dynamic):JQueryPromise;
+	
+	/**
+	 * Get/set the value of a property for the first element in the set of matched elements.
+	 * @param	propertyName The name of the property to get.
+	 * @param	?value
+	 * @return
+	 */
+	public function prop(propertyNameOrMap:Dynamic, ?value:Dynamic):Dynamic;
+	
+	inline public function propSet(propertyNameOrMap:Dynamic, value:Dynamic):JQuery {
+		return prop(propertyNameOrMap, value);
+	}
 
 	/**
 		The other DOM element involved in the event, if any.
@@ -1064,6 +1089,12 @@ extern class JQueryEvent {
 		This attribute contains the last value returned by an event handler that was triggered by this event, unless the value was undefined.
 	**/
 	public var result:Dynamic;
+	
+	/**
+	 * Remove a property for the set of matched elements.
+	 * @param	propertyName The name of the property to set.
+	 */
+	public function removeProp(propertyName:String):JQuery;
 
 	/**
 		Prevents other event handlers from being called.
@@ -1148,6 +1179,19 @@ extern class JqXHR extends XMLHttpRequest {
 	 * The JqXHR objects returned by $.ajax() implement the Promise interface, giving them all the properties, methods, and behavior of a Promise (see Deferred object for more information).
 	 */
 	
+	 /**
+	 * Add handlers to be called when the Deferred object is either resolved or rejected.
+	 * @param	alwaysCallbacks A function, or array of functions, that is called when the Deferred is resolved or rejected.
+	 */
+	public function always(alwaysCallbacks:Dynamic):JQueryDeferred;
+	
+	/**
+	 * Utility method to filter and/or chain Deferreds.
+	 * @param	doneFilter An optional function that is called when the Deferred is resolved.
+	 * @param	failFilter An optional function that is called when the Deferred is rejected.
+	 */
+	public function pipe(doneFilter:Dynamic, failFilter:Dynamic):JQueryPromise;
+	
 	/**
 	 * Add handlers to be called when the Deferred object is resolved.
 	 * @param	doneCallbacks A function, or array of functions, that are called when the Deferred is resolved.
@@ -1184,7 +1228,12 @@ extern class JqXHR extends XMLHttpRequest {
 	public function promise(?obj:Dynamic):JQueryPromise;
 }
 
+/**
+ * This object provides a subset of the methods of the Deferred object (then, done, fail, always, pipe. isResolved, and isRejected) to prevent users from changing the state of the Deferred.
+ */
 typedef JQueryPromise = {
+	public function always(alwaysCallbacks:Dynamic):JQueryDeferred;
+	public function pipe(doneFilter:Dynamic, failFilter:Dynamic):JQueryPromise;
 	public function promise(?obj:Dynamic):JQueryPromise;
 	public function isRejected():Bool;
 	public function isResolved():Bool;
@@ -1209,6 +1258,12 @@ extern class JQueryDeferred {
 	public function new(?callb:Dynamic):Void;
 	
 	/**
+	 * Add handlers to be called when the Deferred object is either resolved or rejected.
+	 * @param	alwaysCallbacks A function, or array of functions, that is called when the Deferred is resolved or rejected.
+	 */
+	public function always(alwaysCallbacks:Dynamic):JQueryDeferred;
+	
+	/**
 	 * Add handlers to be called when the Deferred object is resolved.
 	 * @param	doneCallbacks A function, or array of functions, that are called when the Deferred is resolved.
 	 */
@@ -1229,6 +1284,13 @@ extern class JQueryDeferred {
 	 * Determine whether a Deferred object has been resolved.
 	 */
 	public function isResolved():Bool;
+	
+	/**
+	 * Utility method to filter and/or chain Deferreds.
+	 * @param	doneFilter An optional function that is called when the Deferred is resolved.
+	 * @param	failFilter An optional function that is called when the Deferred is rejected.
+	 */
+	public function pipe(doneFilter:Dynamic, failFilter:Dynamic):JQueryPromise;
 	
 	/**
 	 * Reject a Deferred object and call any failCallbacks with the given args.
