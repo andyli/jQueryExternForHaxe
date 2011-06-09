@@ -1,6 +1,6 @@
 package jQueryPlugins.jQueryTools;
 
-import JQuery;
+import jQuery.JQuery;
 
 /**
 	Dateinput

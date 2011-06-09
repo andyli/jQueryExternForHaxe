@@ -1,6 +1,6 @@
 package jQueryPlugins.media;
 
-import JQuery;
+import jQuery.JQuery;
 
 /**
 	jQuery Media Plugin
