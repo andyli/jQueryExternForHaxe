@@ -16,24 +16,24 @@ extern class Validator {
 		return jQ.data("validator");
 	}
 	
-	inline static public var _static = ValidatorS;
+	inline static public var _static = ValidatorStatic;
 }
 
-extern class ValidatorS {
+extern class ValidatorStatic {
 	inline static public function localize(lang:String, configuration:Dynamic):Void untyped {
-		JQueryS.tools.validator.localize(lang, configuration);
+		JQueryStatic.tools.validator.localize(lang, configuration);
 	}
 	
 	inline static public function localizeFn(inputType:String, configuration:Dynamic):Void untyped {
-		JQueryS.tools.validator.localizeFn(inputType, configuration);
+		JQueryStatic.tools.validator.localizeFn(inputType, configuration);
 	}
 	
 	inline static public function fn(matcher:Dynamic, errorMsg:Dynamic, validator:Dynamic):Void untyped {
-		JQueryS.tools.validator.fn(matcher, errorMsg, func);
+		JQueryStatic.tools.validator.fn(matcher, errorMsg, func);
 	}
 
 	inline static public function addEffect(name:String, showfunc:Dynamic, hidefunc:Dynamic):Void untyped {
-		JQueryS.tools.validator.addEffect(name, showfunc, hidefunc);
+		JQueryStatic.tools.validator.addEffect(name, showfunc, hidefunc);
 	}
 }
 

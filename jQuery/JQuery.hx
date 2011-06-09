@@ -667,7 +667,7 @@ extern class JQuery implements ArrayAccess<Dom> {
 	**/
 	public function slideUp(?duration:Dynamic, ?easingOrCallBack:Dynamic , ?callBack:Dynamic):JQuery;
 	
-	inline static public var _static = JQueryS;
+	inline static public var _static = JQueryStatic;
 
 	/**
 		Stop the currently-running animation on the matched elements.
@@ -768,14 +768,14 @@ extern class JQuery implements ArrayAccess<Dom> {
 }
 
 /**
-	JQueryS group all the static methods/properties of jQuery. It is because haXe does not allow using same name for static and non-static methods/properties.
+	JQueryStatic group all the static methods/properties of jQuery. It is because haXe does not allow using same name for static and non-static methods/properties.
 **/
 #if JQUERY_NOCONFLICT
 @:native("jQuery")
 #else
 @:native("$")
 #end
-extern class JQueryS {
+extern class JQueryStatic {
 	/**
 		Perform an asynchronous HTTP (Ajax) request.
 	**/
@@ -1158,7 +1158,7 @@ extern class Event {
  * http://api.jquery.com/jQuery.ajax
  */
 extern class JqXHR extends XMLHttpRequest {
-	private function new():Void; //use JQueryS.ajax() to create;
+	private function new():Void; //use JQueryStatic.ajax() to create;
 	
 	public var responseXML:Dom;
 	public function error(callb:Dynamic):JqXHR;

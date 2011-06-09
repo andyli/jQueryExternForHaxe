@@ -16,12 +16,12 @@ extern class Overlay {
 		return jQ.data("overlay");
 	}
 	
-	inline static public var _static = OverlayS;
+	inline static public var _static = OverlayStatic;
 }
 
-extern class OverlayS {
+extern class OverlayStatic {
 	inline static public function addEffect(name:String, loadfunc:Dynamic, closefunc:Dynamic):Void untyped {
-		JQueryS.tools.overlay.addEffect(name, loadfunc, closefunc);
+		JQueryStatic.tools.overlay.addEffect(name, loadfunc, closefunc);
 	}
 }
 

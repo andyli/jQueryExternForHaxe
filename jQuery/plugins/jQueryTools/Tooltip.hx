@@ -16,12 +16,12 @@ extern class Tooltip {
 		return jQ.data("tooltip");
 	}
 	
-	inline static public var _static = TooltipS;
+	inline static public var _static = TooltipStatic;
 }
 
-extern class TooltipS {
+extern class TooltipStatic {
 	inline static public function addEffect(name:String, showfunc:Dynamic, hidefunc:Dynamic):Void untyped {
-		JQueryS.tools.tooltip.addEffect(name, showfunc, hidefunc);
+		JQueryStatic.tools.tooltip.addEffect(name, showfunc, hidefunc);
 	}
 }
 

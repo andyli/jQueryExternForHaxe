@@ -17,10 +17,10 @@ extern class Flashembed {
 		return jQ.data("flashembed");
 	}
 	
-	inline static public var _static = FlashembedS;
+	inline static public var _static = FlashembedStatic;
 }
 
-extern class FlashembedS {
+extern class FlashembedStatic {
 	/**
 		Converts given Object to a JSON encoded string. The object can contain any JavaScript literals such as strings, arrays and other objects on any level. Function properties are converted to a string: function().
 	**/

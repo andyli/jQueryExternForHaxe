@@ -16,12 +16,12 @@ extern class Dateinput {
 		return jQ.data("dateinput");
 	}
 	
-	inline static public var _static = DateinputS;
+	inline static public var _static = DateinputStatic;
 }
 
-extern class DateinputS {
+extern class DateinputStatic {
 	inline static public function localize(lang:String, configuration:Dynamic):Void untyped {
-		JQueryS.tools.dateinput.localize(lang, configuration);
+		JQueryStatic.tools.dateinput.localize(lang, configuration);
 	}
 }
 

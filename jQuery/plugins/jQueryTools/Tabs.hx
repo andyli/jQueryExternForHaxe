@@ -16,12 +16,12 @@ extern class Tabs {
 		return jQ.data("tabs");
 	}
 	
-	inline static public var _static = TabsS;
+	inline static public var _static = TabsStatic;
 }
 
-extern class TabsS {
+extern class TabsStatic {
 	inline static public function addEffect(name:String, func:Dynamic):Void untyped {
-		JQueryS.tools.tabs.addEffect(name, func);
+		JQueryStatic.tools.tabs.addEffect(name, func);
 	}
 }
 
