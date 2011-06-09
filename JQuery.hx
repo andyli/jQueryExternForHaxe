@@ -131,7 +131,15 @@ extern class JQuery implements ArrayAccess<Dom> {
 	/**
 		Get the first ancestor element that matches the selector, beginning at the current element and progressing up through the DOM tree.
 	**/
-	public function closest(selector:Dynamic, ?context:Dynamic):Dynamic;
+	public function closest(selector:Dynamic, ?context:Dynamic):JQuery;
+
+	/**
+		Gets an array of all the elements and selectors matched against the current element up through the DOM tree.
+		This method is primarily meant to be used internally or by plugin authors.
+	**/
+	inline public function closestMulti(selectors:Dynamic, ?context:Dynamic):Array<{selector:String, elem:Dom}> {
+		return cast closest(selectors, context);
+	}
 
 	/**
 		Get the children of each element in the set of matched elements, including text nodes.
