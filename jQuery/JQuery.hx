@@ -773,8 +773,8 @@ extern class JQuery implements ArrayAccess<Dom> {
 	 * @param	?selector A selector which should match the one originally passed to .on() when attaching event handlers.
 	 * @param	?handler A handler function previously attached for the event(s), or the special value false.
 	 */
-	@:overload(function(events_map:Dynamic, ?selector:String):JQuery)
-	public function off(?events:String, ?selector:String, ?handler:Dynamic):JQuery
+	@:overload(function(events_map:Dynamic, ?selector:String):JQuery{})
+	public function off(?events:String, ?selector:String, ?handler:Dynamic):JQuery;
 	
 	/**
 	 * Attach an event handler function for one or more events to the selected elements.
@@ -784,10 +784,10 @@ extern class JQuery implements ArrayAccess<Dom> {
 	 * @param 	?data Data to be passed to the handler in event.data when an event is triggered.
 	 * @param	handler A function to execute when the event is triggered. The value false is also allowed as a shorthand for a function that simply does return false.
 	 */
-	@:overload(function(event_map:Dynamic, ?selector:String, ?data:Dynamic):JQuery)
-	@:overload(function(events:String, selector:String, handler:Dynamic):JQuery)
-	@:overload(function(events:String, data:Dynamic, handler:Dynamic):JQuery)
-	@:overload(function(events:String, selector:String, data:Dynamic, handler:Dynamic):JQuery)
+	@:overload(function(events_map:Dynamic, ?selector:String, ?data:Dynamic):JQuery{})
+	@:overload(function(events:String, selector:String, handler:Dynamic):JQuery{})
+	@:overload(function(events:String, data:Dynamic, handler:Dynamic):JQuery{})
+	@:overload(function(events:String, selector:String, data:Dynamic, handler:Dynamic):JQuery{})
 	public function on(events:String, handler:Dynamic):JQuery;
 }
 
@@ -1403,7 +1403,7 @@ extern class Deferred {
 	 * http://api.jquery.com/deferred.progress/
 	 * @param progressCallbacks A function, or array of functions, that is called when the Deferred generates progress notifications.
 	 */
-	@:overload(function(progressCallbacks:Array<Dynamic>):Deferred)
+	@:overload(function(progressCallbacks:Array<Dynamic>):Deferred{})
 	public function progress(progressCallbacks:Dynamic):Deferred;
 	
 	/**
@@ -1436,14 +1436,14 @@ extern class Callbacks {
 	 * Add a callback or a collection of callbacks to a callback list.
 	 * http://api.jquery.com/callbacks.add/
 	 */
-	@:overload(function(callbacks:Array<Dynamic>):Void)
+	@:overload(function(callbacks:Array<Dynamic>):Void{})
 	public function add(callbacks:Dynamic):Void;
 	
 	/**
 	 * Remove a callback or a collection of callbacks from a callback list.
 	 * http://api.jquery.com/callbacks.remove/
 	 */
-	@:overload(function(callbacks:Array<Dynamic>):Void)
+	@:overload(function(callbacks:Array<Dynamic>):Void{})
 	public function remove(callbacks:Dynamic):Void;
 	
 	/**
