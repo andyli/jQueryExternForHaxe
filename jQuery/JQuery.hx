@@ -1046,6 +1046,13 @@ extern class JQueryStatic {
 	 * 	- stopOnFalse
 	 */
 	static public function callbacks():Callbacks;
+	
+	/**
+	 * Determines whether its argument is a number.
+	 * http://api.jquery.com/jQuery.isNumeric/
+	 * @param	value The value to be tested.
+	 */
+	static public function isNumeric(value:Dynamic):Bool;
 }
 
 #if JQUERY_NOCONFLICT
