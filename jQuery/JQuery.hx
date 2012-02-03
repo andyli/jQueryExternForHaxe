@@ -86,9 +86,11 @@ extern class JQuery implements ArrayAccess<Dom> {
 	@:overload(function(attributeName:String, valueOrFunction:Dynamic):JQuery{})
 	public function attr(attributeNameOrMap:Dynamic, ?valueOrFunction:Dynamic):Dynamic;
 	
+	#if !JQUERY_NO_DEPRECATED
 	inline public function attrSet(attributeName:String, valueOrFunction:Dynamic):JQuery {
 		return attr(attributeName, valueOrFunction);
 	}
+	#end
 
 	/**
 		Insert content, specified by the parameter, before each element in the set of matched elements.
@@ -162,9 +164,11 @@ extern class JQuery implements ArrayAccess<Dom> {
 	@:overload(function(attributeName:String, valueOrFunction:Dynamic):JQuery{})
 	public function css(propertyNameOrMap:Dynamic, ?valueOrFunction:Dynamic):Dynamic;
 	
+	#if !JQUERY_NO_DEPRECATED
 	inline public function cssSet(attributeName:String, valueOrFunction:Dynamic):JQuery {
 		return css(attributeName, valueOrFunction);
 	}
+	#end
 
 	/**
 		Store arbitrary data associated with the matched elements.
@@ -172,10 +176,12 @@ extern class JQuery implements ArrayAccess<Dom> {
 	@:overload(function(?key:String):Dynamic{})
 	@:overload(function(key:String, value:Dynamic):JQuery{})
 	public function data(?keyOrMap:Dynamic, ?value:Dynamic):Dynamic;
-
+	
+	#if !JQUERY_NO_DEPRECATED
 	inline public function dataSet(key:String, value:Dynamic):JQuery {
 		return data(key,value);
 	}
+	#end
 
 	/**
 		Bind an event handler to the "dblclick" JavaScript event, or trigger that event on an element.
@@ -304,9 +310,11 @@ extern class JQuery implements ArrayAccess<Dom> {
 	@:overload(function(valueOrFunction:Dynamic):JQuery{})
 	public function height(?valueOrFunction:Dynamic):Dynamic;
 	
+	#if !JQUERY_NO_DEPRECATED
 	inline public function heightSet(valueOrFunction:Dynamic):JQuery {
 		return height(valueOrFunction);
 	}
+	#end
 
 	/**
 		Hide the matched elements.
@@ -325,9 +333,11 @@ extern class JQuery implements ArrayAccess<Dom> {
 	@:overload(function(valueOrFunction:Dynamic):JQuery{})
 	public function html(?valueOrFunction:Dynamic):Dynamic;
 	
+	#if !JQUERY_NO_DEPRECATED
 	inline public function htmlSet(valueOrFunction:Dynamic):JQuery {
 		return html(valueOrFunction);
 	}
+	#end
 
 	/**
 		Search for a given element from among the matched elements.
@@ -461,10 +471,12 @@ extern class JQuery implements ArrayAccess<Dom> {
 	@:overload(function():{top:Float, left:Float}{})
 	@:overload(function(coordinatesOrFunction:Dynamic):JQuery{})
 	public function offset(?coordinatesOrFunction:Dynamic):Dynamic;
-
+	
+	#if !JQUERY_NO_DEPRECATED
 	inline public function offsetSet(coordinatesOrFunction:Dynamic):JQuery {
 		return offset(coordinatesOrFunction);
 	}
+	#end
 
 	/**
 		Get the closest ancestor element that is positioned.
@@ -548,9 +560,11 @@ extern class JQuery implements ArrayAccess<Dom> {
 	@:overload(function(propertyNameOrMap:Dynamic, value:Dynamic):JQuery{})
 	public function prop(propertyNameOrMap:Dynamic, ?value:Dynamic):Dynamic;
 	
+	#if !JQUERY_NO_DEPRECATED
 	inline public function propSet(propertyNameOrMap:Dynamic, value:Dynamic):JQuery {
 		return prop(propertyNameOrMap, value);
 	}
+	#end
 
 	/**
 		Show the queue of functions to be executed on the matched elements.
@@ -618,9 +632,11 @@ extern class JQuery implements ArrayAccess<Dom> {
 	@:overload(function(value:Float):JQuery{})
 	public function scrollLeft(?value:Float):Dynamic;
 
+	#if !JQUERY_NO_DEPRECATED
 	inline public function scrollLeftSet(value:Float):JQuery {
 		return scrollLeft(value);
 	}
+	#end
 
 	/**
 		Get the current vertical position of the scroll bar for the first element in the set of matched elements.
@@ -629,9 +645,11 @@ extern class JQuery implements ArrayAccess<Dom> {
 	@:overload(function(value:Float):JQuery{})
 	public function scrollTop(?value:Float):Dynamic;
 
+	#if !JQUERY_NO_DEPRECATED
 	inline public function scrollTopSet(value:Float):JQuery {
 		return scrollTop(value);
 	}
+	#end
 
 	/**
 		Bind an event handler to the "select" JavaScript event, or trigger that event on an element.
@@ -707,9 +725,11 @@ extern class JQuery implements ArrayAccess<Dom> {
 	@:overload(function(valueOrFunction:Dynamic):JQuery{})
 	public function text(?valueOrFunction:Dynamic):Dynamic;
 	
+	#if !JQUERY_NO_DEPRECATED
 	inline public function textSet(valueOrFunction:Dynamic):JQuery {
 		return text(valueOrFunction);
 	}
+	#end
 
 	/**
 		Retrieve all the DOM elements contained in the jQuery set, as an array.
@@ -765,9 +785,11 @@ extern class JQuery implements ArrayAccess<Dom> {
 	@:overload(function(valueOrFunction:Dynamic):JQuery{})
 	public function val(?valueOrFunction:Dynamic):Dynamic;
 	
+	#if !JQUERY_NO_DEPRECATED
 	inline public function valSet(valueOrFunction:Dynamic):JQuery {
 		return val(valueOrFunction);
 	}
+	#end
 
 	/**
 		Get the current computed width for the first element in the set of matched elements.
@@ -776,9 +798,11 @@ extern class JQuery implements ArrayAccess<Dom> {
 	@:overload(function(valueOrFunction:Dynamic):JQuery{})
 	public function width(?valueOrFunction:Dynamic):Dynamic;
 	
+	#if !JQUERY_NO_DEPRECATED
 	inline public function widthSet(valueOrFunction:Dynamic):JQuery {
 		return width(valueOrFunction);
 	}
+	#end
 
 	/**
 		Wrap an HTML structure around each element in the set of matched elements.
