@@ -82,6 +82,8 @@ extern class JQuery implements ArrayAccess<Dom> {
 	/**
 		Get the value of an attribute for the first element in the set of matched elements.
 	**/
+	@:overload(function(attributeName:String):String{})
+	@:overload(function(attributeName:String, valueOrFunction:Dynamic):JQuery{})
 	public function attr(attributeNameOrMap:Dynamic, ?valueOrFunction:Dynamic):Dynamic;
 	
 	inline public function attrSet(attributeName:String, valueOrFunction:Dynamic):JQuery {
@@ -156,6 +158,8 @@ extern class JQuery implements ArrayAccess<Dom> {
 	/**
 		Get the value of a style property for the first element in the set of matched elements.
 	**/
+	@:overload(function(attributeName:String):String{})
+	@:overload(function(attributeName:String, valueOrFunction:Dynamic):JQuery{})
 	public function css(propertyNameOrMap:Dynamic, ?valueOrFunction:Dynamic):Dynamic;
 	
 	inline public function cssSet(attributeName:String, valueOrFunction:Dynamic):JQuery {
@@ -165,6 +169,8 @@ extern class JQuery implements ArrayAccess<Dom> {
 	/**
 		Store arbitrary data associated with the matched elements.
 	**/
+	@:overload(function(?key:String):Dynamic{})
+	@:overload(function(key:String, value:Dynamic):JQuery{})
 	public function data(?keyOrMap:Dynamic, ?value:Dynamic):Dynamic;
 
 	inline public function dataSet(key:String, value:Dynamic):JQuery {
@@ -294,6 +300,8 @@ extern class JQuery implements ArrayAccess<Dom> {
 	/**
 		Get the current computed height for the first element in the set of matched elements.
 	**/
+	@:overload(function():Int{})
+	@:overload(function(valueOrFunction:Dynamic):JQuery{})
 	public function height(?valueOrFunction:Dynamic):Dynamic;
 	
 	inline public function heightSet(valueOrFunction:Dynamic):JQuery {
@@ -313,6 +321,8 @@ extern class JQuery implements ArrayAccess<Dom> {
 	/**
 		Get the HTML contents of the first element in the set of matched elements.
 	**/
+	@:overload(function():String{})
+	@:overload(function(valueOrFunction:Dynamic):JQuery{})
 	public function html(?valueOrFunction:Dynamic):Dynamic;
 	
 	inline public function htmlSet(valueOrFunction:Dynamic):JQuery {
@@ -448,6 +458,8 @@ extern class JQuery implements ArrayAccess<Dom> {
 	/**
 		Get the current coordinates of the first element in the set of matched elements, relative to the document.
 	**/
+	@:overload(function():{top:Float, left:Float}{})
+	@:overload(function(coordinatesOrFunction:Dynamic):JQuery{})
 	public function offset(?coordinatesOrFunction:Dynamic):Dynamic;
 
 	inline public function offsetSet(coordinatesOrFunction:Dynamic):JQuery {
@@ -532,6 +544,8 @@ extern class JQuery implements ArrayAccess<Dom> {
 	 * @param	?value
 	 * @return
 	 */
+	@:overload(function(propertyName:String):String{})
+	@:overload(function(propertyNameOrMap:Dynamic, value:Dynamic):JQuery{})
 	public function prop(propertyNameOrMap:Dynamic, ?value:Dynamic):Dynamic;
 	
 	inline public function propSet(propertyNameOrMap:Dynamic, value:Dynamic):JQuery {
@@ -565,7 +579,10 @@ extern class JQuery implements ArrayAccess<Dom> {
 
 	/**
 		Remove a previously-stored piece of data.
+		@param	name	A string naming the piece of data to delete.
+		@param	list	An array or space-separated string naming the pieces of data to delete.
 	**/
+	@:overload(function(?list:Array<String>):JQuery{})
 	public function removeData(?name:String):JQuery;
 	
 	/**
@@ -597,6 +614,8 @@ extern class JQuery implements ArrayAccess<Dom> {
 	/**
 		Get the current horizontal position of the scroll bar for the first element in the set of matched elements.
 	**/
+	@:overload(function():Int{})
+	@:overload(function(value:Float):JQuery{})
 	public function scrollLeft(?value:Float):Dynamic;
 
 	inline public function scrollLeftSet(value:Float):JQuery {
@@ -606,6 +625,8 @@ extern class JQuery implements ArrayAccess<Dom> {
 	/**
 		Get the current vertical position of the scroll bar for the first element in the set of matched elements.
 	**/
+	@:overload(function():Int{})
+	@:overload(function(value:Float):JQuery{})
 	public function scrollTop(?value:Float):Dynamic;
 
 	inline public function scrollTopSet(value:Float):JQuery {
@@ -682,6 +703,8 @@ extern class JQuery implements ArrayAccess<Dom> {
 	/**
 		Get the combined text contents of each element in the set of matched elements, including their descendants.
 	**/
+	@:overload(function():String{})
+	@:overload(function(valueOrFunction:Dynamic):JQuery{})
 	public function text(?valueOrFunction:Dynamic):Dynamic;
 	
 	inline public function textSet(valueOrFunction:Dynamic):JQuery {
@@ -738,6 +761,8 @@ extern class JQuery implements ArrayAccess<Dom> {
 	/**
 		Get the current value of the first element in the set of matched elements.
 	**/
+	@:overload(function():Dynamic{})
+	@:overload(function(valueOrFunction:Dynamic):JQuery{})
 	public function val(?valueOrFunction:Dynamic):Dynamic;
 	
 	inline public function valSet(valueOrFunction:Dynamic):JQuery {
@@ -747,6 +772,8 @@ extern class JQuery implements ArrayAccess<Dom> {
 	/**
 		Get the current computed width for the first element in the set of matched elements.
 	**/
+	@:overload(function():Int{})
+	@:overload(function(valueOrFunction:Dynamic):JQuery{})
 	public function width(?valueOrFunction:Dynamic):Dynamic;
 	
 	inline public function widthSet(valueOrFunction:Dynamic):JQuery {
