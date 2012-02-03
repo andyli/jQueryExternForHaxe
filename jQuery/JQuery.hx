@@ -765,6 +765,30 @@ extern class JQuery implements ArrayAccess<Dom> {
 		Wrap an HTML structure around the content of each element in the set of matched elements.
 	**/
 	public function wrapInner(ele:Dynamic):JQuery;
+	
+	/**
+	 * Remove an event handler.
+	 * http://api.jquery.com/off/
+	 * @param	?events One or more space-separated event types and optional namespaces, or just namespaces, such as "click", "keydown.myPlugin", or ".myPlugin".
+	 * @param	?selector A selector which should match the one originally passed to .on() when attaching event handlers.
+	 * @param	?handler A handler function previously attached for the event(s), or the special value false.
+	 */
+	@:overload(function(events_map:Dynamic, ?selector:String):JQuery)
+	public function off(?events:String, ?selector:String, ?handler:Dynamic):JQuery
+	
+	/**
+	 * Attach an event handler function for one or more events to the selected elements.
+	 * http://api.jquery.com/on/
+	 * @param	events One or more space-separated event types and optional namespaces, such as "click" or "keydown.myPlugin".
+	 * @param	?selector A selector string to filter the descendants of the selected elements that trigger the event. If the selector is null or omitted, the event is always triggered when it reaches the selected element.
+	 * @param 	?data Data to be passed to the handler in event.data when an event is triggered.
+	 * @param	handler A function to execute when the event is triggered. The value false is also allowed as a shorthand for a function that simply does return false.
+	 */
+	@:overload(function(event_map:Dynamic, ?selector:String, ?data:Dynamic):JQuery)
+	@:overload(function(events:String, selector:String, handler:Dynamic):JQuery)
+	@:overload(function(events:String, data:Dynamic, handler:Dynamic):JQuery)
+	@:overload(function(events:String, selector:String, data:Dynamic, handler:Dynamic):JQuery)
+	public function on(events:String, handler:Dynamic):JQuery;
 }
 
 /**
