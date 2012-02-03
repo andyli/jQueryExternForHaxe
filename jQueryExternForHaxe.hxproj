@@ -4,7 +4,7 @@
   <output>
     <movie outputType="Application" />
     <movie input="" />
-    <movie path="test/bin/Test.js" />
+    <movie path="test\bin\Test.js" />
     <movie fps="0" />
     <movie width="0" />
     <movie height="0" />
@@ -15,7 +15,7 @@
   </output>
   <!-- Other classes to be compiled into your SWF -->
   <classpaths>
-    <!-- example: <class path="..." /> -->
+    <class path="test" />
   </classpaths>
   <!-- Build options -->
   <build>
@@ -45,7 +45,7 @@
   <options>
     <option showHiddenPaths="False" />
     <option testMovie="OpenDocument" />
-    <option testMovieCommand="test.html" />
+    <option testMovieCommand="test/bin/test.html" />
   </options>
   <!-- Plugin storage -->
   <storage />
