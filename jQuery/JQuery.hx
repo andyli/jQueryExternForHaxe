@@ -1145,6 +1145,12 @@ extern class Event {
 		The event object that haven't processed by jQuery
 	**/
 	public var originalEvent:js.Dom.Event;
+	
+	/**
+	 * The element where the currently-called jQuery event handler was attached.
+	 * http://api.jquery.com/event.delegateTarget/
+	 */
+	public var delegateTarget:HtmlDom;
 
 	//copied from Dom.Event:
 	public var clientX : Int;
