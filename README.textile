@@ -1,6 +1,7 @@
 h1. jQueryExtern
 
 "jQuery":http://jquery.com/ extern for "haXe":http://haxe.org/.
+Current supporting jQuery version: *1.7.1*
 
 Please refer to my "blog post":http://blog.onthewings.net/2010/08/03/using-jquery-in-haxe/ for usage and info.
 
