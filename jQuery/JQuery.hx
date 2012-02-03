@@ -1170,7 +1170,7 @@ extern class Event {
 	/**
 		For key or button events, this attribute indicates the specific button or key that was pressed.
 	**/
-	public var which:String;
+	public var which:Int;
 	
 	/**
 		The event object that haven't processed by jQuery
