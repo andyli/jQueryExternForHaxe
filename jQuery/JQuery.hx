@@ -1092,7 +1092,7 @@ extern class Event {
 	/**
 		The current DOM element within the event bubbling phase.
 	**/
-	public var currentTarget:Dom;
+	public var currentTarget:HtmlDom;
 
 	/**
 		Contains the optional data passed to jQuery.fn.bind when the current executing handler was bound.
@@ -1137,7 +1137,7 @@ extern class Event {
 	/**
 		The other DOM element involved in the event, if any.
 	**/
-	public var relatedTarget:Dom;
+	public var relatedTarget:HtmlDom;
 
 	/**
 		This attribute contains the last value returned by an event handler that was triggered by this event, unless the value was undefined.
@@ -1157,7 +1157,7 @@ extern class Event {
 	/**
 		The DOM element that initiated the event.
 	**/
-	public var target:Dom;
+	public var target:HtmlDom;
 
 	/**
 		This attribute returns the number of milliseconds since January 1, 1970, when the event is triggered.
@@ -1273,8 +1273,9 @@ extern class JqXHR extends XMLHttpRequest {
 	 * Add handlers to be called when the Deferred object is resolved or rejected.
 	 * @param	doneCallbacks A function, or array of functions, that are called when the Deferred is resolved.
 	 * @param	failCallbacks A function, or array of functions, that are called when the Deferred is rejected.
+	 * @param	progressCallbacks A function, or array of functions, called when the Deferred notifies progress.
 	 */
-	public function then(doneCallbacks:Dynamic, failCallbacks:Dynamic):JqXHR;
+	public function then(doneCallbacks:Dynamic, failCallbacks:Dynamic, ?progressCallbacks:Dynamic):JqXHR;
 	
 	/**
 	 * Get a promise for this deferred.
@@ -1294,7 +1295,7 @@ typedef Promise = {
 	public function isResolved():Bool;
 	public function fail(failCallbacks:Dynamic):Promise;
 	public function done(doneCallbacks:Dynamic):Promise;
-	public function then(doneCallbacks:Dynamic, failCallbacks:Dynamic):Promise;
+	public function then(doneCallbacks:Dynamic, failCallbacks:Dynamic, ?progressCallbacks:Dynamic):Promise;
 }
 
 /**
@@ -1378,8 +1379,9 @@ extern class Deferred {
 	 * Add handlers to be called when the Deferred object is resolved or rejected.
 	 * @param	doneCallbacks A function, or array of functions, that are called when the Deferred is resolved.
 	 * @param	failCallbacks A function, or array of functions, that are called when the Deferred is rejected.
+	 * @param	progressCallbacks A function, or array of functions, called when the Deferred notifies progress.
 	 */
-	public function then(doneCallbacks:Dynamic, failCallbacks:Dynamic):Deferred;
+	public function then(doneCallbacks:Dynamic, failCallbacks:Dynamic, ?progressCallbacks:Dynamic):Deferred;
 	
 	/**
 	 * Return a Deferred's Promise object.
