@@ -1,29 +1,24 @@
-$estr = function() { return js.Boot.__string_rec(this,''); }
-if(typeof js=='undefined') js = {}
-js.Boot = function() { }
+var $_, $hxClasses = $hxClasses || {}, $estr = function() { return js.Boot.__string_rec(this,''); }
+function $extend(from, fields) {
+	function inherit() {}; inherit.prototype = from; var proto = new inherit();
+	for (var name in fields) proto[name] = fields[name];
+	return proto;
+}
+var js = js || {}
+js.Boot = $hxClasses["js.Boot"] = function() { }
 js.Boot.__name__ = ["js","Boot"];
 js.Boot.__unhtml = function(s) {
 	return s.split("&").join("&amp;").split("<").join("&lt;").split(">").join("&gt;");
 }
 js.Boot.__trace = function(v,i) {
 	var msg = i != null?i.fileName + ":" + i.lineNumber + ": ":"";
-	msg += js.Boot.__unhtml(js.Boot.__string_rec(v,"")) + "<br/>";
+	msg += js.Boot.__string_rec(v,"");
 	var d = document.getElementById("haxe:trace");
-	if(d == null) alert("No haxe:trace element defined\n" + msg); else d.innerHTML += msg;
+	if(d != null) d.innerHTML += js.Boot.__unhtml(msg) + "<br/>"; else if(typeof(console) != "undefined" && console.log != null) console.log(msg);
 }
 js.Boot.__clear_trace = function() {
 	var d = document.getElementById("haxe:trace");
 	if(d != null) d.innerHTML = "";
-}
-js.Boot.__closure = function(o,f) {
-	var m = o[f];
-	if(m == null) return null;
-	var f1 = function() {
-		return m.apply(o,arguments);
-	};
-	f1.scope = o;
-	f1.method = m;
-	return f1;
 }
 js.Boot.__string_rec = function(o,s) {
 	if(o == null) return "null";
@@ -74,7 +69,7 @@ js.Boot.__string_rec = function(o,s) {
 		if(hasp && !o.hasOwnProperty(k)) {
 			continue;
 		}
-		if(k == "prototype" || k == "__class__" || k == "__super__" || k == "__interfaces__") {
+		if(k == "prototype" || k == "__class__" || k == "__super__" || k == "__interfaces__" || k == "__properties__") {
 			continue;
 		}
 		if(str.length != 2) str += ", \n";
@@ -165,7 +160,7 @@ js.Boot.__init = function() {
 	if(String.prototype.cca == null) String.prototype.cca = String.prototype.charCodeAt;
 	String.prototype.charCodeAt = function(i) {
 		var x = this.cca(i);
-		if(x != x) return null;
+		if(x != x) return undefined;
 		return x;
 	};
 	var oldsub = String.prototype.substr;
@@ -178,10 +173,19 @@ js.Boot.__init = function() {
 		} else if(len < 0) len = this.length + len - pos;
 		return oldsub.apply(this,[pos,len]);
 	};
-	$closure = js.Boot.__closure;
+	Function.prototype["$bind"] = function(o) {
+		var f = function() {
+			return f.method.apply(f.scope,arguments);
+		};
+		f.scope = o;
+		f.method = this;
+		return f;
+	};
 }
-js.Boot.prototype.__class__ = js.Boot;
-js.Lib = function() { }
+js.Boot.prototype = {
+	__class__: js.Boot
+}
+js.Lib = $hxClasses["js.Lib"] = function() { }
 js.Lib.__name__ = ["js","Lib"];
 js.Lib.isIE = null;
 js.Lib.isOpera = null;
@@ -196,8 +200,10 @@ js.Lib.eval = function(code) {
 js.Lib.setErrorHandler = function(f) {
 	js.Lib.onerror = f;
 }
-js.Lib.prototype.__class__ = js.Lib;
-ValueType = { __ename__ : ["ValueType"], __constructs__ : ["TNull","TInt","TFloat","TBool","TObject","TFunction","TClass","TEnum","TUnknown"] }
+js.Lib.prototype = {
+	__class__: js.Lib
+}
+var ValueType = $hxClasses["ValueType"] = { __ename__ : ["ValueType"], __constructs__ : ["TNull","TInt","TFloat","TBool","TObject","TFunction","TClass","TEnum","TUnknown"] }
 ValueType.TNull = ["TNull",0];
 ValueType.TNull.toString = $estr;
 ValueType.TNull.__enum__ = ValueType;
@@ -221,7 +227,7 @@ ValueType.TEnum = function(e) { var $x = ["TEnum",7,e]; $x.__enum__ = ValueType;
 ValueType.TUnknown = ["TUnknown",8];
 ValueType.TUnknown.toString = $estr;
 ValueType.TUnknown.__enum__ = ValueType;
-Type = function() { }
+var Type = $hxClasses["Type"] = function() { }
 Type.__name__ = ["Type"];
 Type.getClass = function(o) {
 	if(o == null) return null;
@@ -244,22 +250,12 @@ Type.getEnumName = function(e) {
 	return a.join(".");
 }
 Type.resolveClass = function(name) {
-	var cl;
-	try {
-		cl = eval(name);
-	} catch( e ) {
-		cl = null;
-	}
+	var cl = $hxClasses[name];
 	if(cl == null || cl.__name__ == null) return null;
 	return cl;
 }
 Type.resolveEnum = function(name) {
-	var e;
-	try {
-		e = eval(name);
-	} catch( err ) {
-		e = null;
-	}
+	var e = $hxClasses[name];
 	if(e == null || e.__ename__ == null) return null;
 	return e;
 }
@@ -269,7 +265,8 @@ Type.createInstance = function(cl,args) {
 	return new cl(args[0],args[1],args[2],args[3],args[4],args[5],args[6],args[7]);
 }
 Type.createEmptyInstance = function(cl) {
-	return new cl($_);
+	function empty() {}; empty.prototype = cl.prototype;
+	return new empty();
 }
 Type.createEnum = function(e,constr,params) {
 	var f = Reflect.field(e,constr);
@@ -287,14 +284,17 @@ Type.createEnumIndex = function(e,index,params) {
 	return Type.createEnum(e,c,params);
 }
 Type.getInstanceFields = function(c) {
-	var a = Reflect.fields(c.prototype);
+	var a = [];
+	for(var i in c.prototype) a.push(i);
 	a.remove("__class__");
+	a.remove("__properties__");
 	return a;
 }
 Type.getClassFields = function(c) {
 	var a = Reflect.fields(c);
 	a.remove("__name__");
 	a.remove("__interfaces__");
+	a.remove("__properties__");
 	a.remove("__super__");
 	a.remove("prototype");
 	return a;
@@ -353,24 +353,39 @@ Type.enumParameters = function(e) {
 Type.enumIndex = function(e) {
 	return e[1];
 }
-Type.prototype.__class__ = Type;
-if(typeof haxe=='undefined') haxe = {}
+Type.allEnums = function(e) {
+	var all = [];
+	var cst = e.__constructs__;
+	var _g = 0;
+	while(_g < cst.length) {
+		var c = cst[_g];
+		++_g;
+		var v = Reflect.field(e,c);
+		if(!Reflect.isFunction(v)) all.push(v);
+	}
+	return all;
+}
+Type.prototype = {
+	__class__: Type
+}
+var haxe = haxe || {}
 if(!haxe.unit) haxe.unit = {}
-haxe.unit.TestStatus = function(p) {
-	if( p === $_ ) return;
+haxe.unit.TestStatus = $hxClasses["haxe.unit.TestStatus"] = function() {
 	this.done = false;
 	this.success = false;
 }
 haxe.unit.TestStatus.__name__ = ["haxe","unit","TestStatus"];
-haxe.unit.TestStatus.prototype.done = null;
-haxe.unit.TestStatus.prototype.success = null;
-haxe.unit.TestStatus.prototype.error = null;
-haxe.unit.TestStatus.prototype.method = null;
-haxe.unit.TestStatus.prototype.classname = null;
-haxe.unit.TestStatus.prototype.posInfos = null;
-haxe.unit.TestStatus.prototype.backtrace = null;
-haxe.unit.TestStatus.prototype.__class__ = haxe.unit.TestStatus;
-haxe.Log = function() { }
+haxe.unit.TestStatus.prototype = {
+	done: null
+	,success: null
+	,error: null
+	,method: null
+	,classname: null
+	,posInfos: null
+	,backtrace: null
+	,__class__: haxe.unit.TestStatus
+}
+haxe.Log = $hxClasses["haxe.Log"] = function() { }
 haxe.Log.__name__ = ["haxe","Log"];
 haxe.Log.trace = function(v,infos) {
 	js.Boot.__trace(v,infos);
@@ -378,57 +393,60 @@ haxe.Log.trace = function(v,infos) {
 haxe.Log.clear = function() {
 	js.Boot.__clear_trace();
 }
-haxe.Log.prototype.__class__ = haxe.Log;
-haxe.Public = function() { }
+haxe.Log.prototype = {
+	__class__: haxe.Log
+}
+haxe.Public = $hxClasses["haxe.Public"] = function() { }
 haxe.Public.__name__ = ["haxe","Public"];
-haxe.Public.prototype.__class__ = haxe.Public;
-haxe.unit.TestCase = function(p) {
+haxe.Public.prototype = {
+	__class__: haxe.Public
+}
+haxe.unit.TestCase = $hxClasses["haxe.unit.TestCase"] = function() {
 }
 haxe.unit.TestCase.__name__ = ["haxe","unit","TestCase"];
-haxe.unit.TestCase.prototype.currentTest = null;
-haxe.unit.TestCase.prototype.setup = function() {
-}
-haxe.unit.TestCase.prototype.tearDown = function() {
-}
-haxe.unit.TestCase.prototype.print = function(v) {
-	haxe.unit.TestRunner.print(v);
-}
-haxe.unit.TestCase.prototype.assertTrue = function(b,c) {
-	this.currentTest.done = true;
-	if(b == false) {
-		this.currentTest.success = false;
-		this.currentTest.error = "expected true but was false";
-		this.currentTest.posInfos = c;
-		throw this.currentTest;
-	}
-}
-haxe.unit.TestCase.prototype.assertFalse = function(b,c) {
-	this.currentTest.done = true;
-	if(b == true) {
-		this.currentTest.success = false;
-		this.currentTest.error = "expected false but was true";
-		this.currentTest.posInfos = c;
-		throw this.currentTest;
-	}
-}
-haxe.unit.TestCase.prototype.assertEquals = function(expected,actual,c) {
-	this.currentTest.done = true;
-	if(actual != expected) {
-		this.currentTest.success = false;
-		this.currentTest.error = "expected '" + expected + "' but was '" + actual + "'";
-		this.currentTest.posInfos = c;
-		throw this.currentTest;
-	}
-}
-haxe.unit.TestCase.prototype.__class__ = haxe.unit.TestCase;
 haxe.unit.TestCase.__interfaces__ = [haxe.Public];
-Test = function(p) {
-	if( p === $_ ) return;
+haxe.unit.TestCase.prototype = {
+	currentTest: null
+	,setup: function() {
+	}
+	,tearDown: function() {
+	}
+	,print: function(v) {
+		haxe.unit.TestRunner.print(v);
+	}
+	,assertTrue: function(b,c) {
+		this.currentTest.done = true;
+		if(b == false) {
+			this.currentTest.success = false;
+			this.currentTest.error = "expected true but was false";
+			this.currentTest.posInfos = c;
+			throw this.currentTest;
+		}
+	}
+	,assertFalse: function(b,c) {
+		this.currentTest.done = true;
+		if(b == true) {
+			this.currentTest.success = false;
+			this.currentTest.error = "expected false but was true";
+			this.currentTest.posInfos = c;
+			throw this.currentTest;
+		}
+	}
+	,assertEquals: function(expected,actual,c) {
+		this.currentTest.done = true;
+		if(actual != expected) {
+			this.currentTest.success = false;
+			this.currentTest.error = "expected '" + expected + "' but was '" + actual + "'";
+			this.currentTest.posInfos = c;
+			throw this.currentTest;
+		}
+	}
+	,__class__: haxe.unit.TestCase
+}
+var Test = $hxClasses["Test"] = function() {
 	haxe.unit.TestCase.call(this);
 }
 Test.__name__ = ["Test"];
-Test.__super__ = haxe.unit.TestCase;
-for(var k in haxe.unit.TestCase.prototype ) Test.prototype[k] = haxe.unit.TestCase.prototype[k];
 Test.main = function() {
 	new $(function() {
 		var runner = new haxe.unit.TestRunner();
@@ -436,28 +454,31 @@ Test.main = function() {
 		runner.run();
 	});
 }
-Test.prototype.test1 = function() {
-	var body = new $("body");
-	body.addClass("myclass");
-	this.assertTrue(body.hasClass("myclass"),{ fileName : "Test.hx", lineNumber : 10, className : "Test", methodName : "test1"});
-	this.assertEquals(3,body.add("html").add("title").size(),{ fileName : "Test.hx", lineNumber : 11, className : "Test", methodName : "test1"});
-}
-Test.prototype.test2 = function() {
-	var div = new $("div#test2")[0];
-	$.data(div,"test",{ first : 16, last : "pizza!"});
-	new $("span:first").text($.data(div,"test").first);
-	new $("span:last").text($.data(div,"test").last);
-	this.assertEquals("The values stored were 16 and pizza!",$.trim(new $(div).text()),{ fileName : "Test.hx", lineNumber : 19, className : "Test", methodName : "test2"});
-}
-Test.prototype.test3 = function() {
-	var me = this;
-	var d = new $.Deferred().done(function() {
-		me.assertTrue(true,{ fileName : "Test.hx", lineNumber : 24, className : "Test", methodName : "test3"});
-	});
-	d.resolve();
-}
-Test.prototype.__class__ = Test;
-Std = function() { }
+Test.__super__ = haxe.unit.TestCase;
+Test.prototype = $extend(haxe.unit.TestCase.prototype,{
+	test1: function() {
+		var body = new $("body");
+		body.addClass("myclass");
+		this.assertTrue(body.hasClass("myclass"),{ fileName : "Test.hx", lineNumber : 10, className : "Test", methodName : "test1"});
+		this.assertEquals(3,body.add("html").add("title").size(),{ fileName : "Test.hx", lineNumber : 11, className : "Test", methodName : "test1"});
+	}
+	,test2: function() {
+		var div = new $("div#test2")[0];
+		$.data(div,"test",{ first : 16, last : "pizza!"});
+		new $("span:first").text($.data(div,"test").first);
+		new $("span:last").text($.data(div,"test").last);
+		this.assertEquals("The values stored were 16 and pizza!",$.trim(new $(div).text()),{ fileName : "Test.hx", lineNumber : 19, className : "Test", methodName : "test2"});
+	}
+	,test3: function() {
+		var me = this;
+		var d = new $.Deferred().done(function() {
+			me.assertTrue(true,{ fileName : "Test.hx", lineNumber : 24, className : "Test", methodName : "test3"});
+		});
+		d.resolve();
+	}
+	,__class__: Test
+});
+var Std = $hxClasses["Std"] = function() { }
 Std.__name__ = ["Std"];
 Std["is"] = function(v,t) {
 	return js.Boot.__instanceof(v,t);
@@ -481,9 +502,10 @@ Std.parseFloat = function(x) {
 Std.random = function(x) {
 	return Math.floor(Math.random() * x);
 }
-Std.prototype.__class__ = Std;
-haxe.unit.TestRunner = function(p) {
-	if( p === $_ ) return;
+Std.prototype = {
+	__class__: Std
+}
+haxe.unit.TestRunner = $hxClasses["haxe.unit.TestRunner"] = function() {
 	this.result = new haxe.unit.TestResult();
 	this.cases = new List();
 }
@@ -496,68 +518,71 @@ haxe.unit.TestRunner.print = function(v) {
 haxe.unit.TestRunner.customTrace = function(v,p) {
 	haxe.unit.TestRunner.print(p.fileName + ":" + p.lineNumber + ": " + Std.string(v) + "\n");
 }
-haxe.unit.TestRunner.prototype.result = null;
-haxe.unit.TestRunner.prototype.cases = null;
-haxe.unit.TestRunner.prototype.add = function(c) {
-	this.cases.add(c);
-}
-haxe.unit.TestRunner.prototype.run = function() {
-	this.result = new haxe.unit.TestResult();
-	var $it0 = this.cases.iterator();
-	while( $it0.hasNext() ) {
-		var c = $it0.next();
-		this.runCase(c);
+haxe.unit.TestRunner.prototype = {
+	result: null
+	,cases: null
+	,add: function(c) {
+		this.cases.add(c);
 	}
-	haxe.unit.TestRunner.print(this.result.toString());
-	return this.result.success;
-}
-haxe.unit.TestRunner.prototype.runCase = function(t) {
-	var old = haxe.Log.trace;
-	haxe.Log.trace = haxe.unit.TestRunner.customTrace;
-	var cl = Type.getClass(t);
-	var fields = Type.getInstanceFields(cl);
-	haxe.unit.TestRunner.print("Class: " + Type.getClassName(cl) + " ");
-	var _g = 0;
-	while(_g < fields.length) {
-		var f = fields[_g];
-		++_g;
-		var fname = f;
-		var field = Reflect.field(t,f);
-		if(StringTools.startsWith(fname,"test") && Reflect.isFunction(field)) {
-			t.currentTest = new haxe.unit.TestStatus();
-			t.currentTest.classname = Type.getClassName(cl);
-			t.currentTest.method = fname;
-			t.setup();
-			try {
-				field.apply(t,new Array());
-				if(t.currentTest.done) {
-					t.currentTest.success = true;
-					haxe.unit.TestRunner.print(".");
-				} else {
-					t.currentTest.success = false;
-					t.currentTest.error = "(warning) no assert";
-					haxe.unit.TestRunner.print("W");
-				}
-			} catch( $e0 ) {
-				if( js.Boot.__instanceof($e0,haxe.unit.TestStatus) ) {
-					var e = $e0;
-					haxe.unit.TestRunner.print("F");
-					t.currentTest.backtrace = haxe.Stack.toString(haxe.Stack.exceptionStack());
-				} else ;
-				var e = $e0;
-				haxe.unit.TestRunner.print("E");
-				if(e.message != null) t.currentTest.error = "exception thrown : " + e + " [" + e.message + "]"; else t.currentTest.error = "exception thrown : " + e;
-				t.currentTest.backtrace = haxe.Stack.toString(haxe.Stack.exceptionStack());
-			}
-			this.result.add(t.currentTest);
-			t.tearDown();
+	,run: function() {
+		this.result = new haxe.unit.TestResult();
+		var $it0 = this.cases.iterator();
+		while( $it0.hasNext() ) {
+			var c = $it0.next();
+			this.runCase(c);
 		}
+		haxe.unit.TestRunner.print(this.result.toString());
+		return this.result.success;
 	}
-	haxe.unit.TestRunner.print("\n");
-	haxe.Log.trace = old;
+	,runCase: function(t) {
+		var old = haxe.Log.trace;
+		haxe.Log.trace = haxe.unit.TestRunner.customTrace;
+		var cl = Type.getClass(t);
+		var fields = Type.getInstanceFields(cl);
+		haxe.unit.TestRunner.print("Class: " + Type.getClassName(cl) + " ");
+		var _g = 0;
+		while(_g < fields.length) {
+			var f = fields[_g];
+			++_g;
+			var fname = f;
+			var field = Reflect.field(t,f);
+			if(StringTools.startsWith(fname,"test") && Reflect.isFunction(field)) {
+				t.currentTest = new haxe.unit.TestStatus();
+				t.currentTest.classname = Type.getClassName(cl);
+				t.currentTest.method = fname;
+				t.setup();
+				try {
+					field.apply(t,new Array());
+					if(t.currentTest.done) {
+						t.currentTest.success = true;
+						haxe.unit.TestRunner.print(".");
+					} else {
+						t.currentTest.success = false;
+						t.currentTest.error = "(warning) no assert";
+						haxe.unit.TestRunner.print("W");
+					}
+				} catch( $e0 ) {
+					if( js.Boot.__instanceof($e0,haxe.unit.TestStatus) ) {
+						var e = $e0;
+						haxe.unit.TestRunner.print("F");
+						t.currentTest.backtrace = haxe.Stack.toString(haxe.Stack.exceptionStack());
+					} else {
+					var e = $e0;
+					haxe.unit.TestRunner.print("E");
+					if(e.message != null) t.currentTest.error = "exception thrown : " + e + " [" + e.message + "]"; else t.currentTest.error = "exception thrown : " + e;
+					t.currentTest.backtrace = haxe.Stack.toString(haxe.Stack.exceptionStack());
+					}
+				}
+				this.result.add(t.currentTest);
+				t.tearDown();
+			}
+		}
+		haxe.unit.TestRunner.print("\n");
+		haxe.Log.trace = old;
+	}
+	,__class__: haxe.unit.TestRunner
 }
-haxe.unit.TestRunner.prototype.__class__ = haxe.unit.TestRunner;
-haxe.StackItem = { __ename__ : ["haxe","StackItem"], __constructs__ : ["CFunction","Module","FilePos","Method","Lambda"] }
+haxe.StackItem = $hxClasses["haxe.StackItem"] = { __ename__ : ["haxe","StackItem"], __constructs__ : ["CFunction","Module","FilePos","Method","Lambda"] }
 haxe.StackItem.CFunction = ["CFunction",0];
 haxe.StackItem.CFunction.toString = $estr;
 haxe.StackItem.CFunction.__enum__ = haxe.StackItem;
@@ -565,7 +590,7 @@ haxe.StackItem.Module = function(m) { var $x = ["Module",1,m]; $x.__enum__ = hax
 haxe.StackItem.FilePos = function(s,file,line) { var $x = ["FilePos",2,s,file,line]; $x.__enum__ = haxe.StackItem; $x.toString = $estr; return $x; }
 haxe.StackItem.Method = function(classname,method) { var $x = ["Method",3,classname,method]; $x.__enum__ = haxe.StackItem; $x.toString = $estr; return $x; }
 haxe.StackItem.Lambda = function(v) { var $x = ["Lambda",4,v]; $x.__enum__ = haxe.StackItem; $x.toString = $estr; return $x; }
-haxe.Stack = function() { }
+haxe.Stack = $hxClasses["haxe.Stack"] = function() { }
 haxe.Stack.__name__ = ["haxe","Stack"];
 haxe.Stack.callStack = function() {
 	return haxe.Stack.makeStack("$s");
@@ -593,7 +618,7 @@ haxe.Stack.itemToString = function(b,s) {
 	case 1:
 		var m = $e[2];
 		b.b[b.b.length] = "module ";
-		b.b[b.b.length] = m;
+		b.b[b.b.length] = m == null?"null":m;
 		break;
 	case 2:
 		var line = $e[4], file = $e[3], s1 = $e[2];
@@ -601,21 +626,21 @@ haxe.Stack.itemToString = function(b,s) {
 			haxe.Stack.itemToString(b,s1);
 			b.b[b.b.length] = " (";
 		}
-		b.b[b.b.length] = file;
+		b.b[b.b.length] = file == null?"null":file;
 		b.b[b.b.length] = " line ";
-		b.b[b.b.length] = line;
+		b.b[b.b.length] = line == null?"null":line;
 		if(s1 != null) b.b[b.b.length] = ")";
 		break;
 	case 3:
 		var meth = $e[3], cname = $e[2];
-		b.b[b.b.length] = cname;
+		b.b[b.b.length] = cname == null?"null":cname;
 		b.b[b.b.length] = ".";
-		b.b[b.b.length] = meth;
+		b.b[b.b.length] = meth == null?"null":meth;
 		break;
 	case 4:
 		var n = $e[2];
 		b.b[b.b.length] = "local function #";
-		b.b[b.b.length] = n;
+		b.b[b.b.length] = n == null?"null":n;
 		break;
 	}
 }
@@ -638,8 +663,10 @@ haxe.Stack.makeStack = function(s) {
 	}
 	return m;
 }
-haxe.Stack.prototype.__class__ = haxe.Stack;
-StringTools = function() { }
+haxe.Stack.prototype = {
+	__class__: haxe.Stack
+}
+var StringTools = $hxClasses["StringTools"] = function() { }
 StringTools.__name__ = ["StringTools"];
 StringTools.urlEncode = function(s) {
 	return encodeURIComponent(s);
@@ -725,120 +752,123 @@ StringTools.fastCodeAt = function(s,index) {
 StringTools.isEOF = function(c) {
 	return c != c;
 }
-StringTools.prototype.__class__ = StringTools;
-List = function(p) {
-	if( p === $_ ) return;
+StringTools.prototype = {
+	__class__: StringTools
+}
+var List = $hxClasses["List"] = function() {
 	this.length = 0;
 }
 List.__name__ = ["List"];
-List.prototype.h = null;
-List.prototype.q = null;
-List.prototype.length = null;
-List.prototype.add = function(item) {
-	var x = [item];
-	if(this.h == null) this.h = x; else this.q[1] = x;
-	this.q = x;
-	this.length++;
-}
-List.prototype.push = function(item) {
-	var x = [item,this.h];
-	this.h = x;
-	if(this.q == null) this.q = x;
-	this.length++;
-}
-List.prototype.first = function() {
-	return this.h == null?null:this.h[0];
-}
-List.prototype.last = function() {
-	return this.q == null?null:this.q[0];
-}
-List.prototype.pop = function() {
-	if(this.h == null) return null;
-	var x = this.h[0];
-	this.h = this.h[1];
-	if(this.h == null) this.q = null;
-	this.length--;
-	return x;
-}
-List.prototype.isEmpty = function() {
-	return this.h == null;
-}
-List.prototype.clear = function() {
-	this.h = null;
-	this.q = null;
-	this.length = 0;
-}
-List.prototype.remove = function(v) {
-	var prev = null;
-	var l = this.h;
-	while(l != null) {
-		if(l[0] == v) {
-			if(prev == null) this.h = l[1]; else prev[1] = l[1];
-			if(this.q == l) this.q = prev;
-			this.length--;
-			return true;
-		}
-		prev = l;
-		l = l[1];
+List.prototype = {
+	h: null
+	,q: null
+	,length: null
+	,add: function(item) {
+		var x = [item];
+		if(this.h == null) this.h = x; else this.q[1] = x;
+		this.q = x;
+		this.length++;
 	}
-	return false;
-}
-List.prototype.iterator = function() {
-	return { h : this.h, hasNext : function() {
-		return this.h != null;
-	}, next : function() {
+	,push: function(item) {
+		var x = [item,this.h];
+		this.h = x;
+		if(this.q == null) this.q = x;
+		this.length++;
+	}
+	,first: function() {
+		return this.h == null?null:this.h[0];
+	}
+	,last: function() {
+		return this.q == null?null:this.q[0];
+	}
+	,pop: function() {
 		if(this.h == null) return null;
 		var x = this.h[0];
 		this.h = this.h[1];
+		if(this.h == null) this.q = null;
+		this.length--;
 		return x;
-	}};
-}
-List.prototype.toString = function() {
-	var s = new StringBuf();
-	var first = true;
-	var l = this.h;
-	s.b[s.b.length] = "{";
-	while(l != null) {
-		if(first) first = false; else s.b[s.b.length] = ", ";
-		s.b[s.b.length] = Std.string(l[0]);
-		l = l[1];
 	}
-	s.b[s.b.length] = "}";
-	return s.b.join("");
-}
-List.prototype.join = function(sep) {
-	var s = new StringBuf();
-	var first = true;
-	var l = this.h;
-	while(l != null) {
-		if(first) first = false; else s.b[s.b.length] = sep;
-		s.b[s.b.length] = l[0];
-		l = l[1];
+	,isEmpty: function() {
+		return this.h == null;
 	}
-	return s.b.join("");
-}
-List.prototype.filter = function(f) {
-	var l2 = new List();
-	var l = this.h;
-	while(l != null) {
-		var v = l[0];
-		l = l[1];
-		if(f(v)) l2.add(v);
+	,clear: function() {
+		this.h = null;
+		this.q = null;
+		this.length = 0;
 	}
-	return l2;
-}
-List.prototype.map = function(f) {
-	var b = new List();
-	var l = this.h;
-	while(l != null) {
-		var v = l[0];
-		l = l[1];
-		b.add(f(v));
+	,remove: function(v) {
+		var prev = null;
+		var l = this.h;
+		while(l != null) {
+			if(l[0] == v) {
+				if(prev == null) this.h = l[1]; else prev[1] = l[1];
+				if(this.q == l) this.q = prev;
+				this.length--;
+				return true;
+			}
+			prev = l;
+			l = l[1];
+		}
+		return false;
 	}
-	return b;
+	,iterator: function() {
+		return { h : this.h, hasNext : function() {
+			return this.h != null;
+		}, next : function() {
+			if(this.h == null) return null;
+			var x = this.h[0];
+			this.h = this.h[1];
+			return x;
+		}};
+	}
+	,toString: function() {
+		var s = new StringBuf();
+		var first = true;
+		var l = this.h;
+		s.b[s.b.length] = "{";
+		while(l != null) {
+			if(first) first = false; else s.b[s.b.length] = ", ";
+			s.add(Std.string(l[0]));
+			l = l[1];
+		}
+		s.b[s.b.length] = "}";
+		return s.b.join("");
+	}
+	,join: function(sep) {
+		var s = new StringBuf();
+		var first = true;
+		var l = this.h;
+		while(l != null) {
+			if(first) first = false; else s.b[s.b.length] = sep == null?"null":sep;
+			s.add(l[0]);
+			l = l[1];
+		}
+		return s.b.join("");
+	}
+	,filter: function(f) {
+		var l2 = new List();
+		var l = this.h;
+		while(l != null) {
+			var v = l[0];
+			l = l[1];
+			if(f(v)) l2.add(v);
+		}
+		return l2;
+	}
+	,map: function(f) {
+		var b = new List();
+		var l = this.h;
+		while(l != null) {
+			var v = l[0];
+			l = l[1];
+			b.add(f(v));
+		}
+		return b;
+	}
+	,__class__: List
 }
-List.prototype.__class__ = List;
-Reflect = function() { }
+var Reflect = $hxClasses["Reflect"] = function() { }
 Reflect.__name__ = ["Reflect"];
 Reflect.hasField = function(o,field) {
 	if(o.hasOwnProperty != null) return o.hasOwnProperty(field);
@@ -860,6 +890,14 @@ Reflect.field = function(o,field) {
 }
 Reflect.setField = function(o,field,value) {
 	o[field] = value;
+}
+Reflect.getProperty = function(o,field) {
+	var tmp;
+	return o == null?null:o.__properties__ && (tmp = o.__properties__["get_" + field])?o[tmp]():o[field];
+}
+Reflect.setProperty = function(o,field,value) {
+	var tmp;
+	if(o.__properties__ && (tmp = o.__properties__["set_" + field])) o[tmp](value); else o[field] = value;
 }
 Reflect.callMethod = function(o,func,args) {
 	return func.apply(o,args);
@@ -924,100 +962,104 @@ Reflect.makeVarArgs = function(f) {
 		return f(a);
 	};
 }
-Reflect.prototype.__class__ = Reflect;
-haxe.unit.TestResult = function(p) {
-	if( p === $_ ) return;
+Reflect.prototype = {
+	__class__: Reflect
+}
+haxe.unit.TestResult = $hxClasses["haxe.unit.TestResult"] = function() {
 	this.m_tests = new List();
 	this.success = true;
 }
 haxe.unit.TestResult.__name__ = ["haxe","unit","TestResult"];
-haxe.unit.TestResult.prototype.m_tests = null;
-haxe.unit.TestResult.prototype.success = null;
-haxe.unit.TestResult.prototype.add = function(t) {
-	this.m_tests.add(t);
-	if(!t.success) this.success = false;
-}
-haxe.unit.TestResult.prototype.toString = function() {
-	var buf = new StringBuf();
-	var failures = 0;
-	var $it0 = this.m_tests.iterator();
-	while( $it0.hasNext() ) {
-		var test = $it0.next();
-		if(test.success == false) {
-			buf.b[buf.b.length] = "* ";
-			buf.b[buf.b.length] = test.classname;
-			buf.b[buf.b.length] = "::";
-			buf.b[buf.b.length] = test.method;
-			buf.b[buf.b.length] = "()";
-			buf.b[buf.b.length] = "\n";
-			buf.b[buf.b.length] = "ERR: ";
-			if(test.posInfos != null) {
-				buf.b[buf.b.length] = test.posInfos.fileName;
-				buf.b[buf.b.length] = ":";
-				buf.b[buf.b.length] = test.posInfos.lineNumber;
-				buf.b[buf.b.length] = "(";
-				buf.b[buf.b.length] = test.posInfos.className;
-				buf.b[buf.b.length] = ".";
-				buf.b[buf.b.length] = test.posInfos.methodName;
-				buf.b[buf.b.length] = ") - ";
-			}
-			buf.b[buf.b.length] = test.error;
-			buf.b[buf.b.length] = "\n";
-			if(test.backtrace != null) {
-				buf.b[buf.b.length] = test.backtrace;
-				buf.b[buf.b.length] = "\n";
-			}
-			buf.b[buf.b.length] = "\n";
-			failures++;
-		}
+haxe.unit.TestResult.prototype = {
+	m_tests: null
+	,success: null
+	,add: function(t) {
+		this.m_tests.add(t);
+		if(!t.success) this.success = false;
 	}
-	buf.b[buf.b.length] = "\n";
-	if(failures == 0) buf.b[buf.b.length] = "OK "; else buf.b[buf.b.length] = "FAILED ";
-	buf.b[buf.b.length] = this.m_tests.length;
-	buf.b[buf.b.length] = " tests, ";
-	buf.b[buf.b.length] = failures;
-	buf.b[buf.b.length] = " failed, ";
-	buf.b[buf.b.length] = this.m_tests.length - failures;
-	buf.b[buf.b.length] = " success";
-	buf.b[buf.b.length] = "\n";
-	return buf.b.join("");
+	,toString: function() {
+		var buf = new StringBuf();
+		var failures = 0;
+		var $it0 = this.m_tests.iterator();
+		while( $it0.hasNext() ) {
+			var test = $it0.next();
+			if(test.success == false) {
+				buf.b[buf.b.length] = "* ";
+				buf.add(test.classname);
+				buf.b[buf.b.length] = "::";
+				buf.add(test.method);
+				buf.b[buf.b.length] = "()";
+				buf.b[buf.b.length] = "\n";
+				buf.b[buf.b.length] = "ERR: ";
+				if(test.posInfos != null) {
+					buf.add(test.posInfos.fileName);
+					buf.b[buf.b.length] = ":";
+					buf.add(test.posInfos.lineNumber);
+					buf.b[buf.b.length] = "(";
+					buf.add(test.posInfos.className);
+					buf.b[buf.b.length] = ".";
+					buf.add(test.posInfos.methodName);
+					buf.b[buf.b.length] = ") - ";
+				}
+				buf.add(test.error);
+				buf.b[buf.b.length] = "\n";
+				if(test.backtrace != null) {
+					buf.add(test.backtrace);
+					buf.b[buf.b.length] = "\n";
+				}
+				buf.b[buf.b.length] = "\n";
+				failures++;
+			}
+		}
+		buf.b[buf.b.length] = "\n";
+		if(failures == 0) buf.b[buf.b.length] = "OK "; else buf.b[buf.b.length] = "FAILED ";
+		buf.add(this.m_tests.length);
+		buf.b[buf.b.length] = " tests, ";
+		buf.b[buf.b.length] = failures == null?"null":failures;
+		buf.b[buf.b.length] = " failed, ";
+		buf.add(this.m_tests.length - failures);
+		buf.b[buf.b.length] = " success";
+		buf.b[buf.b.length] = "\n";
+		return buf.b.join("");
+	}
+	,__class__: haxe.unit.TestResult
 }
-haxe.unit.TestResult.prototype.__class__ = haxe.unit.TestResult;
-StringBuf = function(p) {
-	if( p === $_ ) return;
+var StringBuf = $hxClasses["StringBuf"] = function() {
 	this.b = new Array();
 }
 StringBuf.__name__ = ["StringBuf"];
-StringBuf.prototype.add = function(x) {
-	this.b[this.b.length] = x;
+StringBuf.prototype = {
+	add: function(x) {
+		this.b[this.b.length] = x == null?"null":x;
+	}
+	,addSub: function(s,pos,len) {
+		this.b[this.b.length] = s.substr(pos,len);
+	}
+	,addChar: function(c) {
+		this.b[this.b.length] = String.fromCharCode(c);
+	}
+	,toString: function() {
+		return this.b.join("");
+	}
+	,b: null
+	,__class__: StringBuf
 }
-StringBuf.prototype.addSub = function(s,pos,len) {
-	this.b[this.b.length] = s.substr(pos,len);
-}
-StringBuf.prototype.addChar = function(c) {
-	this.b[this.b.length] = String.fromCharCode(c);
-}
-StringBuf.prototype.toString = function() {
-	return this.b.join("");
-}
-StringBuf.prototype.b = null;
-StringBuf.prototype.__class__ = StringBuf;
-IntIter = function(min,max) {
-	if( min === $_ ) return;
+var IntIter = $hxClasses["IntIter"] = function(min,max) {
 	this.min = min;
 	this.max = max;
 }
 IntIter.__name__ = ["IntIter"];
-IntIter.prototype.min = null;
-IntIter.prototype.max = null;
-IntIter.prototype.hasNext = function() {
-	return this.min < this.max;
+IntIter.prototype = {
+	min: null
+	,max: null
+	,hasNext: function() {
+		return this.min < this.max;
+	}
+	,next: function() {
+		return this.min++;
+	}
+	,__class__: IntIter
 }
-IntIter.prototype.next = function() {
-	return this.min++;
-}
-IntIter.prototype.__class__ = IntIter;
-$_ = {}
 js.Boot.__res = {}
 js.Boot.__init();
 {
@@ -1031,24 +1073,25 @@ js.Boot.__init();
 	}
 }
 {
-	String.prototype.__class__ = String;
+	String.prototype.__class__ = $hxClasses["String"] = String;
 	String.__name__ = ["String"];
-	Array.prototype.__class__ = Array;
+	Array.prototype.__class__ = $hxClasses["Array"] = Array;
 	Array.__name__ = ["Array"];
-	Int = { __name__ : ["Int"]};
-	Dynamic = { __name__ : ["Dynamic"]};
-	Float = Number;
+	Int = $hxClasses["Int"] = { __name__ : ["Int"]};
+	Dynamic = $hxClasses["Dynamic"] = { __name__ : ["Dynamic"]};
+	Float = $hxClasses["Float"] = Number;
 	Float.__name__ = ["Float"];
-	Bool = { __ename__ : ["Bool"]};
-	Class = { __name__ : ["Class"]};
+	Bool = $hxClasses["Bool"] = { __ename__ : ["Bool"]};
+	Class = $hxClasses["Class"] = { __name__ : ["Class"]};
 	Enum = { };
-	Void = { __ename__ : ["Void"]};
+	Void = $hxClasses["Void"] = { __ename__ : ["Void"]};
 }
 {
 	Math.__name__ = ["Math"];
 	Math.NaN = Number["NaN"];
 	Math.NEGATIVE_INFINITY = Number["NEGATIVE_INFINITY"];
 	Math.POSITIVE_INFINITY = Number["POSITIVE_INFINITY"];
+	$hxClasses["Math"] = Math;
 	Math.isFinite = function(i) {
 		return isFinite(i);
 	};
