@@ -1243,8 +1243,9 @@ extern class JqXHR extends XMLHttpRequest {
 	 * Utility method to filter and/or chain Deferreds.
 	 * @param	doneFilter An optional function that is called when the Deferred is resolved.
 	 * @param	failFilter An optional function that is called when the Deferred is rejected.
+	 * @param	An optional function that is called when progress notifications are sent to the Deferred.
 	 */
-	public function pipe(doneFilter:Dynamic, failFilter:Dynamic):Promise;
+	public function pipe(?doneFilter:Dynamic, ?failFilter:Dynamic, ?progressFilter:Dynamic):Promise;
 	
 	/**
 	 * Add handlers to be called when the Deferred object is resolved.
@@ -1287,7 +1288,7 @@ extern class JqXHR extends XMLHttpRequest {
  */
 typedef Promise = {
 	public function always(alwaysCallbacks:Dynamic):Deferred;
-	public function pipe(doneFilter:Dynamic, failFilter:Dynamic):Promise;
+	public function pipe(?doneFilter:Dynamic, ?failFilter:Dynamic, ?progressFilter:Dynamic):Promise;
 	public function promise(?obj:Dynamic):Promise;
 	public function isRejected():Bool;
 	public function isResolved():Bool;
@@ -1343,8 +1344,9 @@ extern class Deferred {
 	 * Utility method to filter and/or chain Deferreds.
 	 * @param	doneFilter An optional function that is called when the Deferred is resolved.
 	 * @param	failFilter An optional function that is called when the Deferred is rejected.
+	 * @param	An optional function that is called when progress notifications are sent to the Deferred.
 	 */
-	public function pipe(doneFilter:Dynamic, failFilter:Dynamic):Promise;
+	public function pipe(?doneFilter:Dynamic, ?failFilter:Dynamic, ?progressFilter:Dynamic):Promise;
 	
 	/**
 	 * Reject a Deferred object and call any failCallbacks with the given args.
