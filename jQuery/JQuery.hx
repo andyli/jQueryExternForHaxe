@@ -1345,6 +1345,36 @@ extern class Deferred {
 	 * @param	obj If obj is provided, the promise aspect is added to the object
 	 */
 	public function promise(?obj:Dynamic):Promise;
+	
+	/**
+	 * Call the progressCallbacks on a Deferred object with the given args.
+	 * http://api.jquery.com/deferred.notify/
+	 * @param	?args Optional arguments that are passed to the progressCallbacks.
+	 */
+	public function notify(?args:Dynamic):Deferred;
+	
+	/**
+	 * Call the progressCallbacks on a Deferred object with the given context and args.
+	 * http://api.jquery.com/deferred.notifyWith/
+	 * @param	context Context passed to the progressCallbacks as the this object.
+	 * @param	?args Optional arguments that are passed to the progressCallbacks.
+	 */
+	public function notifyWith(context:Dynamic, ?args:Dynamic):Deferred;
+	
+	/**
+	 * Add handlers to be called when the Deferred object generates progress notifications.
+	 * http://api.jquery.com/deferred.progress/
+	 * @param progressCallbacks A function, or array of functions, that is called when the Deferred generates progress notifications.
+	 */
+	@:overload(function(progressCallbacks:Array<Dynamic>):Deferred)
+	public function progress(progressCallbacks:Dynamic):Deferred;
+	
+	/**
+	 * Determine the current state of a Deferred object.
+	 * http://api.jquery.com/deferred.state/
+	 */
+	public function state():String;
+	
 }
 
 /**
