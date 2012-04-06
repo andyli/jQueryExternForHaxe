@@ -2,6 +2,6 @@
     <user name="andyli"/>
     <tag v="js"/>
     <tag v="extern"/>
-    <description>jQuery extern file. Comparing to the jQuery wrapper, this one provides API closer to jQuery and smaller compiled JS file.</description>
+    <description>jQuery extern</description>
     <version name="1.7.1">Aligned with jQuery 1.7.1.</version>
 </project>

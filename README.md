@@ -52,7 +52,7 @@ eg. In your `<head>`:
 	<!-- Your haxe compiled script: -->
 	<script type="text/javascript" src="Main.js"></script>
 
-## Difference between *js.JQuery* bundled in haxe std lib and this *jQueryExtern*
+## *js.JQuery* in haxe std lib VS *jQueryExtern*
 
 <table>
 	<tr>
