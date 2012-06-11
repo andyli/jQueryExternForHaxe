@@ -281,12 +281,12 @@ extern class JQuery implements ArrayAccess<Dom> {
 	/**
 		Bind an event handler to the "focusin" JavaScript event.
 	**/
-	public function focusin(?eventDataOrHandler:Dynamic, handler:Dynamic):JQuery;
+	public function focusin(?eventDataOrHandler:Dynamic, ?handler:Dynamic):JQuery;
 
 	/**
 		Bind an event handler to the "focusout" JavaScript event.
 	**/
-	public function focusout(?eventDataOrHandler:Dynamic, handler:Dynamic):JQuery;
+	public function focusout(?eventDataOrHandler:Dynamic, ?handler:Dynamic):JQuery;
 
 	/**
 		Retrieve the DOM elements matched by the jQuery object.
