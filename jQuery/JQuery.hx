@@ -82,9 +82,8 @@ extern class JQuery implements ArrayAccess<Dom> {
 	/**
 		Get the value of an attribute for the first element in the set of matched elements.
 	**/
-	@:overload(function(attributeName:String):String{})
 	@:overload(function(attributeName:String, valueOrFunction:Dynamic):JQuery{})
-	public function attr(attributeNameOrMap:Dynamic, ?valueOrFunction:Dynamic):Dynamic;
+	public function attr(attributeName:String):String;
 	
 	#if !JQUERY_NO_DEPRECATED
 	inline public function attrSet(attributeName:String, valueOrFunction:Dynamic):JQuery {
@@ -160,9 +159,8 @@ extern class JQuery implements ArrayAccess<Dom> {
 	/**
 		Get the value of a style property for the first element in the set of matched elements.
 	**/
-	@:overload(function(attributeName:String):String{})
 	@:overload(function(attributeName:String, valueOrFunction:Dynamic):JQuery{})
-	public function css(propertyNameOrMap:Dynamic, ?valueOrFunction:Dynamic):Dynamic;
+	public function css(attributeName:String):String;
 	
 	#if !JQUERY_NO_DEPRECATED
 	inline public function cssSet(attributeName:String, valueOrFunction:Dynamic):JQuery {
@@ -173,9 +171,8 @@ extern class JQuery implements ArrayAccess<Dom> {
 	/**
 		Store arbitrary data associated with the matched elements.
 	**/
-	@:overload(function(?key:String):Dynamic{})
 	@:overload(function(key:String, value:Dynamic):JQuery{})
-	public function data(?keyOrMap:Dynamic, ?value:Dynamic):Dynamic;
+	public function data(?key:String):Dynamic;
 	
 	#if !JQUERY_NO_DEPRECATED
 	inline public function dataSet(key:String, value:Dynamic):JQuery {
@@ -306,9 +303,8 @@ extern class JQuery implements ArrayAccess<Dom> {
 	/**
 		Get the current computed height for the first element in the set of matched elements.
 	**/
-	@:overload(function():Int{})
 	@:overload(function(valueOrFunction:Dynamic):JQuery{})
-	public function height(?valueOrFunction:Dynamic):Dynamic;
+	public function height():Int;
 	
 	#if !JQUERY_NO_DEPRECATED
 	inline public function heightSet(valueOrFunction:Dynamic):JQuery {
@@ -329,9 +325,8 @@ extern class JQuery implements ArrayAccess<Dom> {
 	/**
 		Get the HTML contents of the first element in the set of matched elements.
 	**/
-	@:overload(function():String{})
 	@:overload(function(valueOrFunction:Dynamic):JQuery{})
-	public function html(?valueOrFunction:Dynamic):Dynamic;
+	public function html():String;
 	
 	#if !JQUERY_NO_DEPRECATED
 	inline public function htmlSet(valueOrFunction:Dynamic):JQuery {
@@ -468,9 +463,8 @@ extern class JQuery implements ArrayAccess<Dom> {
 	/**
 		Get the current coordinates of the first element in the set of matched elements, relative to the document.
 	**/
-	@:overload(function():{top:Float, left:Float}{})
 	@:overload(function(coordinatesOrFunction:Dynamic):JQuery{})
-	public function offset(?coordinatesOrFunction:Dynamic):Dynamic;
+	public function offset():{top:Float, left:Float};
 	
 	#if !JQUERY_NO_DEPRECATED
 	inline public function offsetSet(coordinatesOrFunction:Dynamic):JQuery {
@@ -556,9 +550,8 @@ extern class JQuery implements ArrayAccess<Dom> {
 	 * @param	?value
 	 * @return
 	 */
-	@:overload(function(propertyName:String):String{})
 	@:overload(function(propertyNameOrMap:Dynamic, value:Dynamic):JQuery{})
-	public function prop(propertyNameOrMap:Dynamic, ?value:Dynamic):Dynamic;
+	public function prop(propertyName:String):String;
 	
 	#if !JQUERY_NO_DEPRECATED
 	inline public function propSet(propertyNameOrMap:Dynamic, value:Dynamic):JQuery {
@@ -628,9 +621,8 @@ extern class JQuery implements ArrayAccess<Dom> {
 	/**
 		Get the current horizontal position of the scroll bar for the first element in the set of matched elements.
 	**/
-	@:overload(function():Int{})
 	@:overload(function(value:Float):JQuery{})
-	public function scrollLeft(?value:Float):Dynamic;
+	public function scrollLeft():Int;
 
 	#if !JQUERY_NO_DEPRECATED
 	inline public function scrollLeftSet(value:Float):JQuery {
@@ -641,9 +633,8 @@ extern class JQuery implements ArrayAccess<Dom> {
 	/**
 		Get the current vertical position of the scroll bar for the first element in the set of matched elements.
 	**/
-	@:overload(function():Int{})
 	@:overload(function(value:Float):JQuery{})
-	public function scrollTop(?value:Float):Dynamic;
+	public function scrollTop():Int;
 
 	#if !JQUERY_NO_DEPRECATED
 	inline public function scrollTopSet(value:Float):JQuery {
@@ -705,7 +696,7 @@ extern class JQuery implements ArrayAccess<Dom> {
 		Hide the matched elements with a sliding motion.
 	**/
 	public function slideUp(?duration:Dynamic, ?easingOrCallBack:Dynamic , ?callBack:Dynamic):JQuery;
-	
+
 	inline static public var _static = JQueryStatic;
 
 	/**
@@ -721,9 +712,8 @@ extern class JQuery implements ArrayAccess<Dom> {
 	/**
 		Get the combined text contents of each element in the set of matched elements, including their descendants.
 	**/
-	@:overload(function():String{})
 	@:overload(function(valueOrFunction:Dynamic):JQuery{})
-	public function text(?valueOrFunction:Dynamic):Dynamic;
+	public function text():String;
 	
 	#if !JQUERY_NO_DEPRECATED
 	inline public function textSet(valueOrFunction:Dynamic):JQuery {
@@ -781,9 +771,8 @@ extern class JQuery implements ArrayAccess<Dom> {
 	/**
 		Get the current value of the first element in the set of matched elements.
 	**/
-	@:overload(function():Dynamic{})
 	@:overload(function(valueOrFunction:Dynamic):JQuery{})
-	public function val(?valueOrFunction:Dynamic):Dynamic;
+	public function val():Dynamic;
 	
 	#if !JQUERY_NO_DEPRECATED
 	inline public function valSet(valueOrFunction:Dynamic):JQuery {
@@ -794,9 +783,8 @@ extern class JQuery implements ArrayAccess<Dom> {
 	/**
 		Get the current computed width for the first element in the set of matched elements.
 	**/
-	@:overload(function():Int{})
 	@:overload(function(valueOrFunction:Dynamic):JQuery{})
-	public function width(?valueOrFunction:Dynamic):Dynamic;
+	public function width():Int;
 	
 	#if !JQUERY_NO_DEPRECATED
 	inline public function widthSet(valueOrFunction:Dynamic):JQuery {
@@ -826,8 +814,8 @@ extern class JQuery implements ArrayAccess<Dom> {
 	 * @param	?selector A selector which should match the one originally passed to .on() when attaching event handlers.
 	 * @param	?handler A handler function previously attached for the event(s), or the special value false.
 	 */
-	@:overload(function(events_map:Dynamic, ?selector:String):JQuery{})
-	public function off(?events:String, ?selector:String, ?handler:Dynamic):JQuery;
+	@:overload(function(?events:String, ?selector:String, ?handler:Dynamic):JQuery{})
+	public function off(events_map:Dynamic, ?selector:String):JQuery;
 	
 	/**
 	 * Attach an event handler function for one or more events to the selected elements.
