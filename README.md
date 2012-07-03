@@ -1,7 +1,8 @@
 # jQueryExtern
 
 [jQuery](http://jquery.com/) extern for [haXe](http://haxe.org/).
-Currently support jQuery version: *1.7.1*
+
+Currently support jQuery version *1.7.2*. Experimental jQuery *1.8* support can be enabled with `-D JQUERY1_8`.
 
 You may check my [blog](http://blog.onthewings.net/) for updates.
 
@@ -17,40 +18,42 @@ Then put `-lib jQueryExtern` into your hxml.
 ##Usage
 
 Typically:
-
-	import jQuery.JQuery;
-	 
-	class Main {
-		static public function main():Void {
-			new JQuery(function():Void { //when document is ready
-				//your magic
-			});
-		}
+```haxe
+import jQuery.JQuery;
+ 
+class Main {
+	static public function main():Void {
+		new JQuery(function():Void { //when document is ready
+			//your magic
+		});
 	}
-
+}
+```
 It is same as how you use jQuery in JS. But instead of `$`, you refer jQuery as `JQuery`.
 
 eg. Hiding all *li* object:
-
-	new JQuery("li").hide(); //same as $("li").hide() in JS
+```
+new JQuery("li").hide(); //same as $("li").hide() in JS
+```
 
 Static methods of jQuery can be accessed from `JQuery._static` or from `JQueryStatic`.
 
 eg. A ajax example:
-
-	JQuery._static.get("ajax/test.html", function(data) {
-		js.Lib.alert(data);
-	});
-
+```
+JQuery._static.get("ajax/test.html", function(data) {
+	js.Lib.alert(data);
+});
+```
 Remember **jQueryExtern** is simply an extern, you have to link jQuery in your html file.
 
 eg. In your `<head>`:
+```html
+<!-- jQuery from Google CDN -->
+<script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.1.min.js"></script>
 
-	<!-- jQuery from Google CDN -->
-	<script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.1.min.js"></script>
-	
-	<!-- Your haxe compiled script: -->
-	<script type="text/javascript" src="Main.js"></script>
+<!-- Your haxe compiled script: -->
+<script type="text/javascript" src="Main.js"></script>
+```
 
 ## *js.JQuery* in haxe std lib VS *jQueryExtern*
 
@@ -73,7 +76,7 @@ eg. In your `<head>`:
 	<tr>
 		<th scope="row">refer jQuery in output as</th>
 		<td>"js.JQuery"</td>
-		<td>"$" (or "jQuery" if -D JQUERY_NOCONFLICT)</td>
+		<td>"$" (or "jQuery" if <i>-D JQUERY_NOCONFLICT</i>)</td>
 	</tr>
 	<tr>
 		<th scope="row">include jQuery in output</th>
