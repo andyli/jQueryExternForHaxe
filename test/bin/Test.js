@@ -411,7 +411,7 @@ Test.prototype = $extend(haxe.unit.TestCase.prototype,{
 		var body = new $("body");
 		body.addClass("myclass");
 		this.assertTrue(body.hasClass("myclass"),{ fileName : "Test.hx", lineNumber : 10, className : "Test", methodName : "test1"});
-		this.assertEquals(3,body.add("html").add("title").size(),{ fileName : "Test.hx", lineNumber : 11, className : "Test", methodName : "test1"});
+		this.assertEquals(3,body.add("html").add("title").length,{ fileName : "Test.hx", lineNumber : 11, className : "Test", methodName : "test1"});
 	}
 	,test2: function() {
 		var div = new $("div#test2")[0];

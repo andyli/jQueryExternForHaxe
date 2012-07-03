@@ -31,11 +31,11 @@ extern class JQuery implements ArrayAccess<Dom> {
 	/**
 	 * #11231: Append, Prepend, After, Before should accept an array as first argument
 	 */
-	@:overload(function(content:Array<JQuery>):JQuery)
-	@:overload(function(content:Array<Dom>):JQuery)
-	@:overload(function(content:String):JQuery)
-	@:overload(function(content:Dom):JQuery)
-	@:overload(function(content:Dynamic->Dynamic):JQuery)
+	@:overload(function(content:Array<JQuery>):JQuery{})
+	@:overload(function(content:Array<Dom>):JQuery{})
+	@:overload(function(content:String):JQuery{})
+	@:overload(function(content:Dom):JQuery{})
+	@:overload(function(content:Dynamic->Dynamic):JQuery{})
 	public function after(content:JQuery):JQuery;
 	#else
 	public function after(content:Dynamic):JQuery;
@@ -88,11 +88,11 @@ extern class JQuery implements ArrayAccess<Dom> {
 	/**
 	 * #11231: Append, Prepend, After, Before should accept an array as first argument
 	 */
-	@:overload(function(content:Array<JQuery>):JQuery)
-	@:overload(function(content:Array<Dom>):JQuery)
-	@:overload(function(content:String):JQuery)
-	@:overload(function(content:Dom):JQuery)
-	@:overload(function(content:Dynamic->Dynamic):JQuery)
+	@:overload(function(content:Array<JQuery>):JQuery{})
+	@:overload(function(content:Array<Dom>):JQuery{})
+	@:overload(function(content:String):JQuery{})
+	@:overload(function(content:Dom):JQuery{})
+	@:overload(function(content:Dynamic->Dynamic):JQuery{})
 	public function append(content:JQuery):JQuery;
 	#else
 	public function append(content:Dynamic):JQuery;
@@ -122,11 +122,11 @@ extern class JQuery implements ArrayAccess<Dom> {
 	/**
 	 * #11231: Append, Prepend, After, Before should accept an array as first argument
 	 */
-	@:overload(function(content:Array<JQuery>):JQuery)
-	@:overload(function(content:Array<Dom>):JQuery)
-	@:overload(function(content:String):JQuery)
-	@:overload(function(content:Dom):JQuery)
-	@:overload(function(content:Dynamic->Dynamic):JQuery)
+	@:overload(function(content:Array<JQuery>):JQuery{})
+	@:overload(function(content:Array<Dom>):JQuery{})
+	@:overload(function(content:String):JQuery{})
+	@:overload(function(content:Dom):JQuery{})
+	@:overload(function(content:Dynamic->Dynamic):JQuery{})
 	public function before(content:JQuery):JQuery;
 	#else
 	public function before(content:Dynamic):JQuery;
@@ -529,7 +529,7 @@ extern class JQuery implements ArrayAccess<Dom> {
 		#10877: Make outerWidth/Height a setter
 	**/
 	#if JQUERY1_8
-	@:overload(function(value:Int):JQuery)
+	@:overload(function(value:Int):JQuery{})
 	#end
 	public function outerHeight(?includeMargin:Bool):Int;
 
@@ -538,7 +538,7 @@ extern class JQuery implements ArrayAccess<Dom> {
 		#10877: Make outerWidth/Height a setter
 	**/
 	#if JQUERY1_8
-	@:overload(function(value:Int):JQuery)
+	@:overload(function(value:Int):JQuery{})
 	#end
 	public function outerWidth(?includeMargin:Bool):Int;
 
@@ -569,11 +569,11 @@ extern class JQuery implements ArrayAccess<Dom> {
 	/**
 	 * #11231: Append, Prepend, After, Before should accept an array as first argument
 	 */
-	@:overload(function(content:Array<JQuery>):JQuery)
-	@:overload(function(content:Array<Dom>):JQuery)
-	@:overload(function(content:String):JQuery)
-	@:overload(function(content:Dom):JQuery)
-	@:overload(function(content:Dynamic->Dynamic):JQuery)
+	@:overload(function(content:Array<JQuery>):JQuery{})
+	@:overload(function(content:Array<Dom>):JQuery{})
+	@:overload(function(content:String):JQuery{})
+	@:overload(function(content:Dom):JQuery{})
+	@:overload(function(content:Dynamic->Dynamic):JQuery{})
 	public function prepend(content:JQuery):JQuery;
 	#else
 	public function prepend(content:Dynamic):JQuery;
@@ -803,8 +803,8 @@ extern class JQuery implements ArrayAccess<Dom> {
 	/**
 	 * #11786: Deprecate .toggle( handler, handler, … ) signature
 	 */
-	@:overload(function(showOrHide:Bool):JQuery)
-	@:overload(function(duration:Int, _callback:Dynamic):JQuery)
+	@:overload(function(showOrHide:Bool):JQuery{})
+	@:overload(function(duration:Int, _callback:Dynamic):JQuery{})
 	public function toggle(duration:Int, easing:String, _callback:Dynamic):JQuery;
 	#else
 	public function toggle(?handlerOrDurationOrBool:Dynamic, ?handler2OrEasingOrCallback:Dynamic, ?handler3OrCallback:Dynamic):JQuery;

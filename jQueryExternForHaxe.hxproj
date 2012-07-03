@@ -19,7 +19,7 @@
   </classpaths>
   <!-- Build options -->
   <build>
-    <option directives="JQUERY1_8" />
+    <option directives="" />
     <option flashStrict="False" />
     <option mainClass="Test" />
     <option enabledebug="False" />
