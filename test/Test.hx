@@ -8,7 +8,7 @@ class Test extends TestCase{
 		var body = new JQuery("body");
 		body.addClass("myclass");
 		this.assertTrue(body.hasClass("myclass"));
-		this.assertEquals(3,body.add("html").add("title").size());
+		this.assertEquals(3, body.add("html").add("title").size());
 	}
 
 	public function test2():Void {

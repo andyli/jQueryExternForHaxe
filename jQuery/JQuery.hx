@@ -27,7 +27,19 @@ extern class JQuery implements ArrayAccess<Dom> {
 	/**
 		Insert content, specified by the parameter, after each element in the set of matched elements.
 	**/
+	#if JQUERY1_8
+	/**
+	 * #11231: Append, Prepend, After, Before should accept an array as first argument
+	 */
+	@:overload(function(content:Array<JQuery>):JQuery)
+	@:overload(function(content:Array<Dom>):JQuery)
+	@:overload(function(content:String):JQuery)
+	@:overload(function(content:Dom):JQuery)
+	@:overload(function(content:Dynamic->Dynamic):JQuery)
+	public function after(content:JQuery):JQuery;
+	#else
 	public function after(content:Dynamic):JQuery;
+	#end
 
 	/**
 		Register a handler to be called when Ajax requests complete. This is an Ajax Event.
@@ -72,7 +84,19 @@ extern class JQuery implements ArrayAccess<Dom> {
 	/**
 		Insert content, specified by the parameter, to the end of each element in the set of matched elements.
 	**/
+	#if JQUERY1_8
+	/**
+	 * #11231: Append, Prepend, After, Before should accept an array as first argument
+	 */
+	@:overload(function(content:Array<JQuery>):JQuery)
+	@:overload(function(content:Array<Dom>):JQuery)
+	@:overload(function(content:String):JQuery)
+	@:overload(function(content:Dom):JQuery)
+	@:overload(function(content:Dynamic->Dynamic):JQuery)
+	public function append(content:JQuery):JQuery;
+	#else
 	public function append(content:Dynamic):JQuery;
+	#end
 
 	/**
 		Insert every element in the set of matched elements to the end of the target.
@@ -94,7 +118,19 @@ extern class JQuery implements ArrayAccess<Dom> {
 	/**
 		Insert content, specified by the parameter, before each element in the set of matched elements.
 	**/
+	#if JQUERY1_8
+	/**
+	 * #11231: Append, Prepend, After, Before should accept an array as first argument
+	 */
+	@:overload(function(content:Array<JQuery>):JQuery)
+	@:overload(function(content:Array<Dom>):JQuery)
+	@:overload(function(content:String):JQuery)
+	@:overload(function(content:Dom):JQuery)
+	@:overload(function(content:Dynamic->Dynamic):JQuery)
+	public function before(content:JQuery):JQuery;
+	#else
 	public function before(content:Dynamic):JQuery;
+	#end
 
 	/**
 		Attach a handler to an event for the elements.
@@ -232,8 +268,11 @@ extern class JQuery implements ArrayAccess<Dom> {
 
 	/**
 		Bind an event handler to the "error" JavaScript event.
+		#11733: Deprecate .load(), .unload(), and .error() methods
 	**/
+	#if !JQUERY1_8
 	public function error(?eventDataOrHandler:Dynamic, ?handler:Dynamic):JQuery;
+	#end
 
 	/**
 		Display the matched elements by fading them to opaque.
@@ -397,8 +436,11 @@ extern class JQuery implements ArrayAccess<Dom> {
 	/**
 		Load data from the server and place the returned HTML into the matched element.
 		Bind an event handler to the "load" JavaScript event.
+		#11733: Deprecate .load(), .unload(), and .error() methods
 	**/
+	#if !JQUERY1_8
 	public function load(urlOrEventDataOrHandler:Dynamic, ?dataOrHandler:Dynamic, ?complete:Dynamic):JQuery;
+	#end
 
 	/**
 		Pass each element in the current matched set through a function, producing a new jQuery object containing the return values.
@@ -484,12 +526,20 @@ extern class JQuery implements ArrayAccess<Dom> {
 
 	/**
 		Get the current computed height for the first element in the set of matched elements, including padding and border.
+		#10877: Make outerWidth/Height a setter
 	**/
+	#if JQUERY1_8
+	@:overload(function(value:Int):JQuery)
+	#end
 	public function outerHeight(?includeMargin:Bool):Int;
 
 	/**
 		Get the current computed width for the first element in the set of matched elements, including padding and border.
+		#10877: Make outerWidth/Height a setter
 	**/
+	#if JQUERY1_8
+	@:overload(function(value:Int):JQuery)
+	#end
 	public function outerWidth(?includeMargin:Bool):Int;
 
 	/**
@@ -515,7 +565,19 @@ extern class JQuery implements ArrayAccess<Dom> {
 	/**
 		Insert content, specified by the parameter, to the beginning of each element in the set of matched elements.
 	**/
+	#if JQUERY1_8
+	/**
+	 * #11231: Append, Prepend, After, Before should accept an array as first argument
+	 */
+	@:overload(function(content:Array<JQuery>):JQuery)
+	@:overload(function(content:Array<Dom>):JQuery)
+	@:overload(function(content:String):JQuery)
+	@:overload(function(content:Dom):JQuery)
+	@:overload(function(content:Dynamic->Dynamic):JQuery)
+	public function prepend(content:JQuery):JQuery;
+	#else
 	public function prepend(content:Dynamic):JQuery;
+	#end
 
 	/**
 		Insert every element in the set of matched elements to the beginning of the target.
@@ -674,8 +736,16 @@ extern class JQuery implements ArrayAccess<Dom> {
 
 	/**
 		Return the number of DOM elements matched by the jQuery object.
+		
+		#10657: Deprecate/remove jQuery#size() in favor of jQuery#length
 	**/
+	#if !JQUERY1_8
 	public function size():Int;
+	#else
+	public inline function size():Int {
+		return length;
+	}
+	#end
 
 	/**
 		Reduce the set of matched elements to a subset specified by a range of indices.
@@ -729,7 +799,16 @@ extern class JQuery implements ArrayAccess<Dom> {
 	/**
 		Bind two or more handlers to the matched elements, to be executed on alternate clicks.
 	**/
+	#if JQUERY1_8
+	/**
+	 * #11786: Deprecate .toggle( handler, handler, … ) signature
+	 */
+	@:overload(function(showOrHide:Bool):JQuery)
+	@:overload(function(duration:Int, _callback:Dynamic):JQuery)
+	public function toggle(duration:Int, easing:String, _callback:Dynamic):JQuery;
+	#else
 	public function toggle(?handlerOrDurationOrBool:Dynamic, ?handler2OrEasingOrCallback:Dynamic, ?handler3OrCallback:Dynamic):JQuery;
+	#end
 
 	/**
 		Add or remove one or more classes from each element in the set of matched elements, depending on either the class's presence or the value of the switch argument.
@@ -760,8 +839,11 @@ extern class JQuery implements ArrayAccess<Dom> {
 
 	/**
 		Bind an event handler to the "unload" JavaScript event.
+		#11733: Deprecate .load(), .unload(), and .error() methods
 	**/
+	#if !JQUERY1_8
 	public function unload(?eventDataOrHandler:Dynamic, ?handler:Dynamic):JQuery;
+	#end
 
 	/**
 		Remove the parents of the set of matched elements from the DOM, leaving the matched elements in their place.
@@ -830,6 +912,15 @@ extern class JQuery implements ArrayAccess<Dom> {
 	@:overload(function(events:String, data:Dynamic, handler:Dynamic):JQuery{})
 	@:overload(function(events:String, selector:String, data:Dynamic, handler:Dynamic):JQuery{})
 	public function on(events:String, handler:Dynamic):JQuery;
+	
+	#if JQUERY1_8
+	/**
+	 * @param	data String of html
+	 * @param	?context If specified, the fragment will be created in this context, defaults to document
+	 * @param	?scripts If true, will include scripts passed in the html string
+	 */
+	public function parseHTML(data:String, ?context:Dynamic, ?scripts:Bool):JQuery;
+	#end
 }
 
 /**
@@ -871,10 +962,13 @@ extern class JQueryStatic {
 	**/
 	static public var boxModel(default,null):Bool;
 
+	#if !JQUERY1_8
 	/**
 		We recommend against using this property, please try to use feature detection instead (see jQuery.support). Contains flags 
 		for the useragent, read from navigator.userAgent. While jQuery.browser will not be removed from future versions of jQuery, 
 		every effort to use jQuery.support and proper feature detection should be made.
+		
+		#9385: Deprecate jQuery.browser
 	**/
 	static public var browser(default,null):{
 												webkit:Null<Bool>,
@@ -884,6 +978,7 @@ extern class JQueryStatic {
 												mozilla:Null<Bool>,
 												version:String
 											};
+	#end
 
 	/**
 		Check to see if a DOM node is within another DOM node.
@@ -1372,13 +1467,19 @@ extern class Deferred {
 	
 	/**
 	 * Determine whether a Deferred object has been rejected.
+	 * #11736: Remove Deferred .isResolved() and .isRejected()
 	 */
+	#if !JQUERY1_8
 	public function isRejected():Bool;
+	#end
 	
 	/**
 	 * Determine whether a Deferred object has been resolved.
+	 * #11736: Remove Deferred .isResolved() and .isRejected()
 	 */
+	#if !JQUERY1_8
 	public function isResolved():Bool;
+	#end
 	
 	/**
 	 * Utility method to filter and/or chain Deferreds.
@@ -1475,7 +1576,14 @@ extern class Deferred {
 #end
 extern class Callbacks {
 	
+	#if JQUERY1_8
+	/**
+	 * #11011: Allow traditional options object for $.Callbacks flags
+	 */
+	public function new(?flags:Dynamic):Void;
+	#else
 	public function new(?flags:String):Void;
+	#end
 	
 	/**
 	 * Add a callback or a collection of callbacks to a callback list.
