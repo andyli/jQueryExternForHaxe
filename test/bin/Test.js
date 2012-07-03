@@ -136,14 +136,7 @@ List.prototype = {
 var Reflect = $hxClasses["Reflect"] = function() { }
 Reflect.__name__ = ["Reflect"];
 Reflect.hasField = function(o,field) {
-	if(o.hasOwnProperty != null) return o.hasOwnProperty(field);
-	var arr = Reflect.fields(o);
-	var $it0 = arr.iterator();
-	while( $it0.hasNext() ) {
-		var t = $it0.next();
-		if(t == field) return true;
-	}
-	return false;
+	return Object.prototype.hasOwnProperty.call(o,field);
 }
 Reflect.field = function(o,field) {
 	var v = null;
@@ -168,20 +161,12 @@ Reflect.callMethod = function(o,func,args) {
 	return func.apply(o,args);
 }
 Reflect.fields = function(o) {
-	if(o == null) return new Array();
-	var a = new Array();
-	if(o.hasOwnProperty) {
-		for(var i in o) if( o.hasOwnProperty(i) ) a.push(i);
-	} else {
-		var t;
-		try {
-			t = o.__proto__;
-		} catch( e ) {
-			t = null;
+	var a = [];
+	if(o != null) {
+		var hasOwnProperty = Object.prototype.hasOwnProperty;
+		for( var f in o ) {
+		if(hasOwnProperty.call(o,f)) a.push(f);
 		}
-		if(t != null) o.__proto__ = null;
-		for(var i in o) if( i != "__proto__" ) a.push(i);
-		if(t != null) o.__proto__ = t;
 	}
 	return a;
 }
@@ -218,12 +203,7 @@ Reflect.copy = function(o) {
 }
 Reflect.makeVarArgs = function(f) {
 	return function() {
-		var a = new Array();
-		var _g1 = 0, _g = arguments.length;
-		while(_g1 < _g) {
-			var i = _g1++;
-			a.push(arguments[i]);
-		}
+		var a = Array.prototype.slice.call(arguments);
 		return f(a);
 	};
 }
@@ -431,7 +411,7 @@ Test.prototype = $extend(haxe.unit.TestCase.prototype,{
 		var body = new $("body");
 		body.addClass("myclass");
 		this.assertTrue(body.hasClass("myclass"),{ fileName : "Test.hx", lineNumber : 10, className : "Test", methodName : "test1"});
-		this.assertEquals(3,body.add("html").add("title").size(),{ fileName : "Test.hx", lineNumber : 11, className : "Test", methodName : "test1"});
+		this.assertEquals(3,body.add("html").add("title").length,{ fileName : "Test.hx", lineNumber : 11, className : "Test", methodName : "test1"});
 	}
 	,test2: function() {
 		var div = new $("div#test2")[0];
@@ -439,15 +419,11 @@ Test.prototype = $extend(haxe.unit.TestCase.prototype,{
 		new $("span:first").text($.data(div,"test").first);
 		new $("span:last").text($.data(div,"test").last);
 		this.assertEquals("The values stored were 16 and pizza!",$.trim(new $(div).text()),{ fileName : "Test.hx", lineNumber : 19, className : "Test", methodName : "test2"});
-		$.get("ajax/test.html",function(data) {
-			new $(".result").html(data);
-			js.Lib.alert("Load was performed.");
-		});
 	}
 	,test3: function() {
 		var me = this;
 		var d = new $.Deferred().done(function() {
-			me.assertTrue(true,{ fileName : "Test.hx", lineNumber : 29, className : "Test", methodName : "test3"});
+			me.assertTrue(true,{ fileName : "Test.hx", lineNumber : 24, className : "Test", methodName : "test3"});
 		});
 		d.resolve();
 	}
