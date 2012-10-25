@@ -3,5 +3,5 @@
     <tag v="js"/>
     <tag v="extern"/>
     <description>jQuery extern</description>
-    <version name="1.7.1">Aligned with jQuery 1.7.1.</version>
+    <version name="1.8.2">Aligned with jQuery 1.8.2.</version>
 </project>
