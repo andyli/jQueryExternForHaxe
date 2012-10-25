@@ -1,4 +1,3 @@
 -js test/bin/Test.js
 -main Test
 -cp test
--D JQUERY1_8
