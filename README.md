@@ -2,7 +2,7 @@
 
 [jQuery](http://jquery.com/) extern for [Haxe](http://haxe.org/).
 
-Currently support jQuery version *1.8.2*.
+Currently support jQuery version *1.8.3*.
 
 You may check my [blog](http://blog.onthewings.net/) for updates.
 
@@ -19,7 +19,7 @@ Then put `-lib jQueryExtern` into your hxml.
 
 Typically:
 ```haxe
-import jQuery.JQuery;
+import jQuery.*;
  
 class Main {
 	static public function main():Void {
@@ -36,7 +36,7 @@ eg. Hiding all *li* object:
 new JQuery("li").hide(); //same as $("li").hide() in JS
 ```
 
-Static methods of jQuery can be accessed from `JQuery._static` or from `JQueryStatic`.
+Static methods of jQuery can be accessed from `JQuery._static`.
 
 eg. A ajax example:
 ```
@@ -49,7 +49,7 @@ Remember **jQueryExtern** is simply an extern, you have to link jQuery in your h
 eg. In your `<head>`:
 ```html
 <!-- jQuery from Google CDN -->
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 
 <!-- Your haxe compiled script: -->
 <script type="text/javascript" src="Main.js"></script>
@@ -66,12 +66,12 @@ eg. In your `<head>`:
 	<tr>
 		<th scope="row">import statement</th>
 		<td>"import js.JQuery;"</td>
-		<td>"import jQuery.JQuery;"</td>
+		<td>"import jQuery.*;"</td>
 	</tr>
 	<tr>
 		<th scope="row">jQuery API version</th>
 		<td>partial 1.6.4</td>
-		<td>complete 1.8.2</td>
+		<td>complete 1.8.3</td>
 	</tr>
 	<tr>
 		<th scope="row">refer jQuery in output as</th>
@@ -80,7 +80,7 @@ eg. In your `<head>`:
 	</tr>
 	<tr>
 		<th scope="row">include jQuery in output</th>
-		<td>yes (can be opt-out by -D noEmbedJS)</td>
+		<td>no (can be opt-in by -D embed-js)</td>
 		<td>no, <a href="http://stackoverflow.com/questions/2180391/why-should-i-use-googles-cdn-for-jquery" target="_blank">use CDN instead</a></td>
 	</tr>
 </table>

@@ -1,7 +1,7 @@
 import haxe.unit.TestCase;
 import haxe.unit.TestRunner;
 
-import jQuery.JQuery;
+import jQuery.*;
 
 class Test extends TestCase{
 	public function test1():Void {

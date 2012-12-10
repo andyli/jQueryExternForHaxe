@@ -3,5 +3,5 @@
     <tag v="js"/>
     <tag v="extern"/>
     <description>jQuery extern</description>
-    <version name="1.8.2">Aligned with jQuery 1.8.2.</version>
+    <version name="1.8.3">Aligned with jQuery 1.8.3 (no change). Supports and depends on Haxe 3.</version>
 </project>
