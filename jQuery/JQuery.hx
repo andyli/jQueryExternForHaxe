@@ -841,13 +841,13 @@ extern class JQueryStatic {
 		every effort to use jQuery.support and proper feature detection should be made.
 	**/
 	static public var browser(default,null):{
-												webkit:Null<Bool>,
-												safari:Null<Bool>, //deprecated
-												opera:Null<Bool>,
-												msie:Null<Bool>,
-												mozilla:Null<Bool>,
-												version:String
-											};
+		webkit:Null<Bool>,
+		safari:Null<Bool>, //deprecated
+		opera:Null<Bool>,
+		msie:Null<Bool>,
+		mozilla:Null<Bool>,
+		version:String
+	};
 
 	/**
 		Check to see if a DOM node is within another DOM node.
