@@ -1,6 +1,6 @@
 package jQuery.plugins.jQueryTools;
 
-import js.Dom;
+import js.html.*;
 import jQuery.JQuery;
 
 /**
@@ -54,7 +54,7 @@ extern class FlashembedAPI {
 	/** 
 		Some Flash objects have a JavaScript API. This method returns a pointer to that API.
 	**/
-	public function getApi():Dom;
+	public function getApi():Element;
 
 	/**
 		Returns the optional configuration for the Flash object (3rd argument).
@@ -69,5 +69,5 @@ extern class FlashembedAPI {
 	/**
 		Returns the container for the Flash object
 	**/
-	public function getRoot():Dom;
+	public function getRoot():Element;
 }

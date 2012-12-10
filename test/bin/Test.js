@@ -541,20 +541,5 @@ Bool.__ename__ = ["Bool"];
 var Class = { __name__ : ["Class"]};
 var Enum = { };
 var Void = { __ename__ : ["Void"]};
-js.XMLHttpRequest = window.XMLHttpRequest?XMLHttpRequest:window.ActiveXObject?function() {
-	try {
-		return new ActiveXObject("Msxml2.XMLHTTP");
-	} catch( e ) {
-		try {
-			return new ActiveXObject("Microsoft.XMLHTTP");
-		} catch( e1 ) {
-			throw "Unable to create XMLHttpRequest object.";
-		}
-	}
-}:(function($this) {
-	var $r;
-	throw "Unable to create XMLHttpRequest object.";
-	return $r;
-}(this));
 Test.main();
 })();
