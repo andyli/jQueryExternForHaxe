@@ -1,3 +1,4 @@
 -js test/bin/Test.js
 -main Test
 -cp test
+-D haxe3

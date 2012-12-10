@@ -1,3 +1,4 @@
+(function () { "use strict";
 var $estr = function() { return js.Boot.__string_rec(this,''); };
 function $extend(from, fields) {
 	function inherit() {}; inherit.prototype = from; var proto = new inherit();
@@ -81,16 +82,17 @@ StringBuf.prototype = {
 }
 var StringTools = function() { }
 StringTools.__name__ = ["StringTools"];
-StringTools.htmlEscape = function(s) {
-	return s.split("&").join("&amp;").split("<").join("&lt;").split(">").join("&gt;");
+StringTools.htmlEscape = function(s,quotes) {
+	s = s.split("&").join("&amp;").split("<").join("&lt;").split(">").join("&gt;");
+	return quotes?s.split("\"").join("&quot;").split("'").join("&#039;"):s;
 }
 StringTools.startsWith = function(s,start) {
 	return s.length >= start.length && HxOverrides.substr(s,0,start.length) == start;
 }
-var haxe = haxe || {}
+var haxe = {}
 haxe.Public = function() { }
 haxe.Public.__name__ = ["haxe","Public"];
-if(!haxe.unit) haxe.unit = {}
+haxe.unit = {}
 haxe.unit.TestCase = function() {
 };
 haxe.unit.TestCase.__name__ = ["haxe","unit","TestCase"];
@@ -185,11 +187,6 @@ Type.getInstanceFields = function(c) {
 	HxOverrides.remove(a,"__properties__");
 	return a;
 }
-haxe.Log = function() { }
-haxe.Log.__name__ = ["haxe","Log"];
-haxe.Log.trace = function(v,infos) {
-	js.Boot.__trace(v,infos);
-}
 haxe.StackItem = { __ename__ : true, __constructs__ : ["CFunction","Module","FilePos","Method","Lambda"] }
 haxe.StackItem.CFunction = ["CFunction",0];
 haxe.StackItem.CFunction.toString = $estr;
@@ -198,23 +195,23 @@ haxe.StackItem.Module = function(m) { var $x = ["Module",1,m]; $x.__enum__ = hax
 haxe.StackItem.FilePos = function(s,file,line) { var $x = ["FilePos",2,s,file,line]; $x.__enum__ = haxe.StackItem; $x.toString = $estr; return $x; }
 haxe.StackItem.Method = function(classname,method) { var $x = ["Method",3,classname,method]; $x.__enum__ = haxe.StackItem; $x.toString = $estr; return $x; }
 haxe.StackItem.Lambda = function(v) { var $x = ["Lambda",4,v]; $x.__enum__ = haxe.StackItem; $x.toString = $estr; return $x; }
-haxe.Stack = function() { }
-haxe.Stack.__name__ = ["haxe","Stack"];
-haxe.Stack.exceptionStack = function() {
+haxe.CallStack = function() { }
+haxe.CallStack.__name__ = ["haxe","CallStack"];
+haxe.CallStack.exceptionStack = function() {
 	return [];
 }
-haxe.Stack.toString = function(stack) {
+haxe.CallStack.toString = function(stack) {
 	var b = new StringBuf();
 	var _g = 0;
 	while(_g < stack.length) {
 		var s = stack[_g];
 		++_g;
 		b.b += "\nCalled from ";
-		haxe.Stack.itemToString(b,s);
+		haxe.CallStack.itemToString(b,s);
 	}
 	return b.b;
 }
-haxe.Stack.itemToString = function(b,s) {
+haxe.CallStack.itemToString = function(b,s) {
 	var $e = (s);
 	switch( $e[1] ) {
 	case 0:
@@ -228,7 +225,7 @@ haxe.Stack.itemToString = function(b,s) {
 	case 2:
 		var line = $e[4], file = $e[3], s1 = $e[2];
 		if(s1 != null) {
-			haxe.Stack.itemToString(b,s1);
+			haxe.CallStack.itemToString(b,s1);
 			b.b += " (";
 		}
 		b.b += Std.string(file);
@@ -248,6 +245,11 @@ haxe.Stack.itemToString = function(b,s) {
 		b.b += Std.string(n);
 		break;
 	}
+}
+haxe.Log = function() { }
+haxe.Log.__name__ = ["haxe","Log"];
+haxe.Log.trace = function(v,infos) {
+	js.Boot.__trace(v,infos);
 }
 haxe.unit.TestResult = function() {
 	this.m_tests = new List();
@@ -353,12 +355,12 @@ haxe.unit.TestRunner.prototype = {
 					if( js.Boot.__instanceof($e0,haxe.unit.TestStatus) ) {
 						var e = $e0;
 						haxe.unit.TestRunner.print("F");
-						t.currentTest.backtrace = haxe.Stack.toString(haxe.Stack.exceptionStack());
+						t.currentTest.backtrace = haxe.CallStack.toString(haxe.CallStack.exceptionStack());
 					} else {
 					var e = $e0;
 					haxe.unit.TestRunner.print("E");
 					if(e.message != null) t.currentTest.error = "exception thrown : " + Std.string(e) + " [" + Std.string(e.message) + "]"; else t.currentTest.error = "exception thrown : " + Std.string(e);
-					t.currentTest.backtrace = haxe.Stack.toString(haxe.Stack.exceptionStack());
+					t.currentTest.backtrace = haxe.CallStack.toString(haxe.CallStack.exceptionStack());
 					}
 				}
 				this.result.add(t.currentTest);
@@ -400,7 +402,7 @@ haxe.unit.TestStatus.prototype = {
 	,done: null
 	,__class__: haxe.unit.TestStatus
 }
-var js = js || {}
+var js = {}
 js.Boot = function() { }
 js.Boot.__name__ = ["js","Boot"];
 js.Boot.__unhtml = function(s) {
@@ -555,3 +557,4 @@ js.XMLHttpRequest = window.XMLHttpRequest?XMLHttpRequest:window.ActiveXObject?fu
 	return $r;
 }(this));
 Test.main();
+})();
