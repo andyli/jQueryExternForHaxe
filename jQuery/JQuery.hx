@@ -7,6 +7,7 @@ import js.html.*;
 #else
 @:native("$")
 #end
+@:build(jQuery.Plugin.insert(false))
 extern class JQuery implements ArrayAccess<Element> {	
 	/**
 		Accepts a string containing a CSS selector which is then used to match a set of elements.
@@ -804,6 +805,7 @@ extern class JQuery implements ArrayAccess<Element> {
 #else
 @:native("$")
 #end
+@:build(jQuery.Plugin.insert(true))
 extern class JQueryStatic {
 	/**
 		Perform an asynchronous HTTP (Ajax) request.

@@ -1,21 +1,19 @@
 package jQuery.plugins.media;
 
-import jQuery.JQuery;
+import jQuery.*;
 
 /**
 	jQuery Media Plugin
 	http://jquery.malsup.com/media/
 **/
 
-extern class Media {
+extern class Media extends Plugin {
 	/**
 	 * Converts the matched set of elements to <div> elements which contain rich media. The media method accepts three arguments, all of which are optional.
 	 * @param	jQ
 	 * @param	configuration An object literal that is used to override the global defaults.
 	 */
-	inline static public function media(jQ:JQuery, configuration:Dynamic):JQuery untyped {
-		return jQ.media(configuration);
-	}
+	public function media(configuration:Dynamic):JQuery;
 	
 	/**
 	 * Converts the matched set of elements to <div> elements which contain rich media. The media method accepts three arguments, all of which are optional.
@@ -24,30 +22,23 @@ extern class Media {
 	 * @param	fn1 Callback function which is passed the original element and the options, before conversion to media
 	 * @param	fn2 Callback function which is passed the original element, the new <div> element and the options
 	 */
-	inline static public function mediaWithCallbacks(jQ:JQuery, configuration:Dynamic, fn1:Dynamic, fn2:Dynamic):JQuery untyped {
-		return jQ.media(configuration, fn1, fn2);
-	}
+	public function mediaWithCallbacks(jQ:JQuery, configuration:Dynamic, fn1:Dynamic, fn2:Dynamic):JQuery;
 	
-	inline static public var _static = MediaS;
-}
-
-extern class MediaS {
 	/**
 	 * Associates a media type with a specific media player. This can be used to override a default mapping or to add a new media type.
 	 * @param	type Any media type, such as swf, mov, mp3, etc
 	 * @param	player One of: flash, quicktime, realplayer, silverlight, winmedia or iframe
 	 */
-	inline static public function mapFormat(type:String, player:String):Void untyped {
+	inline static public function mediaMapFormat(type:String, player:String):Void untyped {
 		jQ.fn.media.mapFormat(type, player);
 	}
 	
-	inline static var defaults(getDefaults, setDefaults):Dynamic;
+	inline static var mediaDefaults(get_mediaDefaults, set_mediaDefaults):Dynamic;
 	
-	inline static private function getDefaults():Dynamic untyped {
+	inline static private function get_mediaDefaults():Dynamic untyped {
 		return jQ.fn.media.defaults;
 	}
-	inline static private function setDefaults(val:Dynamic):Dynamic untyped {
-		jQ.fn.media.defaults = val;
-		return val;
+	inline static private function set_mediaDefaults(val:Dynamic):Dynamic untyped {
+		return jQ.fn.media.defaults = val;
 	}
 }

@@ -212,37 +212,38 @@ haxe.CallStack.toString = function(stack) {
 	return b.b;
 }
 haxe.CallStack.itemToString = function(b,s) {
-	var $e = (s);
+	var _g = s;
+	var $e = (_g);
 	switch( $e[1] ) {
 	case 0:
 		b.b += "a C function";
 		break;
 	case 1:
-		var m = $e[2];
+		var _g_s0 = $e[2];
 		b.b += "module ";
-		b.b += Std.string(m);
+		b.b += Std.string(_g_s0);
 		break;
 	case 2:
-		var line = $e[4], file = $e[3], s1 = $e[2];
-		if(s1 != null) {
-			haxe.CallStack.itemToString(b,s1);
+		var _g_s2 = $e[4], _g_s1 = $e[3], _g_s0 = $e[2];
+		if(_g_s0 != null) {
+			haxe.CallStack.itemToString(b,_g_s0);
 			b.b += " (";
 		}
-		b.b += Std.string(file);
+		b.b += Std.string(_g_s1);
 		b.b += " line ";
-		b.b += Std.string(line);
-		if(s1 != null) b.b += ")";
+		b.b += Std.string(_g_s2);
+		if(_g_s0 != null) b.b += ")";
 		break;
 	case 3:
-		var meth = $e[3], cname = $e[2];
-		b.b += Std.string(cname);
+		var _g_s1 = $e[3], _g_s0 = $e[2];
+		b.b += Std.string(_g_s0);
 		b.b += ".";
-		b.b += Std.string(meth);
+		b.b += Std.string(_g_s1);
 		break;
 	case 4:
-		var n = $e[2];
+		var _g_s0 = $e[2];
 		b.b += "local function #";
-		b.b += Std.string(n);
+		b.b += Std.string(_g_s0);
 		break;
 	}
 }
@@ -419,16 +420,17 @@ js.Boot.__string_rec = function(o,s) {
 	if(s.length >= 5) return "<...>";
 	var t = typeof(o);
 	if(t == "function" && (o.__name__ || o.__ename__)) t = "object";
-	switch(t) {
+	var _g = t;
+	switch(_g) {
 	case "object":
 		if(o instanceof Array) {
 			if(o.__enum__) {
 				if(o.length == 2) return o[0];
 				var str = o[0] + "(";
 				s += "\t";
-				var _g1 = 2, _g = o.length;
-				while(_g1 < _g) {
-					var i = _g1++;
+				var _g2 = 2, _g1 = o.length;
+				while(_g2 < _g1) {
+					var i = _g2++;
 					if(i != 2) str += "," + js.Boot.__string_rec(o[i],s); else str += js.Boot.__string_rec(o[i],s);
 				}
 				return str + ")";
@@ -437,9 +439,9 @@ js.Boot.__string_rec = function(o,s) {
 			var i;
 			var str = "[";
 			s += "\t";
-			var _g = 0;
-			while(_g < l) {
-				var i1 = _g++;
+			var _g1 = 0;
+			while(_g1 < l) {
+				var i1 = _g1++;
 				str += (i1 > 0?",":"") + js.Boot.__string_rec(o[i1],s);
 			}
 			str += "]";
@@ -504,7 +506,8 @@ js.Boot.__instanceof = function(o,cl) {
 	} catch( e ) {
 		if(cl == null) return false;
 	}
-	switch(cl) {
+	var _g = cl;
+	switch(_g) {
 	case Int:
 		return Math.ceil(o%2147483648.0) === o;
 	case Float:
