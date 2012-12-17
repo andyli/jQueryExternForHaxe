@@ -30,15 +30,15 @@ extern class Media extends Plugin {
 	 * @param	player One of: flash, quicktime, realplayer, silverlight, winmedia or iframe
 	 */
 	inline static public function mediaMapFormat(type:String, player:String):Void untyped {
-		jQ.fn.media.mapFormat(type, player);
+		JQuery._static.fn.media.mapFormat(type, player);
 	}
 	
 	inline static var mediaDefaults(get_mediaDefaults, set_mediaDefaults):Dynamic;
 	
 	inline static private function get_mediaDefaults():Dynamic untyped {
-		return jQ.fn.media.defaults;
+		return JQuery._static.fn.media.defaults;
 	}
 	inline static private function set_mediaDefaults(val:Dynamic):Dynamic untyped {
-		return jQ.fn.media.defaults = val;
+		return JQuery._static.fn.media.defaults = val;
 	}
 }

@@ -7,45 +7,70 @@ using Lambda;
 @:autoBuild(jQuery.Plugin.build())
 @:macro class Plugin {
 	#if macro
-	static var plugins = new Hash<Array<Field>>();
-	#end
+	static public var plugins(default, null) = new Hash<Array<Field>>();
+	static public var isInserted(default, null) = false;
+	static public var isInsertedStatic(default, null) = false;
 	
 	static public function add(pluginFullName:String):Void {
+		//indicate that the Plugin is added by calling this function
 		plugins.set(pluginFullName, null);
+		
+		//force building the Plugin
 		Context.getType(pluginFullName);
 	}
+	#end
 	
 	static public function build():Array<Field> {
 		var plugin = Context.getLocalClass();
+		var pluginClass = plugin.get();
 		var pluginFullName = plugin.toString();
 		
-		if (!plugins.exists(pluginFullName)) 
-			Context.error("Missing compiler option: --macro jQuery.Plugin.add('" + pluginFullName + "')", plugin.get().pos);
+		var compilerOption = "--macro jQuery.Plugin.add('" + pluginFullName + "')";
+		
+		if (Context.defined("debug") && !plugins.exists(pluginFullName))
+			Context.warning('JQuery plugin being imported without compiler option: $compilerOption', pluginClass.pos);
+		
+		if (isInserted || isInsertedStatic) 
+			Context.error('JQuery class is already built before inserting plugin. Most likely due to missing compiler option: $compilerOption', pluginClass.pos);
+		
+		if (!pluginClass.isExtern)
+			Context.error("Plugin is for extern only.", pluginClass.pos);
+		
+		//mark the Plugin final
+		pluginClass.meta.add(":final", [], pluginClass.pos);
 		
 		var fields = Context.getBuildFields();
 		plugins.set(pluginFullName, fields);
 		return fields;
 	}
 	
-	static public function insert(_static:Bool):Array<Field> {
+	static public function insert():Array<Field> {		
 		var fields = Context.getBuildFields();
 		
-		if (_static) {
-			for (plugin in plugins) {
-				for (field in plugin) {
-					if (field.access.has(AStatic))
-						fields.push(field);
-				}
-			}
-		} else {
-			for (plugin in plugins) {
-				for (field in plugin) {
-					if (!field.access.has(AStatic))
-						fields.push(field);
-				}
+		for (plugin in plugins) {
+			for (field in plugin) {
+				if (!field.access.has(AStatic))
+					fields.push(field);
 			}
 		}
 		
+		isInserted = true;
+		
+		return fields;
+	}
+	
+	static public function insertStatic():Array<Field> {
+		var fields = Context.getBuildFields();
+		
+		for (plugin in plugins) {
+			for (field in plugin) {
+				if (field.access.has(AStatic))
+					fields.push(field);
+			}
+		}
+		
+		isInsertedStatic = true;
+			
 		return fields;
 	}
 }
