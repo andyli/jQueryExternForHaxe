@@ -711,7 +711,7 @@ extern class JQuery implements ArrayAccess<Dom> {
 		http://api.jquery.com/trigger/
 	**/
 	@:overload(function(event:Event):JQuery{})
-	public function trigger(eventType:String, extraParameters:Array<String>):JQuery;
+	public function trigger(eventType:String, ?extraParameters:Array<String>):JQuery;
 
 	/**
 		Execute all handlers attached to an element for an event.
