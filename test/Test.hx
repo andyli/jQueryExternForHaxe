@@ -25,6 +25,34 @@ class Test extends TestCase{
 		d.resolve();
 	}
 
+	public function testCsses():Void {
+		var values:Hash<String> = cast({
+			"border-style": "solid",
+			"border-color": "rgb(0,255,0)",
+			"border-width": "2px",
+		});
+
+		new JQuery("body").css(values);
+
+		this.assertEquals("solid", new JQuery("body").css("border-style"));
+		this.assertEquals("rgb(0, 255, 0)", new JQuery("body").css("border-color"));
+		this.assertEquals("2px", new JQuery("body").css("border-width"));
+	}
+
+	public function testAattrs():Void {
+		var values:Hash<String> = cast({
+			"id": "test5-1",
+			"name": "test5-2",
+			"href": "http://example.com",
+		});
+
+		new JQuery("a").attr(values);
+
+		this.assertEquals("test5-1", new JQuery("a").attr("id"));
+		this.assertEquals("test5-2", new JQuery("a").attr("name"));
+		this.assertEquals("http://example.com", new JQuery("a").attr("href"));
+	}
+
 	static public function main():Void {
 		new JQuery(function():Void{
 			var runner = new TestRunner();
