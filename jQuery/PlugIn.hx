@@ -5,9 +5,9 @@ import haxe.macro.Context;
 using Lambda;
 
 @:autoBuild(jQuery.Plugin.build())
-@:macro class Plugin {
+class Plugin {
 	#if macro
-	static public var plugins(default, null) = new Hash<Array<Field>>();
+	static public var plugins(default, null) = new Map<String, Array<Field>>();
 	static public var isInserted(default, null) = false;
 	static public var isInsertedStatic(default, null) = false;
 	
