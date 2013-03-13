@@ -95,6 +95,7 @@ extern class JQuery implements ArrayAccess<Dom> {
 		Get the value of an attribute for the first element in the set of matched elements.
 	**/
 	@:overload(function(attributeName:String, valueOrFunction:Dynamic):JQuery{})
+	@:overload(function(attributes:Dynamic):JQuery{})
 	public function attr(attributeName:String):String;
 
 	/**
@@ -171,6 +172,7 @@ extern class JQuery implements ArrayAccess<Dom> {
 		Get the value of a style property for the first element in the set of matched elements.
 	**/
 	@:overload(function(attributeName:String, valueOrFunction:Dynamic):JQuery{})
+	@:overload(function(attributes:Dynamic):JQuery{})
 	public function css(attributeName:String):String;
 
 	/**
