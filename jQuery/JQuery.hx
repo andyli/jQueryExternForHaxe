@@ -1269,7 +1269,7 @@ extern class JqXHR extends XMLHttpRequest {
 	 * @param	failCallbacks A function, or array of functions, that are called when the Deferred is rejected.
 	 * @param	progressCallbacks A function, or array of functions, called when the Deferred notifies progress.
 	 */
-	public function then(doneCallbacks:Dynamic, failCallbacks:Dynamic, ?progressCallbacks:Dynamic):JqXHR;
+	public function then(doneCallbacks:Dynamic, ?failCallbacks:Dynamic, ?progressCallbacks:Dynamic):JqXHR;
 	
 	/**
 	 * Get a promise for this deferred.
@@ -1290,7 +1290,7 @@ typedef Promise = {
 	public function promise(?obj:Dynamic):Promise;
 	public function fail(failCallbacks:Dynamic):Promise;
 	public function done(doneCallbacks:Dynamic):Promise;
-	public function then(doneCallbacks:Dynamic, failCallbacks:Dynamic, ?progressCallbacks:Dynamic):Promise;
+	public function then(doneCallbacks:Dynamic, ?failCallbacks:Dynamic, ?progressCallbacks:Dynamic):Promise;
 	public function state():String;
 }
 
@@ -1367,7 +1367,7 @@ extern class Deferred {
 	 * @param	failCallbacks A function, or array of functions, that are called when the Deferred is rejected.
 	 * @param	progressCallbacks A function, or array of functions, called when the Deferred notifies progress.
 	 */
-	public function then(doneCallbacks:Dynamic, failCallbacks:Dynamic, ?progressCallbacks:Dynamic):Deferred;
+	public function then(doneCallbacks:Dynamic, ?failCallbacks:Dynamic, ?progressCallbacks:Dynamic):Deferred;
 	
 	/**
 	 * Return a Deferred's Promise object.
