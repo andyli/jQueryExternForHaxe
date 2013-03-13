@@ -985,6 +985,11 @@ extern class JQueryStatic {
 		Create a serialized representation of an array or object, suitable for use in a URL query string or Ajax request.
 	**/
 	static public function param(obj:Dynamic, traditional:Bool):String;
+	
+	/**
+		Parses a string into an array of DOM nodes.
+	**/
+	static public function parseHTML(data:String, ?context:HtmlDom, ?keepScripts:Bool):Array<HtmlDom>;
 
 	/**
 		Takes a well-formed JSON string and returns the resulting JavaScript object.
