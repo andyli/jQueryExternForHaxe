@@ -811,25 +811,25 @@ extern class JQuery implements ArrayAccess<Node> {
 
 typedef AjaxSettings = {
 	/**
-		Default: depends on DataType
+		default: depends on DataType
 		The content type sent in the request header that tells the server what kind of response it will accept in return. If the accepts setting needs modification, it is recommended to do so once in the $.ajaxSetup() method.
 	**/
 	@:optional var accepts:Dynamic;
 
 	/**
-		Default: true
+		default: true
 		By default, all requests are sent asynchronously (i.e. this is set to true by default). If you need synchronous requests, set this option to false. Cross-domain requests and dataType: "jsonp" requests do not support synchronous operation. Note that synchronous requests may temporarily lock the browser, disabling any actions while the request is active. As of jQuery 1.8, the use of async: false with jqXHR ($.Deferred) is deprecated; you must use the complete/success/error callbacks.
 	**/
 	@:optional var async:Bool;
 
 	/**
-		A pre-request callback function that can be used to modify the jqXHR (in jQuery 1.4.x, XMLHTTPRequest) object before it is sent. Use this to set custom headers, etc. The jqXHR and settings maps are passed as arguments. This is an Ajax Event. Returning false in the beforeSend function will cancel the request. As of jQuery 1.5, the beforeSend option will be called regardless of the type of request.
+		A pre-request callback function that can be used to modify the jqXHR (in jQuery 1.4.x, XMLHTTPRequest) object before it is sent. Use this to set custom headers, etc. The jqXHR and settings objects are passed as arguments. This is an Ajax Event. Returning false in the beforeSend function will cancel the request. As of jQuery 1.5, the beforeSend option will be called regardless of the type of request.
 	**/
 	@:optional function beforeSend(jqXHR:JqXHR, settings:AjaxSettings):Void;
 
 	/**
-		Default: true, false for dataType 'script' and 'jsonp'
-		If set to false, it will force requested pages not to be cached by the browser. Setting cache to false also appends a query string parameter, "_=[TIMESTAMP]", to the URL.
+		default: true, false for dataType 'script' and 'jsonp'
+		If set to false, it will force requested pages not to be cached by the browser. Note: Setting cache to false will only work correctly with HEAD and GET requests. It works by appending "_={timestamp}" to the GET parameters. The parameter is not needed for other types of requests, except in IE8 when a POST is made to a URL that has already been requested by a GET.
 	**/
 	@:optional var cache:Bool;
 
@@ -839,19 +839,24 @@ typedef AjaxSettings = {
 	@:optional function complete(jqXHR:JqXHR, textStatus:String):Void;
 
 	/**
-		A map of string/regular-expression pairs that determine how jQuery will parse the response, given its content type.
+		An object of string/regular-expression pairs that determine how jQuery will parse the response, given its content type. (version added: 1.5)
 	**/
 	@:optional var contents:Dynamic;
+	
+	/**
+		default: 'application/x-www-form-urlencoded; charset=UTF-8'
+		When sending data to the server, use this content type. Default is "application/x-www-form-urlencoded; charset=UTF-8", which is fine for most cases. If you explicitly pass in a content-type to $.ajax(), then it'll always be sent to the server (even if no data is sent). If no charset is specified, data will be transmitted to the server using the server's default charset; you must decode this appropriately on the server side.
+	**/
+	@:optional var contentType:String;
 
 	/**
-		Default: 'application/x-www-form-urlencoded; charset=UTF-8'
-		When sending data to the server, use this content type. Default is "application/x-www-form-urlencoded; charset=UTF-8", which is fine for most cases. If you explicitly pass in a content-type to $.ajax(), then it'll always be sent to the server (even if no data is sent). If no charset is specified, data will be transmitted to the server using the server's default charset; you must decode this appropriately on the server side.
+		This object will be made the context of all Ajax-related callbacks. By default, the context is an object that represents the ajax settings used in the call ($.ajaxSettings merged with the settings passed to $.ajax).
 	**/
 	@:optional var context:Dynamic;
 
 	/**
-		Default: {"* text": window.String, "text html": true, "text json": jQuery.parseJSON, "text xml": jQuery.parseXML}
-		A map of dataType-to-dataType converters. Each converter's value is a function that returns the transformed value of the response.
+		default: {"* text": window.String, "text html": true, "text json": jQuery.parseJSON, "text xml": jQuery.parseXML}
+		An object containing dataType-to-dataType converters. Each converter's value is a function that returns the transformed value of the response. (version added: 1.5)
 	**/
 	@:optional var converters:Dynamic;
 

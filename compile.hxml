@@ -1,4 +1,8 @@
+# -neko CoreExternGenerator.n
+# -main jQuery.haxe.gen.CoreExternGenerator
+# -cmd neko CoreExternGenerator.n api.xml
 -js test/bin/Test.js
 -main Test
 -cp test
+-cp out
 -D haxe3
