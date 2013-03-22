@@ -20,7 +20,7 @@ class CoreExternGenerator {
 		this.api = new Fast(apiXml).node.api;
 	}
 	
-	public function toComplexType(type:String, ?tag:Fast):Array<ComplexType> {
+	public function toComplexType(type:String, ?tag:Fast):Array<ComplexType> {		
 		var tagStr = tag == null ? "" : tag.x.toString().ltrim();
 		var tagName = tag == null ? "" : tag.att.name;
 		var entryName = tag == null ? "" : switch (tag.name) {
@@ -30,6 +30,8 @@ class CoreExternGenerator {
 		}
 		
 		var simple = type == null ? [macro:Dynamic] : switch(type.trim()) {
+			case "jQueryStatic":
+				[macro:jQuery.JQueryStatic];
 			case "jQuery", "jQuery object":
 				[macro:jQuery.JQuery];
 			case "event", "Event":
@@ -160,7 +162,7 @@ class CoreExternGenerator {
 				"doneCallbacks" | "failCallbacks" | "progressCallbacks" | "alwaysCallbacks", 
 				"Function"
 			]:
-				[macro:Array<Void->Void>];
+				[macro:Void->Void, macro:Array<Void->Void>];
 					
 			case [
 				_, 
@@ -352,7 +354,10 @@ class CoreExternGenerator {
 		
 		
 		
-		//build a Map that is className => { statics: memberName => Array<entry>, instances: memberName => Array<entry> }
+		/*
+			build a Map that is className => { statics: memberName => Array<entry>, instances: memberName => Array<entry> }
+		*/
+		
 		var classEntryMap = new Map<String, { statics:Map<String,Array<Fast>>, instances:Map<String,Array<Fast>> }>();
 		for (entry in api.node.entries.nodes.entry) {
 			var name = entry.att.name;
@@ -390,11 +395,27 @@ class CoreExternGenerator {
 				entryMap.set(name, [entry]);
 		}
 		
+		/*
+			put JQuery static fields into JQueryStatic
+		*/
+		
+		var jQuery = classEntryMap.get("jQuery");
+		classEntryMap.set("jQueryStatic", {
+			statics: jQuery.statics,
+			instances: new Map()
+		});
+		jQuery.statics = new Map();
+		
+		
+		/*
+			start creating each class
+		*/
+		
 		for (clsName in classEntryMap.keys()) {
 			var entryMaps = classEntryMap.get(clsName);
 			var type = {
 				var types = toComplexType(clsName);
-				types.length == 1 ? types[0] : throw clsName;
+				types.length == 1 ? types[0] : throw clsName; //ensure it is mapped to a single haxe class
 			}
 		
 			var fields:Array<Field> = [];
@@ -414,6 +435,7 @@ class CoreExternGenerator {
 						meta: []
 					};
 					
+					//in case there is a name collision in static field and instance field
 					if (isStatic && entryMaps.instances.exists(field.name)) {
 						var nativeName = field.name;
 						field.name = "static" + nativeName.charAt(0).toUpperCase() + nativeName.substr(1);
@@ -526,6 +548,10 @@ class CoreExternGenerator {
 													params: [],
 												}];
 											}
+										case "deferred.resolve":
+											functions.push(funcSig(
+												function resolve():jQuery.Deferred{}
+											));
 										default:
 											
 									}
@@ -615,7 +641,7 @@ class CoreExternGenerator {
 			
 			switch (type) {
 				case TPath(tp):
-					var td = {
+					var td:TypeDefinition = {
 						pack : tp.pack,
 						name : tp.name,
 						pos : null,
@@ -625,7 +651,54 @@ class CoreExternGenerator {
 						kind : TDClass(),
 						fields : fields
 					};
-					var clsStr = new Printer().printTypeDefinition(td);		
+					
+					//fool-proof, one should not extends an extern class
+					td.meta.push({
+						name: ":final",
+						params: [],
+						pos: null
+					});
+					
+					//our JQuery plugin extern system
+					td.meta.push({
+						name: ":build",
+						params: [macro jQuery.Plugin.insert()],
+						pos: null
+					});
+					
+					switch(tp.name) {
+						case "JQuery":
+							td.meta.push({
+								name: ":native",
+								params: [macro "jQuery"], //TODO "$"
+								pos: null
+							});
+							
+							td.kind = TDClass(null, [{
+								pack: [],
+								name: "ArrayAccess",
+								params: [TPType(macro : js.html.Node)]
+							}]);
+							
+							fields.push({
+								name: "_static",
+								doc: "Compile-time short cut to JQueryStatic.",
+								access: [AInline, AStatic, APublic],
+								kind: FVar(null, macro jQuery.JQueryStatic),
+								pos: null,
+								meta: []
+							});
+						case "JQueryStatic":
+							td.meta.push({
+								name: ":native",
+								params: [macro "jQuery"], //TODO "$"
+								pos: null
+							});
+						default:
+							//pass
+					}
+					
+					var clsStr = new Printer().printTypeDefinition(td);
 					var packDir = td.pack.join("/");
 					FileSystem.createDirectory(packDir);
 					File.saveContent(packDir + "/" + td.name + ".hx", clsStr);

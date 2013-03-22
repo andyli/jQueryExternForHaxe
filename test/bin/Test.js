@@ -90,13 +90,10 @@ StringTools.startsWith = function(s,start) {
 	return s.length >= start.length && HxOverrides.substr(s,0,start.length) == start;
 }
 var haxe = {}
-haxe.Public = function() { }
-haxe.Public.__name__ = ["haxe","Public"];
 haxe.unit = {}
 haxe.unit.TestCase = function() {
 };
 haxe.unit.TestCase.__name__ = ["haxe","unit","TestCase"];
-haxe.unit.TestCase.__interfaces__ = [haxe.Public];
 haxe.unit.TestCase.prototype = {
 	assertEquals: function(expected,actual,c) {
 		this.currentTest.done = true;
@@ -140,7 +137,7 @@ var Test = function() {
 };
 Test.__name__ = ["Test"];
 Test.main = function() {
-	new $(function() {
+	new jQuery(function() {
 		var runner = new haxe.unit.TestRunner();
 		runner.add(new Test());
 		runner.run();
@@ -150,23 +147,23 @@ Test.__super__ = haxe.unit.TestCase;
 Test.prototype = $extend(haxe.unit.TestCase.prototype,{
 	test3: function() {
 		var me = this;
-		var d = new $.Deferred().done(function() {
+		var d = jQuery.Deferred().done(function() {
 			me.assertTrue(true,{ fileName : "Test.hx", lineNumber : 24, className : "Test", methodName : "test3"});
 		});
 		d.resolve();
 	}
 	,test2: function() {
-		var div = new $("div#test2")[0];
-		$.data(div,"test",{ first : 16, last : "pizza!"});
-		new $("span:first").text($.data(div,"test").first);
-		new $("span:last").text($.data(div,"test").last);
-		this.assertEquals("The values stored were 16 and pizza!",$.trim(new $(div).text()),{ fileName : "Test.hx", lineNumber : 19, className : "Test", methodName : "test2"});
+		var div = new jQuery("div#test2")[0];
+		jQuery.data(div,"test",{ first : 16, last : "pizza!"});
+		new jQuery("span:first").text(jQuery.data(div,"test").first);
+		new jQuery("span:last").text(jQuery.data(div,"test").last);
+		this.assertEquals("The values stored were 16 and pizza!",jQuery.trim(new jQuery(div).text()),{ fileName : "Test.hx", lineNumber : 19, className : "Test", methodName : "test2"});
 	}
 	,test1: function() {
-		var body = new $("body");
+		var body = new jQuery("body");
 		body.addClass("myclass");
 		this.assertTrue(body.hasClass("myclass"),{ fileName : "Test.hx", lineNumber : 10, className : "Test", methodName : "test1"});
-		this.assertEquals(3,body.add("html").add("title").size(),{ fileName : "Test.hx", lineNumber : 11, className : "Test", methodName : "test1"});
+		this.assertEquals(3.0,body.add("html").add("title").size(),{ fileName : "Test.hx", lineNumber : 11, className : "Test", methodName : "test1"});
 	}
 	,__class__: Test
 });
@@ -212,38 +209,37 @@ haxe.CallStack.toString = function(stack) {
 	return b.b;
 }
 haxe.CallStack.itemToString = function(b,s) {
-	var _g = s;
-	var $e = (_g);
+	var $e = (s);
 	switch( $e[1] ) {
 	case 0:
 		b.b += "a C function";
 		break;
 	case 1:
-		var _g_s0 = $e[2];
+		var s_eModule_0 = $e[2];
 		b.b += "module ";
-		b.b += Std.string(_g_s0);
+		b.b += Std.string(s_eModule_0);
 		break;
 	case 2:
-		var _g_s2 = $e[4], _g_s1 = $e[3], _g_s0 = $e[2];
-		if(_g_s0 != null) {
-			haxe.CallStack.itemToString(b,_g_s0);
+		var s_eFilePos_2 = $e[4], s_eFilePos_1 = $e[3], s_eFilePos_0 = $e[2];
+		if(s_eFilePos_0 != null) {
+			haxe.CallStack.itemToString(b,s_eFilePos_0);
 			b.b += " (";
 		}
-		b.b += Std.string(_g_s1);
+		b.b += Std.string(s_eFilePos_1);
 		b.b += " line ";
-		b.b += Std.string(_g_s2);
-		if(_g_s0 != null) b.b += ")";
+		b.b += Std.string(s_eFilePos_2);
+		if(s_eFilePos_0 != null) b.b += ")";
 		break;
 	case 3:
-		var _g_s1 = $e[3], _g_s0 = $e[2];
-		b.b += Std.string(_g_s0);
+		var s_eMethod_1 = $e[3], s_eMethod_0 = $e[2];
+		b.b += Std.string(s_eMethod_0);
 		b.b += ".";
-		b.b += Std.string(_g_s1);
+		b.b += Std.string(s_eMethod_1);
 		break;
 	case 4:
-		var _g_s0 = $e[2];
+		var s_eLambda_0 = $e[2];
 		b.b += "local function #";
-		b.b += Std.string(_g_s0);
+		b.b += Std.string(s_eLambda_0);
 		break;
 	}
 }
@@ -420,17 +416,16 @@ js.Boot.__string_rec = function(o,s) {
 	if(s.length >= 5) return "<...>";
 	var t = typeof(o);
 	if(t == "function" && (o.__name__ || o.__ename__)) t = "object";
-	var _g = t;
-	switch(_g) {
+	switch(t) {
 	case "object":
 		if(o instanceof Array) {
 			if(o.__enum__) {
 				if(o.length == 2) return o[0];
 				var str = o[0] + "(";
 				s += "\t";
-				var _g2 = 2, _g1 = o.length;
-				while(_g2 < _g1) {
-					var i = _g2++;
+				var _g1 = 2, _g = o.length;
+				while(_g1 < _g) {
+					var i = _g1++;
 					if(i != 2) str += "," + js.Boot.__string_rec(o[i],s); else str += js.Boot.__string_rec(o[i],s);
 				}
 				return str + ")";
@@ -439,9 +434,9 @@ js.Boot.__string_rec = function(o,s) {
 			var i;
 			var str = "[";
 			s += "\t";
-			var _g1 = 0;
-			while(_g1 < l) {
-				var i1 = _g1++;
+			var _g = 0;
+			while(_g < l) {
+				var i1 = _g++;
 				str += (i1 > 0?",":"") + js.Boot.__string_rec(o[i1],s);
 			}
 			str += "]";
@@ -506,8 +501,7 @@ js.Boot.__instanceof = function(o,cl) {
 	} catch( e ) {
 		if(cl == null) return false;
 	}
-	var _g = cl;
-	switch(_g) {
+	switch(cl) {
 	case Int:
 		return Math.ceil(o%2147483648.0) === o;
 	case Float:
@@ -543,6 +537,5 @@ var Bool = Boolean;
 Bool.__ename__ = ["Bool"];
 var Class = { __name__ : ["Class"]};
 var Enum = { };
-var Void = { __ename__ : ["Void"]};
 Test.main();
 })();
