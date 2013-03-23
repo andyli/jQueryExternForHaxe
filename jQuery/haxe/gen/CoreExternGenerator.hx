@@ -180,14 +180,14 @@ class CoreExternGenerator {
 				"doneCallbacks" | "failCallbacks" | "progressCallbacks" | "alwaysCallbacks", 
 				"Function"
 			]:
-				[macro:Void->Void, macro:Array<Void->Void>];
+				[macro:Dynamic, macro:Array<Dynamic>];
 					
 			case [
 				_, 
 				"doneFilter" | "failFilter" | "progressFilter", 
 				"Function"
 			]:
-				[macro:T->Void];
+				[macro:Dynamic];
 					
 			case [
 				"deferred.resolveWith" | "deferred.rejectWith",
@@ -578,14 +578,6 @@ class CoreExternGenerator {
 									}
 									
 									switch (memName) {
-										case "deferred.then", "deferred.pipe":
-											for (f in functions) {
-												f.params = [{
-													name: "T",
-													constraints: [],
-													params: [],
-												}];
-											}
 										case "deferred.resolve":
 											functions.push(funcSig(
 												function resolve():jQuery.Deferred{}
