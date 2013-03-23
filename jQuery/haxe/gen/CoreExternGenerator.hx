@@ -669,18 +669,18 @@ class CoreExternGenerator {
 						pos: null
 					});
 					
-					//our JQuery plugin extern system
-					td.meta.push({
-						name: ":build",
-						params: [macro jQuery.Plugin.insert()],
-						pos: null
-					});
-					
 					switch(tp.name) {
 						case "JQuery":
 							td.meta.push({
 								name: ":native",
 								params: [macro "jQuery"], //TODO "$"
+								pos: null
+							});
+							
+							//our JQuery plugin extern system
+							td.meta.push({
+								name: ":build",
+								params: [macro jQuery.haxe.Plugin.insert()],
 								pos: null
 							});
 							
@@ -702,6 +702,13 @@ class CoreExternGenerator {
 							td.meta.push({
 								name: ":native",
 								params: [macro "jQuery"], //TODO "$"
+								pos: null
+							});
+							
+							//our JQuery plugin extern system
+							td.meta.push({
+								name: ":build",
+								params: [macro jQuery.haxe.Plugin.insert()],
 								pos: null
 							});
 						default:

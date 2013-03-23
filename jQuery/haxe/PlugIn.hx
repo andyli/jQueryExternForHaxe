@@ -1,10 +1,10 @@
-package jQuery;
+package jQuery.haxe;
 
 import haxe.macro.Expr;
 import haxe.macro.Context;
 using Lambda;
 
-@:autoBuild(jQuery.Plugin.build())
+@:autoBuild(jQuery.haxe.Plugin.build())
 class Plugin {
 	#if macro
 	static public var plugins(default, null) = new Map<String, Array<Field>>();
@@ -25,7 +25,7 @@ class Plugin {
 		var pluginClass = plugin.get();
 		var pluginFullName = plugin.toString();
 		
-		var compilerOption = "--macro jQuery.Plugin.add('" + pluginFullName + "')";
+		var compilerOption = "--macro jQuery.haxe.Plugin.add('" + pluginFullName + "')";
 		
 		if (Context.defined("debug") && !plugins.exists(pluginFullName))
 			Context.warning('JQuery plugin being imported without compiler option: $compilerOption', pluginClass.pos);
@@ -46,31 +46,30 @@ class Plugin {
 	
 	static public function insert():Array<Field> {		
 		var fields = Context.getBuildFields();
-		
-		for (plugin in plugins) {
-			for (field in plugin) {
-				if (!field.access.has(AStatic))
-					fields.push(field);
-			}
+		var cls = Context.getLocalClass();
+		switch (cls.toString()) {
+			case "jQuery.JQuery":
+				for (plugin in plugins) {
+					for (field in plugin) {
+						if (!field.access.has(AStatic))
+							fields.push(field);
+					}
+				}
+				
+				isInserted = true;
+			case "jQuery.JQueryStatic":
+				for (plugin in plugins) {
+					for (field in plugin) {
+						if (field.access.has(AStatic))
+							fields.push(field);
+					}
+				}
+				
+				isInsertedStatic = true;
+			default:
+				//pass
 		}
 		
-		isInserted = true;
-		
-		return fields;
-	}
-	
-	static public function insertStatic():Array<Field> {
-		var fields = Context.getBuildFields();
-		
-		for (plugin in plugins) {
-			for (field in plugin) {
-				if (field.access.has(AStatic))
-					fields.push(field);
-			}
-		}
-		
-		isInsertedStatic = true;
-			
 		return fields;
 	}
 }

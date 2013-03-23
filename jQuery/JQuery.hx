@@ -8,7 +8,7 @@ import js.html.*;
 @:native("$")
 #end
 @:final
-@:build(jQuery.Plugin.insert())
+@:build(jQuery.haxe.Plugin.insert())
 extern class JQuery implements ArrayAccess<Node> {	
 	/**
 		Accepts a string containing a CSS selector which is then used to match a set of elements.
@@ -1009,7 +1009,7 @@ typedef AjaxSettings = {
 @:native("$")
 #end
 @:final
-@:build(jQuery.Plugin.insertStatic())
+@:build(jQuery.haxe.Plugin.insert())
 extern class JQueryStatic {
 	/**
 		Perform an asynchronous HTTP (Ajax) request.
