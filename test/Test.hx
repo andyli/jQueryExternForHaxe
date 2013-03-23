@@ -21,7 +21,7 @@ class Test extends TestCase{
 	
 	public function test3():Void {
 		var me = this;
-		var d = JQuery._static.Deferred().done(function () me.assertTrue(true));
+		var d = new Deferred().done(function () me.assertTrue(true));
 		d.resolve();
 	}
 

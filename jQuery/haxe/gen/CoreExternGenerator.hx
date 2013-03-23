@@ -360,7 +360,10 @@ class CoreExternGenerator {
 		
 		var classEntryMap = new Map<String, { statics:Map<String,Array<Fast>>, instances:Map<String,Array<Fast>> }>();
 		for (entry in api.node.entries.nodes.entry) {
-			var name = entry.att.name;
+			var name = switch(entry.att.name) {
+				case "jQuery": "new";
+				case name: name;
+			};
 			var names = name.split(".");
 			var isJQueryStatic = name.startsWith("jQuery.");
 			var owner = (isJQueryStatic || names.length == 1) ? "jQuery" : names[0];
@@ -400,10 +403,11 @@ class CoreExternGenerator {
 		*/
 		
 		var jQuery = classEntryMap.get("jQuery");
-		classEntryMap.set("jQueryStatic", {
+		var jQueryStatic = {
 			statics: jQuery.statics,
 			instances: new Map()
-		});
+		}
+		classEntryMap.set("jQueryStatic", jQueryStatic);
 		jQuery.statics = new Map();
 		
 		
@@ -420,9 +424,24 @@ class CoreExternGenerator {
 		
 			var fields:Array<Field> = [];
 			
+			// copy constructor function to its own class as "new"
+			if (!entryMaps.instances.exists("new")) {
+				var ctrName = "jQuery." + clsName.charAt(0).toUpperCase() + clsName.substring(1);
+				if (jQueryStatic.statics.exists(ctrName)) {
+					entryMaps.instances.set("new", jQueryStatic.statics.get(ctrName));
+				}
+			}
+			
 			for (isStatic in [true, false]) {
 				var entryMap = isStatic ? entryMaps.statics : entryMaps.instances;
 				for (memName in entryMap.keys()) {
+					switch (memName) {
+						case "browser":
+							continue;
+						default:
+							//pass
+					}
+					
 					var mem = entryMap.get(memName);
 					var type = mem[0].att.type;
 					
@@ -444,15 +463,6 @@ class CoreExternGenerator {
 							params: [{expr: EConst(CString(nativeName)), pos:null}],
 							pos: null
 						});
-					}
-					
-					switch (memName) {
-						case "jQuery":
-							field.name = "new";
-						case "browser":
-							continue;
-						default:
-							//pass
 					}
 					
 					switch (type) {
@@ -524,7 +534,7 @@ class CoreExternGenerator {
 												functions.push({
 													args: args,
 													ret: switch(memName) {
-														case "jQuery":
+														case "new":
 															macro:Void;
 														default:
 															var types = toComplexType(entry.att.resolve("return"), entry);

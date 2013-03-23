@@ -147,7 +147,7 @@ Test.__super__ = haxe.unit.TestCase;
 Test.prototype = $extend(haxe.unit.TestCase.prototype,{
 	test3: function() {
 		var me = this;
-		var d = jQuery.Deferred().done(function() {
+		var d = new jQuery.Deferred().done(function() {
 			me.assertTrue(true,{ fileName : "Test.hx", lineNumber : 24, className : "Test", methodName : "test3"});
 		});
 		d.resolve();
