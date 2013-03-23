@@ -28,8 +28,9 @@ class CoreExternGenerator {
 			case "argument": new Fast(tag.x.parent.parent).att.name;
 			default: trace(tag.name); "";
 		}
+		if (type != null) type = type.trim();
 		
-		var simple = type == null ? [macro:Dynamic] : switch(type.trim()) {
+		var simple = type == null ? [macro:Dynamic] : switch(type) {
 			case "jQueryStatic":
 				[macro:jQuery.JQueryStatic];
 			case "jQuery", "jQuery object":
@@ -124,7 +125,9 @@ class CoreExternGenerator {
 				[macro:Int->js.html.Node->jQuery.JQuery];
 			case ["prop", "function(index, oldPropertyValue)", "Function"]:
 				[macro:Int->String->String, macro:Int->Float->Float, macro:Int->Bool->Bool];
-			case ["val", "val", " Array"]:
+			case ["val", "value", "Array"]:
+				[macro:Array<String>];
+			case ["val", "val", "Array"]:
 				[macro:Array<Dynamic>];
 			case ["val", "function(index, value)", "Function"]:
 				[macro:Int->Dynamic->Void];
@@ -140,6 +143,21 @@ class CoreExternGenerator {
 				[macro:Array<js.html.Node>];
 			case ["toggleClass", "function(index, class, switch)", "Function"]:
 				[macro:Int->String->Bool->String];
+			case ["trigger", "extraParameters", "Array"]:
+				[macro:Array<Dynamic>];
+			case ["removeData", "list", "Array"]:
+				[macro:Array<String>];
+			case ["jQuery.param", "obj", "Array"]:
+				[macro:Array<Dynamic>];
+			
+			case [_, "callbacks", "Function"]:
+				[macro:Dynamic];
+			
+			case [_, "callbacks", "Array"]:
+				[macro:Array<Dynamic>];
+			
+			case [_, "content", "Array"]:
+				[macro:Array<js.html.Node>, macro:js.html.NodeList, macro:Array<String>, macro:Array<jQuery.JQuery>];
 			
 			case [_, "jQuery object", _]:
 				[macro:jQuery.JQuery];
@@ -515,19 +533,29 @@ class CoreExternGenerator {
 									for (entry in mem) {
 										for (sig in entry.nodes.signature) {
 											var argss:Array<Array<FunctionArg>> = [for (arg in sig.nodes.argument)
-												[for (type in toComplexType(arg.has.type ? arg.att.type : null, arg)) {
-													name: {
-														var id = ~/(?:_*[a-z][_a-zA-Z0-9]*|_+[0-9][_a-zA-Z0-9]*|_*[A-Z][_a-zA-Z0-9]*|_+|\$[_a-zA-Z0-9]+)/;
-														id.match(arg.att.name);
-														var name = id.matched(0);
-														if (keywords.indexOf(name) != -1)
-															"_" + name;
-														else
-															name;
-													},
-													opt: arg.has.optional && (arg.att.optional == "true" ? true : throw arg.att.optional),
-													type: type,
-												}]
+												[
+													for (type in 
+														arg.has.type ?
+															toComplexType(arg.att.type, arg)
+														:
+															arg.hasNode.type ?
+																arg.nodes.type.fold(function(t, a:Array<ComplexType>) return a.concat(toComplexType(t.att.name, arg)), [])
+															:
+																toComplexType(null, arg)
+													) {
+														name: {
+															var id = ~/(?:_*[a-z][_a-zA-Z0-9]*|_+[0-9][_a-zA-Z0-9]*|_*[A-Z][_a-zA-Z0-9]*|_+|\$[_a-zA-Z0-9]+)/;
+															id.match(arg.att.name);
+															var name = id.matched(0);
+															if (keywords.indexOf(name) != -1)
+																"_" + name;
+															else
+																name;
+														},
+														opt: arg.has.optional && (arg.att.optional == "true" ? true : throw arg.att.optional),
+														type: type,
+													}
+												]
 											];
 											
 											for (args in compo(argss))
