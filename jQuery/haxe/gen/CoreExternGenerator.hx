@@ -680,10 +680,9 @@ class CoreExternGenerator {
 								pos: null
 							});
 							
-							//our JQuery plugin extern system
 							td.meta.push({
 								name: ":build",
-								params: [macro jQuery.haxe.Plugin.insert()],
+								params: [macro jQuery.haxe.Config.build()],
 								pos: null
 							});
 							
@@ -708,10 +707,9 @@ class CoreExternGenerator {
 								pos: null
 							});
 							
-							//our JQuery plugin extern system
 							td.meta.push({
 								name: ":build",
-								params: [macro jQuery.haxe.Plugin.insert()],
+								params: [macro jQuery.haxe.Config.build()],
 								pos: null
 							});
 						default:

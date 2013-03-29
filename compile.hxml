@@ -5,4 +5,5 @@
 -main Test
 -cp test
 -lib phantomjs
+--macro jQuery.haxe.Config.addPlugin('DummyPlugin')
 -cmd (nekotools server -p 2000 -h localhost -d test/bin/ & phantomjs test/bin/Test.js)

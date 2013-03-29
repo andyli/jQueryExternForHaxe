@@ -54,6 +54,7 @@ class Test extends TestCase {
 			new JQuery(function(){
 				var runner = new TestRunner();
 				runner.add(new Test());
+				runner.add(new TestPlugin());
 				runner.add(new TestCoreExternGenerator());
 				runner.run();
 				result = untyped runner.result;

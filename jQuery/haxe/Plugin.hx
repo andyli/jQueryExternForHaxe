@@ -4,33 +4,21 @@ import haxe.macro.Expr;
 import haxe.macro.Context;
 using Lambda;
 
+@:native("JQueryPlugin")
 @:autoBuild(jQuery.haxe.Plugin.build())
 class Plugin {
 	#if macro
-	static public var plugins(default, null) = new Map<String, Array<Field>>();
-	static public var isInserted(default, null) = false;
-	static public var isInsertedStatic(default, null) = false;
-	
-	static public function add(pluginFullName:String):Void {
-		//indicate that the Plugin is added by calling this function
-		plugins.set(pluginFullName, null);
-		
-		//force building the Plugin
-		Context.getType(pluginFullName);
-	}
-	#end
-	
 	static public function build():Array<Field> {
 		var plugin = Context.getLocalClass();
 		var pluginClass = plugin.get();
 		var pluginFullName = plugin.toString();
 		
-		var compilerOption = "--macro jQuery.haxe.Plugin.add('" + pluginFullName + "')";
+		var compilerOption = "--macro jQuery.haxe.Config.addPlugin('" + pluginFullName + "')";
 		
-		if (Context.defined("debug") && !plugins.exists(pluginFullName))
+		if (Context.defined("debug") && !Config.plugins.exists(pluginFullName))
 			Context.warning('JQuery plugin being imported without compiler option: $compilerOption', pluginClass.pos);
 		
-		if (isInserted || isInsertedStatic) 
+		if (Config.isBuilt) 
 			Context.error('JQuery class is already built before inserting plugin. Most likely due to missing compiler option: $compilerOption', pluginClass.pos);
 		
 		if (!pluginClass.isExtern)
@@ -40,36 +28,8 @@ class Plugin {
 		pluginClass.meta.add(":final", [], pluginClass.pos);
 		
 		var fields = Context.getBuildFields();
-		plugins.set(pluginFullName, fields);
+		Config.plugins.set(pluginFullName, fields);
 		return fields;
 	}
-	
-	static public function insert():Array<Field> {		
-		var fields = Context.getBuildFields();
-		var cls = Context.getLocalClass();
-		switch (cls.toString()) {
-			case "jQuery.JQuery":
-				for (plugin in plugins) {
-					for (field in plugin) {
-						if (!field.access.has(AStatic))
-							fields.push(field);
-					}
-				}
-				
-				isInserted = true;
-			case "jQuery.JQueryStatic":
-				for (plugin in plugins) {
-					for (field in plugin) {
-						if (field.access.has(AStatic))
-							fields.push(field);
-					}
-				}
-				
-				isInsertedStatic = true;
-			default:
-				//pass
-		}
-		
-		return fields;
-	}
+	#end
 }
