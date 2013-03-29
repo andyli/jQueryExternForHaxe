@@ -730,12 +730,19 @@ class CoreExternGenerator {
 	
 	#if sys
 	static function main():Void {
-		var file = Sys.args()[0];
+		var args = Sys.args();
+		if (args.length < 2) {
+			Sys.println("Arguments: api.xml outputFolder");
+			return;
+		}
+		
+		var file = args[0];
 		Sys.println('Generating jQuery core extern from "${file}".');
 		var apiXml = Xml.parse(File.getContent(file));
 		
-		var outDir = "out";
-		FileSystem.createDirectory(outDir);
+		var outDir = args[1];
+		if (!FileSystem.exists(outDir))
+			FileSystem.createDirectory(outDir);
 		Sys.setCwd(outDir);
 		
 		var tds = new CoreExternGenerator(apiXml).generate();

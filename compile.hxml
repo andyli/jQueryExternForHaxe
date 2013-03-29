@@ -1,9 +1,8 @@
 # -neko CoreExternGenerator.n
 # -main jQuery.haxe.gen.CoreExternGenerator
-# -cmd neko CoreExternGenerator.n api.xml
+# -cmd neko CoreExternGenerator.n api.xml .
 -js test/bin/Test.js
 -main Test
 -cp test
--cp out
 -lib phantomjs
 -cmd (nekotools server -p 2000 -h localhost -d test/bin/ & phantomjs test/bin/Test.js)
