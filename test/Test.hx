@@ -30,17 +30,31 @@ class Test extends TestCase {
 	static public function main():Void {
 		if (PhantomTools.inPhantom()) {
 			var page = WebPage.create();
-			page.open("http://localhost:2000/test.html", function(status) {
-				//trace test output, note that toString has to be called inside the page
-				trace(page.evaluate(function() return Test.result.toString()));
-
+			
+			function checkResult():Void {
 				result = page.evaluate(function() return Test.result);
-				Phantom.exit(result.success ? 0 : 1);
+				if (result == null) {
+					haxe.Timer.delay(checkResult, 10);
+				} else {
+					//trace test output, note that toString has to be called inside the page
+					trace(page.evaluate(function() return Test.result.toString()));
+			
+					Phantom.exit(result.success ? 0 : 1);
+				}
+			}
+			
+			page.open("http://localhost:2000/test.html", function(status) {
+				if (status != "success") {
+					Phantom.exit(1);
+				} else {
+					checkResult();
+				}
 			});
 		} else {
 			new JQuery(function(){
 				var runner = new TestRunner();
 				runner.add(new Test());
+				runner.add(new TestCoreExternGenerator());
 				runner.run();
 				result = untyped runner.result;
 			});

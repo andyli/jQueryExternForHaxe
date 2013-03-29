@@ -12,6 +12,7 @@ using Lambda;
 /**
 * http://api.jquery.com/resources/api.xml
 */
+@:native("CoreExternGenerator")
 class CoreExternGenerator {
 	static var keywords(default, null) = ["function", "true", "false", "if", "else", "switch", "class", "interface"];
 	var api:Fast;
@@ -365,11 +366,8 @@ class CoreExternGenerator {
 		}
 	}
 	
-	public function generate():Void {
-		var outDir = "out";
-		FileSystem.createDirectory(outDir);
-		Sys.setCwd(outDir);
-		
+	public function generate():Array<TypeDefinition> {
+		var out = [];
 		
 		
 		/*
@@ -735,22 +733,35 @@ class CoreExternGenerator {
 							//pass
 					}
 					
-					var clsStr = new Printer().printTypeDefinition(td);
-					var packDir = td.pack.join("/");
-					FileSystem.createDirectory(packDir);
-					File.saveContent(packDir + "/" + td.name + ".hx", clsStr);
+					out.push(td);
 				default: //TODO
 					trace(type);
 			}
 			
 		}
+		
+		return out;
 	}
 	
+	#if sys
 	static function main():Void {
 		var file = Sys.args()[0];
 		Sys.println('Generating jQuery core extern from "${file}".');
 		var apiXml = Xml.parse(File.getContent(file));
-		new CoreExternGenerator(apiXml).generate();
+		
+		var outDir = "out";
+		FileSystem.createDirectory(outDir);
+		Sys.setCwd(outDir);
+		
+		var tds = new CoreExternGenerator(apiXml).generate();
+		var printer = new Printer();
+		for (td in tds) {
+			var clsStr = printer.printTypeDefinition(td);
+			var packDir = td.pack.join("/");
+			FileSystem.createDirectory(packDir);
+			File.saveContent(packDir + "/" + td.name + ".hx", clsStr);
+		}
 		Sys.println("Done.");
 	}
+	#end
 }
