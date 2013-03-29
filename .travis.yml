@@ -1,0 +1,14 @@
+language: node_js
+
+before_script:
+  - sudo apt-get install python-software-properties -y # for the next command
+  - sudo add-apt-repository ppa:eyecreate/haxe -y
+  - sudo apt-get update
+  - sudo apt-get install haxe -y
+  - mkdir ~/haxelib
+  - haxelib setup ~/haxelib
+  - haxelib install phantomjs
+  - nekotools server -p 2000 -h localhost -d test/bin/ &
+
+script:
+  - haxe -js test/bin/Test.js -main Test -cp test -lib phantomjs && phantomjs test/bin/Test.js

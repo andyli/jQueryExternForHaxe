@@ -135,12 +135,25 @@ haxe.unit.TestCase.prototype = {
 var Test = function() {
 	haxe.unit.TestCase.call(this);
 };
+$hxExpose(Test, "Test");
 Test.__name__ = ["Test"];
 Test.main = function() {
-	new jQuery(function() {
+	if(window.hasOwnProperty("phantom")) {
+		var page = require('webpage').create();
+		page.open("http://localhost:2000/test.html",function(status) {
+			haxe.Log.trace(page.evaluate(function() {
+				return Test.result.toString();
+			}),{ fileName : "Test.hx", lineNumber : 35, className : "Test", methodName : "main"});
+			Test.result = page.evaluate(function() {
+				return Test.result;
+			});
+			phantom.exit(Test.result.success?0:1);
+		});
+	} else new jQuery(function() {
 		var runner = new haxe.unit.TestRunner();
 		runner.add(new Test());
 		runner.run();
+		Test.result = runner.result;
 	});
 }
 Test.__super__ = haxe.unit.TestCase;
@@ -148,7 +161,7 @@ Test.prototype = $extend(haxe.unit.TestCase.prototype,{
 	test3: function() {
 		var me = this;
 		var d = new jQuery.Deferred().done(function() {
-			me.assertTrue(true,{ fileName : "Test.hx", lineNumber : 24, className : "Test", methodName : "test3"});
+			me.assertTrue(true,{ fileName : "Test.hx", lineNumber : 25, className : "Test", methodName : "test3"});
 		});
 		d.resolve();
 	}
@@ -157,13 +170,13 @@ Test.prototype = $extend(haxe.unit.TestCase.prototype,{
 		jQuery.data(div,"test",{ first : 16, last : "pizza!"});
 		new jQuery("span:first").text(jQuery.data(div,"test").first);
 		new jQuery("span:last").text(jQuery.data(div,"test").last);
-		this.assertEquals("The values stored were 16 and pizza!",jQuery.trim(new jQuery(div).text()),{ fileName : "Test.hx", lineNumber : 19, className : "Test", methodName : "test2"});
+		this.assertEquals("The values stored were 16 and pizza!",jQuery.trim(new jQuery(div).text()),{ fileName : "Test.hx", lineNumber : 20, className : "Test", methodName : "test2"});
 	}
 	,test1: function() {
 		var body = new jQuery("body");
 		body.addClass("myclass");
-		this.assertTrue(body.hasClass("myclass"),{ fileName : "Test.hx", lineNumber : 10, className : "Test", methodName : "test1"});
-		this.assertEquals(3.0,body.add("html").add("title").size(),{ fileName : "Test.hx", lineNumber : 11, className : "Test", methodName : "test1"});
+		this.assertTrue(body.hasClass("myclass"),{ fileName : "Test.hx", lineNumber : 11, className : "Test", methodName : "test1"});
+		this.assertEquals(3.0,body.add("html").add("title").size(),{ fileName : "Test.hx", lineNumber : 12, className : "Test", methodName : "test1"});
 	}
 	,__class__: Test
 });
@@ -519,6 +532,15 @@ js.Boot.__instanceof = function(o,cl) {
 		return o.__enum__ == cl;
 	}
 }
+js.phantomjs = {}
+js.phantomjs.PhantomTools = function() { }
+js.phantomjs.PhantomTools.__name__ = ["js","phantomjs","PhantomTools"];
+js.phantomjs.PhantomTools.injectThis = function(page) {
+	return page.injectJs(require('system').args[0]);
+}
+js.phantomjs.PhantomTools.inPhantom = function() {
+	return window.hasOwnProperty("phantom");
+}
 if(Array.prototype.indexOf) HxOverrides.remove = function(a,o) {
 	var i = a.indexOf(o);
 	if(i == -1) return false;
@@ -538,4 +560,14 @@ Bool.__ename__ = ["Bool"];
 var Class = { __name__ : ["Class"]};
 var Enum = { };
 Test.main();
+function $hxExpose(src, path) {
+	var o = typeof window != "undefined" ? window : exports;
+	var parts = path.split(".");
+	for(var ii = 0; ii < parts.length-1; ++ii) {
+		var p = parts[ii];
+		if(typeof o[p] == "undefined") o[p] = {};
+		o = o[p];
+	}
+	o[parts[parts.length-1]] = src;
+}
 })();

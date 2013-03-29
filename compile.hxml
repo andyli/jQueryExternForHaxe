@@ -5,4 +5,5 @@
 -main Test
 -cp test
 -cp out
--D haxe3
+-lib phantomjs
+-cmd (nekotools server -p 2000 -h localhost -d test/bin/ & phantomjs test/bin/Test.js)

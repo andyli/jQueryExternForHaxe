@@ -1,9 +1,10 @@
-import haxe.unit.TestCase;
-import haxe.unit.TestRunner;
+import haxe.unit.*;
+import js.phantomjs.*;
 
 import jQuery.*;
 
-class Test extends TestCase{
+@:expose
+class Test extends TestCase {
 	public function test1():Void {
 		var body = new JQuery("body");
 		body.addClass("myclass");
@@ -24,12 +25,25 @@ class Test extends TestCase{
 		var d = new Deferred().done(function () me.assertTrue(true));
 		d.resolve();
 	}
-
+	
+	static public var result:TestResult;
 	static public function main():Void {
-		new JQuery(function():Void{
-			var runner = new TestRunner();
-			runner.add(new Test());
-			runner.run();
-		});
+		if (PhantomTools.inPhantom()) {
+			var page = WebPage.create();
+			page.open("http://localhost:2000/test.html", function(status) {
+				//trace test output, note that toString has to be called inside the page
+				trace(page.evaluate(function() return Test.result.toString()));
+
+				result = page.evaluate(function() return Test.result);
+				Phantom.exit(result.success ? 0 : 1);
+			});
+		} else {
+			new JQuery(function(){
+				var runner = new TestRunner();
+				runner.add(new Test());
+				runner.run();
+				result = untyped runner.result;
+			});
+		}
 	}
 }
