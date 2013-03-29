@@ -11,4 +11,4 @@ before_script:
   - nekotools server -p 2000 -h localhost -d test/bin/ &
 
 script:
-  - haxe -js test/bin/Test.js -main Test -cp test -lib phantomjs --macro jQuery.haxe.Config.addPlugin('DummyPlugin') && phantomjs test/bin/Test.js
+  - "haxe -js test/bin/Test.js -main Test -cp test -lib phantomjs --macro jQuery.haxe.Config.addPlugin('DummyPlugin') && phantomjs test/bin/Test.js"
