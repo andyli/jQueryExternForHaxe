@@ -748,7 +748,7 @@ class CoreExternGenerator {
 		var tds = new CoreExternGenerator(apiXml).generate();
 		var printer = new Printer();
 		for (td in tds) {
-			var clsStr = printer.printTypeDefinition(td);
+			var clsStr = "/* This file is generated, do not edit! */\n" + printer.printTypeDefinition(td);
 			var packDir = td.pack.join("/");
 			FileSystem.createDirectory(packDir);
 			File.saveContent(packDir + "/" + td.name + ".hx", clsStr);
