@@ -246,23 +246,6 @@ class CoreExternGenerator {
 	* Stricter ComplexType will come first (returns -ve); more dynamic one will come last (returns +ve).
 	*/
 	static public function compareComplexType(a:ComplexType, b:ComplexType):Int {
-		/*
-			//test
-			var types = [
-				macro:Dynamic,
-				macro:Dynamic<String>,
-				macro:String,
-				macro:Float,
-				macro:Int,
-				macro:{a:Int},
-				macro:{a:Int, b:Int}
-			];
-			var printer = new haxe.macro.Printer();
-			types.sort(compareComplexType);
-			trace(types.map(printer.printComplexType));
-			types.sort(function(a,b) return -compareComplexType(a,b));
-			trace(types.map(printer.printComplexType));
-		*/
 		return
 			switch ([a, b]) {
 				case [macro:Dynamic, macro:Dynamic]:
