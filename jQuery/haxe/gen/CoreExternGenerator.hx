@@ -306,7 +306,9 @@ class CoreExternGenerator {
 					case [{opt:false}, {opt:true}]:
 						return -1;
 					case _:
-						return compareComplexType(aArg.type, bArg.type);
+						var v = compareComplexType(aArg.type, bArg.type);
+						if (v != 0)
+							return v;
 				}
 			}
 			return 0;
@@ -339,7 +341,7 @@ class CoreExternGenerator {
 		return out;
 	}
 	
-	macro static function funcSig(e:Expr):ExprOf<Function> {
+	macro static public function funcSig(e:Expr):ExprOf<Function> {
 		switch(e.expr) {
 			case EFunction(_, f):
 				f.expr = null;

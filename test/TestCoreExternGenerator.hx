@@ -44,4 +44,24 @@ class TestCoreExternGenerator extends TestCase {
 			sorted.map(types.indexOf).toString()
 		);
 	}
+	
+	public function testCompareFunctions():Void {
+		var funcs = [
+			CoreExternGenerator.funcSig(function(a:Int, b:Int){}),
+			CoreExternGenerator.funcSig(function(a:Int){}),
+		];
+		var sorted = funcs.copy();
+		sorted.sort(CoreExternGenerator.compareFunctions);
+		this.assertEquals(funcs[1], sorted[0]);
+
+		var funcs = [
+			CoreExternGenerator.funcSig(function(a:Int, b:Int){}),
+			CoreExternGenerator.funcSig(function(a:Int, b:Float){}),
+		];
+		var sorted = funcs.copy();
+		sorted.sort(CoreExternGenerator.compareFunctions);
+		this.assertEquals(funcs[0], sorted[0]);
+		sorted.sort(function(a,b) return -CoreExternGenerator.compareFunctions(a,b));
+		this.assertEquals(funcs[1], sorted[0]);
+	}
 }
