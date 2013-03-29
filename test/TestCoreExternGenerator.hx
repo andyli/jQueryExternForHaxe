@@ -1,5 +1,6 @@
 import haxe.unit.*;
 import jQuery.haxe.gen.CoreExternGenerator;
+using Lambda;
 
 class TestCoreExternGenerator extends TestCase {
 	public function testCompareComplexType():Void {
@@ -20,27 +21,27 @@ class TestCoreExternGenerator extends TestCase {
 	
 	public function testCompareComplexTypeSorting():Void {
 		var types = [
-			macro:Dynamic,
-			macro:Dynamic<String>,
-			macro:String,
-			macro:Float,
-			macro:Int,
-			macro:{a:Int},
-			macro:{a:Int, b:Int}
+			macro:Dynamic,         //0
+			macro:Dynamic<String>, //1
+			macro:String,          //2
+			macro:Float,           //3
+			macro:Int,             //4
+			macro:{a:Int},         //5
+			macro:{a:Int, b:Int}   //6
 		];
-		var printer = new haxe.macro.Printer();
+		var sorted = types.copy();
 		
-		types.sort(CoreExternGenerator.compareComplexType);
+		sorted.sort(CoreExternGenerator.compareComplexType);
 		
 		this.assertEquals(
-			"String,Int,Float,{var a:Int;var b:Int;},{var a:Int;},Dynamic<String>,Dynamic",
-			types.map(printer.printComplexType).toString()
+			"2,4,3,6,5,1,0",
+			sorted.map(types.indexOf).toString()
 		);
 		
-		types.sort(function(a,b) return -CoreExternGenerator.compareComplexType(a,b));
+		sorted.sort(function(a,b) return -CoreExternGenerator.compareComplexType(a,b));
 		this.assertEquals(
-			"Dynamic,Dynamic<String>,{var a:Int;},{var a:Int;var b:Int;},Float,Int,String",
-			types.map(printer.printComplexType).toString().split("\n").join("")
+			"0,1,5,6,3,4,2",
+			sorted.map(types.indexOf).toString()
 		);
 	}
 }

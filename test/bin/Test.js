@@ -201,9 +201,6 @@ StringTools.rtrim = function(s) {
 StringTools.trim = function(s) {
 	return StringTools.ltrim(StringTools.rtrim(s));
 }
-StringTools.replace = function(s,sub,by) {
-	return s.split(sub).join(by);
-}
 var haxe = {}
 haxe.unit = {}
 haxe.unit.TestCase = function() {
@@ -314,26 +311,34 @@ TestCoreExternGenerator.__name__ = ["TestCoreExternGenerator"];
 TestCoreExternGenerator.__super__ = haxe.unit.TestCase;
 TestCoreExternGenerator.prototype = $extend(haxe.unit.TestCase.prototype,{
 	testCompareComplexTypeSorting: function() {
-		var types = [haxe.macro.ComplexType.TPath({ pack : [], name : "Dynamic", params : []}),haxe.macro.ComplexType.TPath({ pack : [], name : "Dynamic", params : [haxe.macro.TypeParam.TPType(haxe.macro.ComplexType.TPath({ pack : [], name : "String", params : []}))]}),haxe.macro.ComplexType.TPath({ pack : [], name : "String", params : []}),haxe.macro.ComplexType.TPath({ pack : [], name : "Float", params : []}),haxe.macro.ComplexType.TPath({ pack : [], name : "Int", params : []}),haxe.macro.ComplexType.TAnonymous([{ name : "a", kind : haxe.macro.FieldType.FVar(haxe.macro.ComplexType.TPath({ pack : [], name : "Int", params : []}),null), pos : { file : "test/TestCoreExternGenerator.hx", min : 1292, max : 1298}}]),haxe.macro.ComplexType.TAnonymous([{ name : "a", kind : haxe.macro.FieldType.FVar(haxe.macro.ComplexType.TPath({ pack : [], name : "Int", params : []}),null), pos : { file : "test/TestCoreExternGenerator.hx", min : 1310, max : 1316}},{ name : "b", kind : haxe.macro.FieldType.FVar(haxe.macro.ComplexType.TPath({ pack : [], name : "Int", params : []}),null), pos : { file : "test/TestCoreExternGenerator.hx", min : 1317, max : 1323}}])];
-		var printer = new haxe.macro.Printer();
-		types.sort(CoreExternGenerator.compareComplexType);
-		this.assertEquals("String,Int,Float,{var a:Int;var b:Int;},{var a:Int;},Dynamic<String>,Dynamic",types.map($bind(printer,printer.printComplexType)).toString(),{ fileName : "TestCoreExternGenerator.hx", lineNumber : 35, className : "TestCoreExternGenerator", methodName : "testCompareComplexTypeSorting"});
-		types.sort(function(a,b) {
+		var types = [haxe.macro.ComplexType.TPath({ pack : [], name : "Dynamic", params : []}),haxe.macro.ComplexType.TPath({ pack : [], name : "Dynamic", params : [haxe.macro.TypeParam.TPType(haxe.macro.ComplexType.TPath({ pack : [], name : "String", params : []}))]}),haxe.macro.ComplexType.TPath({ pack : [], name : "String", params : []}),haxe.macro.ComplexType.TPath({ pack : [], name : "Float", params : []}),haxe.macro.ComplexType.TPath({ pack : [], name : "Int", params : []}),haxe.macro.ComplexType.TAnonymous([{ name : "a", kind : haxe.macro.FieldType.FVar(haxe.macro.ComplexType.TPath({ pack : [], name : "Int", params : []}),null), pos : { file : "test/TestCoreExternGenerator.hx", min : 1365, max : 1371}}]),haxe.macro.ComplexType.TAnonymous([{ name : "a", kind : haxe.macro.FieldType.FVar(haxe.macro.ComplexType.TPath({ pack : [], name : "Int", params : []}),null), pos : { file : "test/TestCoreExternGenerator.hx", min : 1395, max : 1401}},{ name : "b", kind : haxe.macro.FieldType.FVar(haxe.macro.ComplexType.TPath({ pack : [], name : "Int", params : []}),null), pos : { file : "test/TestCoreExternGenerator.hx", min : 1402, max : 1408}}])];
+		var sorted = types.slice();
+		sorted.sort(CoreExternGenerator.compareComplexType);
+		this.assertEquals("2,4,3,6,5,1,0",sorted.map((function(_e) {
+			return function(v) {
+				return Lambda.indexOf(_e,v);
+			};
+		})(types)).toString(),{ fileName : "TestCoreExternGenerator.hx", lineNumber : 36, className : "TestCoreExternGenerator", methodName : "testCompareComplexTypeSorting"});
+		sorted.sort(function(a,b) {
 			return -CoreExternGenerator.compareComplexType(a,b);
 		});
-		this.assertEquals("Dynamic,Dynamic<String>,{var a:Int;},{var a:Int;var b:Int;},Float,Int,String",types.map($bind(printer,printer.printComplexType)).toString().split("\n").join(""),{ fileName : "TestCoreExternGenerator.hx", lineNumber : 41, className : "TestCoreExternGenerator", methodName : "testCompareComplexTypeSorting"});
+		this.assertEquals("0,1,5,6,3,4,2",sorted.map((function(_e1) {
+			return function(v) {
+				return Lambda.indexOf(_e1,v);
+			};
+		})(types)).toString(),{ fileName : "TestCoreExternGenerator.hx", lineNumber : 42, className : "TestCoreExternGenerator", methodName : "testCompareComplexTypeSorting"});
 	}
 	,testCompareComplexType: function() {
-		this.assertTrue(CoreExternGenerator.compareComplexType(haxe.macro.ComplexType.TPath({ pack : [], name : "Dynamic", params : []}),haxe.macro.ComplexType.TPath({ pack : [], name : "Void", params : []})) > 0,{ fileName : "TestCoreExternGenerator.hx", lineNumber : 6, className : "TestCoreExternGenerator", methodName : "testCompareComplexType"});
-		this.assertTrue(CoreExternGenerator.compareComplexType(haxe.macro.ComplexType.TPath({ pack : [], name : "Dynamic", params : []}),haxe.macro.ComplexType.TPath({ pack : [], name : "String", params : []})) > 0,{ fileName : "TestCoreExternGenerator.hx", lineNumber : 7, className : "TestCoreExternGenerator", methodName : "testCompareComplexType"});
-		this.assertTrue(CoreExternGenerator.compareComplexType(haxe.macro.ComplexType.TPath({ pack : [], name : "Dynamic", params : []}),haxe.macro.ComplexType.TPath({ pack : [], name : "Int", params : []})) > 0,{ fileName : "TestCoreExternGenerator.hx", lineNumber : 8, className : "TestCoreExternGenerator", methodName : "testCompareComplexType"});
-		this.assertTrue(CoreExternGenerator.compareComplexType(haxe.macro.ComplexType.TPath({ pack : [], name : "Dynamic", params : []}),haxe.macro.ComplexType.TPath({ pack : [], name : "Float", params : []})) > 0,{ fileName : "TestCoreExternGenerator.hx", lineNumber : 9, className : "TestCoreExternGenerator", methodName : "testCompareComplexType"});
-		this.assertTrue(CoreExternGenerator.compareComplexType(haxe.macro.ComplexType.TPath({ pack : [], name : "Dynamic", params : [haxe.macro.TypeParam.TPType(haxe.macro.ComplexType.TPath({ pack : [], name : "String", params : []}))]}),haxe.macro.ComplexType.TPath({ pack : [], name : "Void", params : []})) > 0,{ fileName : "TestCoreExternGenerator.hx", lineNumber : 11, className : "TestCoreExternGenerator", methodName : "testCompareComplexType"});
-		this.assertTrue(CoreExternGenerator.compareComplexType(haxe.macro.ComplexType.TPath({ pack : [], name : "Dynamic", params : [haxe.macro.TypeParam.TPType(haxe.macro.ComplexType.TPath({ pack : [], name : "String", params : []}))]}),haxe.macro.ComplexType.TPath({ pack : [], name : "String", params : []})) > 0,{ fileName : "TestCoreExternGenerator.hx", lineNumber : 12, className : "TestCoreExternGenerator", methodName : "testCompareComplexType"});
-		this.assertTrue(CoreExternGenerator.compareComplexType(haxe.macro.ComplexType.TPath({ pack : [], name : "Dynamic", params : [haxe.macro.TypeParam.TPType(haxe.macro.ComplexType.TPath({ pack : [], name : "String", params : []}))]}),haxe.macro.ComplexType.TPath({ pack : [], name : "Int", params : []})) > 0,{ fileName : "TestCoreExternGenerator.hx", lineNumber : 13, className : "TestCoreExternGenerator", methodName : "testCompareComplexType"});
-		this.assertTrue(CoreExternGenerator.compareComplexType(haxe.macro.ComplexType.TPath({ pack : [], name : "Dynamic", params : [haxe.macro.TypeParam.TPType(haxe.macro.ComplexType.TPath({ pack : [], name : "String", params : []}))]}),haxe.macro.ComplexType.TPath({ pack : [], name : "Float", params : []})) > 0,{ fileName : "TestCoreExternGenerator.hx", lineNumber : 14, className : "TestCoreExternGenerator", methodName : "testCompareComplexType"});
-		this.assertTrue(CoreExternGenerator.compareComplexType(haxe.macro.ComplexType.TPath({ pack : [], name : "Dynamic", params : []}),haxe.macro.ComplexType.TPath({ pack : [], name : "Dynamic", params : [haxe.macro.TypeParam.TPType(haxe.macro.ComplexType.TPath({ pack : [], name : "String", params : []}))]})) > 0,{ fileName : "TestCoreExternGenerator.hx", lineNumber : 16, className : "TestCoreExternGenerator", methodName : "testCompareComplexType"});
-		this.assertTrue(CoreExternGenerator.compareComplexType(haxe.macro.ComplexType.TPath({ pack : [], name : "Float", params : []}),haxe.macro.ComplexType.TPath({ pack : [], name : "Int", params : []})) > 0,{ fileName : "TestCoreExternGenerator.hx", lineNumber : 18, className : "TestCoreExternGenerator", methodName : "testCompareComplexType"});
+		this.assertTrue(CoreExternGenerator.compareComplexType(haxe.macro.ComplexType.TPath({ pack : [], name : "Dynamic", params : []}),haxe.macro.ComplexType.TPath({ pack : [], name : "Void", params : []})) > 0,{ fileName : "TestCoreExternGenerator.hx", lineNumber : 7, className : "TestCoreExternGenerator", methodName : "testCompareComplexType"});
+		this.assertTrue(CoreExternGenerator.compareComplexType(haxe.macro.ComplexType.TPath({ pack : [], name : "Dynamic", params : []}),haxe.macro.ComplexType.TPath({ pack : [], name : "String", params : []})) > 0,{ fileName : "TestCoreExternGenerator.hx", lineNumber : 8, className : "TestCoreExternGenerator", methodName : "testCompareComplexType"});
+		this.assertTrue(CoreExternGenerator.compareComplexType(haxe.macro.ComplexType.TPath({ pack : [], name : "Dynamic", params : []}),haxe.macro.ComplexType.TPath({ pack : [], name : "Int", params : []})) > 0,{ fileName : "TestCoreExternGenerator.hx", lineNumber : 9, className : "TestCoreExternGenerator", methodName : "testCompareComplexType"});
+		this.assertTrue(CoreExternGenerator.compareComplexType(haxe.macro.ComplexType.TPath({ pack : [], name : "Dynamic", params : []}),haxe.macro.ComplexType.TPath({ pack : [], name : "Float", params : []})) > 0,{ fileName : "TestCoreExternGenerator.hx", lineNumber : 10, className : "TestCoreExternGenerator", methodName : "testCompareComplexType"});
+		this.assertTrue(CoreExternGenerator.compareComplexType(haxe.macro.ComplexType.TPath({ pack : [], name : "Dynamic", params : [haxe.macro.TypeParam.TPType(haxe.macro.ComplexType.TPath({ pack : [], name : "String", params : []}))]}),haxe.macro.ComplexType.TPath({ pack : [], name : "Void", params : []})) > 0,{ fileName : "TestCoreExternGenerator.hx", lineNumber : 12, className : "TestCoreExternGenerator", methodName : "testCompareComplexType"});
+		this.assertTrue(CoreExternGenerator.compareComplexType(haxe.macro.ComplexType.TPath({ pack : [], name : "Dynamic", params : [haxe.macro.TypeParam.TPType(haxe.macro.ComplexType.TPath({ pack : [], name : "String", params : []}))]}),haxe.macro.ComplexType.TPath({ pack : [], name : "String", params : []})) > 0,{ fileName : "TestCoreExternGenerator.hx", lineNumber : 13, className : "TestCoreExternGenerator", methodName : "testCompareComplexType"});
+		this.assertTrue(CoreExternGenerator.compareComplexType(haxe.macro.ComplexType.TPath({ pack : [], name : "Dynamic", params : [haxe.macro.TypeParam.TPType(haxe.macro.ComplexType.TPath({ pack : [], name : "String", params : []}))]}),haxe.macro.ComplexType.TPath({ pack : [], name : "Int", params : []})) > 0,{ fileName : "TestCoreExternGenerator.hx", lineNumber : 14, className : "TestCoreExternGenerator", methodName : "testCompareComplexType"});
+		this.assertTrue(CoreExternGenerator.compareComplexType(haxe.macro.ComplexType.TPath({ pack : [], name : "Dynamic", params : [haxe.macro.TypeParam.TPType(haxe.macro.ComplexType.TPath({ pack : [], name : "String", params : []}))]}),haxe.macro.ComplexType.TPath({ pack : [], name : "Float", params : []})) > 0,{ fileName : "TestCoreExternGenerator.hx", lineNumber : 15, className : "TestCoreExternGenerator", methodName : "testCompareComplexType"});
+		this.assertTrue(CoreExternGenerator.compareComplexType(haxe.macro.ComplexType.TPath({ pack : [], name : "Dynamic", params : []}),haxe.macro.ComplexType.TPath({ pack : [], name : "Dynamic", params : [haxe.macro.TypeParam.TPType(haxe.macro.ComplexType.TPath({ pack : [], name : "String", params : []}))]})) > 0,{ fileName : "TestCoreExternGenerator.hx", lineNumber : 17, className : "TestCoreExternGenerator", methodName : "testCompareComplexType"});
+		this.assertTrue(CoreExternGenerator.compareComplexType(haxe.macro.ComplexType.TPath({ pack : [], name : "Float", params : []}),haxe.macro.ComplexType.TPath({ pack : [], name : "Int", params : []})) > 0,{ fileName : "TestCoreExternGenerator.hx", lineNumber : 19, className : "TestCoreExternGenerator", methodName : "testCompareComplexType"});
 	}
 	,__class__: TestCoreExternGenerator
 });
@@ -768,463 +773,6 @@ haxe.macro.TypeDefKind.TDStructure.__enum__ = haxe.macro.TypeDefKind;
 haxe.macro.TypeDefKind.TDClass = function(superClass,interfaces,isInterface) { var $x = ["TDClass",2,superClass,interfaces,isInterface]; $x.__enum__ = haxe.macro.TypeDefKind; $x.toString = $estr; return $x; }
 haxe.macro.TypeDefKind.TDAlias = function(t) { var $x = ["TDAlias",3,t]; $x.__enum__ = haxe.macro.TypeDefKind; $x.toString = $estr; return $x; }
 haxe.macro.TypeDefKind.TDAbstract = function(tthis,from,to) { var $x = ["TDAbstract",4,tthis,from,to]; $x.__enum__ = haxe.macro.TypeDefKind; $x.toString = $estr; return $x; }
-haxe.macro.Printer = function(tabString) {
-	if(tabString == null) tabString = "\t";
-	this.tabs = "";
-	this.tabString = tabString;
-};
-haxe.macro.Printer.__name__ = ["haxe","macro","Printer"];
-haxe.macro.Printer.prototype = {
-	opt: function(v,f,prefix) {
-		if(prefix == null) prefix = "";
-		return v == null?"":prefix + f(v);
-	}
-	,printExprs: function(el,sep) {
-		return el.map($bind(this,this.printExpr)).join(sep);
-	}
-	,printExpr: function(e) {
-		var _g = this;
-		return e == null?"#NULL":(function($this) {
-			var $r;
-			var $e = (e.expr);
-			switch( $e[1] ) {
-			case 0:
-				var e_fexpr_eEConst_0 = $e[2];
-				$r = $this.printConstant(e_fexpr_eEConst_0);
-				break;
-			case 1:
-				var e_fexpr_eEArray_1 = $e[3], e_fexpr_eEArray_0 = $e[2];
-				$r = "" + $this.printExpr(e_fexpr_eEArray_0) + "[" + $this.printExpr(e_fexpr_eEArray_1) + "]";
-				break;
-			case 2:
-				var e_fexpr_eEBinop_2 = $e[4], e_fexpr_eEBinop_1 = $e[3], e_fexpr_eEBinop_0 = $e[2];
-				$r = "" + $this.printExpr(e_fexpr_eEBinop_1) + $this.printBinop(e_fexpr_eEBinop_0) + $this.printExpr(e_fexpr_eEBinop_2);
-				break;
-			case 3:
-				var e_fexpr_eEField_1 = $e[3], e_fexpr_eEField_0 = $e[2];
-				$r = "" + $this.printExpr(e_fexpr_eEField_0) + "." + e_fexpr_eEField_1;
-				break;
-			case 4:
-				var e_fexpr_eEParenthesis_0 = $e[2];
-				$r = "(" + $this.printExpr(e_fexpr_eEParenthesis_0) + ")";
-				break;
-			case 5:
-				var e_fexpr_eEObjectDecl_0 = $e[2];
-				$r = "{" + e_fexpr_eEObjectDecl_0.map(function(fld) {
-					return "" + fld.field + ":" + _g.printExpr(fld.expr);
-				}).join(",") + "}";
-				break;
-			case 6:
-				var e_fexpr_eEArrayDecl_0 = $e[2];
-				$r = "[" + $this.printExprs(e_fexpr_eEArrayDecl_0,",") + "]";
-				break;
-			case 7:
-				var e_fexpr_eECall_1 = $e[3], e_fexpr_eECall_0 = $e[2];
-				$r = "" + $this.printExpr(e_fexpr_eECall_0) + "(" + $this.printExprs(e_fexpr_eECall_1,",") + ")";
-				break;
-			case 8:
-				var e_fexpr_eENew_1 = $e[3], e_fexpr_eENew_0 = $e[2];
-				$r = "new " + $this.printTypePath(e_fexpr_eENew_0) + "(" + $this.printExprs(e_fexpr_eENew_1,",") + ")";
-				break;
-			case 9:
-				var e_fexpr_eEUnop_2 = $e[4], e_fexpr_eEUnop_1 = $e[3], e_fexpr_eEUnop_0 = $e[2];
-				$r = (function($this) {
-					var $r;
-					switch(e_fexpr_eEUnop_1) {
-					case true:
-						$r = $this.printExpr(e_fexpr_eEUnop_2) + $this.printUnop(e_fexpr_eEUnop_0);
-						break;
-					case false:
-						$r = $this.printUnop(e_fexpr_eEUnop_0) + $this.printExpr(e_fexpr_eEUnop_2);
-						break;
-					}
-					return $r;
-				}($this));
-				break;
-			case 11:
-				var e_fexpr_eEFunction_1 = $e[3], e_fexpr_eEFunction_0 = $e[2];
-				$r = e_fexpr_eEFunction_0 != null?"function " + e_fexpr_eEFunction_0 + $this.printFunction(e_fexpr_eEFunction_1):"function " + $this.printFunction(e_fexpr_eEFunction_1);
-				break;
-			case 10:
-				var e_fexpr_eEVars_0 = $e[2];
-				$r = "var " + e_fexpr_eEVars_0.map($bind($this,$this.printVar)).join(",");
-				break;
-			case 12:
-				var e_fexpr_eEBlock_0 = $e[2];
-				$r = (function($this) {
-					var $r;
-					switch(e_fexpr_eEBlock_0.length) {
-					case 0:
-						$r = "{\n" + $this.tabs + "}";
-						break;
-					default:
-						$r = (function($this) {
-							var $r;
-							var old = $this.tabs;
-							$this.tabs += $this.tabString;
-							var s = "{\n" + $this.tabs + $this.printExprs(e_fexpr_eEBlock_0,";\n" + $this.tabs);
-							$this.tabs = old;
-							$r = s + (";\n" + $this.tabs + "}");
-							return $r;
-						}($this));
-					}
-					return $r;
-				}($this));
-				break;
-			case 13:
-				var e_fexpr_eEFor_1 = $e[3], e_fexpr_eEFor_0 = $e[2];
-				$r = "for(" + $this.printExpr(e_fexpr_eEFor_0) + ") " + $this.printExpr(e_fexpr_eEFor_1);
-				break;
-			case 14:
-				var e_fexpr_eEIn_1 = $e[3], e_fexpr_eEIn_0 = $e[2];
-				$r = "" + $this.printExpr(e_fexpr_eEIn_0) + " in " + $this.printExpr(e_fexpr_eEIn_1);
-				break;
-			case 15:
-				var e_fexpr_eEIf_2 = $e[4], e_fexpr_eEIf_1 = $e[3], e_fexpr_eEIf_0 = $e[2];
-				$r = "if(" + $this.printExpr(e_fexpr_eEIf_0) + ") " + $this.printExpr(e_fexpr_eEIf_1) + " " + $this.opt(e_fexpr_eEIf_2,$bind($this,$this.printExpr),"else ");
-				break;
-			case 16:
-				var e_fexpr_eEWhile_2 = $e[4], e_fexpr_eEWhile_1 = $e[3], e_fexpr_eEWhile_0 = $e[2];
-				$r = (function($this) {
-					var $r;
-					switch(e_fexpr_eEWhile_2) {
-					case true:
-						$r = "while(" + $this.printExpr(e_fexpr_eEWhile_0) + ") " + $this.printExpr(e_fexpr_eEWhile_1);
-						break;
-					case false:
-						$r = "do " + $this.printExpr(e_fexpr_eEWhile_1) + " while(" + $this.printExpr(e_fexpr_eEWhile_0) + ")";
-						break;
-					}
-					return $r;
-				}($this));
-				break;
-			case 17:
-				var e_fexpr_eESwitch_2 = $e[4], e_fexpr_eESwitch_1 = $e[3], e_fexpr_eESwitch_0 = $e[2];
-				$r = (function($this) {
-					var $r;
-					var old = $this.tabs;
-					$this.tabs += $this.tabString;
-					var s = "switch " + $this.printExpr(e_fexpr_eESwitch_0) + " {\n" + $this.tabs + e_fexpr_eESwitch_1.map(function(c) {
-						return "case " + _g.printExprs(c.values,",") + (c.guard != null?"if(" + _g.printExpr(c.guard) + "):":":") + _g.opt(c.expr,$bind(_g,_g.printExpr));
-					}).join("\n" + $this.tabs);
-					if(e_fexpr_eESwitch_2 != null) s += "\n" + $this.tabs + "default:" + (e_fexpr_eESwitch_2.expr == null?"":$this.printExpr(e_fexpr_eESwitch_2));
-					$this.tabs = old;
-					$r = s + ("\n" + $this.tabs + "}");
-					return $r;
-				}($this));
-				break;
-			case 18:
-				var e_fexpr_eETry_1 = $e[3], e_fexpr_eETry_0 = $e[2];
-				$r = "try " + $this.printExpr(e_fexpr_eETry_0) + e_fexpr_eETry_1.map(function(c) {
-					return " catch(" + c.name + ":" + _g.printComplexType(c.type) + ") " + _g.printExpr(c.expr);
-				}).join("");
-				break;
-			case 19:
-				var e_fexpr_eEReturn_0 = $e[2];
-				$r = "return" + $this.opt(e_fexpr_eEReturn_0,$bind($this,$this.printExpr)," ");
-				break;
-			case 20:
-				$r = "break";
-				break;
-			case 21:
-				$r = "continue";
-				break;
-			case 22:
-				var e_fexpr_eEUntyped_0 = $e[2];
-				$r = "untyped " + $this.printExpr(e_fexpr_eEUntyped_0);
-				break;
-			case 23:
-				var e_fexpr_eEThrow_0 = $e[2];
-				$r = "throw " + $this.printExpr(e_fexpr_eEThrow_0);
-				break;
-			case 24:
-				var e_fexpr_eECast_1 = $e[3], e_fexpr_eECast_0 = $e[2];
-				$r = e_fexpr_eECast_1 != null?"cast(" + $this.printExpr(e_fexpr_eECast_0) + ", " + $this.printComplexType(e_fexpr_eECast_1) + ")":"cast " + $this.printExpr(e_fexpr_eECast_0);
-				break;
-			case 25:
-				var e_fexpr_eEDisplay_0 = $e[2];
-				$r = "#DISPLAY(" + $this.printExpr(e_fexpr_eEDisplay_0) + ")";
-				break;
-			case 26:
-				var e_fexpr_eEDisplayNew_0 = $e[2];
-				$r = "#DISPLAY(" + $this.printTypePath(e_fexpr_eEDisplayNew_0) + ")";
-				break;
-			case 27:
-				var e_fexpr_eETernary_2 = $e[4], e_fexpr_eETernary_1 = $e[3], e_fexpr_eETernary_0 = $e[2];
-				$r = "" + $this.printExpr(e_fexpr_eETernary_0) + " ? " + $this.printExpr(e_fexpr_eETernary_1) + " : " + $this.printExpr(e_fexpr_eETernary_2);
-				break;
-			case 28:
-				var e_fexpr_eECheckType_1 = $e[3], e_fexpr_eECheckType_0 = $e[2];
-				$r = "#CHECK_TYPE(" + $this.printExpr(e_fexpr_eECheckType_0) + ", " + $this.printComplexType(e_fexpr_eECheckType_1) + ")";
-				break;
-			case 29:
-				var e_fexpr_eEMeta_1 = $e[3], e_fexpr_eEMeta_0 = $e[2];
-				$r = $this.printMetadata(e_fexpr_eEMeta_0) + " " + $this.printExpr(e_fexpr_eEMeta_1);
-				break;
-			}
-			return $r;
-		}(this));
-	}
-	,printVar: function(v) {
-		return v.name + this.opt(v.type,$bind(this,this.printComplexType),":") + this.opt(v.expr,$bind(this,this.printExpr),"=");
-	}
-	,printFunction: function(func) {
-		return (func.params.length > 0?"<" + func.params.map($bind(this,this.printTypeParamDecl)).join(",") + ">":"") + "(" + func.args.map($bind(this,this.printFunctionArg)).join(",") + ")" + this.opt(func.ret,$bind(this,this.printComplexType),":") + this.opt(func.expr,$bind(this,this.printExpr)," ");
-	}
-	,printFunctionArg: function(arg) {
-		return (arg.opt?"?":"") + arg.name + this.opt(arg.type,$bind(this,this.printComplexType),":") + this.opt(arg.value,$bind(this,this.printExpr),"=");
-	}
-	,printTypeParamDecl: function(tpd) {
-		return tpd.name + (tpd.params != null && tpd.params.length > 0?"<" + tpd.params.map($bind(this,this.printTypeParamDecl)).join(",") + ">":"") + (tpd.constraints != null && tpd.constraints.length > 0?":(" + tpd.constraints.map($bind(this,this.printComplexType)).join(",") + ")":"");
-	}
-	,printField: function(field) {
-		return (field.doc != null && field.doc != ""?"/**\n" + this.tabs + this.tabString + StringTools.replace(field.doc,"\n","\n" + this.tabs + this.tabString) + "\n" + this.tabs + "**/\n" + this.tabs:"") + (field.meta != null && field.meta.length > 0?field.meta.map($bind(this,this.printMetadata)).join(" ") + " ":"") + (field.access != null && field.access.length > 0?field.access.map($bind(this,this.printAccess)).join(" ") + " ":"") + (function($this) {
-			var $r;
-			var $e = (field.kind);
-			switch( $e[1] ) {
-			case 0:
-				var field_fkind_eFVar_1 = $e[3], field_fkind_eFVar_0 = $e[2];
-				$r = "var " + field.name + $this.opt(field_fkind_eFVar_0,$bind($this,$this.printComplexType),":") + $this.opt(field_fkind_eFVar_1,$bind($this,$this.printExpr),"=");
-				break;
-			case 2:
-				var field_fkind_eFProp_3 = $e[5], field_fkind_eFProp_2 = $e[4], field_fkind_eFProp_1 = $e[3], field_fkind_eFProp_0 = $e[2];
-				$r = "var " + field.name + "(" + field_fkind_eFProp_0 + "," + field_fkind_eFProp_1 + ")" + $this.opt(field_fkind_eFProp_2,$bind($this,$this.printComplexType),":") + $this.opt(field_fkind_eFProp_3,$bind($this,$this.printExpr),"=");
-				break;
-			case 1:
-				var field_fkind_eFFun_0 = $e[2];
-				$r = "function " + field.name + $this.printFunction(field_fkind_eFFun_0);
-				break;
-			}
-			return $r;
-		}(this));
-	}
-	,printAccess: function(access) {
-		return (function($this) {
-			var $r;
-			switch( (access)[1] ) {
-			case 2:
-				$r = "static";
-				break;
-			case 0:
-				$r = "public";
-				break;
-			case 1:
-				$r = "private";
-				break;
-			case 3:
-				$r = "override";
-				break;
-			case 5:
-				$r = "inline";
-				break;
-			case 4:
-				$r = "dynamic";
-				break;
-			case 6:
-				$r = "macro";
-				break;
-			}
-			return $r;
-		}(this));
-	}
-	,printMetadata: function(meta) {
-		return "@" + meta.name + (meta.params.length > 0?"(" + this.printExprs(meta.params,",") + ")":"");
-	}
-	,printComplexType: function(ct) {
-		return (function($this) {
-			var $r;
-			var $e = (ct);
-			switch( $e[1] ) {
-			case 0:
-				var ct_eTPath_0 = $e[2];
-				$r = $this.printTypePath(ct_eTPath_0);
-				break;
-			case 1:
-				var ct_eTFunction_1 = $e[3], ct_eTFunction_0 = $e[2];
-				$r = ct_eTFunction_0.map($bind($this,$this.printComplexType)).join("->") + "->" + $this.printComplexType(ct_eTFunction_1);
-				break;
-			case 2:
-				var ct_eTAnonymous_0 = $e[2];
-				$r = "{" + ((function($this) {
-					var $r;
-					var _g = [];
-					{
-						var _g1 = 0;
-						while(_g1 < ct_eTAnonymous_0.length) {
-							var f = ct_eTAnonymous_0[_g1];
-							++_g1;
-							_g.push($this.printField(f) + ";");
-						}
-					}
-					$r = _g;
-					return $r;
-				}($this))).join("") + "}";
-				break;
-			case 3:
-				var ct_eTParent_0 = $e[2];
-				$r = "(" + $this.printComplexType(ct_eTParent_0) + ")";
-				break;
-			case 5:
-				var ct_eTOptional_0 = $e[2];
-				$r = "?" + $this.printComplexType(ct_eTOptional_0);
-				break;
-			case 4:
-				var ct_eTExtend_1 = $e[3], ct_eTExtend_0 = $e[2];
-				$r = "{" + $this.printTypePath(ct_eTExtend_0) + " >, " + ct_eTExtend_1.map($bind($this,$this.printField)).join(",") + "}";
-				break;
-			}
-			return $r;
-		}(this));
-	}
-	,printTypePath: function(tp) {
-		return (tp.pack.length > 0?tp.pack.join(".") + ".":"") + tp.name + (tp.sub != null?"." + tp.sub:"") + (tp.params.length > 0?"<" + tp.params.map($bind(this,this.printTypeParam)).join(",") + ">":"");
-	}
-	,printTypeParam: function(param) {
-		return (function($this) {
-			var $r;
-			var $e = (param);
-			switch( $e[1] ) {
-			case 0:
-				var param_eTPType_0 = $e[2];
-				$r = $this.printComplexType(param_eTPType_0);
-				break;
-			case 1:
-				var param_eTPExpr_0 = $e[2];
-				$r = $this.printExpr(param_eTPExpr_0);
-				break;
-			}
-			return $r;
-		}(this));
-	}
-	,printConstant: function(c) {
-		return (function($this) {
-			var $r;
-			var $e = (c);
-			switch( $e[1] ) {
-			case 2:
-				var c_eCString_0 = $e[2];
-				$r = "\"" + c_eCString_0 + "\"";
-				break;
-			case 3:
-			case 0:
-			case 1:
-				var c_eCIdent_0 = $e[2];
-				$r = c_eCIdent_0;
-				break;
-			case 4:
-				var c_eCRegexp_1 = $e[3], c_eCRegexp_0 = $e[2];
-				$r = "~/" + c_eCRegexp_0 + "/" + c_eCRegexp_1;
-				break;
-			}
-			return $r;
-		}(this));
-	}
-	,printBinop: function(op) {
-		return (function($this) {
-			var $r;
-			var $e = (op);
-			switch( $e[1] ) {
-			case 0:
-				$r = "+";
-				break;
-			case 1:
-				$r = "*";
-				break;
-			case 2:
-				$r = "/";
-				break;
-			case 3:
-				$r = "-";
-				break;
-			case 4:
-				$r = "=";
-				break;
-			case 5:
-				$r = "==";
-				break;
-			case 6:
-				$r = "!=";
-				break;
-			case 7:
-				$r = ">";
-				break;
-			case 8:
-				$r = ">=";
-				break;
-			case 9:
-				$r = "<";
-				break;
-			case 10:
-				$r = "<=";
-				break;
-			case 11:
-				$r = "&";
-				break;
-			case 12:
-				$r = "|";
-				break;
-			case 13:
-				$r = "^";
-				break;
-			case 14:
-				$r = "&&";
-				break;
-			case 15:
-				$r = "||";
-				break;
-			case 16:
-				$r = "<<";
-				break;
-			case 17:
-				$r = ">>";
-				break;
-			case 18:
-				$r = ">>>";
-				break;
-			case 19:
-				$r = "%";
-				break;
-			case 21:
-				$r = "...";
-				break;
-			case 22:
-				$r = "=>";
-				break;
-			case 20:
-				var op_eOpAssignOp_0 = $e[2];
-				$r = $this.printBinop(op_eOpAssignOp_0) + "=";
-				break;
-			}
-			return $r;
-		}(this));
-	}
-	,printUnop: function(op) {
-		return (function($this) {
-			var $r;
-			switch( (op)[1] ) {
-			case 0:
-				$r = "++";
-				break;
-			case 1:
-				$r = "--";
-				break;
-			case 2:
-				$r = "!";
-				break;
-			case 3:
-				$r = "-";
-				break;
-			case 4:
-				$r = "~";
-				break;
-			}
-			return $r;
-		}(this));
-	}
-	,tabString: null
-	,tabs: null
-	,__class__: haxe.macro.Printer
-}
 haxe.unit.TestResult = function() {
 	this.m_tests = new List();
 	this.success = true;
@@ -2361,7 +1909,7 @@ CoreExternGenerator.prototype = {
 				name = names[1];
 				break;
 			default:
-				haxe.Log.trace(name,{ fileName : "CoreExternGenerator.hx", lineNumber : 390, className : "jQuery.haxe.gen.CoreExternGenerator", methodName : "generate"});
+				haxe.Log.trace(name,{ fileName : "CoreExternGenerator.hx", lineNumber : 373, className : "jQuery.haxe.gen.CoreExternGenerator", methodName : "generate"});
 			}
 			var _g2 = entry.att.resolve("type");
 			switch(_g2) {
@@ -2555,7 +2103,7 @@ CoreExternGenerator.prototype = {
 						while(_g2 < functions.length) {
 							var func = functions[_g2];
 							++_g2;
-							func.expr = { expr : haxe.macro.ExprDef.EBlock([]), pos : { file : "jQuery/haxe/gen/CoreExternGenerator.hx", min : 18455, max : 18457}};
+							func.expr = { expr : haxe.macro.ExprDef.EBlock([]), pos : { file : "jQuery/haxe/gen/CoreExternGenerator.hx", min : 18038, max : 18040}};
 							field.meta.push({ name : ":overload", params : [{ expr : haxe.macro.ExprDef.EFunction(null,func), pos : null}], pos : null});
 						}
 						field.doc = ((function($this) {
@@ -2580,10 +2128,10 @@ CoreExternGenerator.prototype = {
 								var $r;
 								switch(memName) {
 								case "jQuery.browser":
-									$r = [haxe.macro.ComplexType.TAnonymous([{ name : "webkit", kind : haxe.macro.FieldType.FVar(haxe.macro.ComplexType.TPath({ pack : [], name : "Null", params : [haxe.macro.TypeParam.TPType(haxe.macro.ComplexType.TPath({ pack : [], name : "Bool", params : []}))]}),null), pos : { file : "jQuery/haxe/gen/CoreExternGenerator.hx", min : 18878, max : 18890}, meta : [{ name : ":optional", params : [], pos : { file : "jQuery/haxe/gen/CoreExternGenerator.hx", min : 18878, max : 18884}}]},{ name : "safari", kind : haxe.macro.FieldType.FVar(haxe.macro.ComplexType.TPath({ pack : [], name : "Null", params : [haxe.macro.TypeParam.TPType(haxe.macro.ComplexType.TPath({ pack : [], name : "Bool", params : []}))]}),null), pos : { file : "jQuery/haxe/gen/CoreExternGenerator.hx", min : 18903, max : 18915}, meta : [{ name : ":optional", params : [], pos : { file : "jQuery/haxe/gen/CoreExternGenerator.hx", min : 18903, max : 18909}}]},{ name : "opera", kind : haxe.macro.FieldType.FVar(haxe.macro.ComplexType.TPath({ pack : [], name : "Null", params : [haxe.macro.TypeParam.TPType(haxe.macro.ComplexType.TPath({ pack : [], name : "Bool", params : []}))]}),null), pos : { file : "jQuery/haxe/gen/CoreExternGenerator.hx", min : 18941, max : 18952}, meta : [{ name : ":optional", params : [], pos : { file : "jQuery/haxe/gen/CoreExternGenerator.hx", min : 18941, max : 18946}}]},{ name : "msie", kind : haxe.macro.FieldType.FVar(haxe.macro.ComplexType.TPath({ pack : [], name : "Null", params : [haxe.macro.TypeParam.TPType(haxe.macro.ComplexType.TPath({ pack : [], name : "Bool", params : []}))]}),null), pos : { file : "jQuery/haxe/gen/CoreExternGenerator.hx", min : 18965, max : 18975}, meta : [{ name : ":optional", params : [], pos : { file : "jQuery/haxe/gen/CoreExternGenerator.hx", min : 18965, max : 18969}}]},{ name : "mozilla", kind : haxe.macro.FieldType.FVar(haxe.macro.ComplexType.TPath({ pack : [], name : "Null", params : [haxe.macro.TypeParam.TPType(haxe.macro.ComplexType.TPath({ pack : [], name : "Bool", params : []}))]}),null), pos : { file : "jQuery/haxe/gen/CoreExternGenerator.hx", min : 18988, max : 19001}, meta : [{ name : ":optional", params : [], pos : { file : "jQuery/haxe/gen/CoreExternGenerator.hx", min : 18988, max : 18995}}]},{ name : "version", kind : haxe.macro.FieldType.FVar(haxe.macro.ComplexType.TPath({ pack : [], name : "String", params : []}),null), pos : { file : "jQuery/haxe/gen/CoreExternGenerator.hx", min : 19013, max : 19039}}])];
+									$r = [haxe.macro.ComplexType.TAnonymous([{ name : "webkit", kind : haxe.macro.FieldType.FVar(haxe.macro.ComplexType.TPath({ pack : [], name : "Null", params : [haxe.macro.TypeParam.TPType(haxe.macro.ComplexType.TPath({ pack : [], name : "Bool", params : []}))]}),null), pos : { file : "jQuery/haxe/gen/CoreExternGenerator.hx", min : 18461, max : 18473}, meta : [{ name : ":optional", params : [], pos : { file : "jQuery/haxe/gen/CoreExternGenerator.hx", min : 18461, max : 18467}}]},{ name : "safari", kind : haxe.macro.FieldType.FVar(haxe.macro.ComplexType.TPath({ pack : [], name : "Null", params : [haxe.macro.TypeParam.TPType(haxe.macro.ComplexType.TPath({ pack : [], name : "Bool", params : []}))]}),null), pos : { file : "jQuery/haxe/gen/CoreExternGenerator.hx", min : 18486, max : 18498}, meta : [{ name : ":optional", params : [], pos : { file : "jQuery/haxe/gen/CoreExternGenerator.hx", min : 18486, max : 18492}}]},{ name : "opera", kind : haxe.macro.FieldType.FVar(haxe.macro.ComplexType.TPath({ pack : [], name : "Null", params : [haxe.macro.TypeParam.TPType(haxe.macro.ComplexType.TPath({ pack : [], name : "Bool", params : []}))]}),null), pos : { file : "jQuery/haxe/gen/CoreExternGenerator.hx", min : 18524, max : 18535}, meta : [{ name : ":optional", params : [], pos : { file : "jQuery/haxe/gen/CoreExternGenerator.hx", min : 18524, max : 18529}}]},{ name : "msie", kind : haxe.macro.FieldType.FVar(haxe.macro.ComplexType.TPath({ pack : [], name : "Null", params : [haxe.macro.TypeParam.TPType(haxe.macro.ComplexType.TPath({ pack : [], name : "Bool", params : []}))]}),null), pos : { file : "jQuery/haxe/gen/CoreExternGenerator.hx", min : 18548, max : 18558}, meta : [{ name : ":optional", params : [], pos : { file : "jQuery/haxe/gen/CoreExternGenerator.hx", min : 18548, max : 18552}}]},{ name : "mozilla", kind : haxe.macro.FieldType.FVar(haxe.macro.ComplexType.TPath({ pack : [], name : "Null", params : [haxe.macro.TypeParam.TPType(haxe.macro.ComplexType.TPath({ pack : [], name : "Bool", params : []}))]}),null), pos : { file : "jQuery/haxe/gen/CoreExternGenerator.hx", min : 18571, max : 18584}, meta : [{ name : ":optional", params : [], pos : { file : "jQuery/haxe/gen/CoreExternGenerator.hx", min : 18571, max : 18578}}]},{ name : "version", kind : haxe.macro.FieldType.FVar(haxe.macro.ComplexType.TPath({ pack : [], name : "String", params : []}),null), pos : { file : "jQuery/haxe/gen/CoreExternGenerator.hx", min : 18596, max : 18622}}])];
 									break;
 								case "jQuery.support":
-									$r = [haxe.macro.ComplexType.TAnonymous([{ name : "ajax", kind : haxe.macro.FieldType.FVar(haxe.macro.ComplexType.TPath({ pack : [], name : "Bool", params : []}),null), pos : { file : "jQuery/haxe/gen/CoreExternGenerator.hx", min : 19104, max : 19114}},{ name : "boxModel", kind : haxe.macro.FieldType.FVar(haxe.macro.ComplexType.TPath({ pack : [], name : "Bool", params : []}),null), pos : { file : "jQuery/haxe/gen/CoreExternGenerator.hx", min : 19126, max : 19140}},{ name : "changeBubbles", kind : haxe.macro.FieldType.FVar(haxe.macro.ComplexType.TPath({ pack : [], name : "Bool", params : []}),null), pos : { file : "jQuery/haxe/gen/CoreExternGenerator.hx", min : 19152, max : 19171}},{ name : "checkClone", kind : haxe.macro.FieldType.FVar(haxe.macro.ComplexType.TPath({ pack : [], name : "Bool", params : []}),null), pos : { file : "jQuery/haxe/gen/CoreExternGenerator.hx", min : 19183, max : 19199}},{ name : "checkOn", kind : haxe.macro.FieldType.FVar(haxe.macro.ComplexType.TPath({ pack : [], name : "Bool", params : []}),null), pos : { file : "jQuery/haxe/gen/CoreExternGenerator.hx", min : 19211, max : 19224}},{ name : "cors", kind : haxe.macro.FieldType.FVar(haxe.macro.ComplexType.TPath({ pack : [], name : "Bool", params : []}),null), pos : { file : "jQuery/haxe/gen/CoreExternGenerator.hx", min : 19236, max : 19246}},{ name : "cssFloat", kind : haxe.macro.FieldType.FVar(haxe.macro.ComplexType.TPath({ pack : [], name : "Bool", params : []}),null), pos : { file : "jQuery/haxe/gen/CoreExternGenerator.hx", min : 19258, max : 19272}},{ name : "hrefNormalized", kind : haxe.macro.FieldType.FVar(haxe.macro.ComplexType.TPath({ pack : [], name : "Bool", params : []}),null), pos : { file : "jQuery/haxe/gen/CoreExternGenerator.hx", min : 19284, max : 19304}},{ name : "htmlSerialize", kind : haxe.macro.FieldType.FVar(haxe.macro.ComplexType.TPath({ pack : [], name : "Bool", params : []}),null), pos : { file : "jQuery/haxe/gen/CoreExternGenerator.hx", min : 19316, max : 19335}},{ name : "leadingWhitespace", kind : haxe.macro.FieldType.FVar(haxe.macro.ComplexType.TPath({ pack : [], name : "Bool", params : []}),null), pos : { file : "jQuery/haxe/gen/CoreExternGenerator.hx", min : 19347, max : 19370}},{ name : "noCloneChecked", kind : haxe.macro.FieldType.FVar(haxe.macro.ComplexType.TPath({ pack : [], name : "Bool", params : []}),null), pos : { file : "jQuery/haxe/gen/CoreExternGenerator.hx", min : 19382, max : 19402}},{ name : "noCloneEvent", kind : haxe.macro.FieldType.FVar(haxe.macro.ComplexType.TPath({ pack : [], name : "Bool", params : []}),null), pos : { file : "jQuery/haxe/gen/CoreExternGenerator.hx", min : 19414, max : 19432}},{ name : "opacity", kind : haxe.macro.FieldType.FVar(haxe.macro.ComplexType.TPath({ pack : [], name : "Bool", params : []}),null), pos : { file : "jQuery/haxe/gen/CoreExternGenerator.hx", min : 19444, max : 19457}},{ name : "optDisabled", kind : haxe.macro.FieldType.FVar(haxe.macro.ComplexType.TPath({ pack : [], name : "Bool", params : []}),null), pos : { file : "jQuery/haxe/gen/CoreExternGenerator.hx", min : 19469, max : 19486}},{ name : "optSelected", kind : haxe.macro.FieldType.FVar(haxe.macro.ComplexType.TPath({ pack : [], name : "Bool", params : []}),null), pos : { file : "jQuery/haxe/gen/CoreExternGenerator.hx", min : 19498, max : 19515}},{ name : "scriptEval", kind : haxe.macro.FieldType.FVar(haxe.macro.ComplexType.TFunction([haxe.macro.ComplexType.TPath({ pack : [], name : "Void", params : []})],haxe.macro.ComplexType.TPath({ pack : [], name : "Bool", params : []})),null), pos : { file : "jQuery/haxe/gen/CoreExternGenerator.hx", min : 19527, max : 19549}},{ name : "style", kind : haxe.macro.FieldType.FVar(haxe.macro.ComplexType.TPath({ pack : [], name : "Bool", params : []}),null), pos : { file : "jQuery/haxe/gen/CoreExternGenerator.hx", min : 19561, max : 19572}},{ name : "submitBubbles", kind : haxe.macro.FieldType.FVar(haxe.macro.ComplexType.TPath({ pack : [], name : "Bool", params : []}),null), pos : { file : "jQuery/haxe/gen/CoreExternGenerator.hx", min : 19584, max : 19603}},{ name : "tbody", kind : haxe.macro.FieldType.FVar(haxe.macro.ComplexType.TPath({ pack : [], name : "Bool", params : []}),null), pos : { file : "jQuery/haxe/gen/CoreExternGenerator.hx", min : 19615, max : 19626}}])];
+									$r = [haxe.macro.ComplexType.TAnonymous([{ name : "ajax", kind : haxe.macro.FieldType.FVar(haxe.macro.ComplexType.TPath({ pack : [], name : "Bool", params : []}),null), pos : { file : "jQuery/haxe/gen/CoreExternGenerator.hx", min : 18687, max : 18697}},{ name : "boxModel", kind : haxe.macro.FieldType.FVar(haxe.macro.ComplexType.TPath({ pack : [], name : "Bool", params : []}),null), pos : { file : "jQuery/haxe/gen/CoreExternGenerator.hx", min : 18709, max : 18723}},{ name : "changeBubbles", kind : haxe.macro.FieldType.FVar(haxe.macro.ComplexType.TPath({ pack : [], name : "Bool", params : []}),null), pos : { file : "jQuery/haxe/gen/CoreExternGenerator.hx", min : 18735, max : 18754}},{ name : "checkClone", kind : haxe.macro.FieldType.FVar(haxe.macro.ComplexType.TPath({ pack : [], name : "Bool", params : []}),null), pos : { file : "jQuery/haxe/gen/CoreExternGenerator.hx", min : 18766, max : 18782}},{ name : "checkOn", kind : haxe.macro.FieldType.FVar(haxe.macro.ComplexType.TPath({ pack : [], name : "Bool", params : []}),null), pos : { file : "jQuery/haxe/gen/CoreExternGenerator.hx", min : 18794, max : 18807}},{ name : "cors", kind : haxe.macro.FieldType.FVar(haxe.macro.ComplexType.TPath({ pack : [], name : "Bool", params : []}),null), pos : { file : "jQuery/haxe/gen/CoreExternGenerator.hx", min : 18819, max : 18829}},{ name : "cssFloat", kind : haxe.macro.FieldType.FVar(haxe.macro.ComplexType.TPath({ pack : [], name : "Bool", params : []}),null), pos : { file : "jQuery/haxe/gen/CoreExternGenerator.hx", min : 18841, max : 18855}},{ name : "hrefNormalized", kind : haxe.macro.FieldType.FVar(haxe.macro.ComplexType.TPath({ pack : [], name : "Bool", params : []}),null), pos : { file : "jQuery/haxe/gen/CoreExternGenerator.hx", min : 18867, max : 18887}},{ name : "htmlSerialize", kind : haxe.macro.FieldType.FVar(haxe.macro.ComplexType.TPath({ pack : [], name : "Bool", params : []}),null), pos : { file : "jQuery/haxe/gen/CoreExternGenerator.hx", min : 18899, max : 18918}},{ name : "leadingWhitespace", kind : haxe.macro.FieldType.FVar(haxe.macro.ComplexType.TPath({ pack : [], name : "Bool", params : []}),null), pos : { file : "jQuery/haxe/gen/CoreExternGenerator.hx", min : 18930, max : 18953}},{ name : "noCloneChecked", kind : haxe.macro.FieldType.FVar(haxe.macro.ComplexType.TPath({ pack : [], name : "Bool", params : []}),null), pos : { file : "jQuery/haxe/gen/CoreExternGenerator.hx", min : 18965, max : 18985}},{ name : "noCloneEvent", kind : haxe.macro.FieldType.FVar(haxe.macro.ComplexType.TPath({ pack : [], name : "Bool", params : []}),null), pos : { file : "jQuery/haxe/gen/CoreExternGenerator.hx", min : 18997, max : 19015}},{ name : "opacity", kind : haxe.macro.FieldType.FVar(haxe.macro.ComplexType.TPath({ pack : [], name : "Bool", params : []}),null), pos : { file : "jQuery/haxe/gen/CoreExternGenerator.hx", min : 19027, max : 19040}},{ name : "optDisabled", kind : haxe.macro.FieldType.FVar(haxe.macro.ComplexType.TPath({ pack : [], name : "Bool", params : []}),null), pos : { file : "jQuery/haxe/gen/CoreExternGenerator.hx", min : 19052, max : 19069}},{ name : "optSelected", kind : haxe.macro.FieldType.FVar(haxe.macro.ComplexType.TPath({ pack : [], name : "Bool", params : []}),null), pos : { file : "jQuery/haxe/gen/CoreExternGenerator.hx", min : 19081, max : 19098}},{ name : "scriptEval", kind : haxe.macro.FieldType.FVar(haxe.macro.ComplexType.TFunction([haxe.macro.ComplexType.TPath({ pack : [], name : "Void", params : []})],haxe.macro.ComplexType.TPath({ pack : [], name : "Bool", params : []})),null), pos : { file : "jQuery/haxe/gen/CoreExternGenerator.hx", min : 19110, max : 19132}},{ name : "style", kind : haxe.macro.FieldType.FVar(haxe.macro.ComplexType.TPath({ pack : [], name : "Bool", params : []}),null), pos : { file : "jQuery/haxe/gen/CoreExternGenerator.hx", min : 19144, max : 19155}},{ name : "submitBubbles", kind : haxe.macro.FieldType.FVar(haxe.macro.ComplexType.TPath({ pack : [], name : "Bool", params : []}),null), pos : { file : "jQuery/haxe/gen/CoreExternGenerator.hx", min : 19167, max : 19186}},{ name : "tbody", kind : haxe.macro.FieldType.FVar(haxe.macro.ComplexType.TPath({ pack : [], name : "Bool", params : []}),null), pos : { file : "jQuery/haxe/gen/CoreExternGenerator.hx", min : 19198, max : 19209}}])];
 									break;
 								default:
 									$r = $this.toComplexType(entry.att.resolve("return"),entry);
@@ -2612,7 +2160,7 @@ CoreExternGenerator.prototype = {
 								field.kind = haxe.macro.FieldType.FVar(haxe.macro.ComplexType.TAnonymous(fields1),null);
 								break;
 							default:
-								haxe.Log.trace(memName,{ fileName : "CoreExternGenerator.hx", lineNumber : 657, className : "jQuery.haxe.gen.CoreExternGenerator", methodName : "generate"});
+								haxe.Log.trace(memName,{ fileName : "CoreExternGenerator.hx", lineNumber : 640, className : "jQuery.haxe.gen.CoreExternGenerator", methodName : "generate"});
 							}
 						}
 						break;
@@ -2631,21 +2179,21 @@ CoreExternGenerator.prototype = {
 				td.meta.push({ name : ":final", params : [], pos : null});
 				switch(type_eTPath_0.name) {
 				case "JQuery":
-					td.meta.push({ name : ":native", params : [{ expr : haxe.macro.ExprDef.EConst(haxe.macro.Constant.CString("jQuery")), pos : { file : "jQuery/haxe/gen/CoreExternGenerator.hx", min : 21151, max : 21159}}], pos : null});
-					td.meta.push({ name : ":build", params : [{ expr : haxe.macro.ExprDef.ECall({ expr : haxe.macro.ExprDef.EField({ expr : haxe.macro.ExprDef.EField({ expr : haxe.macro.ExprDef.EField({ expr : haxe.macro.ExprDef.EConst(haxe.macro.Constant.CIdent("jQuery")), pos : { file : "jQuery/haxe/gen/CoreExternGenerator.hx", min : 21320, max : 21326}},"haxe"), pos : { file : "jQuery/haxe/gen/CoreExternGenerator.hx", min : 21320, max : 21331}},"Plugin"), pos : { file : "jQuery/haxe/gen/CoreExternGenerator.hx", min : 21320, max : 21338}},"insert"), pos : { file : "jQuery/haxe/gen/CoreExternGenerator.hx", min : 21320, max : 21345}},[]), pos : { file : "jQuery/haxe/gen/CoreExternGenerator.hx", min : 21320, max : 21347}}], pos : null});
+					td.meta.push({ name : ":native", params : [{ expr : haxe.macro.ExprDef.EConst(haxe.macro.Constant.CString("jQuery")), pos : { file : "jQuery/haxe/gen/CoreExternGenerator.hx", min : 20734, max : 20742}}], pos : null});
+					td.meta.push({ name : ":build", params : [{ expr : haxe.macro.ExprDef.ECall({ expr : haxe.macro.ExprDef.EField({ expr : haxe.macro.ExprDef.EField({ expr : haxe.macro.ExprDef.EField({ expr : haxe.macro.ExprDef.EConst(haxe.macro.Constant.CIdent("jQuery")), pos : { file : "jQuery/haxe/gen/CoreExternGenerator.hx", min : 20903, max : 20909}},"haxe"), pos : { file : "jQuery/haxe/gen/CoreExternGenerator.hx", min : 20903, max : 20914}},"Plugin"), pos : { file : "jQuery/haxe/gen/CoreExternGenerator.hx", min : 20903, max : 20921}},"insert"), pos : { file : "jQuery/haxe/gen/CoreExternGenerator.hx", min : 20903, max : 20928}},[]), pos : { file : "jQuery/haxe/gen/CoreExternGenerator.hx", min : 20903, max : 20930}}], pos : null});
 					td.kind = haxe.macro.TypeDefKind.TDClass(null,[{ pack : [], name : "ArrayAccess", params : [haxe.macro.TypeParam.TPType(haxe.macro.ComplexType.TPath({ pack : ["js","html"], name : "Node", params : []}))]}]);
-					fields.push({ name : "_static", doc : "Compile-time short cut to JQueryStatic.", access : [haxe.macro.Access.AInline,haxe.macro.Access.AStatic,haxe.macro.Access.APublic], kind : haxe.macro.FieldType.FVar(null,{ expr : haxe.macro.ExprDef.EField({ expr : haxe.macro.ExprDef.EConst(haxe.macro.Constant.CIdent("jQuery")), pos : { file : "jQuery/haxe/gen/CoreExternGenerator.hx", min : 21713, max : 21719}},"JQueryStatic"), pos : { file : "jQuery/haxe/gen/CoreExternGenerator.hx", min : 21713, max : 21732}}), pos : null, meta : []});
+					fields.push({ name : "_static", doc : "Compile-time short cut to JQueryStatic.", access : [haxe.macro.Access.AInline,haxe.macro.Access.AStatic,haxe.macro.Access.APublic], kind : haxe.macro.FieldType.FVar(null,{ expr : haxe.macro.ExprDef.EField({ expr : haxe.macro.ExprDef.EConst(haxe.macro.Constant.CIdent("jQuery")), pos : { file : "jQuery/haxe/gen/CoreExternGenerator.hx", min : 21296, max : 21302}},"JQueryStatic"), pos : { file : "jQuery/haxe/gen/CoreExternGenerator.hx", min : 21296, max : 21315}}), pos : null, meta : []});
 					break;
 				case "JQueryStatic":
-					td.meta.push({ name : ":native", params : [{ expr : haxe.macro.ExprDef.EConst(haxe.macro.Constant.CString("jQuery")), pos : { file : "jQuery/haxe/gen/CoreExternGenerator.hx", min : 21879, max : 21887}}], pos : null});
-					td.meta.push({ name : ":build", params : [{ expr : haxe.macro.ExprDef.ECall({ expr : haxe.macro.ExprDef.EField({ expr : haxe.macro.ExprDef.EField({ expr : haxe.macro.ExprDef.EField({ expr : haxe.macro.ExprDef.EConst(haxe.macro.Constant.CIdent("jQuery")), pos : { file : "jQuery/haxe/gen/CoreExternGenerator.hx", min : 22048, max : 22054}},"haxe"), pos : { file : "jQuery/haxe/gen/CoreExternGenerator.hx", min : 22048, max : 22059}},"Plugin"), pos : { file : "jQuery/haxe/gen/CoreExternGenerator.hx", min : 22048, max : 22066}},"insert"), pos : { file : "jQuery/haxe/gen/CoreExternGenerator.hx", min : 22048, max : 22073}},[]), pos : { file : "jQuery/haxe/gen/CoreExternGenerator.hx", min : 22048, max : 22075}}], pos : null});
+					td.meta.push({ name : ":native", params : [{ expr : haxe.macro.ExprDef.EConst(haxe.macro.Constant.CString("jQuery")), pos : { file : "jQuery/haxe/gen/CoreExternGenerator.hx", min : 21462, max : 21470}}], pos : null});
+					td.meta.push({ name : ":build", params : [{ expr : haxe.macro.ExprDef.ECall({ expr : haxe.macro.ExprDef.EField({ expr : haxe.macro.ExprDef.EField({ expr : haxe.macro.ExprDef.EField({ expr : haxe.macro.ExprDef.EConst(haxe.macro.Constant.CIdent("jQuery")), pos : { file : "jQuery/haxe/gen/CoreExternGenerator.hx", min : 21631, max : 21637}},"haxe"), pos : { file : "jQuery/haxe/gen/CoreExternGenerator.hx", min : 21631, max : 21642}},"Plugin"), pos : { file : "jQuery/haxe/gen/CoreExternGenerator.hx", min : 21631, max : 21649}},"insert"), pos : { file : "jQuery/haxe/gen/CoreExternGenerator.hx", min : 21631, max : 21656}},[]), pos : { file : "jQuery/haxe/gen/CoreExternGenerator.hx", min : 21631, max : 21658}}], pos : null});
 					break;
 				default:
 				}
 				out.push(td);
 				break;
 			default:
-				haxe.Log.trace(type,{ fileName : "CoreExternGenerator.hx", lineNumber : 738, className : "jQuery.haxe.gen.CoreExternGenerator", methodName : "generate"});
+				haxe.Log.trace(type,{ fileName : "CoreExternGenerator.hx", lineNumber : 721, className : "jQuery.haxe.gen.CoreExternGenerator", methodName : "generate"});
 			}
 		}
 		return out;
