@@ -1,2 +1,6 @@
 .DS_Store
 Thumbs.db
+
+*.n
+*.js
+api.xml
