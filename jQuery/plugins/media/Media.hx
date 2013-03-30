@@ -7,7 +7,7 @@ import jQuery.*;
 	http://jquery.malsup.com/media/
 **/
 
-extern class Media extends jQuery.haxe.Plugin {
+extern class Media implements jQuery.haxe.Plugin {
 	/**
 	 * Converts the matched set of elements to <div> elements which contain rich media. The media method accepts three arguments, all of which are optional.
 	 * @param	jQ
