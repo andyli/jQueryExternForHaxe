@@ -15,8 +15,9 @@ import haxe.macro.Context;
 **/
 
 #if !macro @:autoBuild(jQuery.haxe.PluginBuilder.build()) #end
-interface Plugin {}
+extern interface Plugin {}
 
+#if !macro extern #end
 class PluginBuilder {
 	#if macro
 	static public function build():Array<Field> {
