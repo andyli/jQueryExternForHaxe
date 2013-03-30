@@ -1,6 +1,6 @@
 /* This file is generated, do not edit! */
 package jQuery;
-@:final extern class Callbacks {
+@:final @:build(jQuery.haxe.Config.build()) extern class Callbacks {
 	/**
 		Disable a callback list from doing anything more.
 	**/

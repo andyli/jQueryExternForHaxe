@@ -674,18 +674,6 @@ class CoreExternGenerator {
 					
 					switch(tp.name) {
 						case "JQuery":
-							td.meta.push({
-								name: ":native",
-								params: [macro "jQuery"], //TODO "$"
-								pos: null
-							});
-							
-							td.meta.push({
-								name: ":build",
-								params: [macro jQuery.haxe.Config.build()],
-								pos: null
-							});
-							
 							td.kind = TDClass(null, [{
 								pack: [],
 								name: "ArrayAccess",
@@ -700,21 +688,15 @@ class CoreExternGenerator {
 								pos: null,
 								meta: []
 							});
-						case "JQueryStatic":
-							td.meta.push({
-								name: ":native",
-								params: [macro "jQuery"], //TODO "$"
-								pos: null
-							});
-							
-							td.meta.push({
-								name: ":build",
-								params: [macro jQuery.haxe.Config.build()],
-								pos: null
-							});
 						default:
 							//pass
 					}
+					
+					td.meta.push({
+						name: ":build",
+						params: [macro jQuery.haxe.Config.build()],
+						pos: null
+					});
 					
 					out.push(td);
 				default: //TODO

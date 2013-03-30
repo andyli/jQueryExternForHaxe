@@ -1,6 +1,6 @@
 /* This file is generated, do not edit! */
 package jQuery;
-@:final @:native("jQuery") @:build(jQuery.haxe.Config.build()) extern class JQuery implements ArrayAccess<js.html.Node> {
+@:final @:build(jQuery.haxe.Config.build()) extern class JQuery implements ArrayAccess<js.html.Node> {
 	/**
 		Add the previous set of elements on the stack to the current set.
 	**/

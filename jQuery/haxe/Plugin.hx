@@ -2,8 +2,17 @@ package jQuery.haxe;
 
 import haxe.macro.Expr;
 import haxe.macro.Context;
-using Lambda;
 
+/**
+	Plugin is macro-based, responsible for copy-and-pasting the fields in the extern classes
+	into JQuery and JQueryStatic.
+	
+	To write a jQuery plugin extern, create an extern class that extends Plugin, 
+	and start writing the members as if writing directly inside the JQuery/JQueryStatic class.
+	
+	To use an plugin extern, add the following compiler option:
+	--macro jQuery.haxe.Plugin.add('pack.JQueryPlugIn')
+**/
 @:native("JQueryPlugin")
 @:autoBuild(jQuery.haxe.Plugin.build())
 class Plugin {

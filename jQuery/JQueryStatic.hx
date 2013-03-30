@@ -1,6 +1,6 @@
 /* This file is generated, do not edit! */
 package jQuery;
-@:final @:native("jQuery") @:build(jQuery.haxe.Config.build()) extern class JQueryStatic {
+@:final @:build(jQuery.haxe.Config.build()) extern class JQueryStatic {
 	/**
 		Set default values for future Ajax requests.
 	**/

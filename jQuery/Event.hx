@@ -1,6 +1,6 @@
 /* This file is generated, do not edit! */
 package jQuery;
-@:final extern class Event {
+@:final @:build(jQuery.haxe.Config.build()) extern class Event {
 	/**
 		The element where the currently-called jQuery event handler was attached.
 	**/
