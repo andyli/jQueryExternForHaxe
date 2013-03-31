@@ -46,7 +46,9 @@ class Config {
 		var fields = Context.getBuildFields();
 		var cls = Context.getLocalClass();
 		var clsType = cls.get();
-		switch (cls.toString()) {
+		var clsName = cls.toString();
+		
+		switch (clsName) {
 			case "jQuery.JQuery":
 				for (plugin in plugins) {
 					for (field in plugin) {
@@ -54,7 +56,6 @@ class Config {
 							fields.push(field);
 					}
 				}
-				clsType.meta.add(":native", [macro $v{native}], clsType.pos);
 			case "jQuery.JQueryStatic":
 				for (plugin in plugins) {
 					for (field in plugin) {
@@ -62,11 +63,37 @@ class Config {
 							fields.push(field);
 					}
 				}
+			case "jQuery.Event":
+				var evtCls = switch (Context.getType("js.html.Event")) {
+					case TInst(t, _): t;
+					default: throw "js.html.Event should be TInst...";
+				}
+				var evtFields = evtCls.get().fields.get();
+				for (f in fields.copy()) {
+					if (evtFields.exists(function(ef) return ef.name == f.name)) {
+						switch (f.kind) {
+							case FVar(_, _) | FProp(_, _, _, _):
+								//simply remove the property, since we cannot override
+								fields.remove(f);
+							case FFun(_):
+								//add override
+								f.access.push(AOverride);
+						}
+					}
+				}
+			default:
+				//pass
+		}
+		
+		// add @:native
+		switch (clsName) {
+			case "jQuery.JQuery" | "jQuery.JQueryStatic":
 				clsType.meta.add(":native", [macro $v{native}], clsType.pos);
 			default:
 				var native = native + "." + clsType.name;
 				clsType.meta.add(":native", [macro $v{native}], clsType.pos);
 		}
+		
 		isBuilt = true;
 		return fields;
 	}

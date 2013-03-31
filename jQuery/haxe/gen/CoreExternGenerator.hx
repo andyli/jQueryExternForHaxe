@@ -688,6 +688,12 @@ class CoreExternGenerator {
 								pos: null,
 								meta: []
 							});
+						case "Event":
+							td.kind = TDClass({
+								pack: ["js", "html"],
+								name: "Event",
+								params: []
+							});
 						default:
 							//pass
 					}

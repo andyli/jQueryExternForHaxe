@@ -38,7 +38,7 @@ class Test extends TestCase {
 				} else {
 					//trace test output, note that toString has to be called inside the page
 					trace(page.evaluate(function() return Test.result.toString()));
-			
+					
 					Phantom.exit(result.success ? 0 : 1);
 				}
 			}
