@@ -1,9 +1,7 @@
-# -neko CoreExternGenerator.n
-# -main jQuery.haxe.gen.CoreExternGenerator
-# -cmd neko CoreExternGenerator.n api.xml .
 -js test/bin/Test.js
 -main Test
 -cp test
 -lib phantomjs
 --macro jQuery.haxe.Config.addPlugin('DummyPlugin')
+#--macro jQuery.haxe.Config.setNative('jQuery')
 -cmd (nekotools server -p 2000 -h localhost -d test/bin/ & phantomjs test/bin/Test.js)
