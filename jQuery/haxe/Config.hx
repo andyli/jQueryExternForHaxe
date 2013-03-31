@@ -50,6 +50,9 @@ class Config {
 		
 		switch (clsName) {
 			case "jQuery.JQuery":
+				//force building JQueryStatic before JQuery, such that code completion of JQuery._static.| works...
+				Context.getType("jQuery.JQueryStatic");
+				
 				for (plugin in plugins) {
 					for (field in plugin) {
 						if (!field.access.has(AStatic))
