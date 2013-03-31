@@ -65,8 +65,10 @@ class CoreExternGenerator {
 				[macro:Int];
 			case "String":
 				[macro:String];
-			case ("Anything" | "Object" | "PlainObject") if (!["offset", "position"].has(entryName) && !["jQuery object"].has(tagName)):
+			case "Anything":
 				[macro:Dynamic];
+			case ("Object" | "PlainObject") if (!["offset", "position"].has(entryName) && !["jQuery object"].has(tagName)):
+				[macro:Dynamic]; //should be {}, but jQuery doc uses "Object" for "Anything" :(
 			case "undefined", "": 
 				[macro:Void];
 			
