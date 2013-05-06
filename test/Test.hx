@@ -9,7 +9,7 @@ class Test extends TestCase {
 		var body = new JQuery("body");
 		body.addClass("myclass");
 		this.assertTrue(body.hasClass("myclass"));
-		this.assertEquals(3.0, body.add("html").add("title").size());
+		this.assertEquals(3.0, body.add("html").add("title").length);
 	}
 
 	public function test2():Void {
@@ -56,6 +56,7 @@ class Test extends TestCase {
 				runner.add(new Test());
 				runner.add(new TestPlugin());
 				runner.add(new TestCoreExternGenerator());
+				runner.add(new TestUtils());
 				runner.run();
 				result = untyped runner.result;
 			});

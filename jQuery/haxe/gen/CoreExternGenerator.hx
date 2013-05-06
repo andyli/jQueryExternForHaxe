@@ -8,6 +8,9 @@ import haxe.macro.Expr;
 using haxe.macro.ComplexTypeTools;
 using StringTools;
 using Lambda;
+using Reflect;
+
+typedef FuncConfig = { ?doc:String, ?added:String, ?deprecated:String, ?removed:String }
 
 /**
 * http://api.jquery.com/resources/api.xml
@@ -177,14 +180,21 @@ class CoreExternGenerator {
 				"Function"
 			]:
 				[macro:Void->Void];
-					
+				
 			case [
 				_, 
 				"doneCallbacks" | "failCallbacks" | "progressCallbacks" | "alwaysCallbacks", 
 				"Function"
 			]:
 				[macro:Dynamic, macro:Array<Dynamic>];
-					
+			
+			case [
+				_, 
+				"doneCallbacks" | "failCallbacks" | "progressCallbacks" | "alwaysCallbacks", 
+				"Array"
+			]:
+				[macro:Array<Dynamic>];
+			
 			case [
 				_, 
 				"doneFilter" | "failFilter" | "progressFilter", 
@@ -221,7 +231,10 @@ class CoreExternGenerator {
 					
 			case ["jQuery.unique", _, "Array"]:
 				[macro:Array<js.html.Node>];
-					
+			
+			case ["get", "get", "Array"]:
+				[macro:Array<js.html.Node>];
+			
 			case ["height", "function(index, height)", "Function"] | ["width", "function(index, width)", "Function"] | ["css", "function(index, value)", "Function"]:
 				[macro:Int->String->Dynamic];
 					
@@ -475,45 +488,41 @@ class CoreExternGenerator {
 								throw memName + "is of types: " + [for (m in mem) m.att.type].join(", ");
 							}
 							
-							var functions:Array<Function> = [];
+							var functions:Array<{
+								func: Function,
+								config: FuncConfig
+							}> = [];
 							
 							switch(memName) {
-								case "get":
-									functions.push(funcSig(
-										function get(index:Int):js.html.Node{}
-									));
-									functions.push(funcSig(
-										function get():Array<js.html.Node>{}
-									));
 								case "jQuery.makeArray":
-									functions.push(funcSig(
+									functions.push({ func: funcSig(
 										function makeArray(obj:Dynamic):Array<Dynamic>{}
-									));
+									), config: {}});
 								case "jQuery.inArray":
-									functions.push(funcSig(
+									functions.push({ func: funcSig(
 										function inArray<T>(value:T, array:Array<T>, ?fromIndex:Int):Int{}
-									));
+									), config: {}});
 								case "jQuery.map":
-									functions.push(funcSig(
+									functions.push({ func: funcSig(
 										function map<T,T2>(array:Array<T>, callback:T->Int->T2):Array<T2>{}
-									));
-									functions.push(funcSig(
+									), config: {}});
+									functions.push({ func: funcSig(
 										function map<T,T2>(array:Array<T>, callback:T->Int->Array<T2>):Array<T2>{}
-									));
-									functions.push(funcSig(
+									), config: {}});
+									functions.push({ func: funcSig(
 										function map<T,T2>(obj:Dynamic<T>, callback:T->String->T2):Array<T2>{}
-									));
-									functions.push(funcSig(
+									), config: {}});
+									functions.push({ func: funcSig(
 										function map<T,T2>(obj:Dynamic<T>, callback:T->String->Array<T2>):Array<T2>{}
-									));
+									), config: {}});
 								case "jQuery.merge":
-									functions.push(funcSig(
+									functions.push({ func: funcSig(
 										function merge<T>(first:Array<T>, second:Array<T>):Array<T>{}
-									));
+									), config: {}});
 								case "jQuery.grep":
-									functions.push(funcSig(
+									functions.push({ func: funcSig(
 										function grep<T>(array:Array<T>, funct:T->Int->Bool, ?invert:Bool):Array<T>{}
-									));
+									), config: {}});
 								default:
 									for (entry in mem) {
 										for (sig in entry.nodes.signature) {
@@ -544,13 +553,22 @@ class CoreExternGenerator {
 											];
 											
 											for (args in compo(argss))
-												functions.push({
+												functions.push({ func:{
 													args: args,
 													ret: switch(memName) {
 														case "new":
 															macro:Void;
 														default:
-															var types = toComplexType(entry.att.resolve("return"), entry);
+															var types = if (entry.has.resolve("return")) {
+																toComplexType(entry.att.resolve("return"), entry);
+															} else {
+																[for (r in entry.nodes.resolve("return")) r.att.type]
+																	.fold(
+																		function(t:String, ts:Array<ComplexType>) return ts.concat(toComplexType(t, entry)), 
+																		[]
+																	);
+															};
+															
 															if (types.length == 1)
 																types[0];
 															else
@@ -558,36 +576,75 @@ class CoreExternGenerator {
 													},
 													expr: null,
 													params: []
-												});
+												}, config:{
+													added: sig.hasNode.added ? sig.node.added.innerHTML : entry.has.added ? entry.att.added : null,
+													deprecated: sig.hasNode.deprecated ? sig.node.deprecated.innerHTML : entry.has.deprecated ? entry.att.deprecated : null,
+													removed: sig.hasNode.removed ? sig.node.removed.innerHTML : entry.has.removed ? entry.att.removed : null,
+													doc: entry.node.desc.innerHTML
+												}});
 										}
 									}
 									
 									switch (memName) {
 										case "deferred.resolve":
-											functions.push(funcSig(
+											functions.push({ func:funcSig(
 												function resolve():jQuery.Deferred{}
-											));
+											), config:{}});
 										default:
 											
 									}
 							}
 							
 							//sort
-							functions.sort(compareFunctions);
+							functions.sort(function(f0,f1) return compareFunctions(f0.func, f1.func));
 							
-							field.kind = FFun(functions.shift());
-							for (func in functions) {
-								func.expr = macro {};
+							if (functions.length > 1) {
 								field.meta.push({
-									name: ":overload",
-									params: [{expr: EFunction(null, func), pos:null}],
+									name:":overload",
+									params:[],
 									pos: null
 								});
 							}
-							field.doc = [for (entry in mem) entry.node.desc.innerHTML].join("\nOR: ");
+							
+							//create Field for individual signature
+							//the Config build macro will put them back to @:overload metas
+							for (f in functions) {
+								var clonedField = field.copy();
+								clonedField.kind = FFun(f.func);
+								clonedField.doc = f.config.doc;
+								clonedField.meta = field.meta.copy();
+								
+								var jQueryVersionFields = [];
+								if (f.config.added != null) {
+									jQueryVersionFields.push({ 
+										field: "added", 
+										expr : { expr: EConst(CString(f.config.added)), pos:null } 
+									});
+								}
+								if (f.config.deprecated != null) {
+									jQueryVersionFields.push({ 
+										field: "deprecated", 
+										expr : { expr: EConst(CString(f.config.deprecated)), pos:null } 
+									});
+								}
+								if (f.config.removed != null) {
+									jQueryVersionFields.push({ 
+										field: "removed", 
+										expr : { expr: EConst(CString(f.config.removed)), pos:null } 
+									});
+								}
+								if (jQueryVersionFields.length > 0) {
+									clonedField.meta.push({
+										name:":jQueryVersion",
+										params:[{ expr:EObjectDecl(jQueryVersionFields), pos: null }],
+										pos: null
+									});
+								}
+								fields.push(clonedField);
+							}
 						case "property":
+							var entry = mem[0];
 							if (mem.length == 1) {
-								var entry = mem[0];
 								var types = switch (memName) {
 									case "jQuery.browser":
 										[macro:{
@@ -625,8 +682,39 @@ class CoreExternGenerator {
 								}
 								field.kind = FVar(types.length == 1 ? types[0] : macro:Dynamic, null);
 								field.doc = entry.node.desc.innerHTML;
+							
+								var sig = entry.node.signature;
+								var added = sig.hasNode.added ? sig.node.added.innerHTML : entry.has.added ? entry.att.added : null;
+								var deprecated = sig.hasNode.deprecated ? sig.node.deprecated.innerHTML : entry.has.deprecated ? entry.att.deprecated : null;
+								var removed = sig.hasNode.removed ? sig.node.removed.innerHTML : entry.has.removed ? entry.att.removed : null;
+							
+								var jQueryVersionFields = [];
+								if (added != null) {
+									jQueryVersionFields.push({ 
+										field: "added", 
+										expr : { expr: EConst(CString(added)), pos:null } 
+									});
+								}
+								if (deprecated != null) {
+									jQueryVersionFields.push({ 
+										field: "deprecated", 
+										expr : { expr: EConst(CString(deprecated)), pos:null } 
+									});
+								}
+								if (removed != null) {
+									jQueryVersionFields.push({ 
+										field: "removed", 
+										expr : { expr: EConst(CString(removed)), pos:null } 
+									});
+								}
+								if (jQueryVersionFields.length > 0) {
+									field.meta.push({
+										name:":jQueryVersion",
+										params:[{ expr:EObjectDecl(jQueryVersionFields), pos: null }],
+										pos: null
+									});
+								}
 							} else {
-								var entry = mem[0];
 								switch (memName) {
 									case "fx":
 										var fields = [];
@@ -645,12 +733,12 @@ class CoreExternGenerator {
 								}
 							}
 							
+							fields.push(field);
+							
 						default: 
 							throw "unknown entry type: " + type;
 							continue;
 					}
-			
-					fields.push(field);
 				}
 			}
 			

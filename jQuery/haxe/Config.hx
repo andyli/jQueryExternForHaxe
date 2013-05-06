@@ -10,8 +10,8 @@ using Lambda;
 **/
 @:allow(jQuery.haxe)
 class Config {
-	static var plugins(default, null) = new Map<String, Array<Field>>();
-	static var isBuilt(default, null) = false;
+	static var plugins(default, null):Map<String, Array<Field>> = new Map();
+	static var isBuilt(default, null):Bool = false;
 	
 	/**
 		Add an Plugin extern class. All fields of the class will be injected into JQuery/JQueryStatic.
@@ -39,6 +39,33 @@ class Config {
 	}
 	
 	/**
+		Define jQuery version to be used.
+		Default is the latest version supported.
+	**/
+	static public var version(default, null):String = "1.9.1";
+	
+	/**
+		Setter of Config.version.
+		Used in hxml: --macro jQuery.haxe.Config.setVersion("1.8.3")
+	**/
+	static public function setVersion(v:String):String {
+		return version = v;
+	}
+	
+	/**
+		Define if deprecated jQuery APIs are allowed or not.
+	**/
+	static public var allowDeprecated(default, null):Bool = false;
+	
+	/**
+		Setter of Config.allowDeprecated.
+		Used in hxml: --macro jQuery.haxe.Config.setAllowDeprecated(true)
+	**/
+	static public function setAllowDeprecated(v:Bool):Bool {
+		return allowDeprecated = v;
+	}
+	
+	/**
 		Build function of all generated extern.
 		Used for injecting plugin extern and setting @:native.
 	**/
@@ -50,7 +77,8 @@ class Config {
 		
 		switch (clsName) {
 			case "jQuery.JQuery":
-				//force building JQueryStatic before JQuery, such that code completion of JQuery._static.| works...
+				//force building JQueryStatic before JQuery, 
+				//such that code completion of JQuery._static.| works...
 				Context.getType("jQuery.JQueryStatic");
 				
 				for (plugin in plugins) {
@@ -97,8 +125,67 @@ class Config {
 				clsType.meta.add(":native", [macro $v{native}], clsType.pos);
 		}
 		
+		// filter and group the fields
+		var ver = Utils.toVersion(version);
+		var fieldMap = new Map<String, List<Field>>();
+		for (field in fields) {
+			// filtering based on @:jQueryVersion
+			var jQueryVersionMeta = field.meta.filter(function(m) return m.name == ":jQueryVersion")[0];
+			if (jQueryVersionMeta != null) {
+				var jQueryVersionMetaVal = jQueryVersionMeta.params[0];
+				if (jQueryVersionMetaVal != null) {
+					switch (jQueryVersionMetaVal.expr) {
+						case EObjectDecl(fields):
+							if (fields.exists(function(f):Bool {
+								return switch(f) {
+									case { field: "added", expr: {expr: EConst(CString(val)), pos:_} }:
+										Utils.compareVersion(ver, Utils.toVersion(val)) < 0;
+									case { field: "deprecated", expr: {expr: EConst(CString(val)), pos:_} }:
+										!allowDeprecated && Utils.compareVersion(ver, Utils.toVersion(val)) >= 0;
+									case { field: "removed", expr: {expr: EConst(CString(val)), pos:_} }:
+										Utils.compareVersion(ver, Utils.toVersion(val)) >= 0;
+									default:
+										throw 'Invalid field of @:jQueryVersion: ${f.field}: ${f.expr}';
+								}
+							})) continue;
+						default:
+							throw "Param of @:jQueryVersion should be EObjectDecl.";
+					}
+				}
+			}
+			
+			// valid field, add to fieldMap 
+			if (!fieldMap.exists(field.name)) {
+				fieldMap.set(field.name, new List<Field>());
+			}
+			fieldMap.get(field.name).add(field);
+		}
+		
+		// return new fields with @:overload aggregated
+		var newFields = [];
+		for (fields in fieldMap) {
+			var field = fields.pop();
+			field.meta = [];
+			for (overload in fields) {
+				var func:Function = switch(overload.kind) {
+					case FFun(f): f;
+					default: throw "Should only overload a function.";
+				}
+				func.expr = macro {};
+				field.meta.push({
+					name: ":overload",
+					params: [{ expr: EFunction(null, func), pos: overload.pos }],
+					pos: overload.pos
+				});
+				
+				if (overload.doc != null)
+					field.doc = (field.doc == null ? "" : field.doc + "\n OR: ") + overload.doc;
+			}
+			newFields.push(field);
+		}
+		
 		isBuilt = true;
-		return fields;
+		return newFields;
 	}
 }
 #end
