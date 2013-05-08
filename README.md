@@ -2,7 +2,7 @@
 
 [jQuery](http://jquery.com/) extern for [Haxe](http://haxe.org/).
 
-Currently support jQuery version *1.8.3*.
+Currently support jQuery version up to *1.9.1* / *2.0.0*.
 
 You may check my [blog](http://blog.onthewings.net/) for updates.
 
@@ -71,7 +71,7 @@ eg. In your `<head>`:
 	<tr>
 		<th scope="row">jQuery API version</th>
 		<td>partial 1.6.4</td>
-		<td>complete 1.8.3</td>
+		<td>complete 1.9.1 / 2.0.0</td>
 	</tr>
 	<tr>
 		<th scope="row">refer jQuery in output as</th>
