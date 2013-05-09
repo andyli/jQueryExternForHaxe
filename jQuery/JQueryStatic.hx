@@ -1,4 +1,4 @@
-/* This file is generated, do not edit! */
+/* This file is generated, do not edit! Visit http://api.jquery.com/ for API documentation. */
 package jQuery;
 @:final @:build(jQuery.haxe.Config.build()) extern class JQueryStatic {
 	/**
@@ -159,7 +159,7 @@ package jQuery;
 	/**
 		Contains flags for the useragent, read from navigator.userAgent. <strong>This property was removed in jQuery 1.9</strong> and is available only through the jQuery.migrate plugin. Please try to use feature detection instead.
 	**/
-	@:jQueryVersion({added:"1.0",deprecated:"1.3",removed:"1.9"}) static public var browser:{@:optional var webkit:Null<Bool>;@:optional var safari:Null<Bool>;@:optional var opera:Null<Bool>;@:optional var msie:Null<Bool>;@:optional var mozilla:Null<Bool>;var version:String;};
+	@:jQueryVersion({added:"1.0",deprecated:"1.3",removed:"1.9"}) static public var browser:Dynamic;
 	/**
 		Creates a new copy of jQuery whose properties and methods can be modified without affecting the original jQuery object.
 	**/
@@ -212,7 +212,68 @@ package jQuery;
 	/**
 		A collection of properties that represent the presence of different browser features or bugs. Primarily intended for jQuery's internal use; specific properties may be removed when they are no longer needed internally to improve page startup performance.
 	**/
-	@:jQueryVersion({added:"1.3"}) static public var support:{var ajax:Bool;var boxModel:Bool;var changeBubbles:Bool;var checkClone:Bool;var checkOn:Bool;var cors:Bool;var cssFloat:Bool;var hrefNormalized:Bool;var htmlSerialize:Bool;var leadingWhitespace:Bool;var noCloneChecked:Bool;var noCloneEvent:Bool;var opacity:Bool;var optDisabled:Bool;var optSelected:Bool;var scriptEval:Void->Bool;var style:Bool;var submitBubbles:Bool;var tbody:Bool;};
+	@:jQueryVersion({added:"1.3"}) static public var support:{/**
+		<code>ajax</code> is equal to true if a browser is able to create an <code>XMLHttpRequest</code> object.
+	**/
+	var ajax:Bool;/**
+		<code>boxModel</code> is equal to true if the page is rendering according to the <a href="http://www.w3.org/TR/REC-CSS2/box.html">W3C CSS Box Model</a> (is currently false in IE 6 and 7 when they are in Quirks Mode). This property is null until document ready occurs.
+	**/
+	var boxModel:Bool;/**
+		<code>changeBubbles</code> is equal to true if the change event bubbles up the DOM tree, as required by the <a href="http://www.w3.org/TR/DOM-Level-2-Events/events.html#Events-eventgroupings-htmlevents">W3C DOM event model</a>. (It is currently false in IE, and jQuery simulates bubbling).
+	**/
+	var changeBubbles:Bool;/**
+		<code>checkClone</code> is equal to true if a browser correctly clones the checked state of radio buttons or checkboxes in document fragments.
+	**/
+	var checkClone:Bool;/**
+		<code>checkOn</code> is equal to true if the value of a checkbox defaults to "on" when no value is specified.
+	**/
+	var checkOn:Bool;/**
+		<code>cors</code> is equal to true if a browser can create an <code>XMLHttpRequest</code> object and if that <code>XMLHttpRequest</code> object has a <code>withCredentials</code> property. To enable cross-domain requests in environments that do not support cors yet but do allow cross-domain <abbr title="XMLHttpRequest">XHR</abbr> requests (windows gadget, etc), set <code>$.support.cors = true;</code>.
+		      <a href="http://www.w3.org/TR/cors/">CORS WD</a>
+	**/
+	var cors:Bool;/**
+		<code>cssFloat</code> is equal to true if the name of the property containing the CSS float value is .cssFloat, as defined in the <a href="http://www.w3.org/TR/DOM-Level-2-Style/css.html#CSS-CSS2Properties-cssFloat">CSS Spec</a>. (It is currently false in IE, it uses styleFloat instead).
+	**/
+	var cssFloat:Bool;/**
+		<code>hrefNormalized</code> is equal to true if the <code>.getAttribute()</code> method retrieves the <code>href</code> attribute of elements unchanged, rather than normalizing it to a fully-qualified URL. (It is currently false in IE, the URLs are normalized).
+		      <div><a href="http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-666EE0F9">DOM l3 spec</a></div>
+	**/
+	var hrefNormalized:Bool;/**
+		<code>htmlSerialize</code> is equal to true  if the browser is able to serialize/insert <code>&amp;lt;link&amp;gt;</code> elements using the <code>.innerHTML</code> property of elements. (is currently false in IE). <div><a href="http://www.w3.org/TR/2008/WD-html5-20080610/serializing.html#html-fragment">HTML5 WD</a></div>
+	**/
+	var htmlSerialize:Bool;/**
+		<code>leadingWhitespace</code> is equal to true if the browser inserts content with .innerHTML exactly as provided—specifically, if leading whitespace characters are preserved. (It is currently false in IE 6-8). <div><a href="http://www.w3.org/TR/2008/WD-html5-20080610/dom.html#innerhtml0">HTML5 WD</a></div>
+	**/
+	var leadingWhitespace:Bool;/**
+		<code>noCloneChecked</code> is equal to true if cloned DOM elements copy over the state of the <code>.checked</code> expando. (It is currently false in IE). (Added in jQuery 1.5.1)
+	**/
+	var noCloneChecked:Bool;/**
+		<code>noCloneEvent</code> is equal to true  if cloned DOM elements are created without event handlers (that is, if the event handlers on the source element are not cloned). (It is currently false in IE). <div><a href="http://www.w3.org/TR/DOM-Level-2-Events/events.html#Events-Registration-interfaces-h3">DOM l2 spec</a></div>
+	**/
+	var noCloneEvent:Bool;/**
+		<code>opacity</code> is equal to true if a browser can properly interpret the opacity style property. (It is currently false in IE, it uses alpha filters instead). <div><a href="http://www.w3.org/TR/css3-color/#transparency">CSS3 spec</a></div>
+	**/
+	var opacity:Bool;/**
+		<code>optDisabled</code> is equal to true if option elements within disabled select elements are not automatically marked as disabled. <div><a href="http://dev.w3.org/html5/spec/the-button-element.html#attr-option-disabled">HTML5 WD</a></div>
+	**/
+	var optDisabled:Bool;/**
+		<code>optSelected</code> is equal to true if an <code>&amp;lt;option&amp;gt;</code> element that is selected by default has a working <code>selected</code> property. <div><a href="http://dev.w3.org/html5/spec/the-button-element.html#attr-option-selected">HTML5 WD</a></div>
+	**/
+	var optSelected:Bool;/**
+		<code>scriptEval()</code> is equal to true if inline scripts are automatically evaluated and executed when inserted into the document using standard DOM manipulation methods such as <code>.appendChild()</code> and <code>.createTextNode()</code>. (It is currently false in IE, it uses <code>.text</code> to insert executable scripts).
+		      <div><strong>Note: No longer supported; removed in jQuery 1.6. Prior to jQuery 1.5.1</strong>, the <code>scriptEval()</code> method was the static <code>scriptEval</code> property. The change to a method allowed the test to be deferred until first use to prevent content security policy inline-script violations. </div>
+		      <div><a href="http://www.w3.org/TR/2008/WD-html5-20080610/tabular.html#script">HTML5 WD</a></div>
+	**/
+	var scriptEval:Void->Bool;/**
+		<code>style</code> is equal to true if inline styles for an element can be accessed through the DOM attribute called style, as required by the DOM Level 2 specification. In this case, <code>.getAttribute('style')</code> can retrieve this value; in Internet Explorer, <code>.cssText</code> is used for this purpose. <div><a href="http://www.w3.org/TR/DOM-Level-2-Style/css.html#CSS-ElementCSSInlineStyle">DOM l2 Style spec</a></div>
+	**/
+	var style:Bool;/**
+		<code>submitBubbles</code> is equal to true if the submit event bubbles up the DOM tree, as required by the <a href="http://www.w3.org/TR/DOM-Level-2-Events/events.html#Events-eventgroupings-htmlevents">W3C DOM event model</a>. (It is currently false in IE, and jQuery simulates bubbling).
+	**/
+	var submitBubbles:Bool;/**
+		<code>tbody</code> is equal to true if an empty <code>&amp;lt;table&amp;gt;</code> element can exist without a <code>&amp;lt;tbody&amp;gt;</code> element. According to the HTML specification, this sub-element is optional, so the property should be true in a fully-compliant browser. If false, we must account for the possibility of the browser injecting <code>&amp;lt;tbody&amp;gt;</code> tags implicitly. (It is currently false in IE, which automatically inserts <code>tbody</code> if it is not present in a string assigned to <code>innerHTML</code>). <div><a href="http://dev.w3.org/html5/spec/Overview.html#the-table-element">HTML5 spec</a></div>
+	**/
+	var tbody:Bool;};
 	/**
 		Sorts an array of DOM elements, in place, with the duplicates removed. Note that this only works on arrays of DOM elements, not strings or numbers.
 	**/

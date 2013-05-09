@@ -17,6 +17,9 @@ typedef FuncConfig = { ?doc:String, ?added:String, ?deprecated:String, ?removed:
 */
 @:native("CoreExternGenerator")
 class CoreExternGenerator {
+	/**
+		Haxe keywords. Used to rename api function/variables names.
+	**/
 	static var keywords(default, null) = ["function", "true", "false", "if", "else", "switch", "class", "interface"];
 	var api:Fast;
 	
@@ -24,6 +27,10 @@ class CoreExternGenerator {
 		this.api = new Fast(apiXml).node.api;
 	}
 	
+	/**
+		Maps a type in api.xml to one or more Haxe ComplexType.
+		tag is the xml node where the type is listed.
+	**/
 	public function toComplexType(type:String, ?tag:Fast):Array<ComplexType> {		
 		var tagStr = tag == null ? "" : tag.x.toString().ltrim();
 		var tagName = tag == null ? "" : tag.att.name;
@@ -76,6 +83,8 @@ class CoreExternGenerator {
 				[macro:Void];
 			
 			case _ if (type.indexOf(",") >= 0):
+				//older version of api.xml sometimes use , to list multiple types...
+				trace(type);
 				type.split(",")
 					.map(toComplexType.bind(_, tag))
 					.fold(function(ts,all:Array<ComplexType>) return all.concat(ts), []);
@@ -257,9 +266,9 @@ class CoreExternGenerator {
 	}
 	
 	/**
-	* Compare function for Array.sort().
-	* Stricter ComplexType will come first (returns -ve); more dynamic one will come last (returns +ve).
-	*/
+		Compare function for Array.sort().
+		Stricter ComplexType will come first (returns -ve); more dynamic one will come last (returns +ve).
+	**/
 	static public function compareComplexType(a:ComplexType, b:ComplexType):Int {
 		return
 			switch ([a, b]) {
@@ -306,9 +315,9 @@ class CoreExternGenerator {
 	}
 	
 	/**
-	* Compare function for Array.sort().
-	* Function with stricter arguments will come first (returns -ve); more dynamic one will come last (returns +ve).
-	*/
+		Compare function for Array.sort().
+		Function with stricter arguments will come first (returns -ve); more dynamic one will come last (returns +ve).
+	**/
 	static public function compareFunctions(a:Function, b:Function):Int {
 		if (a.args.length != b.args.length) {
 			return a.args.length - b.args.length;
@@ -331,9 +340,9 @@ class CoreExternGenerator {
 	}
 	
 	/**
-	* Mutates the source to form all non-repeating sequence.
-	* Eg. compo([["a"], ["b0", "b1", "b2", "b3"], ["c0","c1"]]) => [[a,b0,c0],[a,b1,c0],[a,b2,c0],[a,b3,c0],[a,b3,c1],[a,b2,c1],[a,b1,c1],[a,b0,c1]]
-	*/
+		Mutates the source to form all non-repeating sequence.
+		Eg. compo([["a"], ["b0", "b1", "b2", "b3"], ["c0","c1"]]) => [[a,b0,c0],[a,b1,c0],[a,b2,c0],[a,b3,c0],[a,b3,c1],[a,b2,c1],[a,b1,c1],[a,b0,c1]]
+	**/
 	static function compo<T>(src:Array<Array<T>>, ?out:Array<Array<T>>, ?ind:Array<Int>, ?indMap:Map<String,Void>):Array<Array<T>> {
 		if (ind == null) ind = [for (i in src) 0];
 		if (indMap == null) indMap = new Map();
@@ -646,37 +655,18 @@ class CoreExternGenerator {
 							var entry = mem[0];
 							if (mem.length == 1) {
 								var types = switch (memName) {
-									case "jQuery.browser":
-										[macro:{
-											?webkit:Bool,
-											?safari:Bool, //deprecated
-											?opera:Bool,
-											?msie:Bool,
-											?mozilla:Bool,
-											version:String
-										}];
 									case "jQuery.support":
-										[macro:{
-											ajax:Bool,
-											boxModel:Bool,
-											changeBubbles:Bool,
-											checkClone:Bool,
-											checkOn:Bool,
-											cors:Bool,
-											cssFloat:Bool,
-											hrefNormalized:Bool,
-											htmlSerialize:Bool,
-											leadingWhitespace:Bool,
-											noCloneChecked:Bool,
-											noCloneEvent:Bool,
-											opacity:Bool,
-											optDisabled:Bool,
-											optSelected:Bool,
-											scriptEval:Void->Bool,
-											style:Bool,
-											submitBubbles:Bool,
-											tbody:Bool,
-										}];
+										var supportFields:Array<Field> = [];
+										for (li in entry.node.longdesc.node.ul.nodes.li) {
+											var itemName = li.node.code.innerHTML;
+											supportFields.push({
+												name: itemName.endsWith("()") ? itemName.substr(0, itemName.length-2) : itemName,
+												doc: li.innerHTML,
+												kind: FVar(itemName.endsWith("()") ? macro:Void->Bool : macro:Bool),
+												pos : null
+											});
+										}
+										[TAnonymous(supportFields)];
 									default:
 										toComplexType(entry.att.resolve("return"), entry);
 								}
@@ -824,7 +814,7 @@ class CoreExternGenerator {
 		var tds = new CoreExternGenerator(apiXml).generate();
 		var printer = new Printer();
 		for (td in tds) {
-			var clsStr = "/* This file is generated, do not edit! */\n" + printer.printTypeDefinition(td);
+			var clsStr = "/* This file is generated, do not edit! Visit http://api.jquery.com/ for API documentation. */\n" + printer.printTypeDefinition(td);
 			var packDir = td.pack.join("/");
 			FileSystem.createDirectory(packDir);
 			File.saveContent(packDir + "/" + td.name + ".hx", clsStr);

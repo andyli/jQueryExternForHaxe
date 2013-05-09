@@ -1,4 +1,4 @@
-/* This file is generated, do not edit! */
+/* This file is generated, do not edit! Visit http://api.jquery.com/ for API documentation. */
 package jQuery;
 @:final @:build(jQuery.haxe.Config.build()) extern class Callbacks {
 	/**
