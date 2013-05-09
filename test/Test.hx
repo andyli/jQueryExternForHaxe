@@ -1,9 +1,8 @@
 import haxe.unit.*;
 import js.phantomjs.*;
-
+import js.*;
 import jQuery.*;
 
-@:expose
 class Test extends TestCase {
 	public function test1():Void {
 		var body = new JQuery("body");
@@ -21,44 +20,63 @@ class Test extends TestCase {
 	}
 	
 	public function test3():Void {
-		var me = this;
-		var d = new Deferred().done(function () me.assertTrue(true));
+		var d = new Deferred().done(function () assertTrue(true));
 		d.resolve();
 	}
 	
-	static public var result:TestResult;
 	static public function main():Void {
+		//log is 'prettier' than trace that does not includes source pos...
+		var log = js.Browser.window.console.log;
+		
 		if (PhantomTools.inPhantom()) {
+			//setup a server to serve html
+			var port = 8080;
+			var server = WebServer.create();
+			server.listen(port, function(request:Request, response:Response):Void {
+				var fullpath = Phantom.libraryPath + request.url;
+				if (FileSystem.exists(fullpath)) {
+					response.statusCode = 200;
+					response.write(FileSystem.read(fullpath));
+					response.close();
+				} else {
+					response.statusCode = 404;
+					response.close();
+				}
+			});
+			
+			//open the test page which loads this script
 			var page = WebPage.create();
 			
-			function checkResult():Void {
-				result = page.evaluate(function() return Test.result);
-				if (result == null) {
-					haxe.Timer.delay(checkResult, 10);
+			//receive the test result
+			page.onConsoleMessage = function(msg:String):Void {
+				if (StringTools.startsWith(msg, "success:")) {
+					var success = msg.substr("success:".length) == "true";
+					Phantom.exit(success ? 0 : 1);
 				} else {
-					//trace test output, note that toString has to be called inside the page
-					trace(page.evaluate(function() return Test.result.toString()));
-					
-					Phantom.exit(result.success ? 0 : 1);
+					log(msg);
 				}
 			}
 			
-			page.open("http://localhost:2000/test.html", function(status) {
+			page.open('http://localhost:${port}/test.html', function(status) {
 				if (status != "success") {
 					Phantom.exit(1);
-				} else {
-					checkResult();
 				}
 			});
 		} else {
 			new JQuery(function(){
+				var printBuf = new StringBuf();
+				haxe.unit.TestRunner.print = printBuf.add;
+				
 				var runner = new TestRunner();
 				runner.add(new Test());
 				runner.add(new TestPlugin());
 				runner.add(new TestCoreExternGenerator());
 				runner.add(new TestUtils());
-				runner.run();
-				result = untyped runner.result;
+				var success = runner.run();
+				
+				//report the test result back to phantom
+				log(printBuf.toString());
+				log("success:" + success);
 			});
 		}
 	}

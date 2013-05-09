@@ -5,4 +5,4 @@
 --macro jQuery.haxe.Config.addPlugin('DummyPlugin')
 #--macro jQuery.haxe.Config.setNative('jQuery')
 #--macro jQuery.haxe.Config.setAllowDeprecated(true)
--cmd (nekotools server -p 2000 -h localhost -d test/bin/ & phantomjs test/bin/Test.js)
+-cmd phantomjs test/bin/Test.js
