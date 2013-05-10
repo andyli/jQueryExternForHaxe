@@ -329,10 +329,10 @@ package jQuery;
 	static public var fx:{/**
 		The rate (in milliseconds) at which animations fire.
 	**/
-	var interval:Float;/**
+	@:jQueryVersion({added:"1.4.3"}) var interval:Float;/**
 		Globally disable all animations.
 	**/
-	var off:Bool;};
+	@:jQueryVersion({added:"1.3"}) var off:Bool;};
 	/**
 		Load data from the server using a HTTP GET request.
 	**/

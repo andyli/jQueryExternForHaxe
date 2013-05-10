@@ -693,7 +693,42 @@ class CoreExternGenerator {
 											field.name = entry.att.name.split(".")[2];
 											field.kind = FVar(types.length == 1 ? types[0] : macro:Dynamic, null);
 											field.access = [];
+											field.meta = [];
 											field.doc = entry.node.desc.innerHTML;
+											
+											var sig = entry.node.signature;
+											var added = sig.hasNode.added ? sig.node.added.innerHTML : entry.has.added ? entry.att.added : null;
+											var deprecated = sig.hasNode.deprecated ? sig.node.deprecated.innerHTML : entry.has.deprecated ? entry.att.deprecated : null;
+											var removed = sig.hasNode.removed ? sig.node.removed.innerHTML : entry.has.removed ? entry.att.removed : null;
+											
+											var jQueryVersionFields = [];
+											if (added != null) {
+												jQueryVersionFields.push({ 
+													field: "added", 
+													expr : { expr: EConst(CString(added)), pos:null } 
+												});
+											}
+											if (deprecated != null) {
+												jQueryVersionFields.push({ 
+													field: "deprecated", 
+													expr : { expr: EConst(CString(deprecated)), pos:null } 
+												});
+											}
+											if (removed != null) {
+												jQueryVersionFields.push({ 
+													field: "removed", 
+													expr : { expr: EConst(CString(removed)), pos:null } 
+												});
+											}
+											
+											if (jQueryVersionFields.length > 0) {
+												field.meta.push({
+													name:":jQueryVersion",
+													params:[{ expr:EObjectDecl(jQueryVersionFields), pos: null }],
+													pos: null
+												});
+											}
+											
 											fields.push(field);
 										}
 										field.kind = FVar(TAnonymous(fields), null);
