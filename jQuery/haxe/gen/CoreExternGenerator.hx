@@ -156,6 +156,26 @@ class CoreExternGenerator {
 				[macro:Void->Void, macro:Class<jQuery.JQuery>->Void];
 			case ["toArray", "toArray", "Array"]:
 				[macro:Array<js.html.Node>];
+			case ["jQuery.inArray", "array", "Array"]:
+				[macro:Array<Dynamic>];
+			case ["jQuery.makeArray", "jQuery.makeArray", "Array"]:
+				[macro:Array<Dynamic>];
+			case ["jQuery.map", "jQuery.map", "Array"]:
+				[macro:Array<Dynamic>];
+			case ["jQuery.map", "array", "Array"]:
+				[macro:Array<Dynamic>];
+			case ["jQuery.map", "arrayOrObject", "Array"]:
+				[macro:Array<Dynamic>, macro:{}];
+			case ["jQuery.map", "callback(elementOfArray, indexInArray)", "Function"]:
+				[macro:Dynamic->Int->Dynamic];
+			case ["jQuery.map", "callback( value, indexOrKey )", "Function"]:
+				[macro:Dynamic->Int->Dynamic, macro:Dynamic->String->Dynamic];
+			case ["jQuery.grep", _, "Array"]:
+				[macro:Array<Dynamic>];
+			case ["jQuery.grep", "function(elementOfArray, indexInArray)", "Function"]:
+				[macro:Dynamic->Int->Bool];
+			case ["jQuery.merge", _, "Array"]:
+				[macro:Array<Dynamic>];
 			case ["toggleClass", "function(index, class, switch)", "Function"]:
 				[macro:Int->String->Bool->String];
 			case ["trigger", "extraParameters", "Array"]:
@@ -502,106 +522,65 @@ class CoreExternGenerator {
 								config: FuncConfig
 							}> = [];
 							
-							switch(memName) {
-								case "jQuery.makeArray":
-									functions.push({ func: funcSig(
-										function makeArray(obj:Dynamic):Array<Dynamic>{}
-									), config: {}});
-								case "jQuery.inArray":
-									functions.push({ func: funcSig(
-										function inArray<T>(value:T, array:Array<T>, ?fromIndex:Int):Int{}
-									), config: {}});
-								case "jQuery.map":
-									functions.push({ func: funcSig(
-										function map<T,T2>(array:Array<T>, callback:T->Int->T2):Array<T2>{}
-									), config: {}});
-									functions.push({ func: funcSig(
-										function map<T,T2>(array:Array<T>, callback:T->Int->Array<T2>):Array<T2>{}
-									), config: {}});
-									functions.push({ func: funcSig(
-										function map<T,T2>(obj:Dynamic<T>, callback:T->String->T2):Array<T2>{}
-									), config: {}});
-									functions.push({ func: funcSig(
-										function map<T,T2>(obj:Dynamic<T>, callback:T->String->Array<T2>):Array<T2>{}
-									), config: {}});
-								case "jQuery.merge":
-									functions.push({ func: funcSig(
-										function merge<T>(first:Array<T>, second:Array<T>):Array<T>{}
-									), config: {}});
-								case "jQuery.grep":
-									functions.push({ func: funcSig(
-										function grep<T>(array:Array<T>, funct:T->Int->Bool, ?invert:Bool):Array<T>{}
-									), config: {}});
-								default:
-									for (entry in mem) {
-										for (sig in entry.nodes.signature) {
-											var argss:Array<Array<FunctionArg>> = [for (arg in sig.nodes.argument)
-												[
-													for (type in 
-														arg.has.type ?
-															toComplexType(arg.att.type, arg)
-														:
-															arg.hasNode.type ?
-																arg.nodes.type.fold(function(t, a:Array<ComplexType>) return a.concat(toComplexType(t.att.name, arg)), [])
-															:
-																toComplexType(null, arg)
-													) {
-														name: {
-															var id = ~/(?:_*[a-z][_a-zA-Z0-9]*|_+[0-9][_a-zA-Z0-9]*|_*[A-Z][_a-zA-Z0-9]*|_+|\$[_a-zA-Z0-9]+)/;
-															id.match(arg.att.name);
-															var name = id.matched(0);
-															if (keywords.indexOf(name) != -1)
-																"_" + name;
-															else
-																name;
-														},
-														opt: arg.has.optional && (arg.att.optional == "true" ? true : throw arg.att.optional),
-														type: type,
-													}
-												]
-											];
-											
-											for (args in compo(argss))
-												functions.push({ func:{
-													args: args,
-													ret: switch(memName) {
-														case "new":
-															macro:Void;
-														default:
-															var types = if (entry.has.resolve("return")) {
-																toComplexType(entry.att.resolve("return"), entry);
-															} else {
-																[for (r in entry.nodes.resolve("return")) r.att.type]
-																	.fold(
-																		function(t:String, ts:Array<ComplexType>) return ts.concat(toComplexType(t, entry)), 
-																		[]
-																	);
-															};
-															
-															if (types.length == 1)
-																types[0];
-															else
-																macro:Dynamic;
-													},
-													expr: null,
-													params: []
-												}, config:{
-													added: sig.hasNode.added ? sig.node.added.innerHTML : entry.has.added ? entry.att.added : null,
-													deprecated: sig.hasNode.deprecated ? sig.node.deprecated.innerHTML : entry.has.deprecated ? entry.att.deprecated : null,
-													removed: sig.hasNode.removed ? sig.node.removed.innerHTML : entry.has.removed ? entry.att.removed : null,
-													doc: entry.node.desc.innerHTML
-												}});
-										}
-									}
+							for (entry in mem) {
+								for (sig in entry.nodes.signature) {
+									var argss:Array<Array<FunctionArg>> = [for (arg in sig.nodes.argument)
+										[
+											for (type in 
+												arg.has.type ?
+													toComplexType(arg.att.type, arg)
+												:
+													arg.hasNode.type ?
+														arg.nodes.type.fold(function(t, a:Array<ComplexType>) return a.concat(toComplexType(t.att.name, arg)), [])
+													:
+														toComplexType(null, arg)
+											) {
+												name: {
+													var id = ~/(?:_*[a-z][_a-zA-Z0-9]*|_+[0-9][_a-zA-Z0-9]*|_*[A-Z][_a-zA-Z0-9]*|_+|\$[_a-zA-Z0-9]+)/;
+													id.match(arg.att.name);
+													var name = id.matched(0);
+													if (keywords.indexOf(name) != -1)
+														"_" + name;
+													else
+														name;
+												},
+												opt: arg.has.optional && (arg.att.optional == "true" ? true : throw arg.att.optional),
+												type: type,
+											}
+										]
+									];
 									
-									switch (memName) {
-										case "deferred.resolve":
-											functions.push({ func:funcSig(
-												function resolve():jQuery.Deferred{}
-											), config:{}});
-										default:
-											
-									}
+									for (args in compo(argss))
+										functions.push({ func:{
+											args: args,
+											ret: switch(memName) {
+												case "new":
+													macro:Void;
+												default:
+													var types = if (entry.has.resolve("return")) {
+														toComplexType(entry.att.resolve("return"), entry);
+													} else {
+														[for (r in entry.nodes.resolve("return")) r.att.type]
+															.fold(
+																function(t:String, ts:Array<ComplexType>) return ts.concat(toComplexType(t, entry)), 
+																[]
+															);
+													};
+													
+													if (types.length == 1)
+														types[0];
+													else
+														macro:Dynamic;
+											},
+											expr: null,
+											params: []
+										}, config:{
+											added: sig.hasNode.added ? sig.node.added.innerHTML : entry.has.added ? entry.att.added : null,
+											deprecated: sig.hasNode.deprecated ? sig.node.deprecated.innerHTML : entry.has.deprecated ? entry.att.deprecated : null,
+											removed: sig.hasNode.removed ? sig.node.removed.innerHTML : entry.has.removed ? entry.att.removed : null,
+											doc: entry.node.desc.innerHTML
+										}});
+								}
 							}
 							
 							//sort

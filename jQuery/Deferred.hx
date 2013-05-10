@@ -161,9 +161,8 @@ package jQuery;
 		 Add handlers to be called when the Deferred object is resolved. 
 	**/
 	@:overload @:jQueryVersion({added:"1.5"}) public function done(doneCallbacks:Dynamic,?doneCallbacks:Dynamic):jQuery.Deferred;
-	@:overload public function resolve():jQuery.Deferred;
 	/**
 		 Resolve a Deferred object and call any doneCallbacks with the given <code>args</code>. 
 	**/
-	@:overload @:jQueryVersion({added:"1.5"}) public function resolve(?args:Dynamic):jQuery.Deferred;
+	@:jQueryVersion({added:"1.5"}) public function resolve(?args:Dynamic):jQuery.Deferred;
 }

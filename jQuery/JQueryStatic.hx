@@ -49,7 +49,10 @@ package jQuery;
 		Execute the next function on the queue for the matched element.
 	**/
 	@:jQueryVersion({added:"1.3"}) static public function dequeue(element:js.html.Node,?queueName:String):Void;
-	static public function inArray<T>(value:T,array:Array<T>,?fromIndex:Int):Int;
+	/**
+		Search for a specified value within an array and return its index (or -1 if not found).
+	**/
+	@:jQueryVersion({added:"1.2"}) static public function inArray(value:Dynamic,array:Array<Dynamic>,?fromIndex:Float):Float;
 	/**
 		Load a JavaScript file from the server using a GET HTTP request, then execute it.
 	**/
@@ -106,15 +109,42 @@ package jQuery;
 		Determine whether the argument is an array.
 	**/
 	@:jQueryVersion({added:"1.3"}) static public function isArray(obj:Dynamic):Bool;
-	static public function makeArray(obj:Dynamic):Array<Dynamic>;
+	/**
+		Convert an array-like object into a true JavaScript array.
+	**/
+	@:jQueryVersion({added:"1.2"}) static public function makeArray(obj:Dynamic):Array<Dynamic>;
 	/**
 		Holds or releases the execution of jQuery's ready event.
 	**/
 	@:jQueryVersion({added:"1.6"}) static public function holdReady(hold:Bool):Void;
-	@:overload static public function map<T,T2>(array:Array<T>,callback:T->Int->T2):Array<T2>;
-	@:overload static public function map<T,T2>(array:Array<T>,callback:T->Int->Array<T2>):Array<T2>;
-	@:overload static public function map<T,T2>(obj:Dynamic<T>,callback:T->String->T2):Array<T2>;
-	@:overload static public function map<T,T2>(obj:Dynamic<T>,callback:T->String->Array<T2>):Array<T2>;
+	/**
+		Translate all items in an array or object to new array of items.
+	**/
+	@:overload @:jQueryVersion({added:"1.0"}) static public function map(array:Array<Dynamic>,callback:Dynamic->Int->Dynamic):Array<Dynamic>;
+	/**
+		Translate all items in an array or object to new array of items.
+	**/
+	@:overload @:jQueryVersion({added:"1.6"}) static public function map(arrayOrObject:Array<Dynamic>,callback:Dynamic->Int->Dynamic):Array<Dynamic>;
+	/**
+		Translate all items in an array or object to new array of items.
+	**/
+	@:overload @:jQueryVersion({added:"1.6"}) static public function map(arrayOrObject:Array<Dynamic>,callback:Dynamic->String->Dynamic):Array<Dynamic>;
+	/**
+		Translate all items in an array or object to new array of items.
+	**/
+	@:overload @:jQueryVersion({added:"1.6"}) static public function map(arrayOrObject:{},callback:Dynamic->Int->Dynamic):Array<Dynamic>;
+	/**
+		Translate all items in an array or object to new array of items.
+	**/
+	@:overload @:jQueryVersion({added:"1.6"}) static public function map(arrayOrObject:{},callback:Dynamic->String->Dynamic):Array<Dynamic>;
+	/**
+		Translate all items in an array or object to new array of items.
+	**/
+	@:overload @:jQueryVersion({added:"1.6"}) static public function map(arrayOrObject:Dynamic,callback:Dynamic->Int->Dynamic):Array<Dynamic>;
+	/**
+		Translate all items in an array or object to new array of items.
+	**/
+	@:overload @:jQueryVersion({added:"1.6"}) static public function map(arrayOrObject:Dynamic,callback:Dynamic->String->Dynamic):Array<Dynamic>;
 	/**
 		Show the queue of functions to be executed on the matched element.
 	**/
@@ -143,7 +173,10 @@ package jQuery;
 		Takes a string and throws an exception containing it.
 	**/
 	@:jQueryVersion({added:"1.4.1"}) static public function error(message:String):Void;
-	static public function merge<T>(first:Array<T>,second:Array<T>):Array<T>;
+	/**
+		Merge the contents of two arrays together into the first array. 
+	**/
+	@:jQueryVersion({added:"1.0"}) static public function merge(first:Array<Dynamic>,second:Array<Dynamic>):Array<Dynamic>;
 	/**
 		Parses a string into an XML document.
 	**/
@@ -176,7 +209,10 @@ package jQuery;
 		Load JSON-encoded data from the server using a GET HTTP request.
 	**/
 	@:jQueryVersion({added:"1.0"}) static public function getJSON(url:String,?data:Dynamic,?success:Dynamic->String->jQuery.JqXHR->Void):jQuery.JqXHR;
-	static public function grep<T>(array:Array<T>,funct:T->Int->Bool,?invert:Bool):Array<T>;
+	/**
+		Finds the elements of an array which satisfy a filter function. The original array is not affected.
+	**/
+	@:jQueryVersion({added:"1.0"}) static public function grep(array:Array<Dynamic>,_function:Dynamic->Int->Bool,?invert:Bool):Array<Dynamic>;
 	/**
 		Load data from the server using a HTTP POST request.
 	**/
