@@ -14,6 +14,15 @@ class Config {
 	static var isBuilt(default, null):Bool = false;
 	
 	/**
+		The fields of Promise, got from Deferred.
+	**/
+	static var promiseFields:Array<Field>;
+	@:allow(jQuery) static function getPromiseFields():Array<Field> {
+		Context.getType("jQuery.Deferred");
+		return promiseFields;
+	}
+	
+	/**
 		Add an Plugin extern class. All fields of the class will be injected into JQuery/JQueryStatic.
 	**/
 	static public function addPlugin(pluginFullName:String):Void {
@@ -182,6 +191,15 @@ class Config {
 					field.doc = (field.doc == null ? "" : field.doc + "\n OR: ") + overload.doc;
 			}
 			newFields.push(field);
+		}
+		
+		if (clsName == "jQuery.Deferred") {
+			promiseFields = [];
+			for (field in newFields) {
+				if (["then", "done", "fail", "always", "pipe", "isResolved", "isRejected"].indexOf(field.name) == -1)
+					continue;
+				promiseFields.push(field);
+			}
 		}
 		
 		isBuilt = true;
