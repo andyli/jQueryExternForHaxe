@@ -24,6 +24,14 @@ class Test extends TestCase {
 		d.resolve();
 	}
 	
+	public function testForIn():Void {
+		var bodyChildren = new JQuery("body>*");
+		this.assertEquals(2.0, bodyChildren.length);
+		for (ele in bodyChildren) {
+			this.assertEquals(1, ele.nodeType);
+		}
+	}
+	
 	static public function main():Void {
 		//log is 'prettier' than trace that does not includes source pos...
 		var log = js.Browser.window.console.log;

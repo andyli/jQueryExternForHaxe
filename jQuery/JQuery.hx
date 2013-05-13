@@ -652,7 +652,7 @@ package jQuery;
 	/**
 		The number of elements in the jQuery object.
 	**/
-	@:jQueryVersion({added:"1.0"}) public var length:Float;
+	@:jQueryVersion({added:"1.0"}) public var length:Int;
 	/**
 		For each element in the set, get the first element that matches the selector by testing the element itself and traversing up through its ancestors in the DOM tree.
 	**/
@@ -928,7 +928,7 @@ package jQuery;
 	/**
 		Return the number of elements in the jQuery object.
 	**/
-	@:jQueryVersion({added:"1.0",deprecated:"1.8"}) public function size():Float;
+	@:jQueryVersion({added:"1.0",deprecated:"1.8"}) public function size():Int;
 	/**
 		Hide the matched elements.
 	**/
