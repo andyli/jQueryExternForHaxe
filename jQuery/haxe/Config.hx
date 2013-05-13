@@ -121,6 +121,8 @@ class Config {
 						}
 					}
 				}
+			case "jQuery.JqXHR":
+				fields = fields.concat(getPromiseFields());
 			default:
 				//pass
 		}
