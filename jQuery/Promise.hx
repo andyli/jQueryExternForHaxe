@@ -3,7 +3,7 @@ package jQuery;
 #if macro
 import haxe.macro.Context;
 #end
-class PromiseBuilder {
+#if !macro extern #end class PromiseBuilder {
 	#if macro
 	public static function build():haxe.macro.Type {
 		return Context.typeof({expr: ECheckType(macro null, TAnonymous(jQuery.haxe.Config.getPromiseFields())), pos:Context.currentPos()});
