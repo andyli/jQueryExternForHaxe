@@ -1,7 +1,0 @@
-<project name="jQueryExtern" url="http://github.com/andyli/jQueryExternForHaxe" license="Public">
-    <user name="andyli"/>
-    <tag v="js"/>
-    <tag v="extern"/>
-    <description>jQuery extern</description>
-    <version name="1.8.3">Aligned with jQuery 1.8.3 (no change). Supports and depends on Haxe 3.</version>
-</project>
