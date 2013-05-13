@@ -177,6 +177,11 @@ class Config {
 		for (fields in fieldMap) {
 			var field = fields.pop();
 			field.meta = [];
+			
+			var docMap = new Map<String,Void>();
+			if (field.doc != null)
+				docMap.set(field.doc, null);
+			
 			for (overload in fields) {
 				var func:Function = switch(overload.kind) {
 					case FFun(f): f;
@@ -189,8 +194,10 @@ class Config {
 					pos: overload.pos
 				});
 				
-				if (overload.doc != null)
+				if (overload.doc != null && !docMap.exists(overload.doc)) {
 					field.doc = (field.doc == null ? "" : field.doc + "\n OR: ") + overload.doc;
+					docMap.set(overload.doc, null);
+				}
 			}
 			newFields.push(field);
 		}
