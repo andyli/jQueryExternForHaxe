@@ -49,7 +49,7 @@ Remember **jQueryExtern** is simply an extern, you have to link jQuery in your h
 eg. In your `<head>`:
 ```html
 <!-- jQuery from Google CDN -->
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 
 <!-- Your haxe compiled script: -->
 <script type="text/javascript" src="Main.js"></script>
