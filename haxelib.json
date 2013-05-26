@@ -4,7 +4,7 @@
   "license": "Public",
   "tags": ["js","extern"],
   "description": "jQuery extern",
-  "version": "2.0.0-alpha.1",
-  "releasenote": "Able to select jQuery version up to 1.9.1/2.0.0.",
+  "version": "2.0.0-alpha.2",
+  "releasenote": "Fixed code completion bug.",
   "contributors": ["andyli"]
 }
