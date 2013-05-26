@@ -60,7 +60,11 @@ package jQuery;
 	/**
 		Retrieve the DOM elements matched by the jQuery object.
 	**/
-	@:jQueryVersion({added:"1.0"}) public function get(?index:Float):Dynamic;
+	@:overload @:jQueryVersion({added:"1.0"}) public function get():Array<js.html.Node>;
+	/**
+		Retrieve one of the DOM elements matched by the jQuery object.
+	**/
+	@:overload @:jQueryVersion({added:"1.0"}) public function get(index:Int):js.html.Node;
 	/**
 		Bind an event handler to the "keydown" JavaScript event, or trigger that event on an element.
 	**/
@@ -1362,10 +1366,6 @@ package jQuery;
 	**/
 	@:jQueryVersion({added:"1.0"}) public function parent(?selector:String):jQuery.JQuery;
 	/**
-		Add the previous set of elements on the stack to the current set, optionally filtered by a selector.
-	**/
-	@:jQueryVersion({added:"1.8"}) public function addBack(?selector:String):jQuery.JQuery;
-	/**
 		Bind an event handler to the "change" JavaScript event, or trigger that event on an element.
 	**/
 	@:overload @:jQueryVersion({added:"1.0"}) public function change():jQuery.JQuery;
@@ -1389,6 +1389,10 @@ package jQuery;
 		Bind an event handler to the "select" JavaScript event, or trigger that event on an element.
 	**/
 	@:overload @:jQueryVersion({added:"1.4.3"}) public function select(?eventData:Dynamic,handler:jQuery.Event->Void):jQuery.JQuery;
+	/**
+		Add the previous set of elements on the stack to the current set, optionally filtered by a selector.
+	**/
+	@:jQueryVersion({added:"1.8"}) public function addBack(?selector:String):jQuery.JQuery;
 	/**
 		Register a handler to be called when the first Ajax request begins. This is an <a href="/Ajax_Events">Ajax Event</a>.
 	**/
@@ -1534,10 +1538,6 @@ package jQuery;
 	**/
 	@:overload @:jQueryVersion({added:"1.5"}) public function clone(?withDataAndEvents:Bool,?deepWithDataAndEvents:Bool):jQuery.JQuery;
 	/**
-		Stop the currently-running animation, remove all queued animations, and complete all animations for the matched elements.
-	**/
-	@:jQueryVersion({added:"1.9"}) public function finish(?queue:String):jQuery.JQuery;
-	/**
 		Get the value of a property for the first element in the set of matched elements.
 	**/
 	@:overload @:jQueryVersion({added:"1.6"}) public function prop(propertyName:String):Dynamic;
@@ -1569,6 +1569,10 @@ package jQuery;
 		Set one or more properties for the set of matched elements.
 	**/
 	@:overload @:jQueryVersion({added:"1.6"}) public function prop(propertyName:String,_function:Int->Bool->Bool):jQuery.JQuery;
+	/**
+		Stop the currently-running animation, remove all queued animations, and complete all animations for the matched elements.
+	**/
+	@:jQueryVersion({added:"1.9"}) public function finish(?queue:String):jQuery.JQuery;
 	/**
 		Display or hide the matched elements by animating their opacity.
 	**/

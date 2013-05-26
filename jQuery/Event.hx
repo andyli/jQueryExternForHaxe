@@ -38,10 +38,6 @@ package jQuery;
 	**/
 	@:jQueryVersion({added:"1.1"}) public var data:Dynamic;
 	/**
-		Indicates whether the META key was pressed when the event fired.
-	**/
-	@:jQueryVersion({added:"1.0.4"}) public var metaKey:Bool;
-	/**
 		Prevents the event from bubbling up the DOM tree, preventing any parent handlers from being notified of the event.   
 	**/
 	@:jQueryVersion({added:"1.0"}) public function stopPropagation():Void;
@@ -49,6 +45,10 @@ package jQuery;
 		 Describes the nature of the event.  
 	**/
 	@:jQueryVersion({added:"1.0"}) public var type:String;
+	/**
+		Indicates whether the META key was pressed when the event fired.
+	**/
+	@:jQueryVersion({added:"1.0.4"}) public var metaKey:Bool;
 	/**
 		The other DOM element involved in the event, if any. 
 	**/

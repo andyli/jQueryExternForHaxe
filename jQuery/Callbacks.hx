@@ -42,10 +42,6 @@ package jQuery;
 	**/
 	@:jQueryVersion({added:"1.7"}) public function lock():jQuery.Callbacks;
 	/**
-		Determine if the callbacks list has been disabled.
-	**/
-	@:jQueryVersion({added:"1.7"}) public function disabled():Bool;
-	/**
 		Determine if the callbacks have already been called at least once.
 	**/
 	@:jQueryVersion({added:"1.7"}) public function fired():Bool;
@@ -57,4 +53,8 @@ package jQuery;
 		Remove a callback or a collection of callbacks from a callback list.
 	**/
 	@:overload @:jQueryVersion({added:"1.7"}) public function remove(callbacks:Dynamic):jQuery.Callbacks;
+	/**
+		Determine if the callbacks list has been disabled.
+	**/
+	@:jQueryVersion({added:"1.7"}) public function disabled():Bool;
 }

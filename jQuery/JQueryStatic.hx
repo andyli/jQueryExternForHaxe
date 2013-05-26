@@ -222,6 +222,10 @@ package jQuery;
 	**/
 	@:overload @:jQueryVersion({added:"1.0"}) static public function post(url:String,?data:Dynamic,?success:Dynamic->String->jQuery.JqXHR->Void,?dataType:String):jQuery.JqXHR;
 	/**
+		Merge the contents of an object onto the jQuery prototype to provide new jQuery instance methods.
+	**/
+	@:jQueryVersion({added:"1.0"}) static public function fn(object:Dynamic):Dynamic;
+	/**
 		 A constructor function that returns a chainable utility object with methods to register multiple callbacks into callback queues, invoke callback queues, and relay the success or failure state of any synchronous or asynchronous function.
 	**/
 	@:jQueryVersion({added:"1.5"}) static public function Deferred(?beforeStart:jQuery.Deferred->Void):jQuery.Deferred;
