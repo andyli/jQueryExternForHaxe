@@ -138,7 +138,7 @@ class Config {
 		
 		// filter and group the fields
 		var ver = Utils.toVersion(version);
-		var fieldMap = new Map<String, List<Field>>();
+		var fieldMap = new Map<String, Array<Field>>();
 		for (field in fields) {
 			// filtering based on @:jQueryVersion
 			var jQueryVersionMeta = field.meta.filter(function(m) return m.name == ":jQueryVersion")[0];
@@ -167,9 +167,9 @@ class Config {
 			
 			// valid field, add to fieldMap 
 			if (!fieldMap.exists(field.name)) {
-				fieldMap.set(field.name, new List<Field>());
+				fieldMap.set(field.name, new Array<Field>());
 			}
-			fieldMap.get(field.name).add(field);
+			fieldMap.get(field.name).push(field);
 		}
 		
 		// return new fields with @:overload aggregated
