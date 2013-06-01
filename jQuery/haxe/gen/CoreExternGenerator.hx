@@ -321,6 +321,11 @@ class CoreExternGenerator {
 				case [_, TPath({pack:[], name:"Dynamic", params:_})]:
 					-1;
 				
+				case [TPath({pack:[], name:"Either", params:_}), _]:
+					1;
+				case [_, TPath({pack:[], name:"Either", params:_})]:
+					-1;
+				
 				case [macro:Float, macro:Int]:
 					1;
 				case [macro:Int, macro:Float]:
