@@ -26,6 +26,21 @@ class CoreExternGenerator {
 	public function new(apiXml:Xml):Void {
 		this.api = new Fast(apiXml).node.api;
 	}
+
+	static public function either(types:Array<ComplexType>):ComplexType {
+		return switch (types.length) {
+			case 0: 
+				throw types;
+			case 1: 
+				types[0];
+			case len:
+				TPath({
+					pack: ["jQuery", "haxe"],
+					name: "Either",
+					params: [TPType(types[0]), TPType(either(types.slice(1)))]
+				});
+		}
+	}
 	
 	/**
 		Maps a type in api.xml to one or more Haxe ComplexType.
@@ -524,9 +539,19 @@ class CoreExternGenerator {
 							
 							for (entry in mem) {
 								for (sig in entry.nodes.signature) {
-									var argss:Array<Array<FunctionArg>> = [for (arg in sig.nodes.argument)
-										[
-											for (type in 
+									var args:Array<FunctionArg> = [for (arg in sig.nodes.argument)
+										{
+											name: {
+												var id = ~/(?:_*[a-z][_a-zA-Z0-9]*|_+[0-9][_a-zA-Z0-9]*|_*[A-Z][_a-zA-Z0-9]*|_+|\$[_a-zA-Z0-9]+)/;
+												id.match(arg.att.name);
+												var name = id.matched(0);
+												if (keywords.indexOf(name) != -1)
+													"_" + name;
+												else
+													name;
+											},
+											opt: arg.has.optional && (arg.att.optional == "true" ? true : throw arg.att.optional),
+											type: either(
 												arg.has.type ?
 													toComplexType(arg.att.type, arg)
 												:
@@ -534,52 +559,39 @@ class CoreExternGenerator {
 														arg.nodes.type.fold(function(t, a:Array<ComplexType>) return a.concat(toComplexType(t.att.name, arg)), [])
 													:
 														toComplexType(null, arg)
-											) {
-												name: {
-													var id = ~/(?:_*[a-z][_a-zA-Z0-9]*|_+[0-9][_a-zA-Z0-9]*|_*[A-Z][_a-zA-Z0-9]*|_+|\$[_a-zA-Z0-9]+)/;
-													id.match(arg.att.name);
-													var name = id.matched(0);
-													if (keywords.indexOf(name) != -1)
-														"_" + name;
-													else
-														name;
-												},
-												opt: arg.has.optional && (arg.att.optional == "true" ? true : throw arg.att.optional),
-												type: type,
-											}
-										]
+											)
+										}
 									];
 									
-									for (args in compo(argss))
-										functions.push({ func:{
-											args: args,
-											ret: switch(memName) {
-												case "new":
-													macro:Void;
-												default:
-													var types = if (entry.has.resolve("return")) {
-														toComplexType(entry.att.resolve("return"), entry);
-													} else {
-														[for (r in entry.nodes.resolve("return")) r.att.type]
-															.fold(
-																function(t:String, ts:Array<ComplexType>) return ts.concat(toComplexType(t, entry)), 
-																[]
-															);
-													};
-													
-													if (types.length == 1)
-														types[0];
-													else
-														macro:Dynamic;
-											},
-											expr: null,
-											params: []
-										}, config:{
-											added: sig.hasNode.added ? sig.node.added.innerHTML : entry.has.added ? entry.att.added : null,
-											deprecated: sig.hasNode.deprecated ? sig.node.deprecated.innerHTML : entry.has.deprecated ? entry.att.deprecated : null,
-											removed: sig.hasNode.removed ? sig.node.removed.innerHTML : entry.has.removed ? entry.att.removed : null,
-											doc: entry.node.desc.innerHTML
-										}});
+									functions.push({ func:{
+										args: args,
+										ret: switch(memName) {
+											case "new":
+												macro:Void;
+											default:
+												var types = if (entry.has.resolve("return")) {
+													toComplexType(entry.att.resolve("return"), entry);
+												} else {
+													[for (r in entry.nodes.resolve("return")) r.att.type]
+														.fold(
+															function(t:String, ts:Array<ComplexType>) return ts.concat(toComplexType(t, entry)), 
+															[]
+														);
+												};
+												
+												if (types.length == 1)
+													types[0];
+												else
+													macro:Dynamic;
+										},
+										expr: null,
+										params: []
+									}, config:{
+										added: sig.hasNode.added ? sig.node.added.innerHTML : entry.has.added ? entry.att.added : null,
+										deprecated: sig.hasNode.deprecated ? sig.node.deprecated.innerHTML : entry.has.deprecated ? entry.att.deprecated : null,
+										removed: sig.hasNode.removed ? sig.node.removed.innerHTML : entry.has.removed ? entry.att.removed : null,
+										doc: entry.node.desc.innerHTML
+									}});
 								}
 							}
 							
