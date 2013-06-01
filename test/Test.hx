@@ -36,7 +36,7 @@ class Test extends TestCase {
 		//log is 'prettier' than trace that does not includes source pos...
 		var log = js.Browser.window.console.log;
 		
-		if (PhantomTools.inPhantom()) {
+		if (!PhantomTools.noPhantom()) {
 			//setup a server to serve html
 			var port = 8080;
 			var server = WebServer.create();
