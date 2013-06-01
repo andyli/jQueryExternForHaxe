@@ -374,32 +374,6 @@ class CoreExternGenerator {
 		}
 	}
 	
-	/**
-		Mutates the source to form all non-repeating sequence.
-		Eg. compo([["a"], ["b0", "b1", "b2", "b3"], ["c0","c1"]]) => [[a,b0,c0],[a,b1,c0],[a,b2,c0],[a,b3,c0],[a,b3,c1],[a,b2,c1],[a,b1,c1],[a,b0,c1]]
-	**/
-	static function compo<T>(src:Array<Array<T>>, ?out:Array<Array<T>>, ?ind:Array<Int>, ?indMap:Map<String,Void>):Array<Array<T>> {
-		if (ind == null) ind = [for (i in src) 0];
-		if (indMap == null) indMap = new Map();
-		if (out == null) out = [];
-		
-		var indKey = ind.join(",");
-		if (indMap.exists(indKey)) return out;
-		
-		out.push([for (i in 0...ind.length) src[i][ind[i]]]);
-		indMap.set(indKey, null);
-		
-		for (i in 0...ind.length) {
-			if (ind[i]+1 < src[i].length) {
-				var indNew = ind.copy();
-				indNew[i]++;
-				compo(src, out, indNew, indMap);
-			}
-		}
-		
-		return out;
-	}
-	
 	macro static public function funcSig(e:Expr):ExprOf<Function> {
 		switch(e.expr) {
 			case EFunction(_, f):
@@ -562,7 +536,7 @@ class CoreExternGenerator {
 											)
 										}
 									];
-									
+
 									functions.push({ func:{
 										args: args,
 										ret: switch(memName) {
@@ -578,11 +552,8 @@ class CoreExternGenerator {
 															[]
 														);
 												};
-												
-												if (types.length == 1)
-													types[0];
-												else
-													macro:Dynamic;
+
+												either(types);
 										},
 										expr: null,
 										params: []
@@ -661,7 +632,7 @@ class CoreExternGenerator {
 									default:
 										toComplexType(entry.att.resolve("return"), entry);
 								}
-								field.kind = FVar(types.length == 1 ? types[0] : macro:Dynamic, null);
+								field.kind = FVar(either(types), null);
 								field.doc = entry.node.desc.innerHTML;
 							
 								var sig = entry.node.signature;
@@ -703,7 +674,7 @@ class CoreExternGenerator {
 											var types = toComplexType(entry.att.resolve("return"), entry);
 											var field = Reflect.copy(field);
 											field.name = entry.att.name.split(".")[2];
-											field.kind = FVar(types.length == 1 ? types[0] : macro:Dynamic, null);
+											field.kind = FVar(either(types), null);
 											field.access = [];
 											field.meta = [];
 											field.doc = entry.node.desc.innerHTML;

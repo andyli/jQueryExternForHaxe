@@ -428,7 +428,7 @@ package jQuery;
 	/**
 		Get the current value of the first element in the set of matched elements.
 	**/
-	@:overload @:jQueryVersion({ added : "1.0" }) public function val(  ) : Dynamic;
+	@:overload @:jQueryVersion({ added : "1.0" }) public function val(  ) : jQuery.haxe.Either<String, jQuery.haxe.Either<Float, Array<Dynamic>>>;
 	/**
 		Set the value of each element in the set of matched elements.
 	**/
@@ -1096,7 +1096,7 @@ package jQuery;
 	/**
 		Get the value of a property for the first element in the set of matched elements.
 	**/
-	@:overload @:jQueryVersion({ added : "1.6" }) public function prop( propertyName : String ) : Dynamic;
+	@:overload @:jQueryVersion({ added : "1.6" }) public function prop( propertyName : String ) : jQuery.haxe.Either<String, Bool>;
 	/**
 		Set one or more properties for the set of matched elements.
 	**/
