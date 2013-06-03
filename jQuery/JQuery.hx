@@ -880,7 +880,7 @@ package jQuery;
 	/**
 		The DOM node context originally passed to <code>jQuery()</code>; if none was passed then context will likely be the document.
 	**/
-	@:jQueryVersion({ added : "1.3" }) public var context : js.html.Node;
+	@:jQueryVersion({ added : "1.3" ,deprecated : "1.10" }) public var context : js.html.Node;
 	/**
 		Get the current coordinates of the first element in the set of matched elements, relative to the offset parent.
 	**/

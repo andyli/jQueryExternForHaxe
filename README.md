@@ -2,7 +2,7 @@
 
 [jQuery](http://jquery.com/) extern for [Haxe](http://haxe.org/).
 
-Currently support jQuery version up to *1.9.1* / *2.0.0*.
+Currently support jQuery version up to *1.10.1* / *2.0.2*.
 
 You may check my [blog](http://blog.onthewings.net/) for updates.
 
@@ -49,7 +49,7 @@ Remember **jQueryExtern** is simply an extern, you have to link jQuery in your h
 eg. In your `<head>`:
 ```html
 <!-- jQuery from Google CDN -->
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
 
 <!-- Your haxe compiled script: -->
 <script type="text/javascript" src="Main.js"></script>
@@ -71,7 +71,7 @@ eg. In your `<head>`:
 	<tr>
 		<th scope="row">jQuery API version</th>
 		<td>partial 1.6.4</td>
-		<td>complete 1.9.1 / 2.0.0</td>
+		<td>complete 1.10.1 / 2.0.2</td>
 	</tr>
 	<tr>
 		<th scope="row">refer jQuery in output as</th>

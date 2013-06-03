@@ -3,8 +3,8 @@
   "url": "http://github.com/andyli/jQueryExternForHaxe",
   "license": "Public",
   "tags": ["js","extern"],
-  "description": "jQuery extern",
-  "version": "2.0.0-alpha.2",
-  "releasenote": "Fixed code completion bug.",
+  "description": "Unleash the full power of jQuery in Haxe.",
+  "version": "2.0.0-alpha.3",
+  "releasenote": "Regenerated for jQuery 1.10.1/2.0.2. Cleaned up `@:overload` with abstract type `Either`",
   "contributors": ["andyli"]
 }
