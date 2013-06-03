@@ -13,8 +13,6 @@ Install via [haxelib](http://haxe.org/doc/haxelib/using_haxelib):
 
 Then put `-lib jQueryExtern` into your hxml.
 
-**Or** you can manually [download](https://github.com/andyli/jQueryExternForHaxe/zipball/master) and then place the folder *jQuery* into your project source folder.
-
 ##Usage
 
 Typically:
