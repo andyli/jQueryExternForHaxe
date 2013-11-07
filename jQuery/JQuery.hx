@@ -664,7 +664,7 @@ package jQuery;
 	/**
 		Pass each element in the current matched set through a function, producing a new jQuery object containing the return values.
 	**/
-	@:jQueryVersion({ added : "1.2" }) public function map( callback : Int -> js.html.Node -> jQuery.JQuery ) : jQuery.JQuery;
+	@:jQueryVersion({ added : "1.2" }) public function map( callback : Int -> js.html.Node -> Dynamic) : jQuery.JQuery;
 	/**
 		Remove the set of matched elements from the DOM.
 	**/
