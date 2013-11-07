@@ -119,6 +119,8 @@ class CoreExternGenerator {
 				[macro:js.html.Node, macro:js.html.NodeList];
 			case ["attr", "function(index, attr)", "Function"]:
 				[macro:Int->String->String];
+			case ["appendTo" | "insertBefore" | "replaceAll" | "prependTo" | "insertAfter", "target", "Array"]:
+				[macro:Array<js.html.Node>];
 			case ["before", "function", "Function"]:
 				[macro:Int->Dynamic];
 			case ["css", "propertyNames", "Array"]:
@@ -145,6 +147,8 @@ class CoreExternGenerator {
 				[macro:Array<Dynamic>];
 			case ["replaceWith", "function", "Function"]:
 				[macro:Void->Dynamic];
+			case ["replaceWith", "newContent", "Array"]:
+				[macro:Array<js.html.Node>];
 			case ["pushStack", "elements", "Array"]:
 				[macro:Array<js.html.Node>, macro:js.html.NodeList];
 			case ["pushStack", "arguments", "Array"]:
@@ -152,7 +156,7 @@ class CoreExternGenerator {
 			case ["not", "elements", "Elements"]:
 				[macro:js.html.Node, macro:js.html.NodeList, macro:Array<js.html.Node>];
 			case ["map", "callback(index, domElement)", "Function"]:
-				[macro:Int->js.html.Node->jQuery.JQuery];
+				[macro:Int->js.html.Node->Dynamic];
 			case ["prop", "function(index, oldPropertyValue)", "Function"]:
 				[macro:Int->String->String, macro:Int->Float->Float, macro:Int->Bool->Bool];
 			case ["val", "value", "Array"]:
@@ -181,7 +185,7 @@ class CoreExternGenerator {
 				[macro:Array<Dynamic>];
 			case ["jQuery.map", "arrayOrObject", "Array"]:
 				[macro:Array<Dynamic>, macro:{}];
-			case ["jQuery.map", "callback(elementOfArray, indexInArray)", "Function"]:
+			case ["jQuery.map", "callback( elementOfArray, indexInArray )", "Function"]:
 				[macro:Dynamic->Int->Dynamic];
 			case ["jQuery.map", "callback( value, indexOrKey )", "Function"]:
 				[macro:Dynamic->Int->Dynamic, macro:Dynamic->String->Dynamic];
@@ -285,7 +289,7 @@ class CoreExternGenerator {
 			case [_, "handler(options, originalOptions, jqXHR)", "Function"]:
 				[macro:Dynamic->Dynamic->jQuery.JqXHR->Void];
 					
-			case [_, "success(data, textStatus, jqXHR)", "Function"]:
+			case [_, "success(data, textStatus, jqXHR)" | "success( data, textStatus, jqXHR )", "Function"]:
 				[macro:Dynamic->String->jQuery.JqXHR->Void];
 					
 			case [_, "complete(responseText, textStatus, XMLHttpRequest)", "Function"]:
@@ -621,22 +625,7 @@ class CoreExternGenerator {
 						case "property":
 							var entry = mem[0];
 							if (mem.length == 1) {
-								var types = switch (memName) {
-									case "jQuery.support":
-										var supportFields:Array<Field> = [];
-										for (li in entry.node.longdesc.node.ul.nodes.li) {
-											var itemName = li.node.code.innerHTML;
-											supportFields.push({
-												name: itemName.endsWith("()") ? itemName.substr(0, itemName.length-2) : itemName,
-												doc: li.innerHTML,
-												kind: FVar(itemName.endsWith("()") ? macro:Void->Bool : macro:Bool),
-												pos : null
-											});
-										}
-										[TAnonymous(supportFields)];
-									default:
-										toComplexType(entry.att.resolve("return"), entry);
-								}
+								var types = toComplexType(entry.att.resolve("return"), entry);
 								field.kind = FVar(either(types), null);
 								field.doc = entry.node.desc.innerHTML;
 							

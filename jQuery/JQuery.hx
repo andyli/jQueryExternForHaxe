@@ -22,7 +22,7 @@ package jQuery;
 	**/
 	@:overload @:jQueryVersion({ added : "1.4" }) public function html( _function : Int -> String -> Void ) : jQuery.JQuery;
 	/**
-		Attach a function to be executed before an Ajax request is sent. This is an <a href="/Ajax_Events">Ajax Event</a>.
+		Attach a function to be executed before an Ajax request is sent. This is an <a href="/Ajax_Events/">Ajax Event</a>.
 	**/
 	@:jQueryVersion({ added : "1.0" }) public function ajaxSend( handler : jQuery.Event -> jQuery.JqXHR -> Dynamic -> Void ) : jQuery.JQuery;
 	/**
@@ -32,7 +32,7 @@ package jQuery;
 	/**
 		Insert every element in the set of matched elements to the end of the target.
 	**/
-	@:jQueryVersion({ added : "1.0" }) public function appendTo( target : jQuery.haxe.Either<String, jQuery.haxe.Either<String, jQuery.haxe.Either<js.html.Node, jQuery.JQuery>>> ) : jQuery.JQuery;
+	@:jQueryVersion({ added : "1.0" }) public function appendTo( target : jQuery.haxe.Either<String, jQuery.haxe.Either<String, jQuery.haxe.Either<js.html.Node, jQuery.haxe.Either<Array<js.html.Node>, jQuery.JQuery>>>> ) : jQuery.JQuery;
 	/**
 		Bind an event handler to the "mousedown" JavaScript event, or trigger that event on an element.
 	**/
@@ -78,7 +78,7 @@ package jQuery;
 	**/
 	@:overload @:jQueryVersion({ added : "1.4.3" }) public function slideUp( ?duration : jQuery.haxe.Either<Float, String>, ?easing : String, ?complete : Void -> Void ) : jQuery.JQuery;
 	/**
-		Attach a function to be executed whenever an Ajax request completes successfully. This is an <a href="/Ajax_Events">Ajax Event</a>.
+		Attach a function to be executed whenever an Ajax request completes successfully. This is an <a href="/Ajax_Events/">Ajax Event</a>.
 	**/
 	@:jQueryVersion({ added : "1.0" }) public function ajaxSuccess( handler : jQuery.Event -> js.html.XMLHttpRequest -> Dynamic -> Void ) : jQuery.JQuery;
 	/**
@@ -194,7 +194,7 @@ package jQuery;
 	**/
 	@:overload @:jQueryVersion({ added : "1.2.6" }) public function scrollTop( value : Float ) : jQuery.JQuery;
 	/**
-		Register a handler to be called when Ajax requests complete. This is an <a href="/Ajax_Events">AjaxEvent</a>.
+		Register a handler to be called when Ajax requests complete. This is an <a href="/Ajax_Events/">AjaxEvent</a>.
 	**/
 	@:jQueryVersion({ added : "1.0" }) public function ajaxComplete( handler : jQuery.Event -> js.html.XMLHttpRequest -> Dynamic -> Void ) : jQuery.JQuery;
 	/**
@@ -248,7 +248,7 @@ package jQuery;
 	/**
 		Replace each element in the set of matched elements with the provided new content and return the set of elements that was removed.
 	**/
-	@:overload @:jQueryVersion({ added : "1.2" }) public function replaceWith( newContent : jQuery.haxe.Either<String, jQuery.haxe.Either<js.html.Node, jQuery.JQuery>> ) : jQuery.JQuery;
+	@:overload @:jQueryVersion({ added : "1.2" }) public function replaceWith( newContent : jQuery.haxe.Either<String, jQuery.haxe.Either<js.html.Node, jQuery.haxe.Either<Array<js.html.Node>, jQuery.JQuery>>> ) : jQuery.JQuery;
 	/**
 		Replace each element in the set of matched elements with the provided new content and return the set of elements that was removed.
 	**/
@@ -292,7 +292,7 @@ package jQuery;
 	/**
 		Insert content, specified by the parameter, to the end of each element in the set of matched elements.
 	**/
-	@:overload @:jQueryVersion({ added : "1.0" }) public function append( content : jQuery.haxe.Either<String, jQuery.haxe.Either<js.html.Node, jQuery.JQuery>>, ?content : jQuery.haxe.Either<String, jQuery.haxe.Either<js.html.Node, jQuery.haxe.Either<Array<js.html.Node>, jQuery.haxe.Either<js.html.NodeList, jQuery.haxe.Either<Array<String>, jQuery.haxe.Either<Array<jQuery.JQuery>, jQuery.JQuery>>>>>> ) : jQuery.JQuery;
+	@:overload @:jQueryVersion({ added : "1.0" }) public function append( content : jQuery.haxe.Either<String, jQuery.haxe.Either<js.html.Node, jQuery.haxe.Either<Array<js.html.Node>, jQuery.haxe.Either<js.html.NodeList, jQuery.haxe.Either<Array<String>, jQuery.haxe.Either<Array<jQuery.JQuery>, jQuery.JQuery>>>>>>, ?content : jQuery.haxe.Either<String, jQuery.haxe.Either<js.html.Node, jQuery.haxe.Either<Array<js.html.Node>, jQuery.haxe.Either<js.html.NodeList, jQuery.haxe.Either<Array<String>, jQuery.haxe.Either<Array<jQuery.JQuery>, jQuery.JQuery>>>>>> ) : jQuery.JQuery;
 	/**
 		Bind an event handler to the "focusin" event.
 	**/
@@ -438,7 +438,7 @@ package jQuery;
 	**/
 	@:overload @:jQueryVersion({ added : "1.4" }) public function val( _function : Int -> Dynamic -> Void ) : jQuery.JQuery;
 	/**
-		Register a handler to be called when Ajax requests complete with an error. This is an <a href="/Ajax_Events">Ajax Event</a>.
+		Register a handler to be called when Ajax requests complete with an error. This is an <a href="/Ajax_Events/">Ajax Event</a>.
 	**/
 	@:jQueryVersion({ added : "1.0" }) public function ajaxError( handler : jQuery.Event -> jQuery.JqXHR -> Dynamic -> String -> Void ) : jQuery.JQuery;
 	/**
@@ -524,7 +524,7 @@ package jQuery;
 	/**
 		Insert content, specified by the parameter, after each element in the set of matched elements.
 	**/
-	@:overload @:jQueryVersion({ added : "1.0" }) public function after( content : jQuery.haxe.Either<String, jQuery.haxe.Either<js.html.Node, jQuery.JQuery>>, ?content : jQuery.haxe.Either<String, jQuery.haxe.Either<js.html.Node, jQuery.haxe.Either<Array<js.html.Node>, jQuery.haxe.Either<js.html.NodeList, jQuery.haxe.Either<Array<String>, jQuery.haxe.Either<Array<jQuery.JQuery>, jQuery.JQuery>>>>>> ) : jQuery.JQuery;
+	@:overload @:jQueryVersion({ added : "1.0" }) public function after( content : jQuery.haxe.Either<String, jQuery.haxe.Either<js.html.Node, jQuery.haxe.Either<Array<js.html.Node>, jQuery.haxe.Either<js.html.NodeList, jQuery.haxe.Either<Array<String>, jQuery.haxe.Either<Array<jQuery.JQuery>, jQuery.JQuery>>>>>>, ?content : jQuery.haxe.Either<String, jQuery.haxe.Either<js.html.Node, jQuery.haxe.Either<Array<js.html.Node>, jQuery.haxe.Either<js.html.NodeList, jQuery.haxe.Either<Array<String>, jQuery.haxe.Either<Array<jQuery.JQuery>, jQuery.JQuery>>>>>> ) : jQuery.JQuery;
 	/**
 		Get the closest ancestor element that is positioned.
 	**/
@@ -664,7 +664,7 @@ package jQuery;
 	/**
 		Pass each element in the current matched set through a function, producing a new jQuery object containing the return values.
 	**/
-	@:jQueryVersion({ added : "1.2" }) public function map( callback : Int -> js.html.Node -> jQuery.JQuery ) : jQuery.JQuery;
+	@:jQueryVersion({ added : "1.2" }) public function map( callback : Int -> js.html.Node -> Dynamic ) : jQuery.JQuery;
 	/**
 		Remove the set of matched elements from the DOM.
 	**/
@@ -692,6 +692,10 @@ package jQuery;
 	/**
 		Remove a previously-attached event handler from the elements.
 	**/
+	@:overload @:jQueryVersion({ added : "1.0" }) public function unbind(  ) : jQuery.JQuery;
+	/**
+		Remove a previously-attached event handler from the elements.
+	**/
 	@:overload @:jQueryVersion({ added : "1.0" }) public function unbind( event : Dynamic ) : jQuery.JQuery;
 	/**
 		Remove a previously-attached event handler from the elements.
@@ -700,7 +704,7 @@ package jQuery;
 	/**
 		Remove a previously-attached event handler from the elements.
 	**/
-	@:overload @:jQueryVersion({ added : "1.0" }) public function unbind( ?eventType : String, ?handler : jQuery.Event -> Void ) : jQuery.JQuery;
+	@:overload @:jQueryVersion({ added : "1.0" }) public function unbind( eventType : String, ?handler : jQuery.Event -> Void ) : jQuery.JQuery;
 	/**
 		Adds the specified class(es) to each of the set of matched elements.
 	**/
@@ -716,7 +720,7 @@ package jQuery;
 	/**
 		Insert content, specified by the parameter, before each element in the set of matched elements.
 	**/
-	@:overload @:jQueryVersion({ added : "1.0" }) public function before( content : jQuery.haxe.Either<String, jQuery.haxe.Either<js.html.Node, jQuery.JQuery>>, ?content : jQuery.haxe.Either<String, jQuery.haxe.Either<js.html.Node, jQuery.haxe.Either<Array<js.html.Node>, jQuery.haxe.Either<js.html.NodeList, jQuery.haxe.Either<Array<String>, jQuery.haxe.Either<Array<jQuery.JQuery>, jQuery.JQuery>>>>>> ) : jQuery.JQuery;
+	@:overload @:jQueryVersion({ added : "1.0" }) public function before( content : jQuery.haxe.Either<String, jQuery.haxe.Either<js.html.Node, jQuery.haxe.Either<Array<js.html.Node>, jQuery.haxe.Either<js.html.NodeList, jQuery.haxe.Either<Array<String>, jQuery.haxe.Either<Array<jQuery.JQuery>, jQuery.JQuery>>>>>>, ?content : jQuery.haxe.Either<String, jQuery.haxe.Either<js.html.Node, jQuery.haxe.Either<Array<js.html.Node>, jQuery.haxe.Either<js.html.NodeList, jQuery.haxe.Either<Array<String>, jQuery.haxe.Either<Array<jQuery.JQuery>, jQuery.JQuery>>>>>> ) : jQuery.JQuery;
 	/**
 		Get the descendants of each element in the current set of matched elements, filtered by a selector, jQuery object, or element.
 	**/
@@ -916,13 +920,13 @@ package jQuery;
 	/**
 		Insert every element in the set of matched elements before the target.
 	**/
-	@:jQueryVersion({ added : "1.0" }) public function insertBefore( target : jQuery.haxe.Either<String, jQuery.haxe.Either<String, jQuery.haxe.Either<js.html.Node, jQuery.JQuery>>> ) : jQuery.JQuery;
+	@:jQueryVersion({ added : "1.0" }) public function insertBefore( target : jQuery.haxe.Either<String, jQuery.haxe.Either<String, jQuery.haxe.Either<js.html.Node, jQuery.haxe.Either<Array<js.html.Node>, jQuery.JQuery>>>> ) : jQuery.JQuery;
 	/**
 		Replace each target element with the set of matched elements.
 	**/
-	@:jQueryVersion({ added : "1.2" }) public function replaceAll( target : jQuery.haxe.Either<String, jQuery.haxe.Either<jQuery.JQuery, js.html.Node>> ) : jQuery.JQuery;
+	@:jQueryVersion({ added : "1.2" }) public function replaceAll( target : jQuery.haxe.Either<String, jQuery.haxe.Either<jQuery.JQuery, jQuery.haxe.Either<Array<js.html.Node>, js.html.Node>>> ) : jQuery.JQuery;
 	/**
-		Register a handler to be called when all Ajax requests have completed. This is an <a href="/Ajax_Events">Ajax Event</a>.
+		Register a handler to be called when all Ajax requests have completed. This is an <a href="/Ajax_Events/">Ajax Event</a>.
 	**/
 	@:jQueryVersion({ added : "1.0" }) public function ajaxStop( handler : Void -> Void ) : jQuery.JQuery;
 	/**
@@ -938,15 +942,15 @@ package jQuery;
 	**/
 	@:overload @:jQueryVersion({ added : "1.4.3" }) public function fadeOut( ?duration : jQuery.haxe.Either<Float, String>, ?easing : String, ?complete : Void -> Void ) : jQuery.JQuery;
 	/**
-		Attach a handler to an event for the elements. The handler is executed at most once per element.
+		Attach a handler to an event for the elements. The handler is executed at most once per element per event type.
 	**/
 	@:overload @:jQueryVersion({ added : "1.1" }) public function one( events : String, ?data : Dynamic, handler : jQuery.Event -> Void ) : jQuery.JQuery;
 	/**
-		Attach a handler to an event for the elements. The handler is executed at most once per element.
+		Attach a handler to an event for the elements. The handler is executed at most once per element per event type.
 	**/
 	@:overload @:jQueryVersion({ added : "1.7" }) public function one( events : Dynamic, ?selector : String, ?data : Dynamic ) : jQuery.JQuery;
 	/**
-		Attach a handler to an event for the elements. The handler is executed at most once per element.
+		Attach a handler to an event for the elements. The handler is executed at most once per element per event type.
 	**/
 	@:overload @:jQueryVersion({ added : "1.7" }) public function one( events : String, ?selector : String, ?data : Dynamic, handler : jQuery.Event -> Void ) : jQuery.JQuery;
 	/**
@@ -982,7 +986,7 @@ package jQuery;
 	**/
 	@:jQueryVersion({ added : "1.8" }) public function addBack( ?selector : String ) : jQuery.JQuery;
 	/**
-		Register a handler to be called when the first Ajax request begins. This is an <a href="/Ajax_Events">Ajax Event</a>.
+		Register a handler to be called when the first Ajax request begins. This is an <a href="/Ajax_Events/">Ajax Event</a>.
 	**/
 	@:jQueryVersion({ added : "1.0" }) public function ajaxStart( handler : Void -> Void ) : jQuery.JQuery;
 	/**
@@ -1044,7 +1048,7 @@ package jQuery;
 	/**
 		Insert every element in the set of matched elements to the beginning of the target.
 	**/
-	@:jQueryVersion({ added : "1.0" }) public function prependTo( target : jQuery.haxe.Either<String, jQuery.haxe.Either<String, jQuery.haxe.Either<js.html.Node, jQuery.JQuery>>> ) : jQuery.JQuery;
+	@:jQueryVersion({ added : "1.0" }) public function prependTo( target : jQuery.haxe.Either<String, jQuery.haxe.Either<String, jQuery.haxe.Either<js.html.Node, jQuery.haxe.Either<Array<js.html.Node>, jQuery.JQuery>>>> ) : jQuery.JQuery;
 	/**
 		Display or hide the matched elements with a sliding motion.
 	**/
@@ -1196,6 +1200,10 @@ package jQuery;
 	/**
 		Remove an event handler.
 	**/
+	@:overload @:jQueryVersion({ added : "1.7" }) public function off(  ) : jQuery.JQuery;
+	/**
+		Remove an event handler.
+	**/
 	@:overload @:jQueryVersion({ added : "1.7" }) public function off( events : Dynamic, ?selector : String ) : jQuery.JQuery;
 	/**
 		Remove an event handler.
@@ -1220,7 +1228,7 @@ package jQuery;
 	/**
 		Insert content, specified by the parameter, to the beginning of each element in the set of matched elements.
 	**/
-	@:overload @:jQueryVersion({ added : "1.0" }) public function prepend( content : jQuery.haxe.Either<String, jQuery.haxe.Either<js.html.Node, jQuery.JQuery>>, ?content : jQuery.haxe.Either<String, jQuery.haxe.Either<js.html.Node, jQuery.JQuery>> ) : jQuery.JQuery;
+	@:overload @:jQueryVersion({ added : "1.0" }) public function prepend( content : jQuery.haxe.Either<String, jQuery.haxe.Either<js.html.Node, jQuery.haxe.Either<Array<js.html.Node>, jQuery.haxe.Either<js.html.NodeList, jQuery.haxe.Either<Array<String>, jQuery.haxe.Either<Array<jQuery.JQuery>, jQuery.JQuery>>>>>>, ?content : jQuery.haxe.Either<String, jQuery.haxe.Either<js.html.Node, jQuery.haxe.Either<Array<js.html.Node>, jQuery.haxe.Either<js.html.NodeList, jQuery.haxe.Either<Array<String>, jQuery.haxe.Either<Array<jQuery.JQuery>, jQuery.JQuery>>>>>> ) : jQuery.JQuery;
 	/**
 		Remove a previously-stored piece of data.
 	**/
@@ -1244,7 +1252,7 @@ package jQuery;
 	/**
 		Insert every element in the set of matched elements after the target.
 	**/
-	@:jQueryVersion({ added : "1.0" }) public function insertAfter( target : jQuery.haxe.Either<String, jQuery.haxe.Either<String, jQuery.haxe.Either<js.html.Node, jQuery.JQuery>>> ) : jQuery.JQuery;
+	@:jQueryVersion({ added : "1.0" }) public function insertAfter( target : jQuery.haxe.Either<String, jQuery.haxe.Either<String, jQuery.haxe.Either<js.html.Node, jQuery.haxe.Either<Array<js.html.Node>, jQuery.JQuery>>>> ) : jQuery.JQuery;
 	/**
 		Compile-time short cut to JQueryStatic.
 	**/
