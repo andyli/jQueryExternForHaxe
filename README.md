@@ -30,14 +30,14 @@ class Main {
 It is same as how you use jQuery in JS. But instead of `$`, you refer jQuery as `JQuery`.
 
 eg. Hiding all *li* object:
-```
+```haxe
 new JQuery("li").hide(); //same as $("li").hide() in JS
 ```
 
 Static methods of jQuery can be accessed from `JQuery._static`.
 
 eg. A ajax example:
-```
+```haxe
 JQuery._static.get("ajax/test.html", function(data) {
 	js.Lib.alert(data);
 });
