@@ -35,13 +35,13 @@ class TestCoreExternGenerator extends TestCase {
 		
 		this.assertEquals(
 			"2,4,3,6,5,1,0",
-			sorted.map(types.indexOf).toString()
+			sorted.map(function(_) return types.indexOf(_)).toString()
 		);
 		
 		sorted.sort(function(a,b) return -CoreExternGenerator.compareComplexType(a,b));
 		this.assertEquals(
 			"0,1,5,6,3,4,2",
-			sorted.map(types.indexOf).toString()
+			sorted.map(function(_) return types.indexOf(_)).toString()
 		);
 	}
 	

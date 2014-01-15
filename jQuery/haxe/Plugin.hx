@@ -41,7 +41,7 @@ class PluginBuilder {
 		
 		var fields = Context.getBuildFields();
 		Config.plugins.set(pluginFullName, fields);
-		return fields;
+		return [];
 	}
 	#end
 }
