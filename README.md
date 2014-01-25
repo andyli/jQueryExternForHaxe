@@ -2,7 +2,7 @@
 
 [jQuery](http://jquery.com/) extern for [Haxe](http://haxe.org/).
 
-Currently supports jQuery version up to *1.10.2* / *2.0.3*. Requires Haxe 3.0+.
+Currently supports jQuery version up to *1.11.0* / *2.1.0*. Requires Haxe 3.0+.
 
 You may check my [blog](http://blog.onthewings.net/) for updates.
 
@@ -46,8 +46,8 @@ Remember **jQueryExtern** is simply an extern, you have to link jQuery in your h
 
 eg. In your `<head>`:
 ```html
-<!-- jQuery from Google CDN -->
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<!-- from jQuery's CDN (http://jquery.com/download/#using-jquery-with-a-cdn) -->
+<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 
 <!-- Your haxe compiled script: -->
 <script type="text/javascript" src="Main.js"></script>
@@ -69,7 +69,7 @@ eg. In your `<head>`:
 	<tr>
 		<th scope="row">jQuery API version</th>
 		<td>partial 1.6.4</td>
-		<td>complete 1.10.2 / 2.0.3</td>
+		<td>complete 1.11.0 / 2.1.0</td>
 	</tr>
 	<tr>
 		<th scope="row">refer jQuery in output as</th>
@@ -79,9 +79,30 @@ eg. In your `<head>`:
 	<tr>
 		<th scope="row">include jQuery in output</th>
 		<td>no (can be opt-in by -D embed-js)</td>
-		<td>no, <a href="http://stackoverflow.com/questions/2180391/why-should-i-use-googles-cdn-for-jquery" target="_blank">use CDN instead</a></td>
+		<td>no, <a href="http://jquery.com/download/#using-jquery-with-a-cdn" target="_blank">use CDN instead</a></td>
 	</tr>
 </table>
+
+In fact, since both *js.JQuery* in haxe std lib and *jQueryExtern* are just extern files, they can be used in same project.
+
+The following will compile and run perfectly.
+
+```haxe
+function takesJQueryExtern(j:jQuery.JQuery):Void {
+	trace(j);
+}
+function takesJsJQuery(j:js.JQuery):Void {
+	trace(j);
+}
+
+var div = new js.JQuery("<div></div>");
+takesJQueryExtern(untyped div);
+takesJQueryExtern(cast div);
+
+var div = new jQuery.JQuery("<div></div>");
+takesJsJQuery(untyped div);
+takesJsJQuery(cast div);
+```
 
 ## License
 
