@@ -4,7 +4,7 @@
   "license": "Public",
   "tags": ["js","extern"],
   "description": "Unleash the full power of jQuery in Haxe.",
-  "version": "2.0.1",
-  "releasenote": "Support jQuery version up to 1.11.0/2.1.0 (nothing changed in fact). Bug fix in jQuery.haxe.Plugin.",
+  "version": "2.0.2",
+  "releasenote": "Regenerated externs with lastest jQuery doc. Put Either back in jQuery.haxe package.",
   "contributors": ["andyli"]
 }
