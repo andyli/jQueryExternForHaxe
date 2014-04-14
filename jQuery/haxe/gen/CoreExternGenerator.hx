@@ -283,9 +283,12 @@ class CoreExternGenerator {
 			case ["get", "get", "Array"]:
 				[macro:Array<js.html.Node>];
 			
-			case ["height", "function(index, height)", "Function"] | ["width", "function(index, width)", "Function"] | ["css", "function(index, value)", "Function"]:
+			case ["css", "function(index, value)", "Function"]:
 				[macro:Int->String->Dynamic];
-					
+
+			case ["height", "function(index, height)", "Function"] | ["width", "function(index, width)", "Function"] | ["innerWidth", "function(index, width)", "Function"]:
+				[macro:Int->Float->Dynamic];
+
 			case [_, "handler(options, originalOptions, jqXHR)", "Function"]:
 				[macro:Dynamic->Dynamic->jQuery.JqXHR->Void];
 					
