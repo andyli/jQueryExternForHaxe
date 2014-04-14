@@ -740,7 +740,7 @@ package jQuery;
 	/**
 		Attach a handler to an event for the elements.
 	**/
-	@:overload @:jQueryVersion({ added : "1.4.3" }) public function bind( eventType : String, ?eventData : Dynamic, preventBubble : Bool ) : jQuery.JQuery;
+	@:overload @:jQueryVersion({ added : "1.4.3" }) public function bind( eventType : String, ?eventData : Dynamic, ?preventBubble : Bool ) : jQuery.JQuery;
 	/**
 		Attach a handler to an event for the elements.
 	**/
