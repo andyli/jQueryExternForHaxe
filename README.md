@@ -1,5 +1,7 @@
 # jQueryExtern [![Build Status](https://travis-ci.org/andyli/jQueryExternForHaxe.png?branch=master)](https://travis-ci.org/andyli/jQueryExternForHaxe)
 
+[![Support via Gittip](https://rawgithub.com/twolfson/gittip-badge/0.2.1/dist/gittip.png)](https://www.gittip.com/AndyLi/)
+
 [jQuery](http://jquery.com/) extern for [Haxe](http://haxe.org/).
 
 Currently supports jQuery version up to *1.11.0* / *2.1.0*. Requires Haxe 3.0+.
