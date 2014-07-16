@@ -16,3 +16,7 @@ script:
   - haxe -js test/bin/Test.js -main Test -cp test -lib phantomjs --macro "jQuery.haxe.Config.setNative('jQuery')" --macro "jQuery.haxe.Config.addPlugin('DummyPlugin')" --macro "jQuery.haxe.Config.addPlugin('DummyPlugin2')" && phantomjs test/bin/Test.js
   # test setAllowDeprecated
   - haxe -js test/bin/Test.js -main Test -cp test -lib phantomjs --macro "jQuery.haxe.Config.setAllowDeprecated(true)" --macro "jQuery.haxe.Config.addPlugin('DummyPlugin')" --macro "jQuery.haxe.Config.addPlugin('DummyPlugin2')" && phantomjs test/bin/Test.js
+  # test js-flatten
+  - haxe -js test/bin/Test.js -main Test -cp test -lib phantomjs -D js-flatten --macro "jQuery.haxe.Config.addPlugin('DummyPlugin')" --macro "jQuery.haxe.Config.addPlugin('DummyPlugin2')" && phantomjs test/bin/Test.js
+  # test js-flatten + setNative
+  - haxe -js test/bin/Test.js -main Test -cp test -lib phantomjs -D js-flatten --macro "jQuery.haxe.Config.setNative('jQuery')" --macro "jQuery.haxe.Config.addPlugin('DummyPlugin')" --macro "jQuery.haxe.Config.addPlugin('DummyPlugin2')" && phantomjs test/bin/Test.js
