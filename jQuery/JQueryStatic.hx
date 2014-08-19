@@ -57,8 +57,15 @@ package jQuery;
 	/**
 		A generic iterator function, which can be used to seamlessly iterate over both objects and arrays. Arrays and array-like objects with a length property (such as a function's arguments object) are iterated by numeric index, from 0 to length-1. Other objects are iterated via their named properties.
 	**/
+	@:overload
 	@:jQueryVersion({ added : "1.0" })
-	static public function each(collection:Dynamic, callback:Int -> Dynamic -> Void):Dynamic;
+	static public function each(array:Array<Dynamic>, callback:Int -> Dynamic -> Void):Dynamic;
+	/**
+		A generic iterator function, which can be used to seamlessly iterate over both objects and arrays. Arrays and array-like objects with a length property (such as a function's arguments object) are iterated by numeric index, from 0 to length-1. Other objects are iterated via their named properties.
+	**/
+	@:overload
+	@:jQueryVersion({ added : "1.0" })
+	static public function each(object:Dynamic, callback:String -> Dynamic -> Void):Dynamic;
 	/**
 		Execute the next function on the queue for the matched element.
 	**/
@@ -101,25 +108,25 @@ package jQuery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.4" })
-	static public function proxy(context:Dynamic, name:String):Dynamic;
+	static public function proxy(_function:haxe.Constraints.Function, context:Dynamic):haxe.Constraints.Function;
 	/**
 		Takes a function and returns a new one that will always have a particular context.
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.4" })
-	static public function proxy(_function:Dynamic, context:Dynamic):Dynamic;
+	static public function proxy(context:Dynamic, name:String):haxe.Constraints.Function;
 	/**
 		Takes a function and returns a new one that will always have a particular context.
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.6" })
-	static public function proxy(context:Dynamic, name:String, ?additionalArguments:Dynamic):Dynamic;
+	static public function proxy(_function:haxe.Constraints.Function, context:Dynamic, ?additionalArguments:Dynamic):haxe.Constraints.Function;
 	/**
 		Takes a function and returns a new one that will always have a particular context.
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.6" })
-	static public function proxy(_function:Dynamic, context:Dynamic, ?additionalArguments:Dynamic):Dynamic;
+	static public function proxy(context:Dynamic, name:String, ?additionalArguments:Dynamic):haxe.Constraints.Function;
 	/**
 		Remove the whitespace from the beginning and end of a string.
 	**/
@@ -156,7 +163,7 @@ package jQuery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.6" })
-	static public function map(arrayOrObject:jQuery.haxe.Either<Array<Dynamic>, jQuery.haxe.Either<{ }, Dynamic>>, callback:jQuery.haxe.Either<Dynamic -> Int -> Dynamic, Dynamic -> String -> Dynamic>):Array<Dynamic>;
+	static public function map(object:Dynamic, callback:Dynamic -> String -> Dynamic):Array<Dynamic>;
 	/**
 		Show the queue of functions to be executed on the matched element.
 	**/
@@ -174,7 +181,7 @@ package jQuery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.3" })
-	static public function queue(element:js.html.Node, queueName:String, callback:Void -> Void):jQuery.JQuery;
+	static public function queue(element:js.html.Node, queueName:String, callback:haxe.Constraints.Function):jQuery.JQuery;
 	/**
 		Parses a string into an array of DOM nodes.
 	**/
@@ -233,9 +240,9 @@ package jQuery;
 	@:jQueryVersion({ added : "1.0.4" })
 	static public function globalEval(code:String):Void;
 	/**
-		<strong>Deprecated in jQuery 1.3 (see <a href="/jQuery.support/">jQuery.support</a>)</strong>. States if the current page, in the user's browser, is being rendered using the <a href="http://www.w3.org/TR/REC-CSS2/box.html">W3C CSS Box Model</a>.
+		States if the current page, in the user's browser, is being rendered using the <a href="http://www.w3.org/TR/REC-CSS2/box.html">W3C CSS Box Model</a>. <strong>This property was removed in jQuery 1.8</strong>. Please try to use feature detection instead.
 	**/
-	@:jQueryVersion({ added : "1.0", deprecated : "1.3" })
+	@:jQueryVersion({ added : "1.0", deprecated : "1.3", removed : "1.8" })
 	static public var boxModel : Bool;
 	/**
 		Load JSON-encoded data from the server using a GET HTTP request.
@@ -248,15 +255,15 @@ package jQuery;
 	@:jQueryVersion({ added : "1.0" })
 	static public function grep(array:Array<Dynamic>, _function:Dynamic -> Int -> Bool, ?invert:Bool):Array<Dynamic>;
 	/**
-		Load data from the server using a HTTP POST request.
-	**/
-	@:jQueryVersion({ added : "1.0" })
-	static public function post(url:String, ?data:jQuery.haxe.Either<Dynamic, String>, ?success:Dynamic -> String -> jQuery.JqXHR -> Void, ?dataType:String):jQuery.JqXHR;
-	/**
 		Merge the contents of an object onto the jQuery prototype to provide new jQuery instance methods.
 	**/
 	@:jQueryVersion({ added : "1.0" })
 	static public function fn(object:Dynamic):Dynamic;
+	/**
+		Load data from the server using a HTTP POST request.
+	**/
+	@:jQueryVersion({ added : "1.0" })
+	static public function post(url:String, ?data:jQuery.haxe.Either<Dynamic, String>, ?success:Dynamic -> String -> jQuery.JqXHR -> Void, ?dataType:String):jQuery.JqXHR;
 	/**
 		 A constructor function that returns a chainable utility object with methods to register multiple callbacks into callback queues, invoke callback queues, and relay the success or failure state of any synchronous or asynchronous function.
 	**/

@@ -41,19 +41,62 @@ class CoreExternGenerator {
 				});
 		}
 	}
+
+	function toFunctionComplexType(tag:Fast):ComplexType {
+		var args = [for (a in tag.nodes.argument) either(toComplexType(a.att.type, a))];
+		var rets = if (tag.hasNode.resolve("return")) {
+			var retNode = tag.node.resolve("return");
+			if (retNode.has.type)
+				toComplexType(retNode.att.type)
+			else if (retNode.hasNode.type)
+				[
+					for (c in retNode.nodes.type.fold(
+						function(t, map:Map<ComplexType,Void>) {
+							for (c in toComplexType(t.att.name))
+								map[c] = null;
+							return map;
+						},
+						new Map<ComplexType,Void>()
+					).keys())
+						c
+				];
+			else
+				throw "no type for return?";
+		} else null;
+
+		var ct = if (rets == null && args.length == 0)
+			macro:haxe.Constraints.Function
+		else {
+			TFunction(
+				args, 
+				either(rets == null ? [macro:Void] : rets)
+			);
+		}
+
+		return if (tag.att.name.toLowerCase().endsWith("callbacks")){
+			either([ct, macro:Array<$ct>]);
+		} else {
+			ct;
+		}
+	}
+
+	/**
+		Find the entry node, recurse to the parent.
+	*/
+	function getEntryName(tag:Xml):String {
+		return switch (tag.nodeName) {
+			case "entry": tag.get("name");
+			case _: getEntryName(tag.parent);
+		}
+	}
 	
 	/**
 		Maps a type in api.xml to one or more Haxe ComplexType.
 		tag is the xml node where the type is listed.
 	**/
-	public function toComplexType(type:String, ?tag:Fast):Array<ComplexType> {		
-		var tagStr = tag == null ? "" : tag.x.toString().ltrim();
+	public function toComplexType(type:String, ?tag:Fast):Array<ComplexType> {
 		var tagName = tag == null ? "" : tag.att.name;
-		var entryName = tag == null ? "" : switch (tag.name) {
-			case "entry": tagName;
-			case "argument": new Fast(tag.x.parent.parent).att.name;
-			default: trace(tag.name); "";
-		}
+		var entryName = tag == null ? "" : getEntryName(tag.x);
 		if (type != null) type = type.trim();
 		
 		var simple = type == null ? [macro:Dynamic] : switch(type) {
@@ -96,6 +139,9 @@ class CoreExternGenerator {
 				[macro:Dynamic]; //should be {}, but jQuery doc uses "Object" for "Anything" :(
 			case "undefined", "": 
 				[macro:Void];
+
+			case "Function":
+				[toFunctionComplexType(tag)];
 			
 			case _ if (type.indexOf(",") >= 0):
 				//older version of api.xml sometimes use , to list multiple types...
@@ -109,70 +155,46 @@ class CoreExternGenerator {
 		}
 		
 		return simple != null ? simple : switch ([entryName, tagName, type]) {
-			case ["jQuery.each", "callback(indexInArray, valueOfElement)", "Function"]:
-				[macro:Int->Dynamic->Void];
-			case ["jQuery.getScript", "success(script, textStatus, jqXHR)", "Function"]:
-				[macro:String->String->jQuery.JqXHR->Void];
+			case ["jQuery.each", "array", "Array"]:
+				[macro:Array<Dynamic>];
 			case ["jQuery.parseHTML", "jQuery.parseHTML", "Array"]:
 				[macro:Array<js.html.Node>];
 			case ["add", "elements", "Elements"]:
 				[macro:js.html.Node, macro:js.html.NodeList];
-			case ["attr", "function(index, attr)", "Function"]:
-				[macro:Int->String->String];
 			case ["appendTo" | "insertBefore" | "replaceAll" | "prependTo" | "insertAfter", "target", "Array"]:
 				[macro:Array<js.html.Node>];
-			case ["before", "function", "Function"]:
-				[macro:Int->Dynamic];
 			case ["css", "propertyNames", "Array"]:
 				[macro:Array<String>];
 			case ["jQuery.queue", "jQuery.queue" | "newQueue", "Array"]:
 				[macro:Array<Void->Void>];
 			case ["queue", "queue" | "newQueue", "Array"]:
 				[macro:Array<Void->Void>];
-			case ["queue", "callback( next )", "Function"]:
-				[macro:(Void->Void)->Void];
-			case ["jQuery.proxy", _, "Function"]:
-				[macro:Dynamic];
-			case ["each", "function(index, Element)", "Function"]:
-				[macro:Int->js.html.Node->Void];
 			case ["ajaxSend", "handler(event, jqXHR, ajaxOptions)", "Function"]:
 				[macro:jQuery.Event->jQuery.JqXHR->Dynamic->Void];
 			case ["ajaxError", "handler(event, jqXHR, ajaxSettings, thrownError)", "Function"]:
 				[macro:jQuery.Event->jQuery.JqXHR->Dynamic->String->Void];
-			case ["jQuery.Deferred", "beforeStart", "Function"]:
-				[macro:jQuery.Deferred->Void];
 			case ["serializeArray", "serializeArray", "Array"]:
 				[macro:Array<Dynamic>];
 			case ["triggerHandler", "extraParameters", "Array"]:
 				[macro:Array<Dynamic>];
-			case ["replaceWith", "function", "Function"]:
-				[macro:Void->Dynamic];
 			case ["replaceWith", "newContent", "Array"]:
 				[macro:Array<js.html.Node>];
 			case ["pushStack", "elements", "Array"]:
 				[macro:Array<js.html.Node>, macro:js.html.NodeList];
 			case ["pushStack", "arguments", "Array"]:
 				[macro:Array<Dynamic>];
-			case ["not", "elements", "Elements"]:
-				[macro:js.html.Node, macro:js.html.NodeList, macro:Array<js.html.Node>];
-			case ["map", "callback(index, domElement)", "Function"]:
-				[macro:Int->js.html.Node->Dynamic];
-			case ["prop", "function(index, oldPropertyValue)", "Function"]:
-				[macro:Int->String->String, macro:Int->Float->Float, macro:Int->Bool->Bool];
+			case ["not", "selector", "Array"]:
+				[macro:Array<js.html.Node>];
 			case ["val", "value", "Array"]:
 				[macro:Array<String>];
 			case ["val", "val", "Array"]:
 				[macro:Array<Dynamic>];
-			case ["val", "function(index, value)", "Function"]:
-				[macro:Int->Dynamic->Void];
 			case ["closest", "selectors", "Array"]:
 				[macro:String, macro:Array<String>, macro:jQuery.JQuery];
 			case ["closest", "closest", "Array"]:
 				[macro:Array<Dynamic>];
 			case ["jQuery", "elementArray", "Array"]:
 				[macro:js.html.NodeList, macro:Array<js.html.Node>];
-			case ["jQuery", "callback", "Function"]:
-				[macro:Void->Void, macro:Class<jQuery.JQuery>->Void];
 			case ["toArray", "toArray", "Array"]:
 				[macro:Array<js.html.Node>];
 			case ["jQuery.inArray", "array", "Array"]:
@@ -185,18 +207,10 @@ class CoreExternGenerator {
 				[macro:Array<Dynamic>];
 			case ["jQuery.map", "arrayOrObject", "Array"]:
 				[macro:Array<Dynamic>, macro:{}];
-			case ["jQuery.map", "callback( elementOfArray, indexInArray )", "Function"]:
-				[macro:Dynamic->Int->Dynamic];
-			case ["jQuery.map", "callback( value, indexOrKey )", "Function"]:
-				[macro:Dynamic->Int->Dynamic, macro:Dynamic->String->Dynamic];
 			case ["jQuery.grep", _, "Array"]:
 				[macro:Array<Dynamic>];
-			case ["jQuery.grep", "function(elementOfArray, indexInArray)", "Function"]:
-				[macro:Dynamic->Int->Bool];
 			case ["jQuery.merge", _, "Array"]:
 				[macro:Array<Dynamic>];
-			case ["toggleClass", "function(index, class, switch)", "Function"]:
-				[macro:Int->String->Bool->String];
 			case ["trigger", "extraParameters", "Array"]:
 				[macro:Array<Dynamic>];
 			case ["removeData", "list", "Array"]:
@@ -204,11 +218,8 @@ class CoreExternGenerator {
 			case ["jQuery.param", "obj", "Array"]:
 				[macro:Array<Dynamic>];
 			
-			case [_, "callbacks", "Function"]:
-				[macro:Dynamic];
-			
-			case [_, "callbacks", "Array"]:
-				[macro:Array<Dynamic>];
+			case ["callbacks.add"|"callbacks.remove", "callbacks", "Array"]:
+				[];
 			
 			case [_, "content", "Array"]:
 				[macro:Array<js.html.Node>, macro:js.html.NodeList, macro:Array<String>, macro:Array<jQuery.JQuery>];
@@ -219,87 +230,25 @@ class CoreExternGenerator {
 			case ["offset" | "position", _, "Object" | "PlainObject"]:
 				[macro:{top:Float, left:Float}];
 			
-			case ["offset", "function(index, coords)", "Function"]:
-				[macro:Int->{left:Float, top:Float}->{left:Float, top:Float}];
-					
-			case [
-				_,
-				"complete" | "callback()" | "handler" | "handler()",
-				"Function"
-			]:
-				[macro:Void->Void];
-				
-			case [
-				_, 
-				"doneCallbacks" | "failCallbacks" | "progressCallbacks" | "alwaysCallbacks", 
-				"Function"
-			]:
-				[macro:Dynamic, macro:Array<Dynamic>];
-			
 			case [
 				_, 
 				"doneCallbacks" | "failCallbacks" | "progressCallbacks" | "alwaysCallbacks", 
 				"Array"
 			]:
 				[macro:Array<Dynamic>];
-			
-			case [
-				_, 
-				"doneFilter" | "failFilter" | "progressFilter", 
-				"Function"
-			]:
-				[macro:Dynamic];
 					
 			case [
-				"deferred.resolveWith" | "deferred.rejectWith",
+				"deferred.resolveWith" | "deferred.rejectWith" | "deferred.notifyWith",
 				"args",
 				"Array"
 			]:
 				[macro:Array<Dynamic>];
-					
-			case [
-				_,
-				"handler(eventObject)" | "handlerIn(eventObject)" | "handlerOut(eventObject)" | "handlerInOut(eventObject)", 
-				"Function"
-			]:
-				[macro:jQuery.Event->Void];
-					
-			case [_, "function(index)", "Function"]:
-				[macro:Int->Void];
-					
-			case [
-				_,
-				"function(index, text)" | "function(index, html)" | "function(index, oldhtml)" | "function(index, class)" | "function(index, currentClass)",
-				"Function"
-			]:
-				[macro:Int->String->Void];
-					
-			case ["callbacks.has", "callback", "Function"]:
-				[macro:Dynamic];
 					
 			case ["jQuery.unique", _, "Array"]:
 				[macro:Array<js.html.Node>];
 			
 			case ["get", "get", "Array"]:
 				[macro:Array<js.html.Node>];
-			
-			case ["css", "function(index, value)", "Function"]:
-				[macro:Int->String->Dynamic];
-
-			case ["height", "function(index, height)", "Function"] | ["width", "function(index, width)", "Function"] | ["innerWidth", "function(index, width)", "Function"]:
-				[macro:Int->Float->Dynamic];
-
-			case [_, "handler(options, originalOptions, jqXHR)", "Function"]:
-				[macro:Dynamic->Dynamic->jQuery.JqXHR->Void];
-					
-			case [_, "success(data, textStatus, jqXHR)" | "success( data, textStatus, jqXHR )", "Function"]:
-				[macro:Dynamic->String->jQuery.JqXHR->Void];
-					
-			case [_, "complete(responseText, textStatus, XMLHttpRequest)", "Function"]:
-				[macro:Dynamic->String->js.html.XMLHttpRequest->Void];
-					
-			case [_, "handler(event, XMLHttpRequest, ajaxOptions)", "Function"]:
-				[macro:jQuery.Event->js.html.XMLHttpRequest->Dynamic->Void];
 					
 			default:
 				trace('["${entryName}", "${tagName}", "${type}"]');

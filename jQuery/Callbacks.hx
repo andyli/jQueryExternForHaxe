@@ -15,7 +15,7 @@ package jQuery;
 		Determine whether a supplied callback is in a list
 	**/
 	@:jQueryVersion({ added : "1.7" })
-	public function has(callback:Dynamic):Bool;
+	public function has(callback:haxe.Constraints.Function):Bool;
 	/**
 		Determine if the callbacks list has been locked.
 	**/
@@ -40,12 +40,17 @@ package jQuery;
 		Add a callback or a collection of callbacks to a callback list.
 	**/
 	@:jQueryVersion({ added : "1.7" })
-	public function add(callbacks:jQuery.haxe.Either<Dynamic, Array<Dynamic>>):jQuery.Callbacks;
+	public function add(callbacks:jQuery.haxe.Either<haxe.Constraints.Function, Array<haxe.Constraints.Function>>):jQuery.Callbacks;
 	/**
 		Lock a callback list in its current state.
 	**/
 	@:jQueryVersion({ added : "1.7" })
 	public function lock():jQuery.Callbacks;
+	/**
+		Determine if the callbacks list has been disabled.
+	**/
+	@:jQueryVersion({ added : "1.7" })
+	public function disabled():Bool;
 	/**
 		Determine if the callbacks have already been called at least once.
 	**/
@@ -55,10 +60,5 @@ package jQuery;
 		Remove a callback or a collection of callbacks from a callback list.
 	**/
 	@:jQueryVersion({ added : "1.7" })
-	public function remove(callbacks:jQuery.haxe.Either<Dynamic, Array<Dynamic>>):jQuery.Callbacks;
-	/**
-		Determine if the callbacks list has been disabled.
-	**/
-	@:jQueryVersion({ added : "1.7" })
-	public function disabled():Bool;
+	public function remove(callbacks:jQuery.haxe.Either<haxe.Constraints.Function, Array<haxe.Constraints.Function>>):jQuery.Callbacks;
 }

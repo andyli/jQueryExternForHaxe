@@ -28,7 +28,7 @@ package jQuery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.4" })
-	public function html(_function:Int -> String -> Void):jQuery.JQuery;
+	public function html(_function:Int -> String -> String):jQuery.JQuery;
 	/**
 		Attach a function to be executed before an Ajax request is sent. This is an <a href="/Ajax_Events/">Ajax Event</a>.
 	**/
@@ -103,18 +103,18 @@ package jQuery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.0" })
-	public function slideUp(?duration:jQuery.haxe.Either<Float, String>, ?complete:Void -> Void):jQuery.JQuery;
+	public function slideUp(?duration:jQuery.haxe.Either<Float, String>, ?complete:haxe.Constraints.Function):jQuery.JQuery;
 	/**
 		Hide the matched elements with a sliding motion.
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.4.3" })
-	public function slideUp(?duration:jQuery.haxe.Either<Float, String>, ?easing:String, ?complete:Void -> Void):jQuery.JQuery;
+	public function slideUp(?duration:jQuery.haxe.Either<Float, String>, ?easing:String, ?complete:haxe.Constraints.Function):jQuery.JQuery;
 	/**
 		Attach a function to be executed whenever an Ajax request completes successfully. This is an <a href="/Ajax_Events/">Ajax Event</a>.
 	**/
 	@:jQueryVersion({ added : "1.0" })
-	public function ajaxSuccess(handler:jQuery.Event -> js.html.XMLHttpRequest -> Dynamic -> Void):jQuery.JQuery;
+	public function ajaxSuccess(handler:jQuery.Event -> jQuery.JqXHR -> Dynamic -> Dynamic -> Void):jQuery.JQuery;
 	/**
 		Get the value of an attribute for the first element in the set of matched elements.
 	**/
@@ -138,7 +138,7 @@ package jQuery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.1" })
-	public function attr(attributeName:String, _function:Int -> String -> String):jQuery.JQuery;
+	public function attr(attributeName:String, _function:Int -> String -> jQuery.haxe.Either<String, Float>):jQuery.JQuery;
 	/**
 		Get all preceding siblings of each element up to but not including the element matched by the selector, DOM node, or jQuery object.
 	**/
@@ -172,13 +172,13 @@ package jQuery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.0" })
-	public function slideDown(?duration:jQuery.haxe.Either<Float, String>, ?complete:Void -> Void):jQuery.JQuery;
+	public function slideDown(?duration:jQuery.haxe.Either<Float, String>, ?complete:haxe.Constraints.Function):jQuery.JQuery;
 	/**
 		Display the matched elements with a sliding motion.
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.4.3" })
-	public function slideDown(?duration:jQuery.haxe.Either<Float, String>, ?easing:String, ?complete:Void -> Void):jQuery.JQuery;
+	public function slideDown(?duration:jQuery.haxe.Either<Float, String>, ?easing:String, ?complete:haxe.Constraints.Function):jQuery.JQuery;
 	/**
 		Get the combined text contents of each element in the set of matched elements, including their descendants.
 	**/
@@ -196,7 +196,7 @@ package jQuery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.4" })
-	public function text(_function:Int -> String -> Void):jQuery.JQuery;
+	public function text(_function:Int -> String -> String):jQuery.JQuery;
 	/**
 		Search for a given element from among the matched elements.
 	**/
@@ -279,7 +279,7 @@ package jQuery;
 		Register a handler to be called when Ajax requests complete. This is an <a href="/Ajax_Events/">AjaxEvent</a>.
 	**/
 	@:jQueryVersion({ added : "1.0" })
-	public function ajaxComplete(handler:jQuery.Event -> js.html.XMLHttpRequest -> Dynamic -> Void):jQuery.JQuery;
+	public function ajaxComplete(handler:jQuery.Event -> jQuery.JqXHR -> Dynamic -> Void):jQuery.JQuery;
 	/**
 		Bind an event handler to the "blur" JavaScript event, or trigger that event on an element.
 	**/
@@ -315,7 +315,7 @@ package jQuery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.4.1" })
-	public function height(_function:Int -> Float -> Dynamic):jQuery.JQuery;
+	public function height(_function:Int -> Int -> jQuery.haxe.Either<String, Float>):jQuery.JQuery;
 	/**
 		Bind an event handler to the "focus" JavaScript event, or trigger that event on an element.
 	**/
@@ -363,7 +363,7 @@ package jQuery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.4" })
-	public function replaceWith(_function:Void -> Dynamic):jQuery.JQuery;
+	public function replaceWith(_function:haxe.Constraints.Function):jQuery.JQuery;
 	/**
 		Perform a custom animation of a set of CSS properties.
 	**/
@@ -375,19 +375,19 @@ package jQuery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.0" })
-	public function animate(properties:Dynamic, ?duration:jQuery.haxe.Either<Float, String>, ?easing:String, ?complete:Void -> Void):jQuery.JQuery;
+	public function animate(properties:Dynamic, ?duration:jQuery.haxe.Either<Float, String>, ?easing:String, ?complete:haxe.Constraints.Function):jQuery.JQuery;
 	/**
 		Adjust the opacity of the matched elements.
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.0" })
-	public function fadeTo(duration:jQuery.haxe.Either<String, Float>, opacity:Float, ?complete:Void -> Void):jQuery.JQuery;
+	public function fadeTo(duration:jQuery.haxe.Either<String, Float>, opacity:Float, ?complete:haxe.Constraints.Function):jQuery.JQuery;
 	/**
 		Adjust the opacity of the matched elements.
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.4.3" })
-	public function fadeTo(duration:jQuery.haxe.Either<String, Float>, opacity:Float, ?easing:String, ?complete:Void -> Void):jQuery.JQuery;
+	public function fadeTo(duration:jQuery.haxe.Either<String, Float>, opacity:Float, ?easing:String, ?complete:haxe.Constraints.Function):jQuery.JQuery;
 	/**
 		Set a timer to delay execution of subsequent items in the queue.
 	**/
@@ -416,7 +416,7 @@ package jQuery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.4" })
-	public function append(_function:Int -> String -> Void):jQuery.JQuery;
+	public function append(_function:Int -> String -> jQuery.haxe.Either<String, jQuery.haxe.Either<js.html.Node, jQuery.JQuery>>):jQuery.JQuery;
 	/**
 		Insert content, specified by the parameter, to the end of each element in the set of matched elements.
 	**/
@@ -440,25 +440,19 @@ package jQuery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.0" })
-	public function not(selector:String):jQuery.JQuery;
-	/**
-		Remove elements from the set of matched elements.
-	**/
-	@:overload
-	@:jQueryVersion({ added : "1.0" })
-	public function not(elements:jQuery.haxe.Either<js.html.Node, jQuery.haxe.Either<js.html.NodeList, Array<js.html.Node>>>):jQuery.JQuery;
+	public function not(selector:jQuery.haxe.Either<String, jQuery.haxe.Either<js.html.Node, Array<js.html.Node>>>):jQuery.JQuery;
 	/**
 		Remove elements from the set of matched elements.
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.4" })
-	public function not(jQuery:jQuery.JQuery):jQuery.JQuery;
+	public function not(selection:jQuery.JQuery):jQuery.JQuery;
 	/**
 		Remove elements from the set of matched elements.
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.4" })
-	public function not(_function:Int -> Void):jQuery.JQuery;
+	public function not(_function:Int -> js.html.Node -> Bool):jQuery.JQuery;
 	/**
 		Bind an event handler to be fired when the mouse leaves an element, or trigger that handler on an element.
 	**/
@@ -500,13 +494,13 @@ package jQuery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.0" })
-	public function new(jQuery:jQuery.JQuery):Void;
+	public function new(selection:jQuery.JQuery):Void;
 	/**
 		Binds a function to be executed when the DOM has finished loading.
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.0" })
-	public function new(callback:jQuery.haxe.Either<Void -> Void, Class<jQuery.JQuery> -> Void>):Void;
+	public function new(callback:haxe.Constraints.Function):Void;
 	/**
 		Accepts a string containing a CSS selector which is then used to match a set of elements.
 	**/
@@ -635,7 +629,7 @@ package jQuery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.4" })
-	public function val(_function:Int -> Dynamic -> Void):jQuery.JQuery;
+	public function val(_function:Int -> String -> String):jQuery.JQuery;
 	/**
 		Register a handler to be called when Ajax requests complete with an error. This is an <a href="/Ajax_Events/">Ajax Event</a>.
 	**/
@@ -688,7 +682,7 @@ package jQuery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.4" })
-	public function removeClass(_function:Int -> String -> Void):jQuery.JQuery;
+	public function removeClass(_function:Int -> String -> String):jQuery.JQuery;
 	/**
 		Remove a single class, multiple classes, or all classes from each element in the set of matched elements.
 	**/
@@ -729,7 +723,7 @@ package jQuery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.6" })
-	public function closest(jQuery:jQuery.JQuery):jQuery.JQuery;
+	public function closest(selection:jQuery.JQuery):jQuery.JQuery;
 	/**
 		For each element in the set, get the first element that matches the selector by testing the element itself and traversing up through its ancestors in the DOM tree.
 	**/
@@ -758,7 +752,7 @@ package jQuery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.4" })
-	public function after(_function:Int -> Void):jQuery.JQuery;
+	public function after(_function:Int -> String -> jQuery.haxe.Either<String, jQuery.haxe.Either<js.html.Node, jQuery.JQuery>>):jQuery.JQuery;
 	/**
 		Insert content, specified by the parameter, after each element in the set of matched elements.
 	**/
@@ -787,7 +781,7 @@ package jQuery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.0" })
-	public function load(url:String, ?data:jQuery.haxe.Either<Dynamic, String>, ?complete:Dynamic -> String -> js.html.XMLHttpRequest -> Void):jQuery.JQuery;
+	public function load(url:String, ?data:jQuery.haxe.Either<Dynamic, String>, ?complete:String -> String -> jQuery.JqXHR -> Void):jQuery.JQuery;
 	/**
 		Remove the set of matched elements from the DOM.
 	**/
@@ -850,7 +844,7 @@ package jQuery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.4.1" })
-	public function width(_function:Int -> Float -> Dynamic):jQuery.JQuery;
+	public function width(_function:Int -> Int -> jQuery.haxe.Either<String, Float>):jQuery.JQuery;
 	/**
 		Get the current coordinates of the first element in the set of matched elements, relative to the document.
 	**/
@@ -868,7 +862,7 @@ package jQuery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.4" })
-	public function offset(_function:Int -> { var left : Float; var top : Float; } -> { var left : Float; var top : Float; }):jQuery.JQuery;
+	public function offset(_function:Int -> { var top : Float; var left : Float; } -> Dynamic):jQuery.JQuery;
 	/**
 		Get the current computed height for the first element in the set of matched elements, including padding, border, and optionally margin. Returns a number (without "px") representation of the value or null if called on an empty set of elements.
 	**/
@@ -903,13 +897,13 @@ package jQuery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.4" })
-	public function filter(jQuery:jQuery.JQuery):jQuery.JQuery;
+	public function filter(selection:jQuery.JQuery):jQuery.JQuery;
 	/**
 		Reduce the set of matched elements to those that match the selector or pass the function's test. 
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.0" })
-	public function filter(_function:Int -> Void):jQuery.JQuery;
+	public function filter(_function:Int -> js.html.Node -> Bool):jQuery.JQuery;
 	/**
 		Attach an event handler for all elements which match the current selector, now and in the future.
 	**/
@@ -951,7 +945,7 @@ package jQuery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.6" })
-	public function is(jQuery:jQuery.JQuery):Bool;
+	public function is(selection:jQuery.JQuery):Bool;
 	/**
 		Check the current matched set of elements against a selector, element, or jQuery object and return <code>true</code> if at least one of these elements matches the given arguments.
 	**/
@@ -963,7 +957,7 @@ package jQuery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.6" })
-	public function is(_function:Int -> Void):Bool;
+	public function is(_function:Int -> js.html.Node -> Bool):Bool;
 	/**
 		Pass each element in the current matched set through a function, producing a new jQuery object containing the return values.
 	**/
@@ -996,13 +990,13 @@ package jQuery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.0" })
-	public function hide(?duration:jQuery.haxe.Either<Float, String>, ?complete:Void -> Void):jQuery.JQuery;
+	public function hide(?duration:jQuery.haxe.Either<Float, String>, ?complete:haxe.Constraints.Function):jQuery.JQuery;
 	/**
 		Hide the matched elements.
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.4.3" })
-	public function hide(duration:jQuery.haxe.Either<Float, String>, ?easing:String, ?complete:Void -> Void):jQuery.JQuery;
+	public function hide(duration:jQuery.haxe.Either<Float, String>, ?easing:String, ?complete:haxe.Constraints.Function):jQuery.JQuery;
 	/**
 		Remove a previously-attached event handler from the elements.
 	**/
@@ -1038,13 +1032,13 @@ package jQuery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.4" })
-	public function addClass(_function:Int -> String -> Void):jQuery.JQuery;
+	public function addClass(_function:Int -> String -> String):jQuery.JQuery;
 	/**
 		Insert content, specified by the parameter, before each element in the set of matched elements.
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.4" })
-	public function before(_function:Int -> Dynamic):jQuery.JQuery;
+	public function before(_function:Int -> String -> jQuery.haxe.Either<String, jQuery.haxe.Either<js.html.Node, jQuery.JQuery>>):jQuery.JQuery;
 	/**
 		Insert content, specified by the parameter, before each element in the set of matched elements.
 	**/
@@ -1062,7 +1056,7 @@ package jQuery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.6" })
-	public function find(jQuery:jQuery.JQuery):jQuery.JQuery;
+	public function find(selection:jQuery.JQuery):jQuery.JQuery;
 	/**
 		Get the descendants of each element in the current set of matched elements, filtered by a selector, jQuery object, or element.
 	**/
@@ -1098,13 +1092,13 @@ package jQuery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.0" })
-	public function fadeIn(?duration:jQuery.haxe.Either<Float, String>, ?complete:Void -> Void):jQuery.JQuery;
+	public function fadeIn(?duration:jQuery.haxe.Either<Float, String>, ?complete:haxe.Constraints.Function):jQuery.JQuery;
 	/**
 		Display the matched elements by fading them to opaque.
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.4.3" })
-	public function fadeIn(?duration:jQuery.haxe.Either<Float, String>, ?easing:String, ?complete:Void -> Void):jQuery.JQuery;
+	public function fadeIn(?duration:jQuery.haxe.Either<Float, String>, ?easing:String, ?complete:haxe.Constraints.Function):jQuery.JQuery;
 	/**
 		Get the ancestors of each element in the current set of matched elements, up to but not including the element matched by the selector, DOM node, or jQuery object.
 	**/
@@ -1120,8 +1114,15 @@ package jQuery;
 	/**
 		Wrap an HTML structure around all elements in the set of matched elements.
 	**/
+	@:overload
 	@:jQueryVersion({ added : "1.2" })
 	public function wrapAll(wrappingElement:jQuery.haxe.Either<String, jQuery.haxe.Either<String, jQuery.haxe.Either<js.html.Node, jQuery.JQuery>>>):jQuery.JQuery;
+	/**
+		Wrap an HTML structure around all elements in the set of matched elements.
+	**/
+	@:overload
+	@:jQueryVersion({ added : "1.4" })
+	public function wrapAll(_function:Int -> String):jQuery.JQuery;
 	/**
 		Add a collection of DOM elements onto the jQuery stack.
 	**/
@@ -1212,13 +1213,13 @@ package jQuery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.2" })
-	public function wrapInner(wrappingElement:String):jQuery.JQuery;
+	public function wrapInner(wrappingElement:jQuery.haxe.Either<String, jQuery.haxe.Either<String, jQuery.haxe.Either<jQuery.JQuery, js.html.Node>>>):jQuery.JQuery;
 	/**
 		Wrap an HTML structure around the content of each element in the set of matched elements.
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.4" })
-	public function wrapInner(_function:Int -> Void):jQuery.JQuery;
+	public function wrapInner(_function:Int -> String):jQuery.JQuery;
 	/**
 		Remove an attribute from each element in the set of matched elements.
 	**/
@@ -1328,7 +1329,7 @@ package jQuery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.2" })
-	public function queue(?queueName:String, callback:(Void -> Void) -> Void):jQuery.JQuery;
+	public function queue(?queueName:String, callback:haxe.Constraints.Function -> Void):jQuery.JQuery;
 	/**
 		Reduce the set of matched elements to the first in the set.
 	**/
@@ -1348,7 +1349,7 @@ package jQuery;
 		Register a handler to be called when all Ajax requests have completed. This is an <a href="/Ajax_Events/">Ajax Event</a>.
 	**/
 	@:jQueryVersion({ added : "1.0" })
-	public function ajaxStop(handler:Void -> Void):jQuery.JQuery;
+	public function ajaxStop(handler:haxe.Constraints.Function):jQuery.JQuery;
 	/**
 		Hide the matched elements by fading them to transparent.
 	**/
@@ -1360,13 +1361,13 @@ package jQuery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.0" })
-	public function fadeOut(?duration:jQuery.haxe.Either<Float, String>, ?complete:Void -> Void):jQuery.JQuery;
+	public function fadeOut(?duration:jQuery.haxe.Either<Float, String>, ?complete:haxe.Constraints.Function):jQuery.JQuery;
 	/**
 		Hide the matched elements by fading them to transparent.
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.4.3" })
-	public function fadeOut(?duration:jQuery.haxe.Either<Float, String>, ?easing:String, ?complete:Void -> Void):jQuery.JQuery;
+	public function fadeOut(?duration:jQuery.haxe.Either<Float, String>, ?easing:String, ?complete:haxe.Constraints.Function):jQuery.JQuery;
 	/**
 		Attach a handler to an event for the elements. The handler is executed at most once per element per event type.
 	**/
@@ -1390,6 +1391,11 @@ package jQuery;
 	**/
 	@:jQueryVersion({ added : "1.0" })
 	public function parent(?selector:String):jQuery.JQuery;
+	/**
+		Add the previous set of elements on the stack to the current set, optionally filtered by a selector.
+	**/
+	@:jQueryVersion({ added : "1.8" })
+	public function addBack(?selector:String):jQuery.JQuery;
 	/**
 		Bind an event handler to the "change" JavaScript event, or trigger that event on an element.
 	**/
@@ -1427,15 +1433,10 @@ package jQuery;
 	@:jQueryVersion({ added : "1.4.3" })
 	public function select(?eventData:Dynamic, handler:jQuery.Event -> Void):jQuery.JQuery;
 	/**
-		Add the previous set of elements on the stack to the current set, optionally filtered by a selector.
-	**/
-	@:jQueryVersion({ added : "1.8" })
-	public function addBack(?selector:String):jQuery.JQuery;
-	/**
 		Register a handler to be called when the first Ajax request begins. This is an <a href="/Ajax_Events/">Ajax Event</a>.
 	**/
 	@:jQueryVersion({ added : "1.0" })
-	public function ajaxStart(handler:Void -> Void):jQuery.JQuery;
+	public function ajaxStart(handler:haxe.Constraints.Function):jQuery.JQuery;
 	/**
 		Get all following siblings of each element in the set of matched elements, optionally filtered by a selector.
 	**/
@@ -1494,7 +1495,7 @@ package jQuery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.3.2" })
-	public function add(jQuery:jQuery.JQuery):jQuery.JQuery;
+	public function add(selection:jQuery.JQuery):jQuery.JQuery;
 	/**
 		Add elements to the set of matched elements.
 	**/
@@ -1535,13 +1536,13 @@ package jQuery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.0" })
-	public function slideToggle(?duration:jQuery.haxe.Either<Float, String>, ?complete:Void -> Void):jQuery.JQuery;
+	public function slideToggle(?duration:jQuery.haxe.Either<Float, String>, ?complete:haxe.Constraints.Function):jQuery.JQuery;
 	/**
 		Display or hide the matched elements with a sliding motion.
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.4.3" })
-	public function slideToggle(?duration:jQuery.haxe.Either<Float, String>, ?easing:String, ?complete:Void -> Void):jQuery.JQuery;
+	public function slideToggle(?duration:jQuery.haxe.Either<Float, String>, ?easing:String, ?complete:haxe.Constraints.Function):jQuery.JQuery;
 	/**
 		Encode a set of form elements as a string for submission.
 	**/
@@ -1551,7 +1552,7 @@ package jQuery;
 		Specify a function to execute when the DOM is fully loaded.
 	**/
 	@:jQueryVersion({ added : "1.0" })
-	public function ready(handler:Void -> Void):jQuery.JQuery;
+	public function ready(handler:haxe.Constraints.Function):jQuery.JQuery;
 	/**
 		Display the matched elements.
 	**/
@@ -1569,13 +1570,13 @@ package jQuery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.0" })
-	public function show(?duration:jQuery.haxe.Either<Float, String>, ?complete:Void -> Void):jQuery.JQuery;
+	public function show(?duration:jQuery.haxe.Either<Float, String>, ?complete:haxe.Constraints.Function):jQuery.JQuery;
 	/**
 		Display the matched elements.
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.4.3" })
-	public function show(duration:jQuery.haxe.Either<Float, String>, ?easing:String, ?complete:Void -> Void):jQuery.JQuery;
+	public function show(duration:jQuery.haxe.Either<Float, String>, ?easing:String, ?complete:haxe.Constraints.Function):jQuery.JQuery;
 	/**
 		Get the children of each element in the set of matched elements, including text and comment nodes.
 	**/
@@ -1594,11 +1595,16 @@ package jQuery;
 	@:jQueryVersion({ added : "1.5" })
 	public function clone(?withDataAndEvents:Bool, ?deepWithDataAndEvents:Bool):jQuery.JQuery;
 	/**
+		Stop the currently-running animation, remove all queued animations, and complete all animations for the matched elements.
+	**/
+	@:jQueryVersion({ added : "1.9" })
+	public function finish(?queue:String):jQuery.JQuery;
+	/**
 		Get the value of a property for the first element in the set of matched elements.
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.6" })
-	public function prop(propertyName:String):jQuery.haxe.Either<String, Bool>;
+	public function prop(propertyName:String):Dynamic;
 	/**
 		Set one or more properties for the set of matched elements.
 	**/
@@ -1610,18 +1616,13 @@ package jQuery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.6" })
-	public function prop(propertyName:String, value:jQuery.haxe.Either<String, jQuery.haxe.Either<Float, Bool>>):jQuery.JQuery;
+	public function prop(propertyName:String, _function:Int -> Dynamic -> Dynamic):jQuery.JQuery;
 	/**
 		Set one or more properties for the set of matched elements.
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.6" })
-	public function prop(propertyName:String, _function:jQuery.haxe.Either<Int -> String -> String, jQuery.haxe.Either<Int -> Float -> Float, Int -> Bool -> Bool>>):jQuery.JQuery;
-	/**
-		Stop the currently-running animation, remove all queued animations, and complete all animations for the matched elements.
-	**/
-	@:jQueryVersion({ added : "1.9" })
-	public function finish(?queue:String):jQuery.JQuery;
+	public function prop(propertyName:String, value:Dynamic):jQuery.JQuery;
 	/**
 		Display or hide the matched elements by animating their opacity.
 	**/
@@ -1633,7 +1634,7 @@ package jQuery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.4.4" })
-	public function fadeToggle(?duration:jQuery.haxe.Either<Float, String>, ?easing:String, ?complete:Void -> Void):jQuery.JQuery;
+	public function fadeToggle(?duration:jQuery.haxe.Either<Float, String>, ?easing:String, ?complete:haxe.Constraints.Function):jQuery.JQuery;
 	/**
 		Reduce the set of matched elements to the one at the specified index.
 	**/
@@ -1645,7 +1646,7 @@ package jQuery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.4" })
-	public function eq(index:Int):jQuery.JQuery;
+	public function eq(indexFromEnd:Int):jQuery.JQuery;
 	/**
 		Get the current computed inner width for the first element in the set of matched elements, including padding but not border.
 	**/
@@ -1663,7 +1664,7 @@ package jQuery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.8.0" })
-	public function innerWidth(_function:Int -> Float -> Dynamic):jQuery.JQuery;
+	public function innerWidth(_function:Int -> Float -> jQuery.haxe.Either<String, Float>):jQuery.JQuery;
 	/**
 		Get the current horizontal position of the scroll bar for the first element in the set of matched elements.
 	**/
@@ -1711,13 +1712,13 @@ package jQuery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.0" })
-	public function toggle(?duration:jQuery.haxe.Either<Float, String>, ?complete:Void -> Void):jQuery.JQuery;
+	public function toggle(?duration:jQuery.haxe.Either<Float, String>, ?complete:haxe.Constraints.Function):jQuery.JQuery;
 	/**
 		Display or hide the matched elements.
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.4.3" })
-	public function toggle(duration:jQuery.haxe.Either<Float, String>, ?easing:String, ?complete:Void -> Void):jQuery.JQuery;
+	public function toggle(duration:jQuery.haxe.Either<Float, String>, ?easing:String, ?complete:haxe.Constraints.Function):jQuery.JQuery;
 	/**
 		Bind two or more handlers to the matched elements, to be executed on alternate clicks.
 	**/
@@ -1753,7 +1754,7 @@ package jQuery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.4" })
-	public function css(propertyName:String, _function:Int -> String -> Dynamic):jQuery.JQuery;
+	public function css(propertyName:String, _function:Int -> String -> jQuery.haxe.Either<String, Float>):jQuery.JQuery;
 	/**
 		Remove an event handler.
 	**/
@@ -1794,7 +1795,7 @@ package jQuery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.4" })
-	public function prepend(_function:Int -> String -> Void):jQuery.JQuery;
+	public function prepend(_function:Int -> String -> jQuery.haxe.Either<String, jQuery.haxe.Either<js.html.Node, jQuery.JQuery>>):jQuery.JQuery;
 	/**
 		Insert content, specified by the parameter, to the beginning of each element in the set of matched elements.
 	**/
@@ -1824,7 +1825,7 @@ package jQuery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.4" })
-	public function wrap(_function:Int -> Void):jQuery.JQuery;
+	public function wrap(_function:Int -> jQuery.haxe.Either<String, jQuery.JQuery>):jQuery.JQuery;
 	/**
 		Remove the parents of the set of matched elements from the DOM, leaving the matched elements in their place.
 	**/

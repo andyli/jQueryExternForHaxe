@@ -6,36 +6,36 @@ package jQuery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.5", removed : "1.8" })
-	public function then(doneCallbacks:jQuery.haxe.Either<Dynamic, Array<Dynamic>>, failCallbacks:jQuery.haxe.Either<Dynamic, Array<Dynamic>>):jQuery.Promise;
-	/**
-		Add handlers to be called when the Deferred object is resolved, rejected, or still in progress. 
-	**/
-	@:overload
-	@:jQueryVersion({ added : "1.7", removed : "1.8" })
-	public function then(doneCallbacks:jQuery.haxe.Either<Dynamic, Array<Dynamic>>, failCallbacks:jQuery.haxe.Either<Dynamic, Array<Dynamic>>, ?progressCallbacks:jQuery.haxe.Either<Dynamic, Array<Dynamic>>):jQuery.Promise;
+	public function then(doneCallbacks:jQuery.haxe.Either<haxe.Constraints.Function, Array<haxe.Constraints.Function>>, failCallbacks:jQuery.haxe.Either<haxe.Constraints.Function, Array<haxe.Constraints.Function>>):jQuery.Promise;
 	/**
 		Add handlers to be called when the Deferred object is resolved, rejected, or still in progress. 
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.8" })
-	public function then(doneFilter:Dynamic, ?failFilter:Dynamic, ?progressFilter:Dynamic):jQuery.Promise;
+	public function then(doneFilter:haxe.Constraints.Function, ?failFilter:haxe.Constraints.Function, ?progressFilter:haxe.Constraints.Function):jQuery.Promise;
+	/**
+		Add handlers to be called when the Deferred object is resolved, rejected, or still in progress. 
+	**/
+	@:overload
+	@:jQueryVersion({ added : "1.7", removed : "1.8" })
+	public function then(doneCallbacks:jQuery.haxe.Either<haxe.Constraints.Function, Array<haxe.Constraints.Function>>, failCallbacks:jQuery.haxe.Either<haxe.Constraints.Function, Array<haxe.Constraints.Function>>, ?progressCallbacks:jQuery.haxe.Either<haxe.Constraints.Function, Array<haxe.Constraints.Function>>):jQuery.Promise;
 	/**
 		 Add handlers to be called when the Deferred object is rejected. 
 	**/
 	@:jQueryVersion({ added : "1.5" })
-	public function fail(failCallbacks:jQuery.haxe.Either<Dynamic, Array<Dynamic>>, ?failCallbacks:jQuery.haxe.Either<Dynamic, Array<Dynamic>>):jQuery.Deferred;
+	public function fail(failCallbacks:jQuery.haxe.Either<haxe.Constraints.Function, Array<haxe.Constraints.Function>>, ?failCallbacks:jQuery.haxe.Either<haxe.Constraints.Function, Array<haxe.Constraints.Function>>):jQuery.Deferred;
 	/**
 		 Utility method to filter and/or chain Deferreds.  
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.6", deprecated : "1.8" })
-	public function pipe(?doneFilter:Dynamic, ?failFilter:Dynamic):jQuery.Promise;
+	public function pipe(?doneFilter:haxe.Constraints.Function, ?failFilter:haxe.Constraints.Function):jQuery.Promise;
 	/**
 		 Utility method to filter and/or chain Deferreds.  
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.7", deprecated : "1.8" })
-	public function pipe(?doneFilter:Dynamic, ?failFilter:Dynamic, ?progressFilter:Dynamic):jQuery.Promise;
+	public function pipe(?doneFilter:haxe.Constraints.Function, ?failFilter:haxe.Constraints.Function, ?progressFilter:haxe.Constraints.Function):jQuery.Promise;
 	/**
 		 Reject a Deferred object and call any failCallbacks with the given <code>args</code>. 
 	**/
@@ -60,7 +60,7 @@ package jQuery;
 		 Add handlers to be called when the Deferred object is either resolved or rejected. 
 	**/
 	@:jQueryVersion({ added : "1.6" })
-	public function always(alwaysCallbacks:jQuery.haxe.Either<Dynamic, Array<Dynamic>>, ?alwaysCallbacks:jQuery.haxe.Either<Dynamic, Array<Dynamic>>):jQuery.Deferred;
+	public function always(alwaysCallbacks:jQuery.haxe.Either<haxe.Constraints.Function, Array<haxe.Constraints.Function>>, ?alwaysCallbacks:jQuery.haxe.Either<haxe.Constraints.Function, Array<haxe.Constraints.Function>>):jQuery.Deferred;
 	/**
 		 A constructor function that returns a chainable utility object with methods to register multiple callbacks into callback queues, invoke callback queues, and relay the success or failure state of any synchronous or asynchronous function.
 	**/
@@ -75,12 +75,12 @@ package jQuery;
 		 Call the progressCallbacks on a Deferred object with the given context and <code>args</code>. 
 	**/
 	@:jQueryVersion({ added : "1.7" })
-	public function notifyWith(context:Dynamic, ?args:Dynamic):jQuery.Deferred;
+	public function notifyWith(context:Dynamic, ?args:Array<Dynamic>):jQuery.Deferred;
 	/**
 		 Add handlers to be called when the Deferred object generates progress notifications.
 	**/
 	@:jQueryVersion({ added : "1.7" })
-	public function progress(progressCallbacks:jQuery.haxe.Either<Dynamic, jQuery.haxe.Either<Array<Dynamic>, Array<Dynamic>>>):jQuery.Deferred;
+	public function progress(progressCallbacks:jQuery.haxe.Either<jQuery.haxe.Either<haxe.Constraints.Function, Array<haxe.Constraints.Function>>, Array<Dynamic>>):jQuery.Deferred;
 	/**
 		 Reject a Deferred object and call any failCallbacks with the given <code>context</code> and <code>args</code>. 
 	**/
@@ -100,7 +100,7 @@ package jQuery;
 		 Add handlers to be called when the Deferred object is resolved. 
 	**/
 	@:jQueryVersion({ added : "1.5" })
-	public function done(doneCallbacks:jQuery.haxe.Either<Dynamic, Array<Dynamic>>, ?doneCallbacks:jQuery.haxe.Either<Dynamic, Array<Dynamic>>):jQuery.Deferred;
+	public function done(doneCallbacks:jQuery.haxe.Either<haxe.Constraints.Function, Array<haxe.Constraints.Function>>, ?doneCallbacks:jQuery.haxe.Either<haxe.Constraints.Function, Array<haxe.Constraints.Function>>):jQuery.Deferred;
 	/**
 		 Resolve a Deferred object and call any doneCallbacks with the given <code>args</code>. 
 	**/
