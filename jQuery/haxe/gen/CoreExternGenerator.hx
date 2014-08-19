@@ -108,8 +108,6 @@ class CoreExternGenerator {
 				[macro:jQuery.Event];
 			case "callbacks", "Callbacks":
 				[macro:jQuery.Callbacks];
-			case "jQuery.deferred", "Deferred", "deferred":
-				[macro:jQuery.Deferred];
 			case "Promise":
 				[macro:jQuery.Promise];
 			case "jqXHR":
@@ -249,6 +247,12 @@ class CoreExternGenerator {
 			
 			case ["get", "get", "Array"]:
 				[macro:Array<js.html.Node>];
+
+			case [_, "deferreds", "Deferred"|"deferred"]:
+				[macro:haxe.Rest<jQuery.Deferred>];
+
+			case [_, _, "Deferred"|"deferred"]:
+				[macro:jQuery.Deferred];
 					
 			default:
 				trace('["${entryName}", "${tagName}", "${type}"]');

@@ -20,8 +20,22 @@ class Test extends TestCase {
 	}
 	
 	public function test3():Void {
-		var d = new Deferred().done(function () assertTrue(true));
-		d.resolve();
+		var d1 = new Deferred().resolve(1);
+		var d2 = new Deferred().resolve(2);
+		
+		var result = 0;
+		#if (haxe_ver <= 3.103)
+			JQuery._static.when(d1).done(function (v1) result = v1);
+			assertEquals(1, result);
+		#else
+			JQuery._static.when(d1, d2).done(function (v1, v2) result = v1 + v2);
+			assertEquals(3, result);
+		#end
+
+		var result = 0;
+		Reflect.callMethod(null, JQuery._static.when, [d1, d2])
+			.done(function (v1, v2) result = v1 + v2);
+		assertEquals(3, result);
 	}
 	
 	public function testForIn():Void {
