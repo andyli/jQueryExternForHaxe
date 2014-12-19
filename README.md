@@ -1,7 +1,5 @@
 # jQueryExtern [![Build Status](https://travis-ci.org/andyli/jQueryExternForHaxe.png?branch=master)](https://travis-ci.org/andyli/jQueryExternForHaxe)
 
-[![Support via Gittip](https://rawgithub.com/twolfson/gittip-badge/0.2.1/dist/gittip.png)](https://www.gittip.com/AndyLi/)
-
 [jQuery](http://jquery.com/) extern for [Haxe](http://haxe.org/).
 
 Currently supports jQuery version up to *1.11.2* / *2.1.3*. Requires Haxe 3.0+.
@@ -105,6 +103,10 @@ var div = new jQuery.JQuery("<div></div>");
 takesJsJQuery(untyped div);
 takesJsJQuery(cast div);
 ```
+
+## Like jQueryExtern?
+
+Support me to maintain it -> http://www.patreon.com/andyli
 
 ## License
 
