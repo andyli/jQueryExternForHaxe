@@ -194,10 +194,6 @@ class CoreExternGenerator {
 				[macro:Array<Void->Void>];
 			case ["queue", "queue" | "newQueue", "Array"]:
 				[macro:Array<Void->Void>];
-			case ["ajaxSend", "handler(event, jqXHR, ajaxOptions)", "Function"]:
-				[macro:jQuery.Event->jQuery.JqXHR->Dynamic->Void];
-			case ["ajaxError", "handler(event, jqXHR, ajaxSettings, thrownError)", "Function"]:
-				[macro:jQuery.Event->jQuery.JqXHR->Dynamic->String->Void];
 			case ["serializeArray", "serializeArray", "Array"]:
 				[macro:Array<Dynamic>];
 			case ["triggerHandler", "extraParameters", "Array"]:
