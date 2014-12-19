@@ -73,11 +73,29 @@ class CoreExternGenerator {
 			);
 		}
 
-		return if (tag.att.name.toLowerCase().endsWith("callbacks")){
-			either([ct, macro:Array<$ct>]);
-		} else {
-			ct;
+		switch (ct) {
+			case TFunction(args, ret):
+				var lastArg = args[args.length-1];
+				switch (lastArg) {
+				 	case macro:haxe.Rest<$restType>:
+				 		ct = either([
+				 			TFunction(args.slice(0, args.length-1), ret),
+				 			ct,
+				 		]);
+				 	case _:
+				 		//pass
+				}
+			case macro:haxe.Constraints.Function:
+				//pass
+			case _:
+				throw "unknown function type";
 		}
+
+		if (tag.att.name.toLowerCase().endsWith("callbacks")){
+			ct = either([ct, macro:Array<$ct>]);
+		}
+
+		return ct;
 	}
 
 	/**
@@ -98,6 +116,13 @@ class CoreExternGenerator {
 		var tagName = tag == null ? "" : tag.att.name;
 		var entryName = tag == null ? "" : getEntryName(tag.x);
 		if (type != null) type = type.trim();
+
+		if (tag != null && tag.has.rest && tag.att.rest == "true") {
+			var _tag = tag.x.copy();
+			_tag.remove("rest");
+			return toComplexType(type, new Fast(_tag))
+				.map(function(ct) return macro:haxe.Rest<$ct>);
+		}
 		
 		var simple = type == null ? [macro:Dynamic] : switch(type) {
 			case "jQueryStatic":
@@ -157,6 +182,8 @@ class CoreExternGenerator {
 				[macro:Array<Dynamic>];
 			case ["jQuery.parseHTML", "jQuery.parseHTML", "Array"]:
 				[macro:Array<js.html.Node>];
+			case ["jQuery.parseJSON", "jQuery.parseJSON", "Array"]:
+				[macro:Array<Dynamic>];
 			case ["add", "elements", "Elements"]:
 				[macro:js.html.Node, macro:js.html.NodeList];
 			case ["appendTo" | "insertBefore" | "replaceAll" | "prependTo" | "insertAfter", "target", "Array"]:

@@ -12,10 +12,10 @@ package jQuery;
 	@:jQueryVersion({ added : "1.7" })
 	public function empty():jQuery.Callbacks;
 	/**
-		Determine whether a supplied callback is in a list
+		Determine whether or not the list has any callbacks attached. If a callback is provided as an argument, determine whether it is in a list.
 	**/
 	@:jQueryVersion({ added : "1.7" })
-	public function has(callback:haxe.Constraints.Function):Bool;
+	public function has(?callback:haxe.Constraints.Function):Bool;
 	/**
 		Determine if the callbacks list has been locked.
 	**/

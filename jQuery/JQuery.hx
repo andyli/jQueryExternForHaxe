@@ -219,12 +219,25 @@ package jQuery;
 		Execute all handlers attached to an element for an event.
 	**/
 	@:jQueryVersion({ added : "1.2" })
-	public function triggerHandler(eventType:String, ?extraParameters:Array<Dynamic>):Dynamic;
+	public function triggerHandler(eventType:String, ?extraParameters:jQuery.haxe.Either<Array<Dynamic>, Dynamic>):Dynamic;
 	/**
 		Get the current computed height for the first element in the set of matched elements, including padding but not border.
 	**/
+	@:overload
 	@:jQueryVersion({ added : "1.2.6" })
 	public function innerHeight():Float;
+	/**
+		Set the CSS inner height of each element in the set of matched elements.
+	**/
+	@:overload
+	@:jQueryVersion({ added : "1.8.0" })
+	public function innerHeight(value:jQuery.haxe.Either<String, Float>):jQuery.JQuery;
+	/**
+		Set the CSS inner height of each element in the set of matched elements.
+	**/
+	@:overload
+	@:jQueryVersion({ added : "1.8.0" })
+	public function innerHeight(_function:Int -> Float -> jQuery.haxe.Either<String, Float>):jQuery.JQuery;
 	/**
 		End the most recent filtering operation in the current chain and return the set of matched elements to its previous state.
 	**/
@@ -554,7 +567,7 @@ package jQuery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.7" })
-	public function on(events:String, ?selector:String, ?data:Dynamic, handler:jQuery.Event -> Void):jQuery.JQuery;
+	public function on(events:String, ?selector:String, ?data:Dynamic, handler:jQuery.haxe.Either<jQuery.Event -> Void, jQuery.Event -> haxe.Rest<Dynamic> -> Void>):jQuery.JQuery;
 	/**
 		Get the current computed width for the first element in the set of matched elements, including padding and border.
 	**/
@@ -752,6 +765,12 @@ package jQuery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.4" })
+	public function after(_function:Int -> jQuery.haxe.Either<String, jQuery.haxe.Either<js.html.Node, jQuery.JQuery>>):jQuery.JQuery;
+	/**
+		Insert content, specified by the parameter, after each element in the set of matched elements.
+	**/
+	@:overload
+	@:jQueryVersion({ added : "1.10" })
 	public function after(_function:Int -> String -> jQuery.haxe.Either<String, jQuery.haxe.Either<js.html.Node, jQuery.JQuery>>):jQuery.JQuery;
 	/**
 		Insert content, specified by the parameter, after each element in the set of matched elements.
@@ -921,7 +940,7 @@ package jQuery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.4", deprecated : "1.7", removed : "1.9" })
-	public function live(events:String, data:Dynamic, handler:jQuery.Event -> Void):jQuery.JQuery;
+	public function live(events:String, ?data:Dynamic, handler:jQuery.Event -> Void):jQuery.JQuery;
 	/**
 		Get all following siblings of each element up to but not including the element matched by the selector, DOM node, or jQuery object passed.
 	**/
@@ -1038,6 +1057,12 @@ package jQuery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.4" })
+	public function before(_function:Int -> jQuery.haxe.Either<String, jQuery.haxe.Either<js.html.Node, jQuery.JQuery>>):jQuery.JQuery;
+	/**
+		Insert content, specified by the parameter, before each element in the set of matched elements.
+	**/
+	@:overload
+	@:jQueryVersion({ added : "1.10" })
 	public function before(_function:Int -> String -> jQuery.haxe.Either<String, jQuery.haxe.Either<js.html.Node, jQuery.JQuery>>):jQuery.JQuery;
 	/**
 		Insert content, specified by the parameter, before each element in the set of matched elements.
@@ -1056,13 +1081,7 @@ package jQuery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.6" })
-	public function find(selection:jQuery.JQuery):jQuery.JQuery;
-	/**
-		Get the descendants of each element in the current set of matched elements, filtered by a selector, jQuery object, or element.
-	**/
-	@:overload
-	@:jQueryVersion({ added : "1.6" })
-	public function find(element:js.html.Node):jQuery.JQuery;
+	public function find(element:jQuery.haxe.Either<js.html.Node, jQuery.JQuery>):jQuery.JQuery;
 	/**
 		Attach a handler to an event for the elements.
 	**/
@@ -1473,31 +1492,31 @@ package jQuery;
 	@:jQueryVersion({ added : "1.4.2" })
 	public function undelegate(selector:String, eventType:String, handler:jQuery.Event -> Void):jQuery.JQuery;
 	/**
-		Add elements to the set of matched elements.
+		Create a new jQuery object with elements added to the set of matched elements.
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.0" })
 	public function add(selector:String):jQuery.JQuery;
 	/**
-		Add elements to the set of matched elements.
+		Create a new jQuery object with elements added to the set of matched elements.
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.0" })
 	public function add(elements:jQuery.haxe.Either<js.html.Node, js.html.NodeList>):jQuery.JQuery;
 	/**
-		Add elements to the set of matched elements.
+		Create a new jQuery object with elements added to the set of matched elements.
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.0" })
 	public function add(html:String):jQuery.JQuery;
 	/**
-		Add elements to the set of matched elements.
+		Create a new jQuery object with elements added to the set of matched elements.
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.3.2" })
 	public function add(selection:jQuery.JQuery):jQuery.JQuery;
 	/**
-		Add elements to the set of matched elements.
+		Create a new jQuery object with elements added to the set of matched elements.
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.4" })

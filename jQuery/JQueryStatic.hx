@@ -290,14 +290,14 @@ package jQuery;
 	@:jQueryVersion({ added : "1.4" })
 	static public function isPlainObject(object:Dynamic):Bool;
 	/**
-		Takes a well-formed JSON string and returns the resulting JavaScript object.
+		Takes a well-formed JSON string and returns the resulting JavaScript value.
 	**/
 	@:jQueryVersion({ added : "1.4.1" })
-	static public function parseJSON(json:String):Dynamic;
+	static public function parseJSON(json:String):jQuery.haxe.Either<String, jQuery.haxe.Either<Float, jQuery.haxe.Either<Dynamic, jQuery.haxe.Either<Array<Dynamic>, Bool>>>>;
 	/**
 		A collection of properties that represent the presence of different browser features or bugs. Intended for jQuery's internal use; specific properties may be removed when they are no longer needed internally to improve page startup performance. For your own project's feature-detection needs, we strongly recommend the use of an external library such as <a href="http://modernizr.com">Modernizr</a> instead of dependency on properties in <code>jQuery.support</code>.
 	**/
-	@:jQueryVersion({ added : "1.3" })
+	@:jQueryVersion({ added : "1.3", deprecated : "1.9" })
 	static public var support : Dynamic;
 	/**
 		Sorts an array of DOM elements, in place, with the duplicates removed. Note that this only works on arrays of DOM elements, not strings or numbers.
