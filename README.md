@@ -1,4 +1,4 @@
-# jQueryExtern [![Build Status](https://travis-ci.org/andyli/jQueryExternForHaxe.png?branch=master)](https://travis-ci.org/andyli/jQueryExternForHaxe)
+# jQueryExtern [![Build Status](https://travis-ci.org/andyli/jQueryExternForHaxe.svg?branch=master)](https://travis-ci.org/andyli/jQueryExternForHaxe)
 
 [jQuery](http://jquery.com/) extern for [Haxe](http://haxe.org/).
 
