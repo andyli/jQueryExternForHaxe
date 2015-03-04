@@ -63,8 +63,8 @@ eg. In your `<head>`:
 	</tr>
 	<tr>
 		<th scope="row">import statement</th>
-		<td>"import js.JQuery;"</td>
-		<td>"import jQuery.*;"</td>
+		<td><code>import js.JQuery;</code></td>
+		<td><code>import jQuery.*;</code></td>
 	</tr>
 	<tr>
 		<th scope="row">jQuery API version</th>
@@ -73,12 +73,12 @@ eg. In your `<head>`:
 	</tr>
 	<tr>
 		<th scope="row">refer jQuery in output as</th>
-		<td>"js.JQuery"</td>
-		<td>"$" (or "jQuery" if <i>--macro jQuery.haxe.Config.setNative('jQuery')</i>)</td>
+		<td><code>js.JQuery</code></td>
+		<td><code>$</code> (or <code>jQuery</code> if <code>--macro jQuery.haxe.Config.setNative('jQuery')</code>)</td>
 	</tr>
 	<tr>
 		<th scope="row">include jQuery in output</th>
-		<td>no (can be opt-in by -D embed-js)</td>
+		<td>no (can be opt-in by <code>-D embed-js</code>)</td>
 		<td>no, <a href="http://jquery.com/download/#using-jquery-with-a-cdn" target="_blank">use CDN instead</a></td>
 	</tr>
 </table>
