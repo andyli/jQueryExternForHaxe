@@ -556,6 +556,14 @@ class CoreExternGenerator {
 							
 							//sort
 							functions.sort(function(f0,f1) return compareFunctions(f0.func, f1.func));
+
+							if (memName == "new") {
+								field.meta.push({
+									name:":selfCall",
+									params:[],
+									pos: null
+								});
+							}
 							
 							if (functions.length > 1) {
 								field.meta.push({

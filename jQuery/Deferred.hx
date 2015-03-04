@@ -64,6 +64,7 @@ package jQuery;
 	/**
 		 A constructor function that returns a chainable utility object with methods to register multiple callbacks into callback queues, invoke callback queues, and relay the success or failure state of any synchronous or asynchronous function.
 	**/
+	@:selfCall
 	@:jQueryVersion({ added : "1.5" })
 	public function new(?beforeStart:jQuery.Deferred -> Void):Void;
 	/**

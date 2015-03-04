@@ -197,7 +197,11 @@ class Config {
 		var newFields = [];
 		for (fields in fieldMap) {
 			var field = fields.pop();
-			field.meta = [];
+			field.meta = [
+				for (m in field.meta)
+				if (![":overload", ":jQueryVersion"].has(m.name))
+				m
+			];
 			
 			var docMap = new Map<String,Void>();
 			if (field.doc != null)

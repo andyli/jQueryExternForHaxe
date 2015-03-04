@@ -487,54 +487,63 @@ package jQuery;
 	/**
 		Accepts a string containing a CSS selector which is then used to match a set of elements.
 	**/
+	@:selfCall
 	@:overload
 	@:jQueryVersion({ added : "1.4" })
 	public function new():Void;
 	/**
 		Accepts a string containing a CSS selector which is then used to match a set of elements.
 	**/
+	@:selfCall
 	@:overload
 	@:jQueryVersion({ added : "1.0" })
 	public function new(element:js.html.Node):Void;
 	/**
 		Accepts a string containing a CSS selector which is then used to match a set of elements.
 	**/
+	@:selfCall
 	@:overload
 	@:jQueryVersion({ added : "1.0" })
 	public function new(elementArray:jQuery.haxe.Either<js.html.NodeList, Array<js.html.Node>>):Void;
 	/**
 		Accepts a string containing a CSS selector which is then used to match a set of elements.
 	**/
+	@:selfCall
 	@:overload
 	@:jQueryVersion({ added : "1.0" })
 	public function new(selection:jQuery.JQuery):Void;
 	/**
 		Binds a function to be executed when the DOM has finished loading.
 	**/
+	@:selfCall
 	@:overload
 	@:jQueryVersion({ added : "1.0" })
 	public function new(callback:haxe.Constraints.Function):Void;
 	/**
 		Accepts a string containing a CSS selector which is then used to match a set of elements.
 	**/
+	@:selfCall
 	@:overload
 	@:jQueryVersion({ added : "1.0" })
 	public function new(object:Dynamic):Void;
 	/**
 		Creates DOM elements on the fly from the provided string of raw HTML.
 	**/
+	@:selfCall
 	@:overload
 	@:jQueryVersion({ added : "1.4" })
 	public function new(html:String, attributes:Dynamic):Void;
 	/**
 		Accepts a string containing a CSS selector which is then used to match a set of elements.
 	**/
+	@:selfCall
 	@:overload
 	@:jQueryVersion({ added : "1.0" })
 	public function new(selector:String, ?context:jQuery.haxe.Either<js.html.Node, jQuery.JQuery>):Void;
 	/**
 		Creates DOM elements on the fly from the provided string of raw HTML.
 	**/
+	@:selfCall
 	@:overload
 	@:jQueryVersion({ added : "1.0" })
 	public function new(html:String, ?ownerDocument:js.html.Document):Void;

@@ -24,6 +24,7 @@ package jQuery;
 	/**
 		A multi-purpose callbacks list object that provides a powerful way to manage callback lists.
 	**/
+	@:selfCall
 	@:jQueryVersion({ added : "1.7" })
 	public function new(flags:String):Void;
 	/**
