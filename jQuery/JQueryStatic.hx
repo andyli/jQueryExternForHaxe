@@ -53,7 +53,7 @@ package jQuery;
 		Provides a way to execute callback functions based on one or more objects, usually <a href="/category/deferred-object/">Deferred</a> objects that represent asynchronous events.
 	**/
 	@:jQueryVersion({ added : "1.5" })
-	static public function when(deferreds:haxe.Rest<jQuery.Deferred>):jQuery.Promise;
+	static public function when(deferreds:haxe.extern.Rest<jQuery.Deferred>):jQuery.Promise;
 	/**
 		A generic iterator function, which can be used to seamlessly iterate over both objects and arrays. Arrays and array-like objects with a length property (such as a function's arguments object) are iterated by numeric index, from 0 to length-1. Other objects are iterated via their named properties.
 	**/

@@ -75,24 +75,24 @@ class Config {
 	}
 
 	/**
-		If `haxe.Rest` is not defined (when haxe <= 3.1.3), `typedef Rest<T> = T;`.
+		If `haxe.extern.Rest` is not defined (when haxe <= 3.1.3), `typedef haxe.extern.Rest<T> = T;`.
 	**/
 	static var Rest = try {
-		Context.getType("haxe.Rest");
+		Context.getType("haxe.extern.Rest");
 	} catch(e:Dynamic) {
 		Context.onTypeNotFound(function(s:String) {
-			return if (s == "haxe.Rest") {
+			return if (s == "haxe.extern.Rest") {
 				{
-					pack: ["haxe"],
+					pack: ["haxe.extern"],
 					name: "Rest",
-					pos: Context.makePosition({ min : 0, max : 0, file : "" }),
+					pos: Context.currentPos(),
 					params: [{name:"T"}],
 					kind: TDAlias(macro:T),
 					fields: []
 				}
 			} else null;
 		});
-		Context.getType("haxe.Rest");
+		Context.getType("haxe.extern.Rest");
 	}
 	
 	/**
