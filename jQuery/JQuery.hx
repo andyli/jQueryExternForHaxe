@@ -576,7 +576,7 @@ package jQuery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.7" })
-	public function on(events:String, ?selector:String, ?data:Dynamic, handler:jQuery.haxe.Either<jQuery.Event -> Void, jQuery.Event -> haxe.extern.Rest<Dynamic> -> Void>):jQuery.JQuery;
+	public function on(events:String, ?selector:String, ?data:Dynamic, handler:jQuery.haxe.Either<jQuery.Event -> Void, jQuery.Event -> jQuery.haxe.Rest<Dynamic> -> Void>):jQuery.JQuery;
 	/**
 		Get the current computed width for the first element in the set of matched elements, including padding and border.
 	**/

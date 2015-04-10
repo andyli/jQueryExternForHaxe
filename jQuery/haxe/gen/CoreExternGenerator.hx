@@ -77,7 +77,7 @@ class CoreExternGenerator {
 			case TFunction(args, ret):
 				var lastArg = args[args.length-1];
 				switch (lastArg) {
-				 	case macro:haxe.extern.Rest<$restType>:
+				 	case macro:jQuery.haxe.Rest<$restType>:
 				 		ct = either([
 				 			TFunction(args.slice(0, args.length-1), ret),
 				 			ct,
@@ -121,7 +121,7 @@ class CoreExternGenerator {
 			var _tag = tag.x.copy();
 			_tag.remove("rest");
 			return toComplexType(type, new Fast(_tag))
-				.map(function(ct) return macro:haxe.extern.Rest<$ct>);
+				.map(function(ct) return macro:jQuery.haxe.Rest<$ct>);
 		}
 		
 		var simple = type == null ? [macro:Dynamic] : switch(type) {
@@ -272,7 +272,7 @@ class CoreExternGenerator {
 				[macro:Array<js.html.Node>];
 
 			case [_, "deferreds", "Deferred"|"deferred"]:
-				[macro:haxe.extern.Rest<jQuery.Deferred>];
+				[macro:jQuery.haxe.Rest<jQuery.Deferred>];
 
 			case [_, _, "Deferred"|"deferred"]:
 				[macro:jQuery.Deferred];

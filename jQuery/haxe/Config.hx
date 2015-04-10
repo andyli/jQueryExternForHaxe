@@ -73,27 +73,6 @@ class Config {
 	static public function setAllowDeprecated(v:Bool):Bool {
 		return allowDeprecated = v;
 	}
-
-	/**
-		If `haxe.extern.Rest` is not defined (when haxe <= 3.1.3), `typedef haxe.extern.Rest<T> = T;`.
-	**/
-	static var Rest = try {
-		Context.getType("haxe.extern.Rest");
-	} catch(e:Dynamic) {
-		Context.onTypeNotFound(function(s:String) {
-			return if (s == "haxe.extern.Rest") {
-				{
-					pack: ["haxe.extern"],
-					name: "Rest",
-					pos: Context.currentPos(),
-					params: [{name:"T"}],
-					kind: TDAlias(macro:T),
-					fields: []
-				}
-			} else null;
-		});
-		Context.getType("haxe.extern.Rest");
-	}
 	
 	/**
 		Build function of all generated extern.
