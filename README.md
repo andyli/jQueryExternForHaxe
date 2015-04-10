@@ -2,7 +2,7 @@
 
 [jQuery](http://jquery.com/) extern for [Haxe](http://haxe.org/).
 
-Currently supports jQuery version up to *1.11.2* / *2.1.3*. Requires Haxe 3.0+.
+Currently supports jQuery version up to *1.11.2* / *2.1.3*. Requires Haxe 3.1.0+.
 
 You may check my [blog](http://blog.onthewings.net/) for updates.
 
