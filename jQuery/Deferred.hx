@@ -62,7 +62,7 @@ package jQuery;
 	@:jQueryVersion({ added : "1.6" })
 	public function always(alwaysCallbacks:jQuery.haxe.Either<haxe.Constraints.Function, Array<haxe.Constraints.Function>>, ?alwaysCallbacks:jQuery.haxe.Either<haxe.Constraints.Function, Array<haxe.Constraints.Function>>):jQuery.Deferred;
 	/**
-		 A constructor function that returns a chainable utility object with methods to register multiple callbacks into callback queues, invoke callback queues, and relay the success or failure state of any synchronous or asynchronous function.
+		 A factory function that returns a chainable utility object with methods to register multiple callbacks into callback queues, invoke callback queues, and relay the success or failure state of any synchronous or asynchronous function.
 	**/
 	@:selfCall
 	@:jQueryVersion({ added : "1.5" })
@@ -81,7 +81,7 @@ package jQuery;
 		 Add handlers to be called when the Deferred object generates progress notifications.
 	**/
 	@:jQueryVersion({ added : "1.7" })
-	public function progress(progressCallbacks:jQuery.haxe.Either<jQuery.haxe.Either<haxe.Constraints.Function, Array<haxe.Constraints.Function>>, Array<Dynamic>>):jQuery.Deferred;
+	public function progress(progressCallbacks:jQuery.haxe.Either<jQuery.haxe.Either<haxe.Constraints.Function, Array<haxe.Constraints.Function>>, Array<Dynamic>>, ?progressCallbacks:jQuery.haxe.Either<jQuery.haxe.Either<haxe.Constraints.Function, Array<haxe.Constraints.Function>>, Array<Dynamic>>):jQuery.Deferred;
 	/**
 		 Reject a Deferred object and call any failCallbacks with the given <code>context</code> and <code>args</code>. 
 	**/

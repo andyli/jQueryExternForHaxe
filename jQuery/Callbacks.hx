@@ -28,7 +28,7 @@ package jQuery;
 	@:jQueryVersion({ added : "1.7" })
 	public function new(flags:String):Void;
 	/**
-		Call all of the callbacks with the given arguments
+		Call all of the callbacks with the given arguments.
 	**/
 	@:jQueryVersion({ added : "1.7" })
 	public function fire(arguments:Dynamic):jQuery.Callbacks;

@@ -218,8 +218,15 @@ package jQuery;
 	/**
 		Execute all handlers attached to an element for an event.
 	**/
+	@:overload
 	@:jQueryVersion({ added : "1.2" })
 	public function triggerHandler(eventType:String, ?extraParameters:jQuery.haxe.Either<Array<Dynamic>, Dynamic>):Dynamic;
+	/**
+		Execute all handlers attached to an element for an event.
+	**/
+	@:overload
+	@:jQueryVersion({ added : "1.3" })
+	public function triggerHandler(event:jQuery.Event, ?extraParameters:jQuery.haxe.Either<Array<Dynamic>, Dynamic>):Dynamic;
 	/**
 		Get the current computed height for the first element in the set of matched elements, including padding but not border.
 	**/
@@ -578,8 +585,21 @@ package jQuery;
 	@:jQueryVersion({ added : "1.7" })
 	public function on(events:String, ?selector:String, ?data:Dynamic, handler:jQuery.haxe.Either<jQuery.Event -> Void, jQuery.Event -> jQuery.haxe.Rest<Dynamic> -> Void>):jQuery.JQuery;
 	/**
+		Set the CSS outer width of each element in the set of matched elements.
+	**/
+	@:overload
+	@:jQueryVersion({ added : "1.8.0" })
+	public function outerWidth(value:jQuery.haxe.Either<String, Float>):jQuery.JQuery;
+	/**
+		Set the CSS outer width of each element in the set of matched elements.
+	**/
+	@:overload
+	@:jQueryVersion({ added : "1.8.0" })
+	public function outerWidth(_function:haxe.Constraints.Function):jQuery.JQuery;
+	/**
 		Get the current computed width for the first element in the set of matched elements, including padding and border.
 	**/
+	@:overload
 	@:jQueryVersion({ added : "1.2.6" })
 	public function outerWidth(?includeMargin:Bool):Float;
 	/**
@@ -645,7 +665,7 @@ package jQuery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.0" })
-	public function val(value:jQuery.haxe.Either<String, Array<String>>):jQuery.JQuery;
+	public function val(value:jQuery.haxe.Either<String, jQuery.haxe.Either<Float, Array<String>>>):jQuery.JQuery;
 	/**
 		Set the value of each element in the set of matched elements.
 	**/
@@ -892,8 +912,21 @@ package jQuery;
 	@:jQueryVersion({ added : "1.4" })
 	public function offset(_function:Int -> { var top : Float; var left : Float; } -> Dynamic):jQuery.JQuery;
 	/**
+		Set the CSS outer Height of each element in the set of matched elements.
+	**/
+	@:overload
+	@:jQueryVersion({ added : "1.8.0" })
+	public function outerHeight(value:jQuery.haxe.Either<String, Float>):jQuery.JQuery;
+	/**
+		Set the CSS outer Height of each element in the set of matched elements.
+	**/
+	@:overload
+	@:jQueryVersion({ added : "1.8.0" })
+	public function outerHeight(_function:haxe.Constraints.Function):jQuery.JQuery;
+	/**
 		Get the current computed height for the first element in the set of matched elements, including padding, border, and optionally margin. Returns a number (without "px") representation of the value or null if called on an empty set of elements.
 	**/
+	@:overload
 	@:jQueryVersion({ added : "1.2.6" })
 	public function outerHeight(?includeMargin:Bool):Float;
 	/**
@@ -1036,7 +1069,7 @@ package jQuery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.0" })
-	public function unbind(event:Dynamic):jQuery.JQuery;
+	public function unbind(event:jQuery.Event):jQuery.JQuery;
 	/**
 		Remove a previously-attached event handler from the elements.
 	**/
@@ -1050,13 +1083,13 @@ package jQuery;
 	@:jQueryVersion({ added : "1.0" })
 	public function unbind(eventType:String, ?handler:jQuery.Event -> Void):jQuery.JQuery;
 	/**
-		Adds the specified class(es) to each of the set of matched elements.
+		Adds the specified class(es) to each element in the set of matched elements.
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.0" })
 	public function addClass(className:String):jQuery.JQuery;
 	/**
-		Adds the specified class(es) to each of the set of matched elements.
+		Adds the specified class(es) to each element in the set of matched elements.
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.4" })
@@ -1150,7 +1183,7 @@ package jQuery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.4" })
-	public function wrapAll(_function:Int -> String):jQuery.JQuery;
+	public function wrapAll(_function:Int -> jQuery.haxe.Either<String, jQuery.JQuery>):jQuery.JQuery;
 	/**
 		Add a collection of DOM elements onto the jQuery stack.
 	**/
@@ -1289,29 +1322,29 @@ package jQuery;
 	@:jQueryVersion({ added : "1.3", deprecated : "1.7", removed : "1.9" })
 	public function die(eventType:String, ?handler:String):jQuery.JQuery;
 	/**
-		Add or remove one or more classes from each element in the set of matched elements, depending on either the class's presence or the value of the switch argument.
+		Add or remove one or more classes from each element in the set of matched elements, depending on either the class's presence or the value of the state argument.
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.0" })
 	public function toggleClass(className:String):jQuery.JQuery;
 	/**
-		Add or remove one or more classes from each element in the set of matched elements, depending on either the class's presence or the value of the switch argument.
+		Add or remove one or more classes from each element in the set of matched elements, depending on either the class's presence or the value of the state argument.
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.4" })
-	public function toggleClass(?_switch:Bool):jQuery.JQuery;
+	public function toggleClass(?state:Bool):jQuery.JQuery;
 	/**
-		Add or remove one or more classes from each element in the set of matched elements, depending on either the class's presence or the value of the switch argument.
+		Add or remove one or more classes from each element in the set of matched elements, depending on either the class's presence or the value of the state argument.
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.3" })
-	public function toggleClass(className:String, _switch:Bool):jQuery.JQuery;
+	public function toggleClass(className:String, state:Bool):jQuery.JQuery;
 	/**
-		Add or remove one or more classes from each element in the set of matched elements, depending on either the class's presence or the value of the switch argument.
+		Add or remove one or more classes from each element in the set of matched elements, depending on either the class's presence or the value of the state argument.
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.4" })
-	public function toggleClass(_function:Int -> String -> Bool -> String, ?_switch:Bool):jQuery.JQuery;
+	public function toggleClass(_function:Int -> String -> Bool -> String, ?state:Bool):jQuery.JQuery;
 	/**
 		The DOM node context originally passed to <code>jQuery()</code>; if none was passed then context will likely be the document.
 	**/
@@ -1511,7 +1544,7 @@ package jQuery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.0" })
-	public function add(elements:jQuery.haxe.Either<js.html.Node, js.html.NodeList>):jQuery.JQuery;
+	public function add(elements:js.html.Node):jQuery.JQuery;
 	/**
 		Create a new jQuery object with elements added to the set of matched elements.
 	**/
@@ -1680,7 +1713,7 @@ package jQuery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.2.6" })
-	public function innerWidth():Int;
+	public function innerWidth():Float;
 	/**
 		Set the CSS inner width of each element in the set of matched elements.
 	**/
@@ -1728,7 +1761,7 @@ package jQuery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.3" })
-	public function toggle(showOrHide:Bool):jQuery.JQuery;
+	public function toggle(display:Bool):jQuery.JQuery;
 	/**
 		Display or hide the matched elements.
 	**/
@@ -1789,6 +1822,12 @@ package jQuery;
 	@:overload
 	@:jQueryVersion({ added : "1.7" })
 	public function off():jQuery.JQuery;
+	/**
+		Remove an event handler.
+	**/
+	@:overload
+	@:jQueryVersion({ added : "1.7" })
+	public function off(event:jQuery.Event):jQuery.JQuery;
 	/**
 		Remove an event handler.
 	**/

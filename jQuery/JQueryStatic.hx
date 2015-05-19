@@ -87,19 +87,19 @@ package jQuery;
 	@:jQueryVersion({ added : "1.0" })
 	static public function noConflict(?removeAll:Bool):Dynamic;
 	/**
-		Create a serialized representation of an array or object, suitable for use in a URL query string or Ajax request. 
+		Create a serialized representation of an array, a plain object, or a jQuery object suitable for use in a URL query string or Ajax request. In case a jQuery object is passed, it should contain input elements with name/value properties.
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.2" })
-	static public function param(obj:jQuery.haxe.Either<Array<Dynamic>, Dynamic>):String;
+	static public function param(obj:jQuery.haxe.Either<Array<Dynamic>, jQuery.haxe.Either<Dynamic, jQuery.JQuery>>):String;
 	/**
-		Create a serialized representation of an array or object, suitable for use in a URL query string or Ajax request. 
+		Create a serialized representation of an array, a plain object, or a jQuery object suitable for use in a URL query string or Ajax request. In case a jQuery object is passed, it should contain input elements with name/value properties.
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.4" })
-	static public function param(obj:jQuery.haxe.Either<Array<Dynamic>, Dynamic>, traditional:Bool):String;
+	static public function param(obj:jQuery.haxe.Either<Array<Dynamic>, jQuery.haxe.Either<Dynamic, jQuery.JQuery>>, traditional:Bool):String;
 	/**
-		Determine if the argument passed is a Javascript function object. 
+		Determine if the argument passed is a JavaScript function object. 
 	**/
 	@:jQueryVersion({ added : "1.2" })
 	static public function isFunction(obj:Dynamic):Bool;
@@ -208,7 +208,7 @@ package jQuery;
 		Merge the contents of two arrays together into the first array. 
 	**/
 	@:jQueryVersion({ added : "1.0" })
-	static public function merge(first:Array<Dynamic>, second:Array<Dynamic>):Array<Dynamic>;
+	static public function merge(first:jQuery.haxe.Either<Array<Dynamic>, js.html.NodeList>, second:jQuery.haxe.Either<Array<Dynamic>, js.html.NodeList>):Array<Dynamic>;
 	/**
 		Parses a string into an XML document.
 	**/
@@ -248,7 +248,7 @@ package jQuery;
 		Load JSON-encoded data from the server using a GET HTTP request.
 	**/
 	@:jQueryVersion({ added : "1.0" })
-	static public function getJSON(url:String, ?data:Dynamic, ?success:Dynamic -> String -> jQuery.JqXHR -> Void):jQuery.JqXHR;
+	static public function getJSON(url:String, ?data:jQuery.haxe.Either<Dynamic, String>, ?success:Dynamic -> String -> jQuery.JqXHR -> Void):jQuery.JqXHR;
 	/**
 		Finds the elements of an array which satisfy a filter function. The original array is not affected.
 	**/
@@ -262,10 +262,17 @@ package jQuery;
 	/**
 		Load data from the server using a HTTP POST request.
 	**/
+	@:overload
+	@:jQueryVersion({ added : "3.0" })
+	static public function post(settings:Dynamic):jQuery.JqXHR;
+	/**
+		Load data from the server using a HTTP POST request.
+	**/
+	@:overload
 	@:jQueryVersion({ added : "1.0" })
 	static public function post(url:String, ?data:jQuery.haxe.Either<Dynamic, String>, ?success:Dynamic -> String -> jQuery.JqXHR -> Void, ?dataType:String):jQuery.JqXHR;
 	/**
-		 A constructor function that returns a chainable utility object with methods to register multiple callbacks into callback queues, invoke callback queues, and relay the success or failure state of any synchronous or asynchronous function.
+		 A factory function that returns a chainable utility object with methods to register multiple callbacks into callback queues, invoke callback queues, and relay the success or failure state of any synchronous or asynchronous function.
 	**/
 	@:jQueryVersion({ added : "1.5" })
 	static public function Deferred(?beforeStart:jQuery.Deferred -> Void):jQuery.Deferred;
@@ -305,6 +312,11 @@ package jQuery;
 	@:jQueryVersion({ added : "1.1.3" })
 	static public function unique(array:Array<js.html.Node>):Array<js.html.Node>;
 	/**
+		An object containing all CSS properties that may be used without a unit. The <a href="/css/"><code>.css()</code></a> method uses this object to see if it may append <code>px</code> to unitless values.
+	**/
+	@:jQueryVersion({ added : "1.4.3" })
+	static public var cssNumber : Dynamic;
+	/**
 		Determine whether an element has any jQuery data associated with it.
 	**/
 	@:jQueryVersion({ added : "1.5" })
@@ -333,6 +345,13 @@ package jQuery;
 	/**
 		Load data from the server using a HTTP GET request.
 	**/
+	@:overload
+	@:jQueryVersion({ added : "3.0" })
+	static public function get(settings:Dynamic):jQuery.JqXHR;
+	/**
+		Load data from the server using a HTTP GET request.
+	**/
+	@:overload
 	@:jQueryVersion({ added : "1.0" })
 	static public function get(url:String, ?data:jQuery.haxe.Either<Dynamic, String>, ?success:Dynamic -> String -> jQuery.JqXHR -> Void, ?dataType:String):jQuery.JqXHR;
 	/**

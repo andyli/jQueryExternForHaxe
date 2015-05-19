@@ -160,6 +160,8 @@ class CoreExternGenerator {
 				[macro:Dynamic];
 			case ("Object" | "PlainObject") if (!["offset", "position"].has(entryName) && !["jQuery object"].has(tagName)):
 				[macro:Dynamic]; //should be {}, but jQuery doc uses "Object" for "Anything" :(
+			case "ArrayLikeObject":
+				[macro:Array<Dynamic>, macro:js.html.NodeList];
 			case "undefined", "": 
 				[macro:Void];
 
@@ -512,7 +514,11 @@ class CoreExternGenerator {
 												else
 													name;
 											},
-											opt: arg.has.optional && (arg.att.optional == "true" ? true : throw arg.att.optional),
+											opt: arg.has.optional && switch (arg.att.optional) {
+												case "true": true;
+												case "false": false;
+												case unknown: throw unknown;
+											},
 											type: either(
 												arg.has.type ?
 													toComplexType(arg.att.type, arg)
