@@ -92,7 +92,9 @@ class Test extends TestCase {
 				var runner = new TestRunner();
 				runner.add(new Test());
 				runner.add(new TestPlugin());
+				#if (haxe_ver >= 3.2)
 				runner.add(new TestCoreExternGenerator());
+				#end
 				runner.add(new TestUtils());
 				var success = runner.run();
 				
