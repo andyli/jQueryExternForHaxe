@@ -5,6 +5,7 @@ import sys.io.*;
 import haxe.xml.*;
 import haxe.macro.*;
 import haxe.macro.Expr;
+import mcli.*;
 using haxe.macro.ComplexTypeTools;
 using StringTools;
 using Lambda;
@@ -13,21 +14,36 @@ using Reflect;
 typedef FuncConfig = { ?doc:String, ?added:String, ?deprecated:String, ?removed:String }
 
 /**
-* http://api.jquery.com/resources/api.xml
+	Generates extern classes.
 */
+#if js
 @:native("CoreExternGenerator")
-class CoreExternGenerator {
+#end
+class CoreExternGenerator #if (mcli && sys) extends CommandLine #end {
 	/**
 		Haxe keywords. Used to rename api function/variables names.
 	**/
 	static var keywords(default, null) = ["function", "true", "false", "if", "else", "switch", "class", "interface"];
-	var api:Fast;
-	
-	public function new(apiXml:Xml):Void {
-		this.api = new Fast(apiXml).node.api;
-	}
 
-	static public function either(types:Array<ComplexType>):ComplexType {
+	/**
+		The package that stores the output classes.
+	*/
+	public var pack(default, null):String = "jQuery";
+
+	/**
+		The path to api.xml.
+		You can get the latest one from http://api.jquery.com/resources/api.xml.
+	*/
+	public var apiXml(default, null):String = "api.xml";
+
+	/**
+		The output folder.
+	*/
+	public var outputFolder(default, null):String = ".";
+
+	var api:Fast;
+
+	function either(types:Array<ComplexType>):ComplexType {
 		return switch (types.length) {
 			case 0: 
 				throw types;
@@ -35,11 +51,27 @@ class CoreExternGenerator {
 				types[0];
 			case len:
 				TPath({
-					pack: ["jQuery", "haxe"],
+					pack: pack.split(".").concat(["haxe"]),
 					name: "Either",
 					params: [TPType(types[0]), TPType(either(types.slice(1)))]
 				});
 		}
+	}
+
+	function jqType(name:String, ?params:Array<TypeParam>):ComplexType {
+		return TPath({
+	 		pack: pack.split("."),
+			name: name,
+			params: params
+		});
+	}
+
+	function rest(type:ComplexType):ComplexType {
+		return TPath({
+	 		pack: pack.split(".").concat(["haxe"]),
+			name: "Rest",
+			params: [TPType(type)]
+		});
 	}
 
 	function toFunctionComplexType(tag:Fast):ComplexType {
@@ -77,7 +109,11 @@ class CoreExternGenerator {
 			case TFunction(args, ret):
 				var lastArg = args[args.length-1];
 				switch (lastArg) {
-				 	case macro:jQuery.haxe.Rest<$restType>:
+				 	case TPath({
+				 		pack: p,
+				 		name: "Rest",
+				 		params: [restType]
+				 	}) if (p.join(".") == '${pack}.haxe'):
 				 		ct = either([
 				 			TFunction(args.slice(0, args.length-1), ret),
 				 			ct,
@@ -101,7 +137,7 @@ class CoreExternGenerator {
 	/**
 		Find the entry node, recurse to the parent.
 	*/
-	function getEntryName(tag:Xml):String {
+	static function getEntryName(tag:Xml):String {
 		return switch (tag.nodeName) {
 			case "entry": tag.get("name");
 			case _: getEntryName(tag.parent);
@@ -112,7 +148,7 @@ class CoreExternGenerator {
 		Maps a type in api.xml to one or more Haxe ComplexType.
 		tag is the xml node where the type is listed.
 	**/
-	public function toComplexType(type:String, ?tag:Fast):Array<ComplexType> {
+	function toComplexType(type:String, ?tag:Fast):Array<ComplexType> {
 		var tagName = tag == null ? "" : tag.att.name;
 		var entryName = tag == null ? "" : getEntryName(tag.x);
 		if (type != null) type = type.trim();
@@ -121,22 +157,22 @@ class CoreExternGenerator {
 			var _tag = tag.x.copy();
 			_tag.remove("rest");
 			return toComplexType(type, new Fast(_tag))
-				.map(function(ct) return macro:jQuery.haxe.Rest<$ct>);
+				.map(rest);
 		}
 		
 		var simple = type == null ? [macro:Dynamic] : switch(type) {
 			case "jQueryStatic":
-				[macro:jQuery.JQueryStatic];
+				[jqType("JQueryStatic")];
 			case "jQuery", "jQuery object":
-				[macro:jQuery.JQuery];
+				[jqType("JQuery")];
 			case "event", "Event":
-				[macro:jQuery.Event];
+				[jqType("Event")];
 			case "callbacks", "Callbacks":
-				[macro:jQuery.Callbacks];
+				[jqType("Callbacks")];
 			case "Promise":
-				[macro:jQuery.Promise];
+				[jqType("Promise")];
 			case "jqXHR":
-				[macro:jQuery.JqXHR];
+				[jqType("JqXHR")];
 			case "Selector", "selector":
 				[macro:String];
 			case "htmlString", "HTML":
@@ -213,7 +249,7 @@ class CoreExternGenerator {
 			case ["val", "val", "Array"]:
 				[macro:Array<Dynamic>];
 			case ["closest", "selectors", "Array"]:
-				[macro:String, macro:Array<String>, macro:jQuery.JQuery];
+				[macro:String, macro:Array<String>, jqType("JQuery")];
 			case ["closest", "closest", "Array"]:
 				[macro:Array<Dynamic>];
 			case ["jQuery", "elementArray", "Array"]:
@@ -245,10 +281,11 @@ class CoreExternGenerator {
 				[];
 			
 			case [_, "content", "Array"]:
-				[macro:Array<js.html.Node>, macro:js.html.NodeList, macro:Array<String>, macro:Array<jQuery.JQuery>];
+				var jq = jqType("JQuery");
+				[macro:Array<js.html.Node>, macro:js.html.NodeList, macro:Array<String>, macro:Array<$jq>];
 			
 			case [_, "jQuery object", _]:
-				[macro:jQuery.JQuery];
+				[jqType("JQuery")];
 			
 			case ["offset" | "position", _, "Object" | "PlainObject"]:
 				[macro:{top:Float, left:Float}];
@@ -274,10 +311,10 @@ class CoreExternGenerator {
 				[macro:Array<js.html.Node>];
 
 			case [_, "deferreds", "Deferred"|"deferred"]:
-				[macro:jQuery.haxe.Rest<jQuery.Deferred>];
+				[rest(jqType("Deferred"))];
 
 			case [_, _, "Deferred"|"deferred"]:
-				[macro:jQuery.Deferred];
+				[jqType("Deferred")];
 					
 			default:
 				trace('["${entryName}", "${tagName}", "${type}"]');
@@ -374,7 +411,7 @@ class CoreExternGenerator {
 		}
 	}
 	
-	public function generate():Array<TypeDefinition> {
+	function generate():Array<TypeDefinition> {
 		var out = [];
 		
 		
@@ -748,7 +785,7 @@ class CoreExternGenerator {
 								name: "_static",
 								doc: "Compile-time short cut to JQueryStatic.",
 								access: [AInline, AStatic, APublic],
-								kind: FVar(null, macro jQuery.JQueryStatic),
+								kind: FVar(null, macro $p{pack.split(".").concat(["JQueryStatic"])}),
 								pos: null,
 								meta: []
 							});
@@ -764,7 +801,7 @@ class CoreExternGenerator {
 					
 					td.meta.push({
 						name: ":build",
-						params: [macro jQuery.haxe.Config.build()],
+						params: [macro $p{pack.split(".").concat(["haxe", "Config", "build"])}()],
 						pos: null
 					});
 					
@@ -778,24 +815,17 @@ class CoreExternGenerator {
 		return out;
 	}
 	
-	#if sys
-	static function main():Void {
-		var args = Sys.args();
-		if (args.length < 2) {
-			Sys.println("Arguments: api.xml outputFolder");
-			return;
-		}
-		
-		var file = args[0];
-		Sys.println('Generating jQuery core extern from "${file}".');
-		var apiXml = Xml.parse(File.getContent(file));
-		
-		var outDir = args[1];
-		if (!FileSystem.exists(outDir))
-			FileSystem.createDirectory(outDir);
-		Sys.setCwd(outDir);
-		
-		var tds = new CoreExternGenerator(apiXml).generate();
+	#if (mcli && sys)
+	public function runDefault():Void {
+		Sys.println('Generating jQuery core extern from "${apiXml}".');
+		api = new Fast(Xml.parse(File.getContent(apiXml))).node.api;
+
+		if (!FileSystem.exists(outputFolder))
+			FileSystem.createDirectory(outputFolder);
+		Sys.setCwd(outputFolder);
+
+		var tds = generate();
+
 		var printer = new Printer();
 		for (td in tds) {
 			var clsStr = "/* This file is generated, do not edit! Visit http://api.jquery.com/ for API documentation. */\n" + printer.printTypeDefinition(td);
@@ -804,6 +834,18 @@ class CoreExternGenerator {
 			File.saveContent(packDir + "/" + td.name + ".hx", clsStr);
 		}
 		Sys.println("Done.");
+	}
+
+	/**
+		Print help message.
+	*/
+	public function help():Void {
+		Sys.println(showUsage());
+		Sys.exit(0);
+	}
+
+	static function main():Void {
+		new Dispatch(Sys.args()).dispatch(new CoreExternGenerator());
 	}
 	#end
 }

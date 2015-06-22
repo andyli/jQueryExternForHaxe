@@ -1,4 +1,5 @@
 # Used for generating the externs
 -neko CoreExternGenerator.n
 -main jQuery.haxe.gen.CoreExternGenerator
--cmd neko CoreExternGenerator.n api.xml .
+-lib mcli
+-cmd neko CoreExternGenerator.n --api-xml api.xml --output-folder .
