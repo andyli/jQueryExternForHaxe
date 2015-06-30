@@ -41,6 +41,16 @@ class CoreExternGenerator #if (mcli && sys) extends CommandLine #end {
 	*/
 	public var outputFolder(default, null):String = ".";
 
+	/**
+		The value of @:native.
+	*/
+	public var native(default, null):String = "$";
+
+	/**
+		Whether allow the use of build macros for advanced config.
+	*/
+	public var noBuild(default, null):Bool = true;
+
 	var api:Fast;
 
 	function either(types:Array<ComplexType>):ComplexType {
@@ -608,49 +618,70 @@ class CoreExternGenerator #if (mcli && sys) extends CommandLine #end {
 								});
 							}
 							
-							if (functions.length > 1) {
-								field.meta.push({
-									name:":overload",
-									params:[],
-									pos: null
-								});
-							}
-							
-							//create Field for individual signature
-							//the Config build macro will put them back to @:overload metas
-							for (f in functions) {
-								var clonedField = field.copy();
-								clonedField.kind = FFun(f.func);
-								clonedField.doc = f.config.doc;
-								clonedField.meta = field.meta.copy();
+							if (noBuild) {
+								var functions = functions.filter(function(f) return f.config.removed == null);
+								if (functions.length == 0)
+									continue;
+
+								var func = functions.shift();
+								field.kind = FFun(func.func);
 								
-								var jQueryVersionFields = [];
-								if (f.config.added != null) {
-									jQueryVersionFields.push({ 
-										field: "added", 
-										expr : { expr: EConst(CString(f.config.added)), pos:null } 
-									});
-								}
-								if (f.config.deprecated != null) {
-									jQueryVersionFields.push({ 
-										field: "deprecated", 
-										expr : { expr: EConst(CString(f.config.deprecated)), pos:null } 
-									});
-								}
-								if (f.config.removed != null) {
-									jQueryVersionFields.push({ 
-										field: "removed", 
-										expr : { expr: EConst(CString(f.config.removed)), pos:null } 
-									});
-								}
-								if (jQueryVersionFields.length > 0) {
-									clonedField.meta.push({
-										name:":jQueryVersion",
-										params:[{ expr:EObjectDecl(jQueryVersionFields), pos: null }],
+								for (func in functions) {
+									field.meta.push({
+										name: ":overload",
+										params: [{ expr: EFunction(null, func.func), pos: null }],
 										pos: null
 									});
 								}
-								fields.push(clonedField);
+								field.doc = func.config.doc;
+
+								fields.push(field);
+							} else {
+								//create Field for individual signature
+								//the Config build macro will put them back to @:overload metas
+
+								if (functions.length > 1) {
+									field.meta.push({
+										name:":overload",
+										params:[],
+										pos: null
+									});
+								}
+
+								for (f in functions) {
+									var clonedField = field.copy();
+									clonedField.kind = FFun(f.func);
+									clonedField.doc = f.config.doc;
+									clonedField.meta = field.meta.copy();
+									
+									var jQueryVersionFields = [];
+									if (f.config.added != null) {
+										jQueryVersionFields.push({ 
+											field: "added", 
+											expr : { expr: EConst(CString(f.config.added)), pos:null } 
+										});
+									}
+									if (f.config.deprecated != null) {
+										jQueryVersionFields.push({ 
+											field: "deprecated", 
+											expr : { expr: EConst(CString(f.config.deprecated)), pos:null } 
+										});
+									}
+									if (f.config.removed != null) {
+										jQueryVersionFields.push({ 
+											field: "removed", 
+											expr : { expr: EConst(CString(f.config.removed)), pos:null } 
+										});
+									}
+									if (jQueryVersionFields.length > 0) {
+										clonedField.meta.push({
+											name:":jQueryVersion",
+											params:[{ expr:EObjectDecl(jQueryVersionFields), pos: null }],
+											pos: null
+										});
+									}
+									fields.push(clonedField);
+								}
 							}
 						case "property":
 							var entry = mem[0];
@@ -663,37 +694,43 @@ class CoreExternGenerator #if (mcli && sys) extends CommandLine #end {
 								var added = sig.hasNode.added ? sig.node.added.innerHTML : entry.has.added ? entry.att.added : null;
 								var deprecated = sig.hasNode.deprecated ? sig.node.deprecated.innerHTML : entry.has.deprecated ? entry.att.deprecated : null;
 								var removed = sig.hasNode.removed ? sig.node.removed.innerHTML : entry.has.removed ? entry.att.removed : null;
-							
-								var jQueryVersionFields = [];
-								if (added != null) {
-									jQueryVersionFields.push({ 
-										field: "added", 
-										expr : { expr: EConst(CString(added)), pos:null } 
-									});
-								}
-								if (deprecated != null) {
-									jQueryVersionFields.push({ 
-										field: "deprecated", 
-										expr : { expr: EConst(CString(deprecated)), pos:null } 
-									});
-								}
-								if (removed != null) {
-									jQueryVersionFields.push({ 
-										field: "removed", 
-										expr : { expr: EConst(CString(removed)), pos:null } 
-									});
-								}
-								if (jQueryVersionFields.length > 0) {
-									field.meta.push({
-										name:":jQueryVersion",
-										params:[{ expr:EObjectDecl(jQueryVersionFields), pos: null }],
-										pos: null
-									});
+								
+								if (noBuild) {
+									if (removed == null)
+										fields.push(field);
+								} else {
+									var jQueryVersionFields = [];
+									if (added != null) {
+										jQueryVersionFields.push({ 
+											field: "added", 
+											expr : { expr: EConst(CString(added)), pos:null } 
+										});
+									}
+									if (deprecated != null) {
+										jQueryVersionFields.push({ 
+											field: "deprecated", 
+											expr : { expr: EConst(CString(deprecated)), pos:null } 
+										});
+									}
+									if (removed != null) {
+										jQueryVersionFields.push({ 
+											field: "removed", 
+											expr : { expr: EConst(CString(removed)), pos:null } 
+										});
+									}
+									if (jQueryVersionFields.length > 0) {
+										field.meta.push({
+											name:":jQueryVersion",
+											params:[{ expr:EObjectDecl(jQueryVersionFields), pos: null }],
+											pos: null
+										});
+									}
+									fields.push(field);
 								}
 							} else {
 								switch (memName) {
 									case "fx":
-										var fields = [];
+										var _fields = [];
 										for (entry in mem) {
 											var types = toComplexType(entry.att.resolve("return"), entry);
 											var field = Reflect.copy(field);
@@ -708,47 +745,50 @@ class CoreExternGenerator #if (mcli && sys) extends CommandLine #end {
 											var deprecated = sig.hasNode.deprecated ? sig.node.deprecated.innerHTML : entry.has.deprecated ? entry.att.deprecated : null;
 											var removed = sig.hasNode.removed ? sig.node.removed.innerHTML : entry.has.removed ? entry.att.removed : null;
 											
-											var jQueryVersionFields = [];
-											if (added != null) {
-												jQueryVersionFields.push({ 
-													field: "added", 
-													expr : { expr: EConst(CString(added)), pos:null } 
-												});
+											if (noBuild) {
+												if (removed == null)
+													_fields.push(field);
+											} else {
+												var jQueryVersionFields = [];
+												if (added != null) {
+													jQueryVersionFields.push({ 
+														field: "added", 
+														expr : { expr: EConst(CString(added)), pos:null } 
+													});
+												}
+												if (deprecated != null) {
+													jQueryVersionFields.push({ 
+														field: "deprecated", 
+														expr : { expr: EConst(CString(deprecated)), pos:null } 
+													});
+												}
+												if (removed != null) {
+													jQueryVersionFields.push({ 
+														field: "removed", 
+														expr : { expr: EConst(CString(removed)), pos:null } 
+													});
+												}
+												
+												if (jQueryVersionFields.length > 0) {
+													field.meta.push({
+														name:":jQueryVersion",
+														params:[{ expr:EObjectDecl(jQueryVersionFields), pos: null }],
+														pos: null
+													});
+												}
+
+												_fields.push(field);
 											}
-											if (deprecated != null) {
-												jQueryVersionFields.push({ 
-													field: "deprecated", 
-													expr : { expr: EConst(CString(deprecated)), pos:null } 
-												});
-											}
-											if (removed != null) {
-												jQueryVersionFields.push({ 
-													field: "removed", 
-													expr : { expr: EConst(CString(removed)), pos:null } 
-												});
-											}
-											
-											if (jQueryVersionFields.length > 0) {
-												field.meta.push({
-													name:":jQueryVersion",
-													params:[{ expr:EObjectDecl(jQueryVersionFields), pos: null }],
-													pos: null
-												});
-											}
-											
-											fields.push(field);
 										}
-										field.kind = FVar(TAnonymous(fields), null);
+										field.kind = FVar(TAnonymous(_fields), null);
+										fields.push(field);
 										
 									default: trace(memName);
 								}
 							}
 							
-							fields.push(field);
-							
 						default: 
 							throw "unknown entry type: " + type;
-							continue;
 					}
 				}
 			}
@@ -799,11 +839,26 @@ class CoreExternGenerator #if (mcli && sys) extends CommandLine #end {
 							//pass
 					}
 					
-					td.meta.push({
-						name: ":build",
-						params: [macro $p{pack.split(".").concat(["haxe", "Config", "build"])}()],
-						pos: null
-					});
+					if (!noBuild)
+						td.meta.push({
+							name: ":build",
+							params: [macro $p{pack.split(".").concat(["haxe", "Config", "build"])}()],
+							pos: null
+						});
+
+					if (noBuild) {
+						var native = switch (tp.name) {
+							case "JQuery" | "JQueryStatic":
+								native;
+							case name:
+								native + "." + name;
+						}
+						td.meta.push({
+							name: ":native",
+							params: [{ expr:EConst(CString(native)), pos: null }],
+							pos: null
+						});
+					}
 					
 					out.push(td);
 				default: //TODO
