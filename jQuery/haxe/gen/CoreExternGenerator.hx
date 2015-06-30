@@ -49,12 +49,12 @@ class CoreExternGenerator #if (mcli && sys && !macro) extends CommandLine #end {
 	/**
 		Whether allow the use of build macros for advanced config.
 	*/
-	public var noBuild(default, null):Bool = true;
+	public var noBuild(default, null):Bool = false;
 
 	/**
 		Use `js.html.Element` or `js.html.Node` as type param constraint.
 	*/
-	public var useElement(default, null):Bool = true;
+	public var useElement(default, null):Bool = false;
 
 	var api:Fast;
 
