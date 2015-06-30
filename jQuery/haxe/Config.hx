@@ -103,24 +103,6 @@ class Config {
 							fields.push(field);
 					}
 				}
-			case "jQuery.Event":
-				var evtCls = switch (Context.getType("js.html.Event")) {
-					case TInst(t, _): t;
-					default: throw "js.html.Event should be TInst...";
-				}
-				var evtFields = evtCls.get().fields.get();
-				for (f in fields.copy()) {
-					if (evtFields.exists(function(ef) return ef.name == f.name)) {
-						switch (f.kind) {
-							case FVar(_, _) | FProp(_, _, _, _):
-								//simply remove the property, since we cannot override
-								fields.remove(f);
-							case FFun(_):
-								//add override
-								f.access.push(AOverride);
-						}
-					}
-				}
 			case "jQuery.JqXHR":
 				fields = fields.concat(getPromiseFields());
 			default:

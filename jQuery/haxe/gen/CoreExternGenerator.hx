@@ -19,7 +19,7 @@ typedef FuncConfig = { ?doc:String, ?added:String, ?deprecated:String, ?removed:
 #if js
 @:native("CoreExternGenerator")
 #end
-class CoreExternGenerator #if (mcli && sys) extends CommandLine #end {
+class CoreExternGenerator #if (mcli && sys && !macro) extends CommandLine #end {
 	/**
 		Haxe keywords. Used to rename api function/variables names.
 	**/
@@ -641,6 +641,7 @@ class CoreExternGenerator #if (mcli && sys) extends CommandLine #end {
 								field.kind = FFun(func.func);
 								
 								for (func in functions) {
+									func.func.expr = macro {};
 									field.meta.push({
 										name: ":overload",
 										params: [{ expr: EFunction(null, func.func), pos: null }],
@@ -849,6 +850,9 @@ class CoreExternGenerator #if (mcli && sys) extends CommandLine #end {
 								name: "Event",
 								params: []
 							});
+
+							var evtFields = getHtmlEvtFields();
+							td.fields = td.fields.filter(function(f) return !evtFields.has(f.name));
 						default:
 							//pass
 					}
@@ -883,8 +887,23 @@ class CoreExternGenerator #if (mcli && sys) extends CommandLine #end {
 		
 		return out;
 	}
+
+	macro static function getHtmlEvtFields() {
+		haxe.macro.Compiler.allowPackage("js");
+		var evtType = haxe.macro.Context.getType("js.html.Event");
+		switch (evtType) {
+			case TInst(t, _):
+				var fields = [
+					for (f in t.get().fields.get())
+					f.name
+				];
+				return macro $v{fields};
+			case _:
+				throw evtType;
+		}
+	}
 	
-	#if (mcli && sys)
+	#if (mcli && sys && !macro)
 	public function runDefault():Void {
 		Sys.println('Generating jQuery core extern from "${apiXml}".');
 		api = new Fast(Xml.parse(File.getContent(apiXml))).node.api;
