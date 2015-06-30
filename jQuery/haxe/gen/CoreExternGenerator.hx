@@ -66,6 +66,12 @@ class CoreExternGenerator #if (mcli && sys && !macro) extends CommandLine #end {
 	*/
 	public var useHaxeRest(default, null):Bool = false;
 
+	/**
+		Put all fields, including the static ones, into a single JQuery class.
+		Will rename conflicting fields to xxxStatic.
+	*/
+	public var noSeperatedStatic(default, null):Bool = false;
+
 	var api:Fast;
 
 	function either(types:Array<ComplexType>):ComplexType {
@@ -513,12 +519,16 @@ class CoreExternGenerator #if (mcli && sys && !macro) extends CommandLine #end {
 		*/
 		
 		var jQuery = classEntryMap.get("jQuery");
-		var jQueryStatic = {
-			statics: jQuery.statics,
-			instances: new Map()
+		var jQueryStatic = if (noSeperatedStatic) {
+			jQuery;
+		} else {
+			classEntryMap["jQueryStatic"] = {
+				statics: jQuery.statics,
+				instances: new Map()
+			};
+			jQuery.statics = new Map();
+			classEntryMap["jQueryStatic"];
 		}
-		classEntryMap.set("jQueryStatic", jQueryStatic);
-		jQuery.statics = new Map();
 		
 		/*
 			start creating each class
@@ -566,7 +576,7 @@ class CoreExternGenerator #if (mcli && sys && !macro) extends CommandLine #end {
 					//in case there is a name collision in static field and instance field
 					if (isStatic && entryMaps.instances.exists(field.name)) {
 						var nativeName = field.name;
-						field.name = "static" + nativeName.charAt(0).toUpperCase() + nativeName.substr(1);
+						field.name = nativeName + "Static";
 						field.meta.push({
 							name: ":native",
 							params: [{expr: EConst(CString(nativeName)), pos:null}],
@@ -853,14 +863,15 @@ class CoreExternGenerator #if (mcli && sys && !macro) extends CommandLine #end {
 								params: [TPType(element)]
 							}]);
 							
-							fields.push({
-								name: "_static",
-								doc: "Compile-time short cut to JQueryStatic.",
-								access: [AInline, AStatic, APublic],
-								kind: FVar(null, macro $p{pack.split(".").concat(["JQueryStatic"])}),
-								pos: null,
-								meta: []
-							});
+							if (!noSeperatedStatic)
+								fields.push({
+									name: "_static",
+									doc: "Compile-time short cut to JQueryStatic.",
+									access: [AInline, AStatic, APublic],
+									kind: FVar(null, macro $p{pack.split(".").concat(["JQueryStatic"])}),
+									pos: null,
+									meta: []
+								});
 						case "Event":
 							td.kind = TDClass({
 								pack: ["js", "html"],
