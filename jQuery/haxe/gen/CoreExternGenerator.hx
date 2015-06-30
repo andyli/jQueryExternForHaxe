@@ -51,6 +51,11 @@ class CoreExternGenerator #if (mcli && sys) extends CommandLine #end {
 	*/
 	public var noBuild(default, null):Bool = true;
 
+	/**
+		Use `js.html.Element` or `js.html.Node` as type param constraint.
+	*/
+	public var useElement(default, null):Bool = true;
+
 	var api:Fast;
 
 	function either(types:Array<ComplexType>):ComplexType {
@@ -82,6 +87,15 @@ class CoreExternGenerator #if (mcli && sys) extends CommandLine #end {
 			name: "Rest",
 			params: [TPType(type)]
 		});
+	}
+
+	var element(get, never):ComplexType;
+	function get_element():ComplexType {
+		return if (useElement) {
+			macro:js.html.Element;
+		} else {
+			macro:js.html.Node;
+		}
 	}
 
 	function toFunctionComplexType(tag:Fast):ComplexType {
@@ -190,9 +204,9 @@ class CoreExternGenerator #if (mcli && sys) extends CommandLine #end {
 			case "document", "XMLDocument":
 				[macro:js.html.Document];
 			case "Element":
-				[macro:js.html.Node];
+				[element];
 			/*case "Elements":
-				[macro:Array<js.html.Node>];*/
+				[macro:Array<$element>];*/
 			
 			case "Boolean", "boolean":
 				[macro:Bool];
@@ -229,13 +243,13 @@ class CoreExternGenerator #if (mcli && sys) extends CommandLine #end {
 			case ["jQuery.each", "array", "Array"]:
 				[macro:Array<Dynamic>];
 			case ["jQuery.parseHTML", "jQuery.parseHTML", "Array"]:
-				[macro:Array<js.html.Node>];
+				[macro:Array<$element>];
 			case ["jQuery.parseJSON", "jQuery.parseJSON", "Array"]:
 				[macro:Array<Dynamic>];
 			case ["add", "elements", "Elements"]:
-				[macro:js.html.Node, macro:js.html.NodeList];
+				[element, macro:js.html.NodeList];
 			case ["appendTo" | "insertBefore" | "replaceAll" | "prependTo" | "insertAfter", "target", "Array"]:
-				[macro:Array<js.html.Node>];
+				[macro:Array<$element>];
 			case ["css", "propertyNames", "Array"]:
 				[macro:Array<String>];
 			case ["jQuery.queue", "jQuery.queue" | "newQueue", "Array"]:
@@ -247,13 +261,13 @@ class CoreExternGenerator #if (mcli && sys) extends CommandLine #end {
 			case ["triggerHandler", "extraParameters", "Array"]:
 				[macro:Array<Dynamic>];
 			case ["replaceWith", "newContent", "Array"]:
-				[macro:Array<js.html.Node>];
+				[macro:Array<$element>];
 			case ["pushStack", "elements", "Array"]:
-				[macro:Array<js.html.Node>, macro:js.html.NodeList];
+				[macro:Array<$element>, macro:js.html.NodeList];
 			case ["pushStack", "arguments", "Array"]:
 				[macro:Array<Dynamic>];
 			case ["not", "selector", "Array"]:
-				[macro:Array<js.html.Node>];
+				[macro:Array<$element>];
 			case ["val", "value", "Array"]:
 				[macro:Array<String>];
 			case ["val", "val", "Array"]:
@@ -263,9 +277,9 @@ class CoreExternGenerator #if (mcli && sys) extends CommandLine #end {
 			case ["closest", "closest", "Array"]:
 				[macro:Array<Dynamic>];
 			case ["jQuery", "elementArray", "Array"]:
-				[macro:js.html.NodeList, macro:Array<js.html.Node>];
+				[macro:js.html.NodeList, macro:Array<$element>];
 			case ["toArray", "toArray", "Array"]:
-				[macro:Array<js.html.Node>];
+				[macro:Array<$element>];
 			case ["jQuery.inArray", "array", "Array"]:
 				[macro:Array<Dynamic>];
 			case ["jQuery.makeArray", "jQuery.makeArray", "Array"]:
@@ -292,7 +306,7 @@ class CoreExternGenerator #if (mcli && sys) extends CommandLine #end {
 			
 			case [_, "content", "Array"]:
 				var jq = jqType("JQuery");
-				[macro:Array<js.html.Node>, macro:js.html.NodeList, macro:Array<String>, macro:Array<$jq>];
+				[macro:Array<$element>, macro:js.html.NodeList, macro:Array<String>, macro:Array<$jq>];
 			
 			case [_, "jQuery object", _]:
 				[jqType("JQuery")];
@@ -315,10 +329,10 @@ class CoreExternGenerator #if (mcli && sys) extends CommandLine #end {
 				[macro:Array<Dynamic>];
 					
 			case ["jQuery.unique", _, "Array"]:
-				[macro:Array<js.html.Node>];
+				[macro:Array<$element>];
 			
 			case ["get", "get", "Array"]:
-				[macro:Array<js.html.Node>];
+				[macro:Array<$element>];
 
 			case [_, "deferreds", "Deferred"|"deferred"]:
 				[rest(jqType("Deferred"))];
@@ -818,7 +832,7 @@ class CoreExternGenerator #if (mcli && sys) extends CommandLine #end {
 							td.kind = TDClass(null, [{
 								pack: [],
 								name: "ArrayAccess",
-								params: [TPType(macro : js.html.Node)]
+								params: [TPType(element)]
 							}]);
 							
 							fields.push({
