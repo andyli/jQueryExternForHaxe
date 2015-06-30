@@ -37,6 +37,11 @@ class Test extends TestCase {
 			.done(function (v1, v2) result = v1 + v2);
 		assertEquals(3, result);
 	}
+
+	public function testPromise():Void {
+		var p:Promise = new Deferred().resolve(1).promise();
+		assertEquals("resolved", p.state());
+	}
 	
 	public function testForIn():Void {
 		var bodyChildren = new JQuery("body>*");

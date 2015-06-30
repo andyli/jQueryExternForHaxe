@@ -131,14 +131,14 @@ package jQuery;
 		Set one or more attributes for the set of matched elements.
 	**/
 	@:overload
-	@:jQueryVersion({ added : "1.0" })
-	public function attr(attributeName:String, value:jQuery.haxe.Either<String, Float>):jQuery.JQuery;
+	@:jQueryVersion({ added : "1.1" })
+	public function attr(attributeName:String, _function:Int -> String -> jQuery.haxe.Either<String, Float>):jQuery.JQuery;
 	/**
 		Set one or more attributes for the set of matched elements.
 	**/
 	@:overload
-	@:jQueryVersion({ added : "1.1" })
-	public function attr(attributeName:String, _function:Int -> String -> jQuery.haxe.Either<String, Float>):jQuery.JQuery;
+	@:jQueryVersion({ added : "1.0" })
+	public function attr(attributeName:String, value:jQuery.haxe.Either<String, Float>):jQuery.JQuery;
 	/**
 		Get all preceding siblings of each element up to but not including the element matched by the selector, DOM node, or jQuery object.
 	**/
@@ -189,14 +189,14 @@ package jQuery;
 		Set the content of each element in the set of matched elements to the specified text.
 	**/
 	@:overload
-	@:jQueryVersion({ added : "1.0" })
-	public function text(text:jQuery.haxe.Either<String, jQuery.haxe.Either<Float, Bool>>):jQuery.JQuery;
+	@:jQueryVersion({ added : "1.4" })
+	public function text(_function:Int -> String -> String):jQuery.JQuery;
 	/**
 		Set the content of each element in the set of matched elements to the specified text.
 	**/
 	@:overload
-	@:jQueryVersion({ added : "1.4" })
-	public function text(_function:Int -> String -> String):jQuery.JQuery;
+	@:jQueryVersion({ added : "1.0" })
+	public function text(text:jQuery.haxe.Either<String, jQuery.haxe.Either<Float, Bool>>):jQuery.JQuery;
 	/**
 		Search for a given element from among the matched elements.
 	**/
@@ -238,13 +238,13 @@ package jQuery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.8.0" })
-	public function innerHeight(value:jQuery.haxe.Either<String, Float>):jQuery.JQuery;
+	public function innerHeight(_function:Int -> Float -> jQuery.haxe.Either<String, Float>):jQuery.JQuery;
 	/**
 		Set the CSS inner height of each element in the set of matched elements.
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.8.0" })
-	public function innerHeight(_function:Int -> Float -> jQuery.haxe.Either<String, Float>):jQuery.JQuery;
+	public function innerHeight(value:jQuery.haxe.Either<String, Float>):jQuery.JQuery;
 	/**
 		End the most recent filtering operation in the current chain and return the set of matched elements to its previous state.
 	**/
@@ -328,14 +328,14 @@ package jQuery;
 		Set the CSS height of every matched element.
 	**/
 	@:overload
-	@:jQueryVersion({ added : "1.0" })
-	public function height(value:jQuery.haxe.Either<String, Float>):jQuery.JQuery;
+	@:jQueryVersion({ added : "1.4.1" })
+	public function height(_function:Int -> Int -> jQuery.haxe.Either<String, Float>):jQuery.JQuery;
 	/**
 		Set the CSS height of every matched element.
 	**/
 	@:overload
-	@:jQueryVersion({ added : "1.4.1" })
-	public function height(_function:Int -> Int -> jQuery.haxe.Either<String, Float>):jQuery.JQuery;
+	@:jQueryVersion({ added : "1.0" })
+	public function height(value:jQuery.haxe.Either<String, Float>):jQuery.JQuery;
 	/**
 		Bind an event handler to the "focus" JavaScript event, or trigger that event on an element.
 	**/
@@ -376,14 +376,14 @@ package jQuery;
 		Replace each element in the set of matched elements with the provided new content and return the set of elements that was removed.
 	**/
 	@:overload
-	@:jQueryVersion({ added : "1.2" })
-	public function replaceWith(newContent:jQuery.haxe.Either<String, jQuery.haxe.Either<js.html.Node, jQuery.haxe.Either<Array<js.html.Node>, jQuery.JQuery>>>):jQuery.JQuery;
+	@:jQueryVersion({ added : "1.4" })
+	public function replaceWith(_function:haxe.Constraints.Function):jQuery.JQuery;
 	/**
 		Replace each element in the set of matched elements with the provided new content and return the set of elements that was removed.
 	**/
 	@:overload
-	@:jQueryVersion({ added : "1.4" })
-	public function replaceWith(_function:haxe.Constraints.Function):jQuery.JQuery;
+	@:jQueryVersion({ added : "1.2" })
+	public function replaceWith(newContent:jQuery.haxe.Either<String, jQuery.haxe.Either<js.html.Node, jQuery.haxe.Either<Array<js.html.Node>, jQuery.JQuery>>>):jQuery.JQuery;
 	/**
 		Perform a custom animation of a set of CSS properties.
 	**/
@@ -459,12 +459,6 @@ package jQuery;
 		Remove elements from the set of matched elements.
 	**/
 	@:overload
-	@:jQueryVersion({ added : "1.0" })
-	public function not(selector:jQuery.haxe.Either<String, jQuery.haxe.Either<js.html.Node, Array<js.html.Node>>>):jQuery.JQuery;
-	/**
-		Remove elements from the set of matched elements.
-	**/
-	@:overload
 	@:jQueryVersion({ added : "1.4" })
 	public function not(selection:jQuery.JQuery):jQuery.JQuery;
 	/**
@@ -473,6 +467,12 @@ package jQuery;
 	@:overload
 	@:jQueryVersion({ added : "1.4" })
 	public function not(_function:Int -> js.html.Node -> Bool):jQuery.JQuery;
+	/**
+		Remove elements from the set of matched elements.
+	**/
+	@:overload
+	@:jQueryVersion({ added : "1.0" })
+	public function not(selector:jQuery.haxe.Either<String, jQuery.haxe.Either<js.html.Node, Array<js.html.Node>>>):jQuery.JQuery;
 	/**
 		Bind an event handler to be fired when the mouse leaves an element, or trigger that handler on an element.
 	**/
@@ -511,13 +511,6 @@ package jQuery;
 	@:selfCall
 	@:overload
 	@:jQueryVersion({ added : "1.0" })
-	public function new(elementArray:jQuery.haxe.Either<js.html.NodeList, Array<js.html.Node>>):Void;
-	/**
-		Accepts a string containing a CSS selector which is then used to match a set of elements.
-	**/
-	@:selfCall
-	@:overload
-	@:jQueryVersion({ added : "1.0" })
 	public function new(selection:jQuery.JQuery):Void;
 	/**
 		Binds a function to be executed when the DOM has finished loading.
@@ -526,6 +519,13 @@ package jQuery;
 	@:overload
 	@:jQueryVersion({ added : "1.0" })
 	public function new(callback:haxe.Constraints.Function):Void;
+	/**
+		Accepts a string containing a CSS selector which is then used to match a set of elements.
+	**/
+	@:selfCall
+	@:overload
+	@:jQueryVersion({ added : "1.0" })
+	public function new(elementArray:jQuery.haxe.Either<js.html.NodeList, Array<js.html.Node>>):Void;
 	/**
 		Accepts a string containing a CSS selector which is then used to match a set of elements.
 	**/
@@ -541,19 +541,19 @@ package jQuery;
 	@:jQueryVersion({ added : "1.4" })
 	public function new(html:String, attributes:Dynamic):Void;
 	/**
-		Accepts a string containing a CSS selector which is then used to match a set of elements.
-	**/
-	@:selfCall
-	@:overload
-	@:jQueryVersion({ added : "1.0" })
-	public function new(selector:String, ?context:jQuery.haxe.Either<js.html.Node, jQuery.JQuery>):Void;
-	/**
 		Creates DOM elements on the fly from the provided string of raw HTML.
 	**/
 	@:selfCall
 	@:overload
 	@:jQueryVersion({ added : "1.0" })
 	public function new(html:String, ?ownerDocument:js.html.Document):Void;
+	/**
+		Accepts a string containing a CSS selector which is then used to match a set of elements.
+	**/
+	@:selfCall
+	@:overload
+	@:jQueryVersion({ added : "1.0" })
+	public function new(selector:String, ?context:jQuery.haxe.Either<js.html.Node, jQuery.JQuery>):Void;
 	/**
 		Attach a handler to one or more events for all elements that match the selector, now or in the future, based on a specific set of root elements.
 	**/
@@ -589,13 +589,13 @@ package jQuery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.8.0" })
-	public function outerWidth(value:jQuery.haxe.Either<String, Float>):jQuery.JQuery;
+	public function outerWidth(_function:haxe.Constraints.Function):jQuery.JQuery;
 	/**
 		Set the CSS outer width of each element in the set of matched elements.
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.8.0" })
-	public function outerWidth(_function:haxe.Constraints.Function):jQuery.JQuery;
+	public function outerWidth(value:jQuery.haxe.Either<String, Float>):jQuery.JQuery;
 	/**
 		Get the current computed width for the first element in the set of matched elements, including padding and border.
 	**/
@@ -664,14 +664,14 @@ package jQuery;
 		Set the value of each element in the set of matched elements.
 	**/
 	@:overload
-	@:jQueryVersion({ added : "1.0" })
-	public function val(value:jQuery.haxe.Either<String, jQuery.haxe.Either<Float, Array<String>>>):jQuery.JQuery;
+	@:jQueryVersion({ added : "1.4" })
+	public function val(_function:Int -> String -> String):jQuery.JQuery;
 	/**
 		Set the value of each element in the set of matched elements.
 	**/
 	@:overload
-	@:jQueryVersion({ added : "1.4" })
-	public function val(_function:Int -> String -> String):jQuery.JQuery;
+	@:jQueryVersion({ added : "1.0" })
+	public function val(value:jQuery.haxe.Either<String, jQuery.haxe.Either<Float, Array<String>>>):jQuery.JQuery;
 	/**
 		Register a handler to be called when Ajax requests complete with an error. This is an <a href="/Ajax_Events/">Ajax Event</a>.
 	**/
@@ -885,14 +885,14 @@ package jQuery;
 		Set the CSS width of each element in the set of matched elements.
 	**/
 	@:overload
-	@:jQueryVersion({ added : "1.0" })
-	public function width(value:jQuery.haxe.Either<String, Float>):jQuery.JQuery;
+	@:jQueryVersion({ added : "1.4.1" })
+	public function width(_function:Int -> Int -> jQuery.haxe.Either<String, Float>):jQuery.JQuery;
 	/**
 		Set the CSS width of each element in the set of matched elements.
 	**/
 	@:overload
-	@:jQueryVersion({ added : "1.4.1" })
-	public function width(_function:Int -> Int -> jQuery.haxe.Either<String, Float>):jQuery.JQuery;
+	@:jQueryVersion({ added : "1.0" })
+	public function width(value:jQuery.haxe.Either<String, Float>):jQuery.JQuery;
 	/**
 		Get the current coordinates of the first element in the set of matched elements, relative to the document.
 	**/
@@ -916,13 +916,13 @@ package jQuery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.8.0" })
-	public function outerHeight(value:jQuery.haxe.Either<String, Float>):jQuery.JQuery;
+	public function outerHeight(_function:haxe.Constraints.Function):jQuery.JQuery;
 	/**
 		Set the CSS outer Height of each element in the set of matched elements.
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.8.0" })
-	public function outerHeight(_function:haxe.Constraints.Function):jQuery.JQuery;
+	public function outerHeight(value:jQuery.haxe.Either<String, Float>):jQuery.JQuery;
 	/**
 		Get the current computed height for the first element in the set of matched elements, including padding, border, and optionally margin. Returns a number (without "px") representation of the value or null if called on an empty set of elements.
 	**/
@@ -1176,14 +1176,14 @@ package jQuery;
 		Wrap an HTML structure around all elements in the set of matched elements.
 	**/
 	@:overload
-	@:jQueryVersion({ added : "1.2" })
-	public function wrapAll(wrappingElement:jQuery.haxe.Either<String, jQuery.haxe.Either<String, jQuery.haxe.Either<js.html.Node, jQuery.JQuery>>>):jQuery.JQuery;
+	@:jQueryVersion({ added : "1.4" })
+	public function wrapAll(_function:Int -> jQuery.haxe.Either<String, jQuery.JQuery>):jQuery.JQuery;
 	/**
 		Wrap an HTML structure around all elements in the set of matched elements.
 	**/
 	@:overload
-	@:jQueryVersion({ added : "1.4" })
-	public function wrapAll(_function:Int -> jQuery.haxe.Either<String, jQuery.JQuery>):jQuery.JQuery;
+	@:jQueryVersion({ added : "1.2" })
+	public function wrapAll(wrappingElement:jQuery.haxe.Either<String, jQuery.haxe.Either<String, jQuery.haxe.Either<js.html.Node, jQuery.JQuery>>>):jQuery.JQuery;
 	/**
 		Add a collection of DOM elements onto the jQuery stack.
 	**/
@@ -1273,14 +1273,14 @@ package jQuery;
 		Wrap an HTML structure around the content of each element in the set of matched elements.
 	**/
 	@:overload
-	@:jQueryVersion({ added : "1.2" })
-	public function wrapInner(wrappingElement:jQuery.haxe.Either<String, jQuery.haxe.Either<String, jQuery.haxe.Either<jQuery.JQuery, js.html.Node>>>):jQuery.JQuery;
+	@:jQueryVersion({ added : "1.4" })
+	public function wrapInner(_function:Int -> String):jQuery.JQuery;
 	/**
 		Wrap an HTML structure around the content of each element in the set of matched elements.
 	**/
 	@:overload
-	@:jQueryVersion({ added : "1.4" })
-	public function wrapInner(_function:Int -> String):jQuery.JQuery;
+	@:jQueryVersion({ added : "1.2" })
+	public function wrapInner(wrappingElement:jQuery.haxe.Either<String, jQuery.haxe.Either<String, jQuery.haxe.Either<jQuery.JQuery, js.html.Node>>>):jQuery.JQuery;
 	/**
 		Remove an attribute from each element in the set of matched elements.
 	**/
@@ -1719,13 +1719,13 @@ package jQuery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.8.0" })
-	public function innerWidth(value:jQuery.haxe.Either<String, Float>):jQuery.JQuery;
+	public function innerWidth(_function:Int -> Float -> jQuery.haxe.Either<String, Float>):jQuery.JQuery;
 	/**
 		Set the CSS inner width of each element in the set of matched elements.
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.8.0" })
-	public function innerWidth(_function:Int -> Float -> jQuery.haxe.Either<String, Float>):jQuery.JQuery;
+	public function innerWidth(value:jQuery.haxe.Either<String, Float>):jQuery.JQuery;
 	/**
 		Get the current horizontal position of the scroll bar for the first element in the set of matched elements.
 	**/
@@ -1775,17 +1775,17 @@ package jQuery;
 	@:jQueryVersion({ added : "1.0" })
 	public function toggle(?duration:jQuery.haxe.Either<Float, String>, ?complete:haxe.Constraints.Function):jQuery.JQuery;
 	/**
-		Display or hide the matched elements.
-	**/
-	@:overload
-	@:jQueryVersion({ added : "1.4.3" })
-	public function toggle(duration:jQuery.haxe.Either<Float, String>, ?easing:String, ?complete:haxe.Constraints.Function):jQuery.JQuery;
-	/**
 		Bind two or more handlers to the matched elements, to be executed on alternate clicks.
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.0", deprecated : "1.8", removed : "1.9" })
 	public function toggle(handler:jQuery.Event -> Void, handler:jQuery.Event -> Void, ?handler:jQuery.Event -> Void):jQuery.JQuery;
+	/**
+		Display or hide the matched elements.
+	**/
+	@:overload
+	@:jQueryVersion({ added : "1.4.3" })
+	public function toggle(duration:jQuery.haxe.Either<Float, String>, ?easing:String, ?complete:haxe.Constraints.Function):jQuery.JQuery;
 	/**
 		Get the computed style properties for the first element in the set of matched elements.
 	**/
@@ -1808,14 +1808,14 @@ package jQuery;
 		Set one or more CSS properties for the set of matched elements.
 	**/
 	@:overload
-	@:jQueryVersion({ added : "1.0" })
-	public function css(propertyName:String, value:jQuery.haxe.Either<String, Float>):jQuery.JQuery;
+	@:jQueryVersion({ added : "1.4" })
+	public function css(propertyName:String, _function:Int -> String -> jQuery.haxe.Either<String, Float>):jQuery.JQuery;
 	/**
 		Set one or more CSS properties for the set of matched elements.
 	**/
 	@:overload
-	@:jQueryVersion({ added : "1.4" })
-	public function css(propertyName:String, _function:Int -> String -> jQuery.haxe.Either<String, Float>):jQuery.JQuery;
+	@:jQueryVersion({ added : "1.0" })
+	public function css(propertyName:String, value:jQuery.haxe.Either<String, Float>):jQuery.JQuery;
 	/**
 		Remove an event handler.
 	**/
@@ -1885,14 +1885,14 @@ package jQuery;
 		Wrap an HTML structure around each element in the set of matched elements.
 	**/
 	@:overload
-	@:jQueryVersion({ added : "1.0" })
-	public function wrap(wrappingElement:jQuery.haxe.Either<String, jQuery.haxe.Either<String, jQuery.haxe.Either<js.html.Node, jQuery.JQuery>>>):jQuery.JQuery;
+	@:jQueryVersion({ added : "1.4" })
+	public function wrap(_function:Int -> jQuery.haxe.Either<String, jQuery.JQuery>):jQuery.JQuery;
 	/**
 		Wrap an HTML structure around each element in the set of matched elements.
 	**/
 	@:overload
-	@:jQueryVersion({ added : "1.4" })
-	public function wrap(_function:Int -> jQuery.haxe.Either<String, jQuery.JQuery>):jQuery.JQuery;
+	@:jQueryVersion({ added : "1.0" })
+	public function wrap(wrappingElement:jQuery.haxe.Either<String, jQuery.haxe.Either<String, jQuery.haxe.Either<js.html.Node, jQuery.JQuery>>>):jQuery.JQuery;
 	/**
 		Remove the parents of the set of matched elements from the DOM, leaving the matched elements in their place.
 	**/

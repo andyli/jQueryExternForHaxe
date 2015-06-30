@@ -56,6 +56,16 @@ class CoreExternGenerator #if (mcli && sys && !macro) extends CommandLine #end {
 	*/
 	public var useElement(default, null):Bool = false;
 
+	/**
+		Use `haxe.extern.EitherType`.
+	*/
+	public var useHaxeEither(default, null):Bool = false;
+
+	/**
+		Use `haxe.extern.Rest`.
+	*/
+	public var useHaxeRest(default, null):Bool = false;
+
 	var api:Fast;
 
 	function either(types:Array<ComplexType>):ComplexType {
@@ -65,11 +75,19 @@ class CoreExternGenerator #if (mcli && sys && !macro) extends CommandLine #end {
 			case 1: 
 				types[0];
 			case len:
-				TPath({
-					pack: pack.split(".").concat(["haxe"]),
-					name: "Either",
-					params: [TPType(types[0]), TPType(either(types.slice(1)))]
-				});
+				if (useHaxeEither) {
+					TPath({
+						pack: ["haxe", "extern"],
+						name: "EitherType",
+						params: [TPType(types[0]), TPType(either(types.slice(1)))]
+					});
+				} else {
+					TPath({
+						pack: pack.split(".").concat(["haxe"]),
+						name: "Either",
+						params: [TPType(types[0]), TPType(either(types.slice(1)))]
+					});
+				}
 		}
 	}
 
@@ -82,11 +100,18 @@ class CoreExternGenerator #if (mcli && sys && !macro) extends CommandLine #end {
 	}
 
 	function rest(type:ComplexType):ComplexType {
-		return TPath({
-	 		pack: pack.split(".").concat(["haxe"]),
-			name: "Rest",
-			params: [TPType(type)]
-		});
+		return if (useHaxeRest)
+			TPath({
+		 		pack: ["haxe", "extern"],
+				name: "Rest",
+				params: [TPType(type)]
+			});
+		else
+			TPath({
+		 		pack: pack.split(".").concat(["haxe"]),
+				name: "Rest",
+				params: [TPType(type)]
+			});
 	}
 
 	var element(get, never):ComplexType;
@@ -367,9 +392,9 @@ class CoreExternGenerator #if (mcli && sys && !macro) extends CommandLine #end {
 				case [_, TPath({pack:[], name:"Dynamic", params:_})]:
 					-1;
 				
-				case [TPath({pack:[], name:"Either", params:_}), _]:
+				case [TPath({name:"Either", params:_}), _]:
 					1;
-				case [_, TPath({pack:[], name:"Either", params:_})]:
+				case [_, TPath({name:"Either", params:_})]:
 					-1;
 				
 				case [macro:Float, macro:Int]:
@@ -494,7 +519,6 @@ class CoreExternGenerator #if (mcli && sys && !macro) extends CommandLine #end {
 		}
 		classEntryMap.set("jQueryStatic", jQueryStatic);
 		jQuery.statics = new Map();
-		
 		
 		/*
 			start creating each class
@@ -821,13 +845,6 @@ class CoreExternGenerator #if (mcli && sys && !macro) extends CommandLine #end {
 						fields : fields
 					};
 					
-					//fool-proof, one should not extends an extern class
-					td.meta.push({
-						name: ":final",
-						params: [],
-						pos: null
-					});
-					
 					switch(tp.name) {
 						case "JQuery":
 							td.kind = TDClass(null, [{
@@ -857,32 +874,104 @@ class CoreExternGenerator #if (mcli && sys && !macro) extends CommandLine #end {
 							//pass
 					}
 					
-					if (!noBuild)
-						td.meta.push({
-							name: ":build",
-							params: [macro $p{pack.split(".").concat(["haxe", "Config", "build"])}()],
-							pos: null
-						});
-
-					if (noBuild) {
-						var native = switch (tp.name) {
-							case "JQuery" | "JQueryStatic":
-								native;
-							case name:
-								native + "." + name;
-						}
-						td.meta.push({
-							name: ":native",
-							params: [{ expr:EConst(CString(native)), pos: null }],
-							pos: null
-						});
-					}
-					
 					out.push(td);
 				default: //TODO
 					trace(type);
 			}
 			
+		}
+
+
+		var deferred = out.find(function(t) return t.name == "Deferred");
+		var promiseFields = [
+			for (field in deferred.fields)
+			// http://api.jquery.com/Types/#Promise
+			if ([
+				"then",
+				"done",
+				"fail",
+				"always",
+				"pipe",
+				"progress",
+				"state",
+				"isResolved",
+				"isRejected"
+			].indexOf(field.name) >= 0)
+			field
+		];
+		{
+			var td:TypeDefinition = {
+				pack : this.pack.split("."),
+				name : "JqXHR",
+				pos : null,
+				meta : [],
+				params : [],
+				isExtern : true,
+				kind : TDClass({
+					pack: ["js", "html"],
+					name: "XMLHttpRequest",
+					params: []
+				}),
+				fields : promiseFields
+			};
+			out.push(td);
+		}
+		{
+			var td:TypeDefinition = {
+				pack : this.pack.split("."),
+				name : "Promise",
+				pos : null,
+				meta : [],
+				params : [],
+				isExtern : !noBuild,
+				kind : if (noBuild) {
+					TDStructure;
+				} else {
+					TDClass();
+				},
+				fields : promiseFields
+			};
+			out.push(td);
+		}
+
+		for (td in out) {
+			//fool-proof, one should not extends an extern class
+			td.meta.push({
+				name: ":final",
+				params: [],
+				pos: null
+			});
+			
+			if (!noBuild) {
+				switch (td.name) {
+					case "Promise":
+						td.meta.push({
+							name: ":genericBuild",
+							params: [macro $p{pack.split(".").concat(["haxe", "Config", "buildPromise"])}()],
+							pos: null
+						});
+					case _:
+				}
+				td.meta.push({
+					name: ":build",
+					params: [macro $p{pack.split(".").concat(["haxe", "Config", "build"])}()],
+					pos: null
+				});
+			}
+
+			if (noBuild) {
+				var native = switch (td.name) {
+					case "JQuery" | "JQueryStatic":
+						native;
+					case name:
+						native + "." + name;
+				}
+				td.meta.push({
+					name: ":native",
+					params: [{ expr:EConst(CString(native)), pos: null }],
+					pos: null
+				});
+			}
 		}
 		
 		return out;

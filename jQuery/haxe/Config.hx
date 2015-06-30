@@ -14,15 +14,6 @@ class Config {
 	static var isBuilt(default, null):Bool = false;
 	
 	/**
-		The fields of Promise, got from Deferred.
-	**/
-	static var promiseFields:Array<Field>;
-	@:allow(jQuery) static function getPromiseFields():Array<Field> {
-		Context.getType("jQuery.Deferred");
-		return promiseFields;
-	}
-	
-	/**
 		Add an Plugin extern class. All fields of the class will be injected into JQuery/JQueryStatic.
 	**/
 	static public function addPlugin(pluginFullName:String):Void {
@@ -73,6 +64,34 @@ class Config {
 	static public function setAllowDeprecated(v:Bool):Bool {
 		return allowDeprecated = v;
 	}
+
+	static var builtPromise = false;
+	static public function buildPromise() {
+		var type = switch (Context.getLocalType()) {
+			case TInst(t, param):
+				t.get();
+			case t:
+				throw t;
+		}
+		var td = {
+			pack : type.pack,
+			name : "_Promise",
+			pos : null,
+			meta : [],
+			params : [],
+			isExtern : false,
+			kind : TDStructure,
+			fields : []
+		};
+
+		if (!builtPromise) {
+			td.fields = build();
+			td.pos = Context.currentPos();
+			Context.defineType(td);
+			builtPromise = true;
+		}
+		return Context.getType(td.pack.join(".") + "." + td.name);
+	}
 	
 	/**
 		Build function of all generated extern.
@@ -103,8 +122,6 @@ class Config {
 							fields.push(field);
 					}
 				}
-			case "jQuery.JqXHR":
-				fields = fields.concat(getPromiseFields());
 			default:
 				//pass
 		}
@@ -186,15 +203,6 @@ class Config {
 				}
 			}
 			newFields.push(field);
-		}
-		
-		if (clsName == "jQuery.Deferred") {
-			promiseFields = [];
-			for (field in newFields) {
-				if (["then", "done", "fail", "always", "pipe", "isResolved", "isRejected"].indexOf(field.name) == -1)
-					continue;
-				promiseFields.push(field);
-			}
 		}
 		
 		isBuilt = true;
