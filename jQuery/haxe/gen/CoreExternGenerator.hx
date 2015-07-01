@@ -68,9 +68,13 @@ class CoreExternGenerator #if (mcli && sys && !macro) extends CommandLine #end {
 
 	/**
 		Put all fields, including the static ones, into a single JQuery class.
-		Will rename conflicting fields to xxxStatic.
 	*/
 	public var noSeperatedStatic(default, null):Bool = false;
+
+	/**
+		Rename field names that are shared between static/instance.
+	*/
+	public var noRenameStaticField(default, null):Bool = false;
 
 	var api:Fast;
 
@@ -574,7 +578,7 @@ class CoreExternGenerator #if (mcli && sys && !macro) extends CommandLine #end {
 					};
 					
 					//in case there is a name collision in static field and instance field
-					if (isStatic && entryMaps.instances.exists(field.name)) {
+					if (noRenameStaticField && isStatic && entryMaps.instances.exists(field.name)) {
 						var nativeName = field.name;
 						field.name = nativeName + "Static";
 						field.meta.push({
