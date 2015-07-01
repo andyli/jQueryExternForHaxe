@@ -281,7 +281,7 @@ package jQuery;
 	/**
 		A selector representing selector passed to jQuery(), if any, when creating the original set.
 	**/
-	@:jQueryVersion({ added : "1.3", deprecated : "1.7", removed : "1.9" })
+	@:jQueryVersion({ added : "1.3", deprecated : "1.7" })
 	public var selector : String;
 	/**
 		Get the current vertical position of the scroll bar for the first element in the set of matched elements or set the vertical position of the scroll bar for every matched element.
@@ -443,6 +443,12 @@ package jQuery;
 	@:overload
 	@:jQueryVersion({ added : "1.0" })
 	public function append(content:jQuery.haxe.Either<String, jQuery.haxe.Either<js.html.Node, jQuery.haxe.Either<Array<js.html.Node>, jQuery.haxe.Either<js.html.NodeList, jQuery.haxe.Either<Array<String>, jQuery.haxe.Either<Array<jQuery.JQuery>, jQuery.JQuery>>>>>>, ?content:jQuery.haxe.Either<String, jQuery.haxe.Either<js.html.Node, jQuery.haxe.Either<Array<js.html.Node>, jQuery.haxe.Either<js.html.NodeList, jQuery.haxe.Either<Array<String>, jQuery.haxe.Either<Array<jQuery.JQuery>, jQuery.JQuery>>>>>>):jQuery.JQuery;
+	/**
+		Bind an event handler to the "focusin" event.
+	**/
+	@:overload
+	@:jQueryVersion({ added : "1.0" })
+	public function focusin():jQuery.JQuery;
 	/**
 		Bind an event handler to the "focusin" event.
 	**/
@@ -1286,6 +1292,12 @@ package jQuery;
 	**/
 	@:jQueryVersion({ added : "1.0" })
 	public function removeAttr(attributeName:String):jQuery.JQuery;
+	/**
+		Bind an event handler to the "focusout" JavaScript event.
+	**/
+	@:overload
+	@:jQueryVersion({ added : "1.0" })
+	public function focusout():jQuery.JQuery;
 	/**
 		Bind an event handler to the "focusout" JavaScript event.
 	**/

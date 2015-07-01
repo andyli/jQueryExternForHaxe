@@ -675,6 +675,11 @@ class CoreExternGenerator #if (mcli && sys && !macro) extends CommandLine #end {
 								if (functions.length == 0)
 									continue;
 
+								var doc = [
+									for (f in functions)
+									f.config.doc => f.config.doc
+								];
+
 								var func = functions.shift();
 								field.kind = FFun(func.func);
 								
@@ -686,7 +691,7 @@ class CoreExternGenerator #if (mcli && sys && !macro) extends CommandLine #end {
 										pos: null
 									});
 								}
-								field.doc = func.config.doc;
+								field.doc = [for (d in doc) d].join("\nOR\n");
 
 								fields.push(field);
 							} else {
