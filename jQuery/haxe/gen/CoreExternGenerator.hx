@@ -578,7 +578,7 @@ class CoreExternGenerator #if (mcli && sys && !macro) extends CommandLine #end {
 					};
 					
 					//in case there is a name collision in static field and instance field
-					if (noRenameStaticField && isStatic && entryMaps.instances.exists(field.name)) {
+					if (!noRenameStaticField && isStatic && entryMaps.instances.exists(field.name)) {
 						var nativeName = field.name;
 						field.name = nativeName + "Static";
 						field.meta.push({
