@@ -1,3 +1,11 @@
+# NOTICE
+
+Part of jQueryExtern is being merged back to the Haxe std lib, resulting in a new extern in the Haxe std lib. You're encouraged to switch to the new std extern, if you're not using any of the [advanced functionalities](https://github.com/andyli/jQueryExternForHaxe/wiki/Haxe-3#config), which will be reimplemented to work for the new std extern. The jQueryExtern lib will eventually become a drop-in replacement to the new std extern with the advanced functionalities. However, I haven't started the work on this end yet.
+
+Read the related [Github issue](https://github.com/HaxeFoundation/haxe/issues/4377) for more details.
+
+------------------------
+
 # jQueryExtern [![Build Status](https://travis-ci.org/andyli/jQueryExternForHaxe.svg?branch=master)](https://travis-ci.org/andyli/jQueryExternForHaxe)
 
 [jQuery](http://jquery.com/) extern for [Haxe](http://haxe.org/).
