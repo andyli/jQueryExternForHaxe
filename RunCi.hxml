@@ -1,0 +1,4 @@
+-main RunCi
+-cp test
+-neko RunCi.n
+-cmd neko RunCi.n

@@ -1,0 +1,61 @@
+import Sys.*;
+import sys.io.*;
+
+class RunCi {
+	static function cmd(p:String, args:Array<String>):Void {
+		println('cmd: $p, args: $args');
+		var proc = new Process(p, args);
+
+		var out = proc.stdout.readAll().toString();
+		if (out.length > 0)
+			println(out);
+
+		var err = proc.stderr.readAll().toString();
+		if (err.length > 0)
+			println(err);
+
+		var exitCode = proc.exitCode();
+		println('cmd exited with $exitCode');
+		if (exitCode != 0) {
+			exit(1);
+		}
+	}
+	static function main() {
+		var args = [
+			"-js", "test/bin/Test.js",
+			"-main", "Test",
+			"-cp", "test",
+			"-lib", "phantomjs"
+		];
+
+		var packs = #if (false && haxe_ver >= 3.3)
+			["js.jquery", "jQuery"];
+		#else
+			["jQuery"];
+		#end
+
+		for (pack in packs)
+		for (plugins in [
+			[],
+			["-D", "test_plugin", "--macro", pack + ".haxe.Config.addPlugin('DummyPlugin')", "--macro", pack + ".haxe.Config.addPlugin('DummyPlugin2')"]
+		])
+		for (setNative in [
+			[],
+			["--macro", pack + ".haxe.Config.setNative('jQuery')"]
+		])
+		for (setAllowDeprecated in [
+			[],
+			["--macro", pack + ".haxe.Config.setAllowDeprecated(true)"]
+		])
+		for (unflatten in [[], ["-D", "-js-unflatten"]])
+		{
+			var args = args
+				.concat(plugins)
+				.concat(setNative)
+				.concat(setAllowDeprecated)
+				.concat(unflatten);
+			cmd("haxe", args);
+			cmd("phantomjs", ["test/bin/Test.js"]);
+		}
+	}
+}
