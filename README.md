@@ -1,120 +1,69 @@
 # NOTICE
 
-Part of jQueryExtern is being merged back to the Haxe std lib, resulting in a new extern in the Haxe std lib. You're encouraged to switch to the new std extern, if you're not using any of the [advanced functionalities](https://github.com/andyli/jQueryExternForHaxe/wiki/Haxe-3#config), which will be reimplemented to work for the new std extern. The jQueryExtern lib will eventually become a drop-in replacement to the new std extern with the advanced functionalities. However, I haven't started the work on this end yet.
-
-Read the related [Github issue](https://github.com/HaxeFoundation/haxe/issues/4377) for more details.
+This version of jQuery extern requires Haxe 3.3+. Users of Haxe 3.2.0- should checkout [jQueryExtern 2.0.4](https://github.com/andyli/jQueryExternForHaxe/tree/2.0.4).
 
 ------------------------
 
 # jQueryExtern [![Build Status](https://travis-ci.org/andyli/jQueryExternForHaxe.svg?branch=master)](https://travis-ci.org/andyli/jQueryExternForHaxe)
 
-[jQuery](http://jquery.com/) extern for [Haxe](http://haxe.org/).
+jQueryExtern unleash the full power of [jQuery](http://jquery.com/) in [Haxe](http://haxe.org/). Currently supports jQuery version up to *1.11.3* / *2.1.4*.
 
-Currently supports jQuery version up to *1.11.3* / *2.1.4*. Requires Haxe 3.1.0+.
+The jQuery extern in Haxe std lib (the **old std extern**, in Haxe 3.2 and earlier) is incomplete and outdated (1.6.4). Haxe 3.3 will introduce a [new set of extern files](https://github.com/HaxeFoundation/haxe/issues/4377) (the **new std extern**), which is complete and updated to 1.11.3 / 2.1.4. Both the old and the new std externs provide a simple standard way of using jQuery, without any additional dependency. This library, jQueryExtern, is a drop-in replacement of the std extern. It utilizes build macros to provide advanced control over the extern for all the special needs.
 
-You may check my [blog](http://blog.onthewings.net/) for updates.
+jQueryExtern allows us to:
+ * use a jQuery version other than the one supported in Haxe std lib (see [Version Selection](#version-selection))
+ * change how jQuery is referenced in output (see [Changing Native Reference](#changing-native-reference))
+ * create jQuery plugin externs (see [Plugin System](#plugin-system))
 
 ## Download and Install
 
 Install via [haxelib](http://haxe.org/doc/haxelib/using_haxelib):
-`haxelib install jQueryExtern`
+```
+haxelib install jQueryExtern
+```
 
-Then put `-lib jQueryExtern` into your hxml.
+Then add `-lib jQueryExtern` in our hxml.
 
-##Usage
+## Usages
 
-Typically:
+### Version Selection
+
+By default, jQueryExtern provides API same as the one supported by the std extern. It means that using jQueryExtern will not change the default jQuery version. The default jQuery is *1.6.4* in Haxe 3.2 and earlier. Since Haxe 3.3, the default version is set in compiler define `jquery-ver`. You may check the value of `jquery-ver` using [`haxe.macro.Compiler.getDefine`](http://api.haxe.org/haxe/macro/Compiler.html#getDefine). The version is encoded as an interger. e.g. 1.11.3 is encoded as 11103.
+
+jQueryExtern allows changing the supported jQuery version using `js.jquery.haxe.Config.setVersion`. It can be called in a hxml file like this:
+```
+--macro js.jquery.haxe.Config.setVersion('1.8.3')
+```
+<!-- TODO The function will also set `jquery-ver` to the corresponding integer value automatically. -->
+
+### Changing Native Reference
+
+jQuery in the JS output is referred as `$`, which is an alise of `jQuery`. Some JS libs, eg. [PrototypeJS](http://prototypejs.org/) also use the `$` variable, so we may want to refer jQuery by its original name instead.
+
+To do so, add the following compiler option:
+```
+--macro js.jquery.haxe.Config.setNative('jQuery')
+```
+Under the surface, it changes the metadata on the JQuery classes from `@:native("$")` to `@:native("jQuery")`.
+
+### Plugin System
+
+jQueryExtern introduces the `js.jquery.haxe.Plugin` class to ease the process of writing jQuery plugin extern. It is macro-based, responsible for injecting additional fields to the `JQuery` extern class.
+
+To write a jQuery plugin extern, create an extern class that implements `js.jquery.haxe.Plugin`, and start writing the members **as if writing directly inside the `JQuery` extern class**. e.g.:
+
 ```haxe
-import jQuery.*;
- 
-class Main {
-	static public function main():Void {
-		new JQuery(function():Void { //when document is ready
-			//your magic
-		});
-	}
+package jPlugin;
+extern class JQueryPlugIn implements js.jquery.haxe.Plugin {
+    public function myMethod(arg:Dynamic):js.jquery.JQuery;
+    static public function myStaticMethod(arg:Dynamic):Void;
 }
 ```
-It is same as how you use jQuery in JS. But instead of `$`, you refer jQuery as `JQuery`.
 
-eg. Hiding all *li* object:
-```haxe
-new JQuery("li").hide(); //same as $("li").hide() in JS
+To use it, add the following compiler option:
 ```
-
-Static methods of jQuery can be accessed from `JQuery._static`.
-
-eg. A ajax example:
-```haxe
-JQuery._static.get("ajax/test.html", function(data) {
-	js.Lib.alert(data);
-});
+--macro js.jquery.haxe.Config.addPlugin('jPlugin.JQueryPlugIn')
 ```
-Remember **jQueryExtern** is simply an extern, you have to link jQuery in your html file.
-
-eg. In your `<head>`:
-```html
-<!-- from jQuery's CDN (http://jquery.com/download/#using-jquery-with-a-cdn) -->
-<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
-
-<!-- Your haxe compiled script: -->
-<script type="text/javascript" src="Main.js"></script>
-```
-
-## *js.JQuery* in haxe std lib VS *jQueryExtern*
-
-<table>
-	<tr>
-		<td></td>
-		<th scope="col">js.JQuery</th>
-		<th scope="col">jQueryExtern</th>
-	</tr>
-	<tr>
-		<th scope="row">import statement</th>
-		<td><code>import js.JQuery;</code></td>
-		<td><code>import jQuery.*;</code></td>
-	</tr>
-	<tr>
-		<th scope="row">jQuery API version</th>
-		<td>partial 1.6.4</td>
-		<td>complete 1.11.3 / 2.1.4</td>
-	</tr>
-	<tr>
-		<th scope="row">refer jQuery in output as</th>
-		<td><code>js.JQuery</code></td>
-		<td><code>$</code> (or <code>jQuery</code> if <code>--macro jQuery.haxe.Config.setNative('jQuery')</code>)</td>
-	</tr>
-	<tr>
-		<th scope="row">include jQuery in output</th>
-		<td>no (can be opt-in by <code>-D embed-js</code>)</td>
-		<td>no, <a href="http://jquery.com/download/#using-jquery-with-a-cdn" target="_blank">use CDN instead</a></td>
-	</tr>
-</table>
-
-In fact, since both *js.JQuery* in haxe std lib and *jQueryExtern* are just extern files, they can be used in same project.
-
-The following will compile and run perfectly.
-
-```haxe
-function takesJQueryExtern(j:jQuery.JQuery):Void {
-	trace(j);
-}
-function takesJsJQuery(j:js.JQuery):Void {
-	trace(j);
-}
-
-var div = new js.JQuery("<div></div>");
-takesJQueryExtern(untyped div);
-takesJQueryExtern(cast div);
-
-var div = new jQuery.JQuery("<div></div>");
-takesJsJQuery(untyped div);
-takesJsJQuery(cast div);
-```
-
-## Like jQueryExtern?
-
-Support me to maintain it -> http://www.patreon.com/andyli
 
 ## License
 
