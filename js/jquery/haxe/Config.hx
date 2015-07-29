@@ -34,7 +34,7 @@ class Config {
 	
 	/**
 		Setter of Config.native.
-		Used in hxml: --macro jQuery.haxe.Config.setNative('jQuery')
+		Used in hxml: --macro js.jquery.haxe.Config.setNative('jQuery')
 	**/
 	static public function setNative(v:String):String {
 		return native = v;
@@ -48,7 +48,7 @@ class Config {
 	
 	/**
 		Setter of Config.version.
-		Used in hxml: --macro jQuery.haxe.Config.setVersion("1.8.3")
+		Used in hxml: --macro js.jquery.haxe.Config.setVersion("1.8.3")
 	**/
 	static public function setVersion(v:String):String {
 		return version = v;
@@ -61,7 +61,7 @@ class Config {
 	
 	/**
 		Setter of Config.allowDeprecated.
-		Used in hxml: --macro jQuery.haxe.Config.setAllowDeprecated(true)
+		Used in hxml: --macro js.jquery.haxe.Config.setAllowDeprecated(true)
 	**/
 	static public function setAllowDeprecated(v:Bool):Bool {
 		return allowDeprecated = v;
