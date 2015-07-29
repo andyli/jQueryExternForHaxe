@@ -1,5 +1,5 @@
 import haxe.unit.*;
-import jQuery.haxe.gen.CoreExternGenerator;
+import js.jquery.haxe.gen.CoreExternGenerator;
 using Lambda;
 
 class TestCoreExternGenerator extends TestCase {

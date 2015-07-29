@@ -1,5 +1,5 @@
 import haxe.unit.*;
-import jQuery.haxe.Utils;
+import js.jquery.haxe.Utils;
 
 class TestUtils extends TestCase {
 	public function testCompareVersion():Void {
