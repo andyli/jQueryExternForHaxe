@@ -41,23 +41,28 @@ class Config {
 	}
 	
 	/**
-		Define jQuery version to be used.
-		Default is the latest version supported.
+		jQuery version to be used. Encoded as dot-format, e.g. "1.11.3".
+		Default is the version supported by haxe std lib.
 	**/
-	static public var version(default, null):String = "1.11.3";
+	static public var version(get, null):String;
+	static function get_version():String {
+		var jquery_ver = haxe.macro.Compiler.getDefine("jquery_ver");
+		return Utils.parseIntVersion(Std.parseInt(jquery_ver)).join(".");
+	}
 	
 	/**
 		Setter of Config.version.
 		Used in hxml: --macro js.jquery.haxe.Config.setVersion("1.8.3")
 	**/
 	static public function setVersion(v:String):String {
+		haxe.macro.Compiler.define("jquery_ver", v);
 		return version = v;
 	}
 	
 	/**
 		Define if deprecated jQuery APIs are allowed or not.
 	**/
-	static public var allowDeprecated(default, null):Bool = false;
+	static public var allowDeprecated(default, null):Bool = true;
 	
 	/**
 		Setter of Config.allowDeprecated.

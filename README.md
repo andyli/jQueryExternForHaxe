@@ -34,7 +34,7 @@ jQueryExtern allows changing the supported jQuery version using `js.jquery.haxe.
 ```
 --macro js.jquery.haxe.Config.setVersion('1.8.3')
 ```
-<!-- TODO The function will also set `jquery-ver` to the corresponding integer value automatically. -->
+The function will also set `jquery-ver` to the corresponding integer value automatically.
 
 ### Changing Native Reference
 
