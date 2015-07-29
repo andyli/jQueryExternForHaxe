@@ -1,6 +1,6 @@
 /* This file is generated, do not edit! Visit http://api.jquery.com/ for API documentation. */
 package js.jquery;
-@:final @:genericBuild(js.jquery.haxe.Config.buildPromise()) @:build(js.jquery.haxe.Config.build()) extern class Promise {
+@:final @:build(js.jquery.haxe.Config.build()) extern class Promise {
 	/**
 		 Add handlers to be called when the Deferred object is either resolved or rejected. 
 	**/

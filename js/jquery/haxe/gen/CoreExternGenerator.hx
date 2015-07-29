@@ -1024,15 +1024,6 @@ class CoreExternGenerator #if (mcli && sys && !macro) extends CommandLine #end {
 			});
 			
 			if (!noBuild) {
-				switch (td.name) {
-					case "Promise":
-						td.meta.push({
-							name: ":genericBuild",
-							params: [macro $p{pack.split(".").concat(["haxe", "Config", "buildPromise"])}()],
-							pos: null
-						});
-					case _:
-				}
 				td.meta.push({
 					name: ":build",
 					params: [macro $p{pack.split(".").concat(["haxe", "Config", "build"])}()],

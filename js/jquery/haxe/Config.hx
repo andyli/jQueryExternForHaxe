@@ -44,7 +44,7 @@ class Config {
 		jQuery version to be used. Encoded as dot-format, e.g. "1.11.3".
 		Default is the version supported by haxe std lib.
 	**/
-	static public var version(get, null):String;
+	static public var version(get, never):String;
 	static function get_version():String {
 		var jquery_ver = haxe.macro.Compiler.getDefine("jquery_ver");
 		return Utils.parseIntVersion(Std.parseInt(jquery_ver)).join(".");
@@ -56,7 +56,7 @@ class Config {
 	**/
 	static public function setVersion(v:String):String {
 		haxe.macro.Compiler.define("jquery_ver", v);
-		return version = v;
+		return v;
 	}
 	
 	/**
@@ -70,34 +70,6 @@ class Config {
 	**/
 	static public function setAllowDeprecated(v:Bool):Bool {
 		return allowDeprecated = v;
-	}
-
-	static var builtPromise = false;
-	static public function buildPromise() {
-		var type = switch (Context.getLocalType()) {
-			case TInst(t, param):
-				t.get();
-			case t:
-				throw t;
-		}
-		var td = {
-			pack : type.pack,
-			name : "_Promise",
-			pos : null,
-			meta : [],
-			params : [],
-			isExtern : false,
-			kind : TDStructure,
-			fields : []
-		};
-
-		if (!builtPromise) {
-			td.fields = build();
-			td.pos = Context.currentPos();
-			Context.defineType(td);
-			builtPromise = true;
-		}
-		return Context.getType(td.pack.join(".") + "." + td.name);
 	}
 	
 	/**
