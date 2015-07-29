@@ -16,6 +16,7 @@ typedef FuncConfig = { ?doc:String, ?added:String, ?deprecated:String, ?removed:
 /**
 	Generates extern classes.
 */
+@:deprecated("Use js.jquery.haxe.gen.CoreExternGenerator instead.")
 #if js
 @:native("CoreExternGenerator")
 #end

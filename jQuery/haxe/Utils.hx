@@ -1,7 +1,7 @@
 package jQuery.haxe;
 
 using StringTools;
-
+@:deprecated("Use js.jquery.haxe.Utils instead.")
 @:native("jQuery_haxe_Utils")
 class Utils {
 	static public function toVersion(v:String):Array<Int> {

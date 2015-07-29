@@ -1,9 +1,5 @@
-extern class DummyPlugin 
-#if (haxe_ver >= 3.3)
+extern class DummyPlugin
 implements js.jquery.haxe.Plugin
-#else
-implements jQuery.haxe.Plugin
-#end
 {
 	inline public function dummyMethod():JQuery return this;
 	public var dummyProperty(get,null):Int;

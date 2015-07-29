@@ -2,6 +2,6 @@
 -neko CoreExternGenerator.n
 -main jQuery.haxe.gen.CoreExternGenerator
 -lib mcli
--cmd neko CoreExternGenerator.n --api-xml api.xml --output-folder .
+# -cmd neko CoreExternGenerator.n --api-xml api.xml --output-folder .
 -cmd neko CoreExternGenerator.n --api-xml api.xml --output-folder . --pack js.jquery --native '$' --use-element --use-haxe-either --use-haxe-rest --no-seperated-static --no-rename-static-field --add-haxe-iterator
 # -cmd neko CoreExternGenerator.n --api-xml api.xml --output-folder /Library/Caches/Homebrew/haxe--git/std --pack js.jquery --native '$' --no-build --use-element --use-haxe-either --use-haxe-rest --no-seperated-static --no-rename-static-field --add-haxe-iterator

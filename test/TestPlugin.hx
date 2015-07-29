@@ -1,10 +1,6 @@
 import haxe.unit.*;
 
-#if (haxe_ver >= 3.3)
 import js.jquery.*;
-#else
-import jQuery.*;
-#end
 
 class TestPlugin extends TestCase {
 	public function testInstanceMember():Void {

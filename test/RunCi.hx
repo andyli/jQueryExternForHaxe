@@ -28,20 +28,11 @@ class RunCi {
 			"-lib", "phantomjs"
 		];
 
-		var packs = #if (haxe_ver >= 3.3)
-			["js.jquery", "jQuery"];
-		#else
-			["jQuery"];
-		#end
+		var pack = "js.jquery";
 
-		for (pack in packs)
 		for (plugins in [
 			[],
-			#if (haxe_ver >= 3.3)
 			["-D", "test_plugin", "--macro", "js.jquery.haxe.Config.addPlugin('DummyPlugin')", "--macro", "js.jquery.haxe.Config.addPlugin('DummyPlugin2')"]
-			#else
-			["-D", "test_plugin", "--macro",  "jQuery.haxe.Config.addPlugin('DummyPlugin')", "--macro",  "jQuery.haxe.Config.addPlugin('DummyPlugin2')"]
-			#end
 		])
 		for (setNative in [
 			[],

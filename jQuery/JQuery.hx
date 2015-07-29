@@ -1,5 +1,6 @@
 /* This file is generated, do not edit! Visit http://api.jquery.com/ for API documentation. */
 package jQuery;
+@:deprecated("Use js.jquery.JQuery instead.")
 @:final @:build(jQuery.haxe.Config.build()) extern class JQuery implements ArrayAccess<js.html.Node> {
 	/**
 		Create a new jQuery object with elements added to the set of matched elements.

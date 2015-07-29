@@ -1,5 +1,6 @@
 /* This file is generated, do not edit! Visit http://api.jquery.com/ for API documentation. */
 package jQuery;
+@:deprecated("Use js.jquery.Callbacks instead.")
 @:final @:build(jQuery.haxe.Config.build()) extern class Callbacks {
 	/**
 		Add a callback or a collection of callbacks to a callback list.

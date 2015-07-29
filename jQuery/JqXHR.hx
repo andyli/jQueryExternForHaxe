@@ -1,5 +1,6 @@
 /* This file is generated, do not edit! Visit http://api.jquery.com/ for API documentation. */
 package jQuery;
+@:deprecated("Use js.jquery.JqXHR instead.")
 @:final @:build(jQuery.haxe.Config.build()) extern class JqXHR extends js.html.XMLHttpRequest {
 	/**
 		 Add handlers to be called when the Deferred object is either resolved or rejected. 

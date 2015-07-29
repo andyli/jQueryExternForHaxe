@@ -1,7 +1,7 @@
 import haxe.unit.*;
 import js.phantomjs.*;
 import js.*;
-import jQuery.*;
+import js.jquery.*;
 
 class Test {
 	static public function main():Void {
@@ -48,16 +48,11 @@ class Test {
 				haxe.unit.TestRunner.print = printBuf.add;
 				
 				var runner = new TestRunner();
-				runner.add(new TestOldExtern());
-				#if (haxe_ver >= 3.3)
-				runner.add(new TestNewExtern());
-				#end
+				runner.add(new TestExtern());
 				#if test_plugin
 				runner.add(new TestPlugin());
 				#end
-				#if (haxe_ver >= 3.2)
 				runner.add(new TestCoreExternGenerator());
-				#end
 				runner.add(new TestUtils());
 				var success = runner.run();
 				

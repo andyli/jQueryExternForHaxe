@@ -2,7 +2,7 @@ import js.jquery.*;
 import js.jquery.Helper.*;
 import haxe.unit.*;
 
-class TestNewExtern extends TestCase {
+class TestExtern extends TestCase {
 
     function testBasic() {
         var j = new JQuery("<div></div>");

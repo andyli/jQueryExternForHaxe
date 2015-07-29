@@ -8,6 +8,7 @@ using Lambda;
 /**
 	Compile-time configuration of jQuery.
 **/
+@:deprecated("Use js.jquery.haxe.Config instead.")
 @:allow(jQuery.haxe)
 class Config {
 	static var plugins(default, null):Map<String, Array<Field>> = new Map();
