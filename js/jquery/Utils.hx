@@ -1,4 +1,4 @@
-package js.jquery.haxe;
+package js.jquery;
 
 using Std;
 using StringTools;

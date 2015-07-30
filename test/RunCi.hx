@@ -32,15 +32,15 @@ class RunCi {
 
 		for (plugins in [
 			[],
-			["-D", "test_plugin", "--macro", "js.jquery.haxe.Config.addPlugin('DummyPlugin')", "--macro", "js.jquery.haxe.Config.addPlugin('DummyPlugin2')"]
+			["-D", "test_plugin", "--macro", "js.jquery.Config.addPlugin('DummyPlugin')", "--macro", "js.jquery.Config.addPlugin('DummyPlugin2')"]
 		])
 		for (setNative in [
 			[],
-			["--macro", pack + ".haxe.Config.setNative('jQuery')"]
+			["--macro", pack + ".Config.setNative('jQuery')"]
 		])
 		for (setAllowDeprecated in [
 			[],
-			["--macro", pack + ".haxe.Config.setAllowDeprecated(true)"]
+			["--macro", pack + ".Config.setAllowDeprecated(true)"]
 		])
 		for (unflatten in [[], ["-D", "-js-unflatten"]])
 		{

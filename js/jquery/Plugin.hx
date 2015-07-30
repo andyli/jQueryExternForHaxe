@@ -1,6 +1,6 @@
-package js.jquery.haxe;
+package js.jquery;
 
-import js.jquery.haxe.*;
+import js.jquery.*;
 import haxe.macro.Expr;
 import haxe.macro.Context;
 
@@ -12,11 +12,11 @@ import haxe.macro.Context;
 	and start writing the members as if writing directly inside the JQuery class.
 	
 	To use an plugin extern, add the following compiler option:
-	--macro js.jquery.haxe.Plugin.add('pack.JQueryPlugIn')
+	--macro js.jquery.Plugin.add('pack.JQueryPlugIn')
 **/
 
 @:noPackageRestrict
-#if !macro @:autoBuild(js.jquery.haxe.PluginBuilder.build()) #end
+#if !macro @:autoBuild(js.jquery.PluginBuilder.build()) #end
 extern interface Plugin {}
 
 @:noPackageRestrict
@@ -28,7 +28,7 @@ class PluginBuilder {
 		var pluginClass = plugin.get();
 		var pluginFullName = plugin.toString();
 		
-		var compilerOption = "--macro js.jquery.haxe.Config.addPlugin('" + pluginFullName + "')";
+		var compilerOption = "--macro js.jquery.Config.addPlugin('" + pluginFullName + "')";
 		
 		if (Context.defined("debug") && !Config.plugins.exists(pluginFullName))
 			Context.warning('JQuery plugin being imported without compiler option: $compilerOption', pluginClass.pos);

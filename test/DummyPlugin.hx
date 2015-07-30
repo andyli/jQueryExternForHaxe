@@ -1,5 +1,5 @@
 extern class DummyPlugin
-implements js.jquery.haxe.Plugin
+implements js.jquery.Plugin
 {
 	inline public function dummyMethod():JQuery return this;
 	public var dummyProperty(get,null):Int;

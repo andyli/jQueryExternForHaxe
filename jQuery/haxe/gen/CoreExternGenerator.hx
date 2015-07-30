@@ -16,11 +16,11 @@ typedef FuncConfig = { ?doc:String, ?added:String, ?deprecated:String, ?removed:
 /**
 	Generates extern classes.
 */
-@:deprecated("Use js.jquery.haxe.gen.CoreExternGenerator instead.")
+@:deprecated("Use js.jquery.ExternGenerator instead.")
 #if js
-@:native("CoreExternGenerator")
+@:native("ExternGenerator")
 #end
-class CoreExternGenerator #if (mcli && sys && !macro) extends CommandLine #end {
+class ExternGenerator #if (mcli && sys && !macro) extends CommandLine #end {
 	/**
 		Haxe keywords. Used to rename api function/variables names.
 	**/
@@ -1105,7 +1105,7 @@ class CoreExternGenerator #if (mcli && sys && !macro) extends CommandLine #end {
 	}
 
 	static function main():Void {
-		new Dispatch(Sys.args()).dispatch(new CoreExternGenerator());
+		new Dispatch(Sys.args()).dispatch(new ExternGenerator());
 	}
 	#end
 }

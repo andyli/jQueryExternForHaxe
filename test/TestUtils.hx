@@ -1,5 +1,5 @@
 import haxe.unit.*;
-import js.jquery.haxe.Utils;
+import js.jquery.Utils;
 using Std;
 
 class TestUtils extends TestCase {

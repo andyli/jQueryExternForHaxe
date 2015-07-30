@@ -1,6 +1,6 @@
-package js.jquery.haxe;
+package js.jquery;
 
-import js.jquery.haxe.*;
+import js.jquery.*;
 import haxe.macro.Expr;
 import haxe.macro.Context;
 using Lambda;
@@ -10,7 +10,7 @@ using Lambda;
 	Compile-time configuration of jQuery.
 **/
 @:noPackageRestrict
-@:allow(js.jquery.haxe)
+@:allow(js.jquery)
 class Config {
 	static var plugins(default, null):Map<String, Array<Field>> = new Map();
 	static var isBuilt(default, null):Bool = false;
@@ -34,7 +34,7 @@ class Config {
 	
 	/**
 		Setter of Config.native.
-		Used in hxml: --macro js.jquery.haxe.Config.setNative('jQuery')
+		Used in hxml: --macro js.jquery.Config.setNative('jQuery')
 	**/
 	static public function setNative(v:String):String {
 		return native = v;
@@ -52,7 +52,7 @@ class Config {
 	
 	/**
 		Setter of Config.version.
-		Used in hxml: --macro js.jquery.haxe.Config.setVersion("1.8.3")
+		Used in hxml: --macro js.jquery.Config.setVersion("1.8.3")
 	**/
 	static public function setVersion(v:String):String {
 		haxe.macro.Compiler.define("jquery_ver", v);
@@ -66,7 +66,7 @@ class Config {
 	
 	/**
 		Setter of Config.allowDeprecated.
-		Used in hxml: --macro js.jquery.haxe.Config.setAllowDeprecated(true)
+		Used in hxml: --macro js.jquery.Config.setAllowDeprecated(true)
 	**/
 	static public function setAllowDeprecated(v:Bool):Bool {
 		return allowDeprecated = v;

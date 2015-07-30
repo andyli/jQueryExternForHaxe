@@ -13,7 +13,7 @@ import haxe.macro.Context;
 	To use an plugin extern, add the following compiler option:
 	--macro jQuery.haxe.Plugin.add('pack.JQueryPlugIn')
 **/
-@:deprecated("Use js.jquery.haxe.Plugin instead.")
+@:deprecated("Use js.jquery.Plugin instead.")
 #if !macro @:autoBuild(jQuery.haxe.PluginBuilder.build()) #end
 extern interface Plugin {}
 

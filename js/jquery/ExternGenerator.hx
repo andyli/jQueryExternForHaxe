@@ -1,4 +1,4 @@
-package js.jquery.haxe.gen;
+package js.jquery;
 
 import sys.*;
 import sys.io.*;
@@ -18,7 +18,7 @@ typedef FuncConfig = { ?doc:String, ?added:String, ?deprecated:String, ?removed:
 	Generates extern classes.
 */
 @:noPackageRestrict
-class CoreExternGenerator #if (mcli && sys && !macro) extends CommandLine #end {
+class ExternGenerator #if (mcli && sys && !macro) extends CommandLine #end {
 	/**
 		Haxe keywords. Used to rename api function/variables names.
 	**/
@@ -1093,7 +1093,7 @@ class CoreExternGenerator #if (mcli && sys && !macro) extends CommandLine #end {
 	}
 
 	static function main():Void {
-		new Dispatch(Sys.args()).dispatch(new CoreExternGenerator());
+		new Dispatch(Sys.args()).dispatch(new ExternGenerator());
 	}
 	#end
 }

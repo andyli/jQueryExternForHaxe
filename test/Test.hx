@@ -52,7 +52,7 @@ class Test {
 				#if test_plugin
 				runner.add(new TestPlugin());
 				#end
-				runner.add(new TestCoreExternGenerator());
+				runner.add(new TestExternGenerator());
 				runner.add(new TestUtils());
 				var success = runner.run();
 				

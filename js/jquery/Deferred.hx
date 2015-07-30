@@ -1,6 +1,6 @@
 /* This file is generated, do not edit! Visit http://api.jquery.com/ for API documentation. */
 package js.jquery;
-@:final @:build(js.jquery.haxe.Config.build()) extern class Deferred {
+@:final @:build(js.jquery.Config.build()) extern class Deferred {
 	/**
 		 Add handlers to be called when the Deferred object is either resolved or rejected. 
 	**/

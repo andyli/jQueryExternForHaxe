@@ -30,9 +30,9 @@ Then add `-lib jQueryExtern` in our hxml.
 
 By default, jQueryExtern provides API same as the one supported by the std extern. It means that using jQueryExtern will not change the default jQuery version. The default jQuery is *1.6.4* in Haxe 3.2 and earlier. Since Haxe 3.3, the default version is set in compiler define `jquery-ver`. You may check the value of `jquery-ver` using [`haxe.macro.Compiler.getDefine`](http://api.haxe.org/haxe/macro/Compiler.html#getDefine). The version is encoded as an interger. e.g. 1.11.3 is encoded as 11103.
 
-jQueryExtern allows changing the supported jQuery version using `js.jquery.haxe.Config.setVersion`. It can be called in a hxml file like this:
+jQueryExtern allows changing the supported jQuery version using `js.jquery.Config.setVersion`. It can be called in a hxml file like this:
 ```
---macro js.jquery.haxe.Config.setVersion('1.8.3')
+--macro js.jquery.Config.setVersion('1.8.3')
 ```
 The function will also set `jquery-ver` to the corresponding integer value automatically.
 
@@ -42,19 +42,19 @@ jQuery in the JS output is referred as `$`, which is an alise of `jQuery`. Some 
 
 To do so, add the following compiler option:
 ```
---macro js.jquery.haxe.Config.setNative('jQuery')
+--macro js.jquery.Config.setNative('jQuery')
 ```
 Under the surface, it changes the metadata on the JQuery classes from `@:native("$")` to `@:native("jQuery")`.
 
 ### Plugin System
 
-jQueryExtern introduces the `js.jquery.haxe.Plugin` class to ease the process of writing jQuery plugin extern. It is macro-based, responsible for injecting additional fields to the `JQuery` extern class.
+jQueryExtern introduces the `js.jquery.Plugin` class to ease the process of writing jQuery plugin extern. It is macro-based, responsible for injecting additional fields to the `JQuery` extern class.
 
-To write a jQuery plugin extern, create an extern class that implements `js.jquery.haxe.Plugin`, and start writing the members **as if writing directly inside the `JQuery` extern class**. e.g.:
+To write a jQuery plugin extern, create an extern class that implements `js.jquery.Plugin`, and start writing the members **as if writing directly inside the `JQuery` extern class**. e.g.:
 
 ```haxe
 package jPlugin;
-extern class JQueryPlugIn implements js.jquery.haxe.Plugin {
+extern class JQueryPlugIn implements js.jquery.Plugin {
     public function myMethod(arg:Dynamic):js.jquery.JQuery;
     static public function myStaticMethod(arg:Dynamic):Void;
 }
@@ -62,7 +62,7 @@ extern class JQueryPlugIn implements js.jquery.haxe.Plugin {
 
 To use it, add the following compiler option:
 ```
---macro js.jquery.haxe.Config.addPlugin('jPlugin.JQueryPlugIn')
+--macro js.jquery.Config.addPlugin('jPlugin.JQueryPlugIn')
 ```
 
 ## License
