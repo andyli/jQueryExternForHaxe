@@ -2282,4 +2282,7 @@ package js.jquery;
 	**/
 	@:runtime
 	inline public function iterator():js.jquery.JqIterator return new js.jquery.JqIterator(js.Lib.nativeThis);
+	static function __init__():Void {
+		js.jquery.Helper.embed();
+	}
 }
