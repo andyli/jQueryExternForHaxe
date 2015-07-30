@@ -5,7 +5,7 @@ using StringTools;
 
 @:noPackageRestrict
 class Utils {
-	static public function toVersion(v:String):Array<Int> {
+	static public function parseStringVersion(v:String):Array<Int> {
 		return v.split(".").map(Std.parseInt);
 	}
 

@@ -96,7 +96,7 @@ class Config {
 		}
 		
 		// filter and group the fields
-		var ver = Utils.toVersion(version);
+		var ver = Utils.parseStringVersion(version);
 		var instanceFieldMap = new Map<String, Array<Field>>();
 		var staticFieldMap = new Map<String, Array<Field>>();
 		for (field in fields) {
@@ -110,11 +110,11 @@ class Config {
 							if (fields.exists(function(f):Bool {
 								return switch(f) {
 									case { field: "added", expr: {expr: EConst(CString(val)), pos:_} }:
-										Utils.compareVersion(ver, Utils.toVersion(val)) < 0;
+										Utils.compareVersion(ver, Utils.parseStringVersion(val)) < 0;
 									case { field: "deprecated", expr: {expr: EConst(CString(val)), pos:_} }:
-										!allowDeprecated && Utils.compareVersion(ver, Utils.toVersion(val)) >= 0;
+										!allowDeprecated && Utils.compareVersion(ver, Utils.parseStringVersion(val)) >= 0;
 									case { field: "removed", expr: {expr: EConst(CString(val)), pos:_} }:
-										Utils.compareVersion(ver, Utils.toVersion(val)) >= 0;
+										Utils.compareVersion(ver, Utils.parseStringVersion(val)) >= 0;
 									default:
 										throw 'Invalid field of @:jQueryVersion: ${f.field}: ${f.expr}';
 								}
