@@ -1016,17 +1016,10 @@ class ExternGenerator #if (mcli && sys && !macro) extends CommandLine #end {
 		}
 
 		for (td in out) {
-			//fool-proof, one should not extends an extern class
-			td.meta.push({
-				name: ":final",
-				params: [],
-				pos: null
-			});
-			
 			if (!noBuild) {
 				td.meta.push({
 					name: ":build",
-					params: [macro $p{pack.split(".").concat(["haxe", "Config", "build"])}()],
+					params: [macro $p{pack.split(".").concat(["Config", "build"])}()],
 					pos: null
 				});
 			}

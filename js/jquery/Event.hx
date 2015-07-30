@@ -1,6 +1,6 @@
 /* This file is generated, do not edit! Visit http://api.jquery.com/ for API documentation. */
 package js.jquery;
-@:final @:build(js.jquery.Config.build()) extern class Event extends js.html.Event {
+@:build(js.jquery.Config.build()) extern class Event extends js.html.Event {
 	/**
 		An optional object of data passed to an event method when the current executing handler is bound.  
 	**/
