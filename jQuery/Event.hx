@@ -62,4 +62,22 @@ package jQuery;
 	**/
 	@:jQueryVersion({ added : "1.1.3" })
 	public var which : Float;
+	public var altKey : Bool;
+	public var button : Int;
+	public var buttons : Int;
+	public var char : Int;
+	public var charCode : Int;
+	public var clientX : Int;
+	public var clientY : Int;
+	public var ctrlKey : Bool;
+	public var detail : Int;
+	public var key : String;
+	public var keyCode : Int;
+	public var offsetX : Int;
+	public var offsetY : Int;
+	public var screenX : Int;
+	public var screenY : Int;
+	public var shiftKey : Bool;
+	public var toElement : js.html.Element;
+	public var view : js.html.Window;
 }

@@ -80,6 +80,24 @@ class ExternGenerator #if (mcli && sys && !macro) extends CommandLine #end {
 	*/
 	public var addHaxeIterator(default, null):Bool = false;
 
+	/**
+		http://api.jquery.com/category/events/event-object/
+		https://github.com/jquery/jquery/blob/master/src/event.js
+		https://github.com/jquery/api.jquery.com/blob/master/categories.xml#L146
+	*/
+	var coreEventFields(default, never):Array<{
+		name:String,
+		type:ComplexType,
+		kind:haxe.macro.Type.FieldKind,
+		doc:Null<String>,
+	}> = []
+		.concat(getFields("js.html.Event"))
+		.concat(getFields("js.html.UIEvent"))
+		.concat(getFields("js.html.KeyboardEvent"))
+		.concat(getFields("js.html.MouseEvent"))
+	;
+	var copiedEventFields(default, never):Array<String> = "altKey, bubbles, button, buttons, cancelable, char, charCode, clientX, clientY, ctrlKey, currentTarget, data, detail, eventPhase, key, keyCode, metaKey, offsetX, offsetY, originalTarget, pageX, pageY, relatedTarget, screenX, screenY, shiftKey, target, toElement, view, which".split(", ");
+
 	var api:Fast;
 
 	function either(types:Array<ComplexType>):ComplexType {
@@ -965,8 +983,59 @@ class ExternGenerator #if (mcli && sys && !macro) extends CommandLine #end {
 								params: []
 							});
 
-							var evtFields = getHtmlEvtFields();
-							td.fields = td.fields.filter(function(f) return !evtFields.has(f.name));
+							for (field in copiedEventFields) {
+								if (td.fields.exists(function(f) return f.name == field))
+									continue;
+
+								switch (field) {
+									case "char":
+										td.fields.push({
+											access: [APublic],
+											kind: FVar(macro:Int),
+											name: field,
+											pos: null
+										});
+									case "data":
+										td.fields.push({
+											access: [APublic],
+											kind: FVar(macro:Dynamic),
+											name: field,
+											pos: null
+										});
+									case "offsetX", "offsetY":
+										td.fields.push({
+											access: [APublic],
+											kind: FVar(macro:Int),
+											name: field,
+											pos: null
+										});
+									case "toElement":
+										td.fields.push({
+											access: [APublic],
+											kind: FVar(macro:js.html.Element),
+											name: field,
+											pos: null
+										});
+									case _:
+										var fInfo = coreEventFields.find(function(f) return f.name == field);
+										if (fInfo == null) {
+											trace(field);
+											continue;
+										}
+										td.fields.push({
+											doc: fInfo.doc,
+											access: [APublic],
+											kind: switch (fInfo.kind) {
+												case FVar(read, write): FVar(fInfo.type);
+												case FMethod(k): throw "should be FVar";
+											},
+											name: field,
+											pos: null
+										});
+								}
+							}
+							var evtFields:Array<Dynamic> = getFields("js.html.Event");
+							td.fields = td.fields.filter(function(field) return !evtFields.exists(function(f) return f.name == field.name));
 						default:
 							//pass
 					}
@@ -1058,17 +1127,28 @@ class ExternGenerator #if (mcli && sys && !macro) extends CommandLine #end {
 		return out;
 	}
 
-	macro static function getHtmlEvtFields() {
-		var evtType = haxe.macro.Context.getType("js.html.Event");
-		switch (evtType) {
+	macro static function getFields(type:String) {
+		switch (haxe.macro.Context.getType(type)) {
 			case TInst(t, _):
 				var fields = [
 					for (f in t.get().fields.get())
-					f.name
+					{
+						type: switch (Context.toComplexType(f.type)) {
+							case TPath(tp) if (tp.name == "StdTypes"):
+								TPath({
+									pack: tp.pack,
+									name: tp.sub
+								});
+							case ct: ct;
+						},
+						name: f.name,
+						kind: f.kind,
+						doc: f.doc
+					}
 				];
 				return macro $v{fields};
 			case _:
-				throw evtType;
+				throw type;
 		}
 	}
 	
