@@ -100,27 +100,67 @@ class ExternGenerator #if (mcli && sys && !macro) extends CommandLine #end {
 
 	var api:Fast;
 
-	function either(types:Array<ComplexType>):ComplexType {
-		return switch (types.length) {
-			case 0: 
-				throw types;
-			case 1: 
-				types[0];
-			case len:
-				if (useHaxeEither) {
-					TPath({
-						pack: ["haxe", "extern"],
-						name: "EitherType",
-						params: [TPType(types[0]), TPType(either(types.slice(1)))]
-					});
-				} else {
-					TPath({
-						pack: pack.split(".").concat(["haxe"]),
-						name: "Either",
-						params: [TPType(types[0]), TPType(either(types.slice(1)))]
-					});
-				}
+	function eitherTypes(e:ComplexType):Map<String,ComplexType> {
+		var ePath = if (useHaxeEither) {
+			{
+				pack: ["haxe", "extern"],
+				name: "EitherType"
+			};
+		} else {
+			{
+				pack: pack.split(".").concat(["haxe"]),
+				name: "Either"
+			};
 		}
+		return switch (e) {
+			case TPath(tp) if (tp.pack.join(".") == ePath.pack.join(".") && tp.name == ePath.name):
+				var m = new Map<String,ComplexType>();
+				for (p in tp.params) switch (p) {
+					case TPType(t):
+						var ts = eitherTypes(t);
+						for (k in ts.keys())
+							m[k] = ts[k];
+					case _: throw "should be TPType";
+				};
+				m;
+			case _: [e.toString() => e];
+		}
+	}
+
+	function either(types:Array<ComplexType>):ComplexType {
+		var typeMap = types.map(eitherTypes).fold(function(m:Map<String,ComplexType>, all:Map<String,ComplexType>) {
+			for (k in m.keys())
+				all[k] = m[k];
+			return all;
+		}, new Map());
+		if (typeMap.exists("Dynamic"))
+			typeMap = ["Dynamic" => macro:Dynamic];
+		types = [for (t in typeMap) t];
+		types.sort(compareComplexType);
+
+		function _either(types:Array<ComplexType>):ComplexType {
+			return switch (types.length) {
+				case 0: 
+					throw types;
+				case 1: 
+					types[0];
+				case len:
+					if (useHaxeEither) {
+						TPath({
+							pack: ["haxe", "extern"],
+							name: "EitherType",
+							params: [TPType(types[0]), TPType(either(types.slice(1)))]
+						});
+					} else {
+						TPath({
+							pack: pack.split(".").concat(["haxe"]),
+							name: "Either",
+							params: [TPType(types[0]), TPType(either(types.slice(1)))]
+						});
+					}
+			}
+		}
+		return _either(types);
 	}
 
 	function jqType(name:String, ?params:Array<TypeParam>):ComplexType {
