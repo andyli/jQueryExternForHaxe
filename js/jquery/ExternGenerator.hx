@@ -789,7 +789,8 @@ class ExternGenerator #if (mcli && sys && !macro) extends CommandLine #end {
 																);
 														};
 
-														either(types);
+														var et = either(types);
+														Lambda.count(eitherTypes(et)) > 1 ? macro:Dynamic: et;
 												},
 												expr: null,
 												params: []

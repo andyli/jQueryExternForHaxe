@@ -2210,7 +2210,7 @@ package js.jquery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.0" })
-	public function val():haxe.extern.EitherType<Float, haxe.extern.EitherType<Array<Dynamic>, String>>;
+	public function val():Dynamic;
 	/**
 		Set the value of each element in the set of matched elements.
 	**/
