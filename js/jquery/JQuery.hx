@@ -1247,7 +1247,7 @@ package js.jquery;
 		The number of elements in the jQuery object.
 	**/
 	@:jQueryVersion({ added : "1.0" })
-	public var length : Int;
+	public var length(default, null) : Int;
 	/**
 		Attach an event handler for all elements which match the current selector, now and in the future.
 	**/

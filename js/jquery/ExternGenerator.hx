@@ -895,7 +895,10 @@ class ExternGenerator #if (mcli && sys && !macro) extends CommandLine #end {
 											throw mem;
 										}
 										var types = toComplexType(entry.att.resolve("return"), entry);
-										field.kind = FVar(either(types), null);
+										field.kind = switch (memName) {
+											case "length": FProp("default", "null", either(types), null);
+											case _: FVar(either(types), null);
+										}
 										field.doc = entry.node.desc.innerHTML.trim();
 									
 										var sig = entry.node.signature;
