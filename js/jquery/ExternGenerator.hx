@@ -684,7 +684,7 @@ class ExternGenerator #if (mcli && sys && !macro) extends CommandLine #end {
 								field.kind = FVar(either(types), null);
 								field.access = [];
 								field.meta = [];
-								field.doc = entry.node.desc.innerHTML;
+								field.doc = entry.node.desc.innerHTML.trim();
 								
 								var sig = entry.node.signature;
 								var added = sig.hasNode.added ? sig.node.added.innerHTML : entry.has.added ? entry.att.added : null;
@@ -798,7 +798,7 @@ class ExternGenerator #if (mcli && sys && !macro) extends CommandLine #end {
 												added: sig.hasNode.added ? sig.node.added.innerHTML : entry.has.added ? entry.att.added : null,
 												deprecated: sig.hasNode.deprecated ? sig.node.deprecated.innerHTML : entry.has.deprecated ? entry.att.deprecated : null,
 												removed: sig.hasNode.removed ? sig.node.removed.innerHTML : entry.has.removed ? entry.att.removed : null,
-												doc: entry.node.desc.innerHTML
+												doc: entry.node.desc.innerHTML.trim()
 											}});
 										}
 									}
@@ -896,7 +896,7 @@ class ExternGenerator #if (mcli && sys && !macro) extends CommandLine #end {
 										}
 										var types = toComplexType(entry.att.resolve("return"), entry);
 										field.kind = FVar(either(types), null);
-										field.doc = entry.node.desc.innerHTML;
+										field.doc = entry.node.desc.innerHTML.trim();
 									
 										var sig = entry.node.signature;
 										var added = sig.hasNode.added ? sig.node.added.innerHTML : entry.has.added ? entry.att.added : null;

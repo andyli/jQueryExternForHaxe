@@ -2,7 +2,7 @@
 package js.jquery;
 @:build(js.jquery.Config.build()) extern class Event extends js.html.Event {
 	/**
-		An optional object of data passed to an event method when the current executing handler is bound.  
+		An optional object of data passed to an event method when the current executing handler is bound.
 	**/
 	@:jQueryVersion({ added : "1.1" })
 	public var data : Dynamic;
@@ -12,17 +12,17 @@ package js.jquery;
 	@:jQueryVersion({ added : "1.7" })
 	public var delegateTarget : js.html.Element;
 	/**
-		Returns whether <a href="/event.preventDefault/">event.preventDefault()</a> was ever called on this event object. 
+		Returns whether <a href="/event.preventDefault/">event.preventDefault()</a> was ever called on this event object.
 	**/
 	@:jQueryVersion({ added : "1.3" })
 	public function isDefaultPrevented():Bool;
 	/**
-		  Returns whether event.stopImmediatePropagation() was ever called on this event object. 
+		Returns whether event.stopImmediatePropagation() was ever called on this event object.
 	**/
 	@:jQueryVersion({ added : "1.3" })
 	public function isImmediatePropagationStopped():Bool;
 	/**
-		  Returns whether <a href="/event.stopPropagation/">event.stopPropagation()</a> was ever called on this event object. 
+		Returns whether <a href="/event.stopPropagation/">event.stopPropagation()</a> was ever called on this event object.
 	**/
 	@:jQueryVersion({ added : "1.3" })
 	public function isPropagationStopped():Bool;

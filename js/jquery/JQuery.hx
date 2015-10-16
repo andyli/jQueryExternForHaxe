@@ -7,7 +7,7 @@ package js.jquery;
 	@:jQueryVersion({ added : "1.7" })
 	static public function Callbacks(flags:String):js.jquery.Callbacks;
 	/**
-		 A factory function that returns a chainable utility object with methods to register multiple callbacks into callback queues, invoke callback queues, and relay the success or failure state of any synchronous or asynchronous function.
+		A factory function that returns a chainable utility object with methods to register multiple callbacks into callback queues, invoke callback queues, and relay the success or failure state of any synchronous or asynchronous function.
 	**/
 	@:jQueryVersion({ added : "1.5" })
 	static public function Deferred(?beforeStart:js.jquery.Deferred -> Void):js.jquery.Deferred;
@@ -186,7 +186,7 @@ package js.jquery;
 	@:jQueryVersion({ added : "1.4" })
 	static public function isEmptyObject(object:Dynamic):Bool;
 	/**
-		Determine if the argument passed is a JavaScript function object. 
+		Determine if the argument passed is a JavaScript function object.
 	**/
 	@:jQueryVersion({ added : "1.2" })
 	static public function isFunction(obj:Dynamic):Bool;
@@ -228,7 +228,7 @@ package js.jquery;
 	@:jQueryVersion({ added : "1.6" })
 	static public function map(object:Dynamic, callback:Dynamic -> String -> Dynamic):Array<Dynamic>;
 	/**
-		Merge the contents of two arrays together into the first array. 
+		Merge the contents of two arrays together into the first array.
 	**/
 	@:jQueryVersion({ added : "1.0" })
 	static public function merge(first:haxe.extern.EitherType<Array<Dynamic>, js.html.NodeList>, second:haxe.extern.EitherType<Array<Dynamic>, js.html.NodeList>):Array<Dynamic>;
@@ -792,7 +792,7 @@ package js.jquery;
 	@:jQueryVersion({ added : "1.3", deprecated : "1.7", removed : "1.9" })
 	public function die(eventType:String, ?handler:String):js.jquery.JQuery;
 	/**
-		Iterate over a jQuery object, executing a function for each matched element. 
+		Iterate over a jQuery object, executing a function for each matched element.
 	**/
 	@:jQueryVersion({ added : "1.0" })
 	public function each(_function:Int -> js.html.Element -> Void):js.jquery.JQuery;
@@ -891,25 +891,25 @@ package js.jquery;
 	@:jQueryVersion({ added : "1.4.4" })
 	public function fadeToggle(?duration:haxe.extern.EitherType<Float, String>, ?easing:String, ?complete:haxe.Constraints.Function):js.jquery.JQuery;
 	/**
-		Reduce the set of matched elements to those that match the selector or pass the function's test. 
+		Reduce the set of matched elements to those that match the selector or pass the function's test.
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.0" })
 	public function filter(selector:String):js.jquery.JQuery;
 	/**
-		Reduce the set of matched elements to those that match the selector or pass the function's test. 
+		Reduce the set of matched elements to those that match the selector or pass the function's test.
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.4" })
 	public function filter(elements:js.html.Element):js.jquery.JQuery;
 	/**
-		Reduce the set of matched elements to those that match the selector or pass the function's test. 
+		Reduce the set of matched elements to those that match the selector or pass the function's test.
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.4" })
 	public function filter(selection:js.jquery.JQuery):js.jquery.JQuery;
 	/**
-		Reduce the set of matched elements to those that match the selector or pass the function's test. 
+		Reduce the set of matched elements to those that match the selector or pass the function's test.
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.0" })
@@ -1698,7 +1698,7 @@ package js.jquery;
 	@:jQueryVersion({ added : "1.6" })
 	public function prevUntil(?element:haxe.extern.EitherType<js.html.Element, js.jquery.JQuery>, ?filter:String):js.jquery.JQuery;
 	/**
-		 Return a Promise object to observe when all actions of a certain type bound to the collection, queued or not, have finished. 
+		Return a Promise object to observe when all actions of a certain type bound to the collection, queued or not, have finished.
 	**/
 	@:jQueryVersion({ added : "1.6" })
 	public function promise(?type:String, ?target:Dynamic):js.jquery.Promise;
