@@ -981,28 +981,54 @@ class ExternGenerator #if (mcli && sys && !macro) extends CommandLine #end {
 								});
 
 							if (addHaxeIterator) {
-								var JqIterator = jqType("JqIterator");
-								var JqIteratorTPath = switch (JqIterator) {
-									case TPath(tp): tp;
-									case _: throw JqIterator;
-								}
-								var iteratorMethodBody = macro return new $JqIteratorTPath(js.Lib.nativeThis);
-								fields.push({
-									name: "iterator",
-									doc: "Haxe iterator.",
-									access: [AInline, APublic],
-									kind: FFun({
-										params: null,
-										args: [],
-										ret: JqIterator,
-										expr: iteratorMethodBody,
-									}),
-									meta: [{
-										name: ":runtime",
+								{
+									var JqIterator = jqType("JqIterator");
+									var JqIteratorTPath = switch (JqIterator) {
+										case TPath(tp): tp;
+										case _: throw JqIterator;
+									}
+									var iteratorMethodBody = macro return new $JqIteratorTPath(js.Lib.nativeThis);
+									fields.push({
+										name: "iterator",
+										doc: "Haxe iterator.",
+										access: [AInline, APublic],
+										kind: FFun({
+											params: null,
+											args: [],
+											ret: JqIterator,
+											expr: iteratorMethodBody,
+										}),
+										meta: [{
+											name: ":runtime",
+											pos: null
+										}],
 										pos: null
-									}],
-									pos: null
-								});
+									});
+								}
+								{
+									var JqIterator = jqType("JqEltsIterator");
+									var JqIteratorTPath = switch (JqIterator) {
+										case TPath(tp): tp;
+										case _: throw JqIterator;
+									}
+									var iteratorMethodBody = macro return new $JqIteratorTPath(js.Lib.nativeThis);
+									fields.push({
+										name: "elements",
+										doc: "Haxe iterator.",
+										access: [AInline, APublic],
+										kind: FFun({
+											params: null,
+											args: [],
+											ret: JqIterator,
+											expr: iteratorMethodBody,
+										}),
+										meta: [{
+											name: ":runtime",
+											pos: null
+										}],
+										pos: null
+									});
+								}
 							}
 
 							{
