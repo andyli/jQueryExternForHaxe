@@ -159,7 +159,7 @@ package js.jquery;
 		Finds the elements of an array which satisfy a filter function. The original array is not affected.
 	**/
 	@:jQueryVersion({ added : "1.0" })
-	static public function grep(array:Array<Dynamic>, _function:Dynamic -> Int -> Bool, ?invert:Bool):Array<Dynamic>;
+	static public function grep(array:haxe.extern.EitherType<Array<Dynamic>, js.html.NodeList>, _function:Dynamic -> Int -> Bool, ?invert:Bool):Array<Dynamic>;
 	/**
 		Determine whether an element has any jQuery data associated with it.
 	**/
@@ -669,6 +669,24 @@ package js.jquery;
 	@:jQueryVersion({ added : "1.3", deprecated : "1.10" })
 	public var context : js.html.Element;
 	/**
+		Bind an event handler to the "contextmenu" JavaScript event, or trigger that event on an element.
+	**/
+	@:overload
+	@:jQueryVersion({ added : "1.0" })
+	public function contextmenu():js.jquery.JQuery;
+	/**
+		Bind an event handler to the "contextmenu" JavaScript event, or trigger that event on an element.
+	**/
+	@:overload
+	@:jQueryVersion({ added : "1.0" })
+	public function contextmenu(handler:js.jquery.Event -> Void):js.jquery.JQuery;
+	/**
+		Bind an event handler to the "contextmenu" JavaScript event, or trigger that event on an element.
+	**/
+	@:overload
+	@:jQueryVersion({ added : "1.4.3" })
+	public function contextmenu(?eventData:Dynamic, handler:js.jquery.Event -> Void):js.jquery.JQuery;
+	/**
 		Get the computed style properties for the first element in the set of matched elements.
 	**/
 	@:overload
@@ -1096,19 +1114,19 @@ package js.jquery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.4" })
-	public function index():Float;
+	public function index():Int;
 	/**
 		Search for a given element from among the matched elements.
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.4" })
-	public function index(selector:String):Float;
+	public function index(selector:String):Int;
 	/**
 		Search for a given element from among the matched elements.
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.0" })
-	public function index(element:haxe.extern.EitherType<js.html.Element, js.jquery.JQuery>):Float;
+	public function index(element:haxe.extern.EitherType<js.html.Element, js.jquery.JQuery>):Int;
 	/**
 		Get the current computed height for the first element in the set of matched elements, including padding but not border.
 	**/
