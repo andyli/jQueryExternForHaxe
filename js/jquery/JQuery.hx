@@ -132,7 +132,7 @@ package js.jquery;
 		Load data from the server using a HTTP GET request.
 	**/
 	@:overload
-	@:jQueryVersion({ added : "3.0" })
+	@:jQueryVersion({ added : "1.12/2.2" })
 	static public function get(settings:Dynamic):js.jquery.JqXHR;
 	/**
 		Load data from the server using a HTTP GET request.
@@ -278,7 +278,7 @@ package js.jquery;
 		Load data from the server using a HTTP POST request.
 	**/
 	@:overload
-	@:jQueryVersion({ added : "3.0" })
+	@:jQueryVersion({ added : "1.12/2.2" })
 	static public function post(settings:Dynamic):js.jquery.JqXHR;
 	/**
 		Load data from the server using a HTTP POST request.
@@ -334,6 +334,24 @@ package js.jquery;
 	@:jQueryVersion({ added : "1.2.3" })
 	static public function removeData(element:js.html.Element, ?name:String):js.jquery.JQuery;
 	/**
+		Creates an object containing a set of properties ready to be used in the definition of custom animations.
+	**/
+	@:overload
+	@:jQueryVersion({ added : "1.1" })
+	static public function speed(settings:Dynamic):Dynamic;
+	/**
+		Creates an object containing a set of properties ready to be used in the definition of custom animations.
+	**/
+	@:overload
+	@:jQueryVersion({ added : "1.0" })
+	static public function speed(?duration:haxe.extern.EitherType<Float, String>, ?settings:Dynamic):Dynamic;
+	/**
+		Creates an object containing a set of properties ready to be used in the definition of custom animations.
+	**/
+	@:overload
+	@:jQueryVersion({ added : "1.1" })
+	static public function speed(?duration:haxe.extern.EitherType<Float, String>, ?easing:String, ?complete:haxe.Constraints.Function):Dynamic;
+	/**
 		Creates a new copy of jQuery whose properties and methods can be modified without affecting the original jQuery object.
 	**/
 	@:jQueryVersion({ added : "1.5", deprecated : "1.7", removed : "1.9" })
@@ -356,8 +374,13 @@ package js.jquery;
 	/**
 		Sorts an array of DOM elements, in place, with the duplicates removed. Note that this only works on arrays of DOM elements, not strings or numbers.
 	**/
-	@:jQueryVersion({ added : "1.1.3" })
+	@:jQueryVersion({ added : "1.1.3", deprecated : "3.0" })
 	static public function unique(array:Array<js.html.Element>):Array<js.html.Element>;
+	/**
+		Sorts an array of DOM elements, in place, with the duplicates removed. Note that this only works on arrays of DOM elements, not strings or numbers.
+	**/
+	@:jQueryVersion({ added : "1.12/2.2" })
+	static public function uniqueSort(array:Array<js.html.Element>):Array<js.html.Element>;
 	/**
 		Provides a way to execute callback functions based on one or more objects, usually <a href="/category/deferred-object/">Deferred</a> objects that represent asynchronous events.
 	**/
@@ -2299,12 +2322,12 @@ package js.jquery;
 		Haxe iterator.
 	**/
 	@:runtime
-	inline public function iterator():js.jquery.JqIterator return new js.jquery.JqIterator(js.Lib.nativeThis);
+	inline public function iterator():js.jquery.JqIterator return new js.jquery.JqIterator(this);
 	/**
 		Haxe iterator.
 	**/
 	@:runtime
-	inline public function elements():js.jquery.JqEltsIterator return new js.jquery.JqEltsIterator(js.Lib.nativeThis);
+	inline public function elements():js.jquery.JqEltsIterator return new js.jquery.JqEltsIterator(this);
 	static function __init__():Void {
 		js.jquery.Helper.embed();
 	}

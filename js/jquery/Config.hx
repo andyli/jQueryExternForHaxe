@@ -110,6 +110,7 @@ class Config {
 							if (fields.exists(function(f):Bool {
 								return switch(f) {
 									case { field: "added", expr: {expr: EConst(CString(val)), pos:_} }:
+										val = val.split("/")[0];
 										Utils.compareVersion(ver, Utils.parseStringVersion(val)) < 0;
 									case { field: "deprecated", expr: {expr: EConst(CString(val)), pos:_} }:
 										!allowDeprecated && Utils.compareVersion(ver, Utils.parseStringVersion(val)) >= 0;

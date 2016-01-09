@@ -324,6 +324,9 @@ class ExternGenerator #if (mcli && sys && !macro) extends CommandLine #end {
 
 			case "Function":
 				[toFunctionComplexType(tag)];
+
+			case "Null":
+				[];
 			
 			case _ if (type.indexOf(",") >= 0):
 				//older version of api.xml sometimes use , to list multiple types...
@@ -425,7 +428,7 @@ class ExternGenerator #if (mcli && sys && !macro) extends CommandLine #end {
 			]:
 				[macro:Array<Dynamic>];
 					
-			case ["jQuery.unique", _, "Array"]:
+			case ["jQuery.unique" | "jQuery.uniqueSort", _, "Array"]:
 				[macro:Array<$element>];
 			
 			case ["get", "get", "Array"]:
@@ -987,7 +990,7 @@ class ExternGenerator #if (mcli && sys && !macro) extends CommandLine #end {
 										case TPath(tp): tp;
 										case _: throw JqIterator;
 									}
-									var iteratorMethodBody = macro return new $JqIteratorTPath(js.Lib.nativeThis);
+									var iteratorMethodBody = macro return new $JqIteratorTPath(this);
 									fields.push({
 										name: "iterator",
 										doc: "Haxe iterator.",
@@ -1011,7 +1014,7 @@ class ExternGenerator #if (mcli && sys && !macro) extends CommandLine #end {
 										case TPath(tp): tp;
 										case _: throw JqIterator;
 									}
-									var iteratorMethodBody = macro return new $JqIteratorTPath(js.Lib.nativeThis);
+									var iteratorMethodBody = macro return new $JqIteratorTPath(this);
 									fields.push({
 										name: "elements",
 										doc: "Haxe iterator.",
