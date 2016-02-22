@@ -8,7 +8,7 @@ Part of jQueryExtern is being merged back to the Haxe std lib, resulting in a [n
 
 [jQuery](http://jquery.com/) extern for [Haxe](http://haxe.org/).
 
-Currently supports jQuery version up to *1.11.3* / *2.1.4*. Requires Haxe 3.1.0+.
+Currently supports jQuery version up to *1.12.1* / *2.2.1*. Requires Haxe 3.1.0+.
 
 You may check my [blog](http://blog.onthewings.net/) for updates.
 
@@ -53,7 +53,7 @@ Remember **jQueryExtern** is simply an extern, you have to link jQuery in your h
 eg. In your `<head>`:
 ```html
 <!-- from jQuery's CDN (http://jquery.com/download/#using-jquery-with-a-cdn) -->
-<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+<script src="//code.jquery.com/jquery-1.12.1.min.js"></script>
 
 <!-- Your haxe compiled script: -->
 <script type="text/javascript" src="Main.js"></script>
@@ -75,7 +75,7 @@ eg. In your `<head>`:
 	<tr>
 		<th scope="row">jQuery API version</th>
 		<td>partial 1.6.4</td>
-		<td>complete 1.11.3 / 2.1.4</td>
+		<td>complete 1.12.1 / 2.2.1</td>
 	</tr>
 	<tr>
 		<th scope="row">refer jQuery in output as</th>

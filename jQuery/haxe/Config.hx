@@ -42,7 +42,7 @@ class Config {
 		Define jQuery version to be used.
 		Default is the latest version supported.
 	**/
-	static public var version(default, null):String = "1.11.3";
+	static public var version(default, null):String = "1.12.1";
 	
 	/**
 		Setter of Config.version.
@@ -149,6 +149,7 @@ class Config {
 							if (fields.exists(function(f):Bool {
 								return switch(f) {
 									case { field: "added", expr: {expr: EConst(CString(val)), pos:_} }:
+										val = val.split("/")[0];
 										Utils.compareVersion(ver, Utils.toVersion(val)) < 0;
 									case { field: "deprecated", expr: {expr: EConst(CString(val)), pos:_} }:
 										!allowDeprecated && Utils.compareVersion(ver, Utils.toVersion(val)) >= 0;

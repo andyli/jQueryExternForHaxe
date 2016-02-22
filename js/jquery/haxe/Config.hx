@@ -44,7 +44,7 @@ class Config {
 		Define jQuery version to be used.
 		Default is the latest version supported.
 	**/
-	static public var version(default, null):String = "1.11.3";
+	static public var version(default, null):String = "1.12.1";
 	
 	/**
 		Setter of Config.version.

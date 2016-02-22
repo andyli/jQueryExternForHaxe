@@ -307,6 +307,24 @@ package jQuery;
 	@:jQueryVersion({ added : "1.3", deprecated : "1.10" })
 	public var context : js.html.Node;
 	/**
+		Bind an event handler to the "contextmenu" JavaScript event, or trigger that event on an element.
+	**/
+	@:overload
+	@:jQueryVersion({ added : "1.0" })
+	public function contextmenu():jQuery.JQuery;
+	/**
+		Bind an event handler to the "contextmenu" JavaScript event, or trigger that event on an element.
+	**/
+	@:overload
+	@:jQueryVersion({ added : "1.0" })
+	public function contextmenu(handler:jQuery.Event -> Void):jQuery.JQuery;
+	/**
+		Bind an event handler to the "contextmenu" JavaScript event, or trigger that event on an element.
+	**/
+	@:overload
+	@:jQueryVersion({ added : "1.4.3" })
+	public function contextmenu(?eventData:Dynamic, handler:jQuery.Event -> Void):jQuery.JQuery;
+	/**
 		Get the computed style properties for the first element in the set of matched elements.
 	**/
 	@:overload
@@ -734,19 +752,19 @@ package jQuery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.4" })
-	public function index():Float;
+	public function index():Int;
 	/**
 		Search for a given element from among the matched elements.
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.4" })
-	public function index(selector:String):Float;
+	public function index(selector:String):Int;
 	/**
 		Search for a given element from among the matched elements.
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.0" })
-	public function index(element:jQuery.haxe.Either<js.html.Node, jQuery.JQuery>):Float;
+	public function index(element:jQuery.haxe.Either<js.html.Node, jQuery.JQuery>):Int;
 	/**
 		Get the current computed height for the first element in the set of matched elements, including padding but not border.
 	**/
@@ -1314,7 +1332,7 @@ package jQuery;
 	@:jQueryVersion({ added : "1.0" })
 	public function prependTo(target:jQuery.haxe.Either<String, jQuery.haxe.Either<String, jQuery.haxe.Either<js.html.Node, jQuery.haxe.Either<Array<js.html.Node>, jQuery.JQuery>>>>):jQuery.JQuery;
 	/**
-		Get the immediately preceding sibling of each element in the set of matched elements, optionally filtered by a selector.
+		Get the immediately preceding sibling of each element in the set of matched elements. If a selector is provided, it retrieves the previous sibling only if it matches that selector.
 	**/
 	@:jQueryVersion({ added : "1.0" })
 	public function prev(?selector:String):jQuery.JQuery;

@@ -132,7 +132,7 @@ package jQuery;
 		Load data from the server using a HTTP GET request.
 	**/
 	@:overload
-	@:jQueryVersion({ added : "3.0" })
+	@:jQueryVersion({ added : "1.12/2.2" })
 	static public function get(settings:Dynamic):jQuery.JqXHR;
 	/**
 		Load data from the server using a HTTP GET request.
@@ -159,7 +159,7 @@ package jQuery;
 		Finds the elements of an array which satisfy a filter function. The original array is not affected.
 	**/
 	@:jQueryVersion({ added : "1.0" })
-	static public function grep(array:Array<Dynamic>, _function:Dynamic -> Int -> Bool, ?invert:Bool):Array<Dynamic>;
+	static public function grep(array:jQuery.haxe.Either<Array<Dynamic>, js.html.NodeList>, _function:Dynamic -> Int -> Bool, ?invert:Bool):Array<Dynamic>;
 	/**
 		Determine whether an element has any jQuery data associated with it.
 	**/
@@ -170,6 +170,11 @@ package jQuery;
 	**/
 	@:jQueryVersion({ added : "1.6" })
 	static public function holdReady(hold:Bool):Void;
+	/**
+		Modify and filter HTML strings passed through <a href="/category/manipulation/">jQuery manipulation methods</a>.
+	**/
+	@:jQueryVersion({ added : "1.12/2.2" })
+	static public function htmlPrefilter(html:String):String;
 	/**
 		Search for a specified value within an array and return its index (or -1 if not found).
 	**/
@@ -191,7 +196,7 @@ package jQuery;
 	@:jQueryVersion({ added : "1.2" })
 	static public function isFunction(obj:Dynamic):Bool;
 	/**
-		Determines whether its argument is a number.
+		Determines whether its argument represents a JavaScript number.
 	**/
 	@:jQueryVersion({ added : "1.7" })
 	static public function isNumeric(value:Dynamic):Bool;
@@ -278,7 +283,7 @@ package jQuery;
 		Load data from the server using a HTTP POST request.
 	**/
 	@:overload
-	@:jQueryVersion({ added : "3.0" })
+	@:jQueryVersion({ added : "1.12/2.2" })
 	static public function post(settings:Dynamic):jQuery.JqXHR;
 	/**
 		Load data from the server using a HTTP POST request.
@@ -334,6 +339,24 @@ package jQuery;
 	@:jQueryVersion({ added : "1.2.3" })
 	static public function removeData(element:js.html.Node, ?name:String):jQuery.JQuery;
 	/**
+		Creates an object containing a set of properties ready to be used in the definition of custom animations.
+	**/
+	@:overload
+	@:jQueryVersion({ added : "1.1" })
+	static public function speed(settings:Dynamic):Dynamic;
+	/**
+		Creates an object containing a set of properties ready to be used in the definition of custom animations.
+	**/
+	@:overload
+	@:jQueryVersion({ added : "1.0" })
+	static public function speed(?duration:jQuery.haxe.Either<Float, String>, ?settings:Dynamic):Dynamic;
+	/**
+		Creates an object containing a set of properties ready to be used in the definition of custom animations.
+	**/
+	@:overload
+	@:jQueryVersion({ added : "1.1" })
+	static public function speed(?duration:jQuery.haxe.Either<Float, String>, ?easing:String, ?complete:haxe.Constraints.Function):Dynamic;
+	/**
 		Creates a new copy of jQuery whose properties and methods can be modified without affecting the original jQuery object.
 	**/
 	@:jQueryVersion({ added : "1.5", deprecated : "1.7", removed : "1.9" })
@@ -356,10 +379,15 @@ package jQuery;
 	/**
 		Sorts an array of DOM elements, in place, with the duplicates removed. Note that this only works on arrays of DOM elements, not strings or numbers.
 	**/
-	@:jQueryVersion({ added : "1.1.3" })
+	@:jQueryVersion({ added : "1.1.3", deprecated : "3.0" })
 	static public function unique(array:Array<js.html.Node>):Array<js.html.Node>;
 	/**
-		Provides a way to execute callback functions based on one or more objects, usually <a href="/category/deferred-object/">Deferred</a> objects that represent asynchronous events.
+		Sorts an array of DOM elements, in place, with the duplicates removed. Note that this only works on arrays of DOM elements, not strings or numbers.
+	**/
+	@:jQueryVersion({ added : "1.12/2.2" })
+	static public function uniqueSort(array:Array<js.html.Node>):Array<js.html.Node>;
+	/**
+		Provides a way to execute callback functions based on zero or more objects, usually <a href="/category/deferred-object/">Deferred</a> objects that represent asynchronous events.
 	**/
 	@:jQueryVersion({ added : "1.5" })
 	static public function when(deferreds:jQuery.haxe.Rest<jQuery.Deferred>):jQuery.Promise;
