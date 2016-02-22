@@ -171,6 +171,11 @@ package js.jquery;
 	@:jQueryVersion({ added : "1.6" })
 	static public function holdReady(hold:Bool):Void;
 	/**
+		Modify and filter HTML strings passed through <a href="/category/manipulation/">jQuery manipulation methods</a>.
+	**/
+	@:jQueryVersion({ added : "1.12/2.2" })
+	static public function htmlPrefilter(html:String):String;
+	/**
 		Search for a specified value within an array and return its index (or -1 if not found).
 	**/
 	@:jQueryVersion({ added : "1.2" })
@@ -191,7 +196,7 @@ package js.jquery;
 	@:jQueryVersion({ added : "1.2" })
 	static public function isFunction(obj:Dynamic):Bool;
 	/**
-		Determines whether its argument is a number.
+		Determines whether its argument represents a JavaScript number.
 	**/
 	@:jQueryVersion({ added : "1.7" })
 	static public function isNumeric(value:Dynamic):Bool;
@@ -382,7 +387,7 @@ package js.jquery;
 	@:jQueryVersion({ added : "1.12/2.2" })
 	static public function uniqueSort(array:Array<js.html.Element>):Array<js.html.Element>;
 	/**
-		Provides a way to execute callback functions based on one or more objects, usually <a href="/category/deferred-object/">Deferred</a> objects that represent asynchronous events.
+		Provides a way to execute callback functions based on zero or more objects, usually <a href="/category/deferred-object/">Deferred</a> objects that represent asynchronous events.
 	**/
 	@:jQueryVersion({ added : "1.5" })
 	static public function when(deferreds:haxe.extern.Rest<js.jquery.Deferred>):js.jquery.Promise;
@@ -1717,7 +1722,7 @@ package js.jquery;
 	@:jQueryVersion({ added : "1.0" })
 	public function prependTo(target:haxe.extern.EitherType<js.html.Element, haxe.extern.EitherType<Array<js.html.Element>, haxe.extern.EitherType<String, js.jquery.JQuery>>>):js.jquery.JQuery;
 	/**
-		Get the immediately preceding sibling of each element in the set of matched elements, optionally filtered by a selector.
+		Get the immediately preceding sibling of each element in the set of matched elements. If a selector is provided, it retrieves the previous sibling only if it matches that selector.
 	**/
 	@:jQueryVersion({ added : "1.0" })
 	public function prev(?selector:String):js.jquery.JQuery;
