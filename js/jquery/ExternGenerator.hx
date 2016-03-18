@@ -1033,22 +1033,6 @@ class ExternGenerator #if (mcli && sys && !macro) extends CommandLine #end {
 									});
 								}
 							}
-
-							{
-								fields.push({
-									name: "__init__",
-									access: [AStatic],
-									kind: FFun({
-										params: null,
-										args: [],
-										ret: macro:Void,
-										expr: macro {
-											js.jquery.Helper.embed();
-										},
-									}),
-									pos: null
-								});
-							}
 						case "Event":
 							td.kind = TDClass({
 								pack: ["js", "html"],
