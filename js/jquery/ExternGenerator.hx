@@ -18,7 +18,7 @@ typedef FuncConfig = { ?doc:String, ?added:String, ?deprecated:String, ?removed:
 	Generates extern classes.
 */
 @:noPackageRestrict
-class ExternGenerator #if (mcli && sys && !macro) extends CommandLine #end {
+class ExternGenerator #if (mcli && !macro) extends CommandLine #end {
 	/**
 		Haxe keywords. Used to rename api function/variables names.
 	**/
@@ -269,15 +269,13 @@ class ExternGenerator #if (mcli && sys && !macro) extends CommandLine #end {
 		Maps a type in api.xml to one or more Haxe ComplexType.
 		tag is the xml node where the type is listed.
 	**/
-	function toComplexType(type:String, ?tag:Fast):Array<ComplexType> {
+	function toComplexType(type:String, ?tag:Fast, ?inRest = false):Array<ComplexType> {
 		var tagName = tag == null ? "" : tag.att.name;
 		var entryName = tag == null ? "" : getEntryName(tag.x);
 		if (type != null) type = type.trim();
 
-		if (tag != null && tag.has.rest && tag.att.rest == "true") {
-			var _tag = tag.x.copy();
-			_tag.remove("rest");
-			return toComplexType(type, new Fast(_tag))
+		if (!inRest && tag != null && tag.has.rest && tag.att.rest == "true") {
+			return toComplexType(type, tag, true)
 				.map(rest);
 		}
 		
@@ -1209,7 +1207,7 @@ class ExternGenerator #if (mcli && sys && !macro) extends CommandLine #end {
 		}
 	}
 	
-	#if (mcli && sys && !macro)
+	#if (mcli && !macro)
 	public function runDefault():Void {
 		Sys.println('Generating jQuery core extern from "${apiXml}".');
 		api = new Fast(Xml.parse(File.getContent(apiXml))).node.api;

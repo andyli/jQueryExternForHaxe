@@ -3,4 +3,5 @@ Thumbs.db
 
 *.n
 *.js
+*.js.map
 api.xml
