@@ -1916,7 +1916,7 @@ package js.jquery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.2.6" })
-	public function scrollTop():Int;
+	public function scrollTop():Float;
 	/**
 		Set the current vertical position of the scroll bar for each of the set of matched elements.
 	**/
