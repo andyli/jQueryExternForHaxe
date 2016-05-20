@@ -204,12 +204,12 @@ class ExternGenerator #if (mcli && !macro) extends CommandLine #end {
 			else if (retNode.hasNode.type)
 				[
 					for (c in retNode.nodes.type.fold(
-						function(t, map:Map<ComplexType,Void>) {
+						function(t, map:Map<ComplexType,Bool>) {
 							for (c in toComplexType(t.att.name))
-								map[c] = null;
+								map[c] = true;
 							return map;
 						},
-						new Map<ComplexType,Void>()
+						new Map<ComplexType,Bool>()
 					).keys())
 						c
 				];
@@ -309,7 +309,7 @@ class ExternGenerator #if (mcli && !macro) extends CommandLine #end {
 				[macro:Float];
 			case "Integer":
 				[macro:Int];
-			case "String":
+			case "String" | "Text":
 				[macro:String];
 			case "Anything":
 				[macro:Dynamic];
