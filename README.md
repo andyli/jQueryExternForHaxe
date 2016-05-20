@@ -6,9 +6,9 @@ This version of jQuery extern requires Haxe 3.3+. Users of Haxe 3.2.0- should ch
 
 # jQueryExtern [![Build Status](https://travis-ci.org/andyli/jQueryExternForHaxe.svg?branch=master)](https://travis-ci.org/andyli/jQueryExternForHaxe)
 
-jQueryExtern unleash the full power of [jQuery](http://jquery.com/) in [Haxe](http://haxe.org/). Currently supports jQuery version up to *1.12.3* / *2.2.3*.
+jQueryExtern unleash the full power of [jQuery](http://jquery.com/) in [Haxe](http://haxe.org/). Currently supports jQuery version up to *1.12.4* / *2.2.4*.
 
-The jQuery extern in Haxe std lib (the **old std extern**, in Haxe 3.2 and earlier) is incomplete and outdated (1.6.4). Haxe 3.3 will introduce a [new set of extern files](https://github.com/HaxeFoundation/haxe/issues/4377) (the **new std extern**), which is complete and updated to 1.12.3 / 2.2.3. Both the old and the new std externs provide a simple standard way of using jQuery, without any additional dependency. This library, jQueryExtern, is a drop-in replacement of the std extern. It utilizes build macros to provide advanced control over the extern for all the special needs.
+The jQuery extern in Haxe std lib (the **old std extern**, in Haxe 3.2 and earlier) is incomplete and outdated (1.6.4). Haxe 3.3 will introduce a [new set of extern files](https://github.com/HaxeFoundation/haxe/issues/4377) (the **new std extern**), which is complete and updated to 1.12.4 / 2.2.4. Both the old and the new std externs provide a simple standard way of using jQuery, without any additional dependency. This library, jQueryExtern, is a drop-in replacement of the std extern. It utilizes build macros to provide advanced control over the extern for all the special needs.
 
 jQueryExtern allows us to:
  * use a jQuery version other than the one supported in Haxe std lib (see [Version Selection](#version-selection))
