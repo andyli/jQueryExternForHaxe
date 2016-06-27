@@ -528,8 +528,12 @@ class ExternGenerator #if (mcli && !macro) extends CommandLine #end {
 	macro static public function funcSig(e:Expr):ExprOf<Function> {
 		switch(e.expr) {
 			case EFunction(_, f):
-				f.expr = null;
-				return macro $v{f};
+				return macro {
+					params: $v{f.params},
+					args: $v{[for (a in f.args) {opt: a.opt, name: a.name, type: a.type, value: a.value}]},
+					ret: $v{f.ret},
+					expr: null
+				};
 			default: 
 				return throw "Input is not EFunction.";
 		}
@@ -695,8 +699,14 @@ class ExternGenerator #if (mcli && !macro) extends CommandLine #end {
 								var removed = sig.hasNode.removed ? sig.node.removed.innerHTML : entry.has.removed ? entry.att.removed : null;
 								
 								if (noBuild) {
-									if (removed == null)
-										_fields.push(field);
+									if (deprecated != null) {
+										field.meta.push({
+											name:":deprecated",
+											params:[{ expr:EConst(CString('Deprecated since jQuery $deprecated')), pos: null }],
+											pos: null
+										});
+									}
+									_fields.push(field);
 								} else {
 									var jQueryVersionFields = [];
 									if (added != null) {
@@ -818,12 +828,43 @@ class ExternGenerator #if (mcli && !macro) extends CommandLine #end {
 									}
 									
 									if (noBuild) {
-										var functions = functions.filter(function(f) return f.config.removed == null);
 										if (functions.length == 0)
 											continue;
 
+										var deprecateds = [
+											for (f in functions)
+											if (f.config.deprecated != null)
+											f.config.deprecated
+										];
+										if (deprecateds.length > 0) {
+											if (functions.length == 1) {
+												var deprecated = deprecateds[0];
+												field.meta.push({
+													name:":deprecated",
+													params:[{ expr:EConst(CString('Deprecated since jQuery $deprecated')), pos: null }],
+													pos: null
+												});
+											} else if (functions.length == deprecateds.length) {
+												if (deprecateds.foreach(function(d) return d == deprecateds[0])) {
+													var deprecated = deprecateds[0];
+													field.meta.push({
+														name:":deprecated",
+														params:[{ expr:EConst(CString('Deprecated since jQuery $deprecated')), pos: null }],
+														pos: null
+													});
+												} else {
+													field.meta.push({
+														name:":deprecated",
+														params:[],
+														pos: null
+													});
+												}
+											}
+										}
+
 										var doc = [
 											for (f in functions)
+											if (f.config.doc != "")
 											f.config.doc => f.config.doc
 										];
 
@@ -910,8 +951,14 @@ class ExternGenerator #if (mcli && !macro) extends CommandLine #end {
 										var removed = sig.hasNode.removed ? sig.node.removed.innerHTML : entry.has.removed ? entry.att.removed : null;
 										
 										if (noBuild) {
-											if (removed == null)
-												fields.push(field);
+											if (deprecated != null) {
+												field.meta.push({
+													name:":deprecated",
+													params:[{ expr:EConst(CString('Deprecated since jQuery $deprecated')), pos: null }],
+													pos: null
+												});
+											}
+											fields.push(field);
 										} else {
 											var jQueryVersionFields = [];
 											if (added != null) {
