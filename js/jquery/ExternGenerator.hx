@@ -230,6 +230,8 @@ class ExternGenerator #if (mcli && !macro) extends CommandLine #end {
 			case TFunction(args, ret):
 				var lastArg = args[args.length-1];
 				switch (lastArg) {
+					case null:
+						//pass
 				 	case TPath({
 				 		pack: p,
 				 		name: "Rest",
@@ -799,7 +801,7 @@ class ExternGenerator #if (mcli && !macro) extends CommandLine #end {
 												added: sig.hasNode.added ? sig.node.added.innerHTML : entry.has.added ? entry.att.added : null,
 												deprecated: sig.hasNode.deprecated ? sig.node.deprecated.innerHTML : entry.has.deprecated ? entry.att.deprecated : null,
 												removed: sig.hasNode.removed ? sig.node.removed.innerHTML : entry.has.removed ? entry.att.removed : null,
-												doc: entry.node.desc.innerHTML.trim()
+												doc: entry.hasNode.desc ? entry.node.desc.innerHTML.trim() : ""
 											}});
 										}
 									}

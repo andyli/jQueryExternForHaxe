@@ -104,6 +104,11 @@ package js.jquery;
 	@:jQueryVersion({ added : "1.4.1" })
 	static public function error(message:String):Void;
 	/**
+		Escapes any character that has a special meaning in a CSS selector.
+	**/
+	@:jQueryVersion({ added : "3.0" })
+	static public function escapeSelector(selector:String):String;
+	/**
 		Merge the contents of two or more objects together into the first object.
 	**/
 	@:overload
@@ -272,7 +277,7 @@ package js.jquery;
 	/**
 		Takes a well-formed JSON string and returns the resulting JavaScript value.
 	**/
-	@:jQueryVersion({ added : "1.4.1" })
+	@:jQueryVersion({ added : "1.4.1", deprecated : "3.0" })
 	static public function parseJSON(json:String):Dynamic;
 	/**
 		Parses a string into an XML document.
@@ -694,7 +699,7 @@ package js.jquery;
 	/**
 		The DOM node context originally passed to <code>jQuery()</code>; if none was passed then context will likely be the document.
 	**/
-	@:jQueryVersion({ added : "1.3", deprecated : "1.10" })
+	@:jQueryVersion({ added : "1.3", deprecated : "1.10", removed : "3.0" })
 	public var context : js.html.Element;
 	/**
 		Bind an event handler to the "contextmenu" JavaScript event, or trigger that event on an element.
@@ -1944,7 +1949,7 @@ package js.jquery;
 	/**
 		A selector representing selector passed to jQuery(), if any, when creating the original set.
 	**/
-	@:jQueryVersion({ added : "1.3", deprecated : "1.7" })
+	@:jQueryVersion({ added : "1.3", deprecated : "1.7", removed : "3.0" })
 	public var selector : String;
 	/**
 		Encode a set of form elements as a string for submission.
@@ -2138,11 +2143,8 @@ package js.jquery;
 	@:overload
 	@:jQueryVersion({ added : "1.0" })
 	public function toggleClass(className:String):js.jquery.JQuery;
-	/**
-		Add or remove one or more classes from each element in the set of matched elements, depending on either the class's presence or the value of the state argument.
-	**/
 	@:overload
-	@:jQueryVersion({ added : "1.4" })
+	@:jQueryVersion({ added : "1.4", deprecated : "3.0" })
 	public function toggleClass(?state:Bool):js.jquery.JQuery;
 	/**
 		Add or remove one or more classes from each element in the set of matched elements, depending on either the class's presence or the value of the state argument.
@@ -2249,8 +2251,15 @@ package js.jquery;
 	/**
 		Remove the parents of the set of matched elements from the DOM, leaving the matched elements in their place.
 	**/
+	@:overload
 	@:jQueryVersion({ added : "1.4" })
 	public function unwrap():js.jquery.JQuery;
+	/**
+		Remove the parents of the set of matched elements from the DOM, leaving the matched elements in their place.
+	**/
+	@:overload
+	@:jQueryVersion({ added : "3.0" })
+	public function unwrap(?selector:String):js.jquery.JQuery;
 	/**
 		Get the current value of the first element in the set of matched elements.
 	**/
@@ -2310,7 +2319,7 @@ package js.jquery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.4" })
-	public function wrapAll(_function:Int -> haxe.extern.EitherType<String, js.jquery.JQuery>):js.jquery.JQuery;
+	public function wrapAll(_function:Void -> haxe.extern.EitherType<String, js.jquery.JQuery>):js.jquery.JQuery;
 	/**
 		Wrap an HTML structure around the content of each element in the set of matched elements.
 	**/
