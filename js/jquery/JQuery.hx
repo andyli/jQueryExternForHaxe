@@ -339,6 +339,11 @@ package js.jquery;
 	@:jQueryVersion({ added : "1.3" })
 	static public function queue(element:js.html.Element, queueName:String, callback:haxe.Constraints.Function):js.jquery.JQuery;
 	/**
+		Handles errors thrown synchronously in functions wrapped in <code>jQuery()</code>.
+	**/
+	@:jQueryVersion({ added : "3.1" })
+	static public dynamic function readyException(error:js.Error):String;
+	/**
 		Remove a previously-stored piece of data.
 	**/
 	@:jQueryVersion({ added : "1.2.3" })

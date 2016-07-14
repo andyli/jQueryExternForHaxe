@@ -304,6 +304,9 @@ class ExternGenerator #if (mcli && !macro) extends CommandLine #end {
 				[element];
 			/*case "Elements":
 				[macro:Array<$element>];*/
+
+			case "Error":
+				[macro:js.Error];
 			
 			case "Boolean", "boolean":
 				[macro:Bool];
@@ -825,6 +828,10 @@ class ExternGenerator #if (mcli && !macro) extends CommandLine #end {
 											params:[],
 											pos: null
 										});
+									}
+
+									if (memName == "readyException") {
+										field.access.push(ADynamic);
 									}
 									
 									if (noBuild) {
