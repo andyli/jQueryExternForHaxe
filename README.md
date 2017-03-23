@@ -1,6 +1,6 @@
 # NOTICE
 
-Part of jQueryExtern is being merged back to the Haxe std lib, resulting in a [new extern](https://github.com/HaxeFoundation/haxe/issues/4377) in the Haxe std lib. If you're using Haxe 3.3+, you should switch to the new std extern. You may checkout the [haxe3.3 branch of jQueryExtern](https://github.com/andyli/jQueryExternForHaxe/tree/haxe3.3), which is a drop-in replacement to the new std extern with advanced functionalities.
+If you're using Haxe 3.3+, you should switch to the new std extern available in the standard library (`js.jquery.*`). You may checkout the [master branch of jQueryExtern](https://github.com/andyli/jQueryExternForHaxe/tree/master), which is a drop-in replacement to the new std extern with advanced functionalities.
 
 ------------------------
 
