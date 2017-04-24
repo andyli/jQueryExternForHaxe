@@ -682,6 +682,17 @@ class ExternGenerator #if (mcli && !macro) extends CommandLine #end {
 						});
 					}
 
+					switch(memName) {
+						case "catch":
+							field.name = "_catch";
+							field.meta.push({
+								name:":native",
+								params:[{ expr:EConst(CString("catch")), pos: null }],
+								pos: null
+							});
+						default: //pass
+					}
+
 					switch (memName) {
 						case "fn":
 							field.kind = FVar(macro:Dynamic, null);

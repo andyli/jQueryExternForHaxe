@@ -9,8 +9,9 @@ package js.jquery;
 	/**
 		Add handlers to be called when the Deferred object is rejected.
 	**/
+	@:native("catch")
 	@:jQueryVersion({ added : "3.0" })
-	public function catch(failFilter:haxe.Constraints.Function):js.jquery.Promise;
+	public function _catch(failFilter:haxe.Constraints.Function):js.jquery.Promise;
 	/**
 		Add handlers to be called when the Deferred object is resolved.
 	**/
