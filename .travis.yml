@@ -2,6 +2,7 @@ language: haxe
 
 haxe:
   - development
+  - "3.4.2"
 
 dist: trusty
 sudo: false
