@@ -46,7 +46,7 @@ class Config {
 	**/
 	static public var version(get, never):String;
 	static function get_version():String {
-		var jquery_ver = haxe.macro.Compiler.getDefine("jquery_ver");
+		var jquery_ver = haxe.macro.Context.definedValue("jquery_ver");
 		return Utils.parseIntVersion(Std.parseInt(jquery_ver)).join(".");
 	}
 	
@@ -55,7 +55,8 @@ class Config {
 		Used in hxml: --macro js.jquery.Config.setVersion("1.8.3")
 	**/
 	static public function setVersion(v:String):String {
-		haxe.macro.Compiler.define("jquery_ver", v);
+		var ver = Utils.versionToInt(v.split(".").map(Std.parseInt));
+		haxe.macro.Compiler.define("jquery_ver", Std.string(ver));
 		return v;
 	}
 	

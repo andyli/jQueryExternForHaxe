@@ -2,4 +2,3 @@
 -main Test
 -cp test
 -lib phantomjs
--cmd phantomjs test/bin/Test.js
