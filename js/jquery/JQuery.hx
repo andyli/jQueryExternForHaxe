@@ -127,7 +127,7 @@ package js.jquery;
 	static public var fx : { /**
 		The rate (in milliseconds) at which animations fire.
 	**/
-	@:jQueryVersion({ added : "1.4.3" })
+	@:jQueryVersion({ added : "1.4.3", deprecated : "3.0" })
 	var interval : Float; /**
 		Globally disable all animations.
 	**/
@@ -339,6 +339,11 @@ package js.jquery;
 	@:jQueryVersion({ added : "1.3" })
 	static public function queue(element:js.html.Element, queueName:String, callback:haxe.Constraints.Function):js.jquery.JQuery;
 	/**
+		A Promise-like object (or "thenable") that resolves when the document is ready.
+	**/
+	@:jQueryVersion({ added : "1.8" })
+	static public var ready : js.Promise.Thenable<Dynamic>;
+	/**
 		Handles errors thrown synchronously in functions wrapped in <code>jQuery()</code>.
 	**/
 	@:jQueryVersion({ added : "3.1" })
@@ -394,13 +399,13 @@ package js.jquery;
 	/**
 		Sorts an array of DOM elements, in place, with the duplicates removed. Note that this only works on arrays of DOM elements, not strings or numbers.
 	**/
-	@:jQueryVersion({ added : "1.12/2.2" })
+	@:jQueryVersion({ added : "1.12-2.2" })
 	static public function uniqueSort(array:Array<js.html.Element>):Array<js.html.Element>;
 	/**
-		Provides a way to execute callback functions based on zero or more objects, usually <a href="/category/deferred-object/">Deferred</a> objects that represent asynchronous events.
+		Provides a way to execute callback functions based on zero or more Thenable objects, usually <a href="/category/deferred-object/">Deferred</a> objects that represent asynchronous events.
 	**/
 	@:jQueryVersion({ added : "1.5" })
-	static public function when(deferreds:haxe.extern.Rest<js.jquery.Deferred>):js.jquery.Promise;
+	static public function when(deferreds:haxe.extern.EitherType<js.jquery.Promise, haxe.extern.EitherType<haxe.extern.Rest<js.jquery.Deferred>, js.Promise.Thenable<Dynamic>>>):js.jquery.Promise;
 	/**
 		Create a new jQuery object with elements added to the set of matched elements.
 	**/
@@ -499,7 +504,7 @@ package js.jquery;
 	/**
 		Add the previous set of elements on the stack to the current set.
 	**/
-	@:jQueryVersion({ added : "1.2", deprecated : "1.8" })
+	@:jQueryVersion({ added : "1.2", deprecated : "1.8", removed : "3.0" })
 	public function andSelf():js.jquery.JQuery;
 	/**
 		Perform a custom animation of a set of CSS properties.
@@ -576,19 +581,19 @@ package js.jquery;
 		Attach a handler to an event for the elements.
 	**/
 	@:overload
-	@:jQueryVersion({ added : "1.4" })
+	@:jQueryVersion({ added : "1.4", deprecated : "3.0" })
 	public function bind(events:Dynamic):js.jquery.JQuery;
 	/**
 		Attach a handler to an event for the elements.
 	**/
 	@:overload
-	@:jQueryVersion({ added : "1.0" })
+	@:jQueryVersion({ added : "1.0", deprecated : "3.0" })
 	public function bind(eventType:String, ?eventData:Dynamic, handler:js.jquery.Event -> Void):js.jquery.JQuery;
 	/**
 		Attach a handler to an event for the elements.
 	**/
 	@:overload
-	@:jQueryVersion({ added : "1.4.3" })
+	@:jQueryVersion({ added : "1.4.3", deprecated : "3.0" })
 	public function bind(eventType:String, ?eventData:Dynamic, ?preventBubble:Bool):js.jquery.JQuery;
 	/**
 		Bind an event handler to the "blur" JavaScript event, or trigger that event on an element.
@@ -805,19 +810,19 @@ package js.jquery;
 		Attach a handler to one or more events for all elements that match the selector, now or in the future, based on a specific set of root elements.
 	**/
 	@:overload
-	@:jQueryVersion({ added : "1.4.3" })
+	@:jQueryVersion({ added : "1.4.3", deprecated : "3.0" })
 	public function delegate(selector:String, events:Dynamic):js.jquery.JQuery;
 	/**
 		Attach a handler to one or more events for all elements that match the selector, now or in the future, based on a specific set of root elements.
 	**/
 	@:overload
-	@:jQueryVersion({ added : "1.4.2" })
+	@:jQueryVersion({ added : "1.4.2", deprecated : "3.0" })
 	public function delegate(selector:String, eventType:String, handler:js.jquery.Event -> Void):js.jquery.JQuery;
 	/**
 		Attach a handler to one or more events for all elements that match the selector, now or in the future, based on a specific set of root elements.
 	**/
 	@:overload
-	@:jQueryVersion({ added : "1.4.2" })
+	@:jQueryVersion({ added : "1.4.2", deprecated : "3.0" })
 	public function delegate(selector:String, eventType:String, eventData:Dynamic, handler:js.jquery.Event -> Void):js.jquery.JQuery;
 	/**
 		Execute the next function on the queue for the matched elements.
@@ -878,13 +883,13 @@ package js.jquery;
 		Bind an event handler to the "error" JavaScript event.
 	**/
 	@:overload
-	@:jQueryVersion({ added : "1.0", deprecated : "1.8" })
+	@:jQueryVersion({ added : "1.0", deprecated : "1.8", removed : "3.0" })
 	public function error(handler:js.jquery.Event -> Void):js.jquery.JQuery;
 	/**
 		Bind an event handler to the "error" JavaScript event.
 	**/
 	@:overload
-	@:jQueryVersion({ added : "1.4.3", deprecated : "1.8" })
+	@:jQueryVersion({ added : "1.4.3", deprecated : "1.8", removed : "3.0" })
 	public function error(?eventData:Dynamic, handler:js.jquery.Event -> Void):js.jquery.JQuery;
 	/**
 		Display the matched elements by fading them to opaque.
@@ -1326,13 +1331,13 @@ package js.jquery;
 		Bind an event handler to the "load" JavaScript event.
 	**/
 	@:overload
-	@:jQueryVersion({ added : "1.0", deprecated : "1.8" })
+	@:jQueryVersion({ added : "1.0", deprecated : "1.8", removed : "3.0" })
 	public function load(handler:js.jquery.Event -> Void):js.jquery.JQuery;
 	/**
 		Bind an event handler to the "load" JavaScript event.
 	**/
 	@:overload
-	@:jQueryVersion({ added : "1.4.3", deprecated : "1.8" })
+	@:jQueryVersion({ added : "1.4.3", deprecated : "1.8", removed : "3.0" })
 	public function load(?eventData:Dynamic, handler:js.jquery.Event -> Void):js.jquery.JQuery;
 	/**
 		Load data from the server and place the returned HTML into the matched element.
@@ -1652,19 +1657,19 @@ package js.jquery;
 	@:jQueryVersion({ added : "1.7" })
 	public function one(events:String, ?selector:String, ?data:Dynamic, handler:js.jquery.Event -> Void):js.jquery.JQuery;
 	/**
-		Set the CSS outer Height of each element in the set of matched elements.
+		Set the CSS outer height of each element in the set of matched elements.
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.8.0" })
 	public function outerHeight(value:haxe.extern.EitherType<Float, String>):js.jquery.JQuery;
 	/**
-		Set the CSS outer Height of each element in the set of matched elements.
+		Set the CSS outer height of each element in the set of matched elements.
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.8.0" })
-	public function outerHeight(_function:haxe.Constraints.Function):js.jquery.JQuery;
+	public function outerHeight(_function:Int -> Float -> haxe.extern.EitherType<Float, String>):js.jquery.JQuery;
 	/**
-		Get the current computed height for the first element in the set of matched elements, including padding, border, and optionally margin. Returns a number (without "px") representation of the value or null if called on an empty set of elements.
+		Get the current computed outer height (including padding, border, and optionally margin) for the first element in the set of matched elements.
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.2.6" })
@@ -1680,9 +1685,9 @@ package js.jquery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.8.0" })
-	public function outerWidth(_function:haxe.Constraints.Function):js.jquery.JQuery;
+	public function outerWidth(_function:Int -> Float -> haxe.extern.EitherType<Float, String>):js.jquery.JQuery;
 	/**
-		Get the current computed width for the first element in the set of matched elements, including padding and border.
+		Get the current computed outer width (including padding, border, and optionally margin) for the first element in the set of matched elements.
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.2.6" })
@@ -1998,7 +2003,7 @@ package js.jquery;
 	/**
 		Return the number of elements in the jQuery object.
 	**/
-	@:jQueryVersion({ added : "1.0", deprecated : "1.8" })
+	@:jQueryVersion({ added : "1.0", deprecated : "1.8", removed : "3.0" })
 	public function size():Int;
 	/**
 		Reduce the set of matched elements to a subset specified by a range of indices.
@@ -2191,67 +2196,67 @@ package js.jquery;
 		Remove a previously-attached event handler from the elements.
 	**/
 	@:overload
-	@:jQueryVersion({ added : "1.0" })
+	@:jQueryVersion({ added : "1.0", deprecated : "3.0" })
 	public function unbind():js.jquery.JQuery;
 	/**
 		Remove a previously-attached event handler from the elements.
 	**/
 	@:overload
-	@:jQueryVersion({ added : "1.0" })
+	@:jQueryVersion({ added : "1.0", deprecated : "3.0" })
 	public function unbind(event:js.jquery.Event):js.jquery.JQuery;
 	/**
 		Remove a previously-attached event handler from the elements.
 	**/
 	@:overload
-	@:jQueryVersion({ added : "1.4.3" })
+	@:jQueryVersion({ added : "1.4.3", deprecated : "3.0" })
 	public function unbind(eventType:String, _false:Bool):js.jquery.JQuery;
 	/**
 		Remove a previously-attached event handler from the elements.
 	**/
 	@:overload
-	@:jQueryVersion({ added : "1.0" })
+	@:jQueryVersion({ added : "1.0", deprecated : "3.0" })
 	public function unbind(eventType:String, ?handler:js.jquery.Event -> Void):js.jquery.JQuery;
 	/**
 		Remove a handler from the event for all elements which match the current selector, based upon a specific set of root elements.
 	**/
 	@:overload
-	@:jQueryVersion({ added : "1.4.2" })
+	@:jQueryVersion({ added : "1.4.2", deprecated : "3.0" })
 	public function undelegate():js.jquery.JQuery;
 	/**
 		Remove a handler from the event for all elements which match the current selector, based upon a specific set of root elements.
 	**/
 	@:overload
-	@:jQueryVersion({ added : "1.6" })
+	@:jQueryVersion({ added : "1.6", deprecated : "3.0" })
 	public function undelegate(namespace:String):js.jquery.JQuery;
 	/**
 		Remove a handler from the event for all elements which match the current selector, based upon a specific set of root elements.
 	**/
 	@:overload
-	@:jQueryVersion({ added : "1.4.2" })
+	@:jQueryVersion({ added : "1.4.2", deprecated : "3.0" })
 	public function undelegate(selector:String, eventType:String):js.jquery.JQuery;
 	/**
 		Remove a handler from the event for all elements which match the current selector, based upon a specific set of root elements.
 	**/
 	@:overload
-	@:jQueryVersion({ added : "1.4.3" })
+	@:jQueryVersion({ added : "1.4.3", deprecated : "3.0" })
 	public function undelegate(selector:String, events:Dynamic):js.jquery.JQuery;
 	/**
 		Remove a handler from the event for all elements which match the current selector, based upon a specific set of root elements.
 	**/
 	@:overload
-	@:jQueryVersion({ added : "1.4.2" })
+	@:jQueryVersion({ added : "1.4.2", deprecated : "3.0" })
 	public function undelegate(selector:String, eventType:String, handler:js.jquery.Event -> Void):js.jquery.JQuery;
 	/**
 		Bind an event handler to the "unload" JavaScript event.
 	**/
 	@:overload
-	@:jQueryVersion({ added : "1.0", deprecated : "1.8" })
+	@:jQueryVersion({ added : "1.0", deprecated : "1.8", removed : "3.0" })
 	public function unload(handler:js.jquery.Event -> Void):js.jquery.JQuery;
 	/**
 		Bind an event handler to the "unload" JavaScript event.
 	**/
 	@:overload
-	@:jQueryVersion({ added : "1.4.3", deprecated : "1.8" })
+	@:jQueryVersion({ added : "1.4.3", deprecated : "1.8", removed : "3.0" })
 	public function unload(?eventData:Dynamic, handler:js.jquery.Event -> Void):js.jquery.JQuery;
 	/**
 		Remove the parents of the set of matched elements from the DOM, leaving the matched elements in their place.

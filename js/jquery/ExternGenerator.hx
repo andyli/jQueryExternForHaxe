@@ -292,6 +292,8 @@ class ExternGenerator #if (mcli && !macro) extends CommandLine #end {
 				[jqType("Callbacks")];
 			case "Promise":
 				[jqType("Promise")];
+			case "Thenable":
+				[macro:js.Promise.Thenable<Dynamic>];
 			case "jqXHR":
 				[jqType("JqXHR")];
 			case "Selector", "selector":

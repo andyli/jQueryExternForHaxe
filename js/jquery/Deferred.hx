@@ -7,6 +7,11 @@ package js.jquery;
 	@:jQueryVersion({ added : "1.6" })
 	public function always(alwaysCallbacks:haxe.extern.EitherType<haxe.Constraints.Function, Array<haxe.Constraints.Function>>, ?alwaysCallbacks:haxe.extern.EitherType<haxe.Constraints.Function, Array<haxe.Constraints.Function>>):js.jquery.Deferred;
 	/**
+		Add handlers to be called when the Deferred object is rejected.
+	**/
+	@:jQueryVersion({ added : "3.0" })
+	public function catch(failFilter:haxe.Constraints.Function):js.jquery.Promise;
+	/**
 		Add handlers to be called when the Deferred object is resolved.
 	**/
 	@:jQueryVersion({ added : "1.5" })
