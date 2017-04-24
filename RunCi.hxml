@@ -1,3 +1,10 @@
+-main PhantomRunner
+-cp test
+-lib phantomjs
+-js test/bin/PhantomRunner.js
+
+--next
+
 -main RunCi
 -cp test
 -neko RunCi.n

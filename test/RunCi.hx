@@ -24,8 +24,7 @@ class RunCi {
 		var args = [
 			"-js", "test/bin/Test.js",
 			"-main", "Test",
-			"-cp", "test",
-			"-lib", "phantomjs"
+			"-cp", "test"
 		];
 
 		var pack = "js.jquery";
@@ -50,7 +49,7 @@ class RunCi {
 				.concat(setAllowDeprecated)
 				.concat(unflatten);
 			cmd("haxe", args);
-			cmd("phantomjs", ["test/bin/Test.js"]);
+			cmd("phantomjs", ["test/bin/PhantomRunner.js"]);
 		}
 	}
 }
