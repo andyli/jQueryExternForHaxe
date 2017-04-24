@@ -3,6 +3,7 @@ language: haxe
 haxe:
   - development
 
+dist: trusty
 sudo: false
 
 install:
