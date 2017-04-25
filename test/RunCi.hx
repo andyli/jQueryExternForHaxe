@@ -41,7 +41,7 @@ class RunCi {
 			[],
 			["--macro", pack + ".Config.setAllowDeprecated(true)"]
 		])
-		for (unflatten in [[], ["-D", "-js-unflatten"]])
+		for (unflatten in [[], ["-D", "js-unflatten"]])
 		{
 			var args = args
 				.concat(plugins)
