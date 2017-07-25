@@ -1160,6 +1160,30 @@ class ExternGenerator #if (mcli && !macro) extends CommandLine #end {
 							}
 							var evtFields:Array<Dynamic> = getFields("js.html.Event");
 							td.fields = td.fields.filter(function(field) return !evtFields.exists(function(f) return f.name == field.name));
+
+							// add getThis() helper method
+							// See the comment section of https://github.com/HaxeFoundation/haxe/commit/e3a022dd4bae85f8456cf3f1683fefd2e0b5d22d
+							{
+								var jq = jqType("JQuery");
+								var JqTPath = switch (jq) {
+									case TPath(tp): tp;
+									case v: throw v;
+								}
+								td.fields.push({
+									name: "getThis",
+									doc: "A convenient method of getting `$(this)`, which is typically the same as `$(evt.currentTarget)`.\n"
+									+ "For detail, refer to https://api.jquery.com/event.currenttarget/.",
+									access: [AInline, APublic],
+									kind: FFun({
+										params: null,
+										args: [],
+										ret: jq,
+										expr: macro return new $JqTPath(js.Lib.nativeThis),
+									}),
+									meta: [],
+									pos: null
+								});
+							}
 						default:
 							//pass
 					}

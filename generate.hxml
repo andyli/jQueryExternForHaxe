@@ -3,6 +3,7 @@
 -main js.jquery.ExternGenerator
 -lib mcli
 --macro allowPackage('js')
+--macro exclude('js.html.compat')
 # -cmd neko ExternGenerator.n --api-xml api.xml --output-folder .
 -cmd neko ExternGenerator.n --api-xml api.xml --output-folder . --pack js.jquery --native '$' --use-element --use-haxe-either --use-haxe-rest --no-seperated-static --no-rename-static-field --add-haxe-iterator
 # -cmd neko ExternGenerator.n --api-xml api.xml --output-folder ~/Library/Caches/Homebrew/haxe--git/std --pack js.jquery --native '$' --no-build --use-element --use-haxe-either --use-haxe-rest --no-seperated-static --no-rename-static-field --add-haxe-iterator
