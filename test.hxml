@@ -2,3 +2,5 @@
 -main Test
 -cp test
 -lib phantomjs
+-lib utest
+-D travis

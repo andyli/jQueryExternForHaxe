@@ -6,7 +6,7 @@ class PhantomRunner {
 		var log = js.Browser.window.console.log;
 
 		//setup a server to serve html
-		var port = 8080;
+		var port = 8088;
 		var server = WebServer.create();
 		server.listen(port, function(request:Request, response:Response):Void {
 			var fullpath = Phantom.libraryPath + request.url;
@@ -25,12 +25,9 @@ class PhantomRunner {
 		
 		//receive the test result
 		page.onConsoleMessage = function(msg:String):Void {
-			if (StringTools.startsWith(msg, "success:")) {
-				var success = msg.substr("success:".length) == "true";
-				Phantom.exit(success ? 0 : 1);
-			} else {
-				log(msg);
-			}
+			log(msg);
+			var success = msg.indexOf("success: true") >= 0;
+			Phantom.exit(success ? 0 : 1);
 		}
 		
 		page.open('http://localhost:${port}/test.html', function(status) {

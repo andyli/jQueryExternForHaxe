@@ -1,30 +1,31 @@
 import js.jquery.*;
 import js.jquery.Helper.*;
-import haxe.unit.*;
+import utest.*;
 
-class TestExtern extends TestCase {
+class TestExtern {
+    public function new() {};
 
     function testBasic() {
         var j = new JQuery("<div></div>");
-        assertEquals(1, j.length);
+        Assert.equals(1, j.length);
     }
 
     function testRenamedStaticFields() {
         JQuery.each([123], function(i, e) {
-            assertEquals(0, i);
-            assertEquals(123, e);
+            Assert.equals(0, i);
+            Assert.equals(123, e);
         });
     }
 
     function testIterator() {
         var div = Lambda.find(new JQuery("<div></div>"), function(ele) return ele.tagName.toLowerCase() == "div");
-        assertEquals("div", div.tagName.toLowerCase());
+        Assert.equals("div", div.tagName.toLowerCase());
     }
 
     function testHelper() {
         var j = J("<div id='test'></div>");
         j.each(function(i,e){
-            assertEquals("test", JTHIS.attr("id"));
+            Assert.equals("test", JTHIS.attr("id"));
         });
     }
 

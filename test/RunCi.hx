@@ -24,7 +24,9 @@ class RunCi {
 		var args = [
 			"-js", "test/bin/Test.js",
 			"-main", "Test",
-			"-cp", "test"
+			"-cp", "test",
+			"-lib", "utest",
+			"-D", "travis"
 		];
 
 		var pack = "js.jquery";

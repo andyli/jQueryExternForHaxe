@@ -1,6 +1,7 @@
 -main PhantomRunner
 -cp test
 -lib phantomjs
+-lib utest
 -js test/bin/PhantomRunner.js
 
 --next

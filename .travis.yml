@@ -9,6 +9,8 @@ sudo: false
 
 install:
   - haxelib install phantomjs
+  - haxelib install utest
+  - haxelib list
 
 script:
   - haxe RunCi.hxml

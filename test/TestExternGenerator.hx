@@ -1,22 +1,24 @@
-import haxe.unit.*;
 import js.jquery.ExternGenerator;
+import utest.*;
 using Lambda;
 
-class TestExternGenerator extends TestCase {
-	public function testCompareComplexType():Void {
-		this.assertTrue(ExternGenerator.compareComplexType(macro:Dynamic, macro:Void) > 0);
-		this.assertTrue(ExternGenerator.compareComplexType(macro:Dynamic, macro:String) > 0);
-		this.assertTrue(ExternGenerator.compareComplexType(macro:Dynamic, macro:Int) > 0);
-		this.assertTrue(ExternGenerator.compareComplexType(macro:Dynamic, macro:Float) > 0);
-		
-		this.assertTrue(ExternGenerator.compareComplexType(macro:Dynamic<String>, macro:Void) > 0);
-		this.assertTrue(ExternGenerator.compareComplexType(macro:Dynamic<String>, macro:String) > 0);
-		this.assertTrue(ExternGenerator.compareComplexType(macro:Dynamic<String>, macro:Int) > 0);
-		this.assertTrue(ExternGenerator.compareComplexType(macro:Dynamic<String>, macro:Float) > 0);
+class TestExternGenerator {
+	public function new() {};
 
-		this.assertTrue(ExternGenerator.compareComplexType(macro:Dynamic, macro:Dynamic<String>) > 0);
+	public function testCompareComplexType():Void {
+		Assert.isTrue(ExternGenerator.compareComplexType(macro:Dynamic, macro:Void) > 0);
+		Assert.isTrue(ExternGenerator.compareComplexType(macro:Dynamic, macro:String) > 0);
+		Assert.isTrue(ExternGenerator.compareComplexType(macro:Dynamic, macro:Int) > 0);
+		Assert.isTrue(ExternGenerator.compareComplexType(macro:Dynamic, macro:Float) > 0);
 		
-		this.assertTrue(ExternGenerator.compareComplexType(macro:Float, macro:Int) > 0);
+		Assert.isTrue(ExternGenerator.compareComplexType(macro:Dynamic<String>, macro:Void) > 0);
+		Assert.isTrue(ExternGenerator.compareComplexType(macro:Dynamic<String>, macro:String) > 0);
+		Assert.isTrue(ExternGenerator.compareComplexType(macro:Dynamic<String>, macro:Int) > 0);
+		Assert.isTrue(ExternGenerator.compareComplexType(macro:Dynamic<String>, macro:Float) > 0);
+
+		Assert.isTrue(ExternGenerator.compareComplexType(macro:Dynamic, macro:Dynamic<String>) > 0);
+		
+		Assert.isTrue(ExternGenerator.compareComplexType(macro:Float, macro:Int) > 0);
 	}
 	
 	public function testCompareComplexTypeSorting():Void {
@@ -33,13 +35,13 @@ class TestExternGenerator extends TestCase {
 		
 		sorted.sort(ExternGenerator.compareComplexType);
 		
-		this.assertEquals(
+		Assert.equals(
 			"2,4,3,6,5,1,0",
 			sorted.map(function(_) return types.indexOf(_)).toString()
 		);
 		
 		sorted.sort(function(a,b) return -ExternGenerator.compareComplexType(a,b));
-		this.assertEquals(
+		Assert.equals(
 			"0,1,5,6,3,4,2",
 			sorted.map(function(_) return types.indexOf(_)).toString()
 		);
@@ -52,7 +54,7 @@ class TestExternGenerator extends TestCase {
 		];
 		var sorted = funcs.copy();
 		sorted.sort(ExternGenerator.compareFunctions);
-		this.assertEquals(funcs[1], sorted[0]);
+		Assert.equals(funcs[1], sorted[0]);
 
 		var funcs = [
 			ExternGenerator.funcSig(function(a:Int, b:Int){}),
@@ -60,8 +62,8 @@ class TestExternGenerator extends TestCase {
 		];
 		var sorted = funcs.copy();
 		sorted.sort(ExternGenerator.compareFunctions);
-		this.assertEquals(funcs[0], sorted[0]);
+		Assert.equals(funcs[0], sorted[0]);
 		sorted.sort(function(a,b) return -ExternGenerator.compareFunctions(a,b));
-		this.assertEquals(funcs[1], sorted[0]);
+		Assert.equals(funcs[1], sorted[0]);
 	}
 }

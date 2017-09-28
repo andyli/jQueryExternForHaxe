@@ -1,25 +1,26 @@
-import haxe.unit.*;
-
 import js.jquery.*;
+import utest.*;
 
-class TestPlugin extends TestCase {
+class TestPlugin {
+	public function new() {};
+
 	public function testInstanceMember():Void {
 		var j = new JQuery();
-		this.assertEquals(j, j.dummyMethod());
-		this.assertEquals(123,  new JQuery().dummyProperty);
+		Assert.equals(j, j.dummyMethod());
+		Assert.equals(123,  new JQuery().dummyProperty);
 	}
 	
 	public function testStaticMember():Void {
 		#if (haxe_ver >= 3.3)
-		this.assertEquals("static dummy", JQuery.staticDummyMethod());
-		this.assertEquals(456, JQuery.staticDummyProperty);
+		Assert.equals("static dummy", JQuery.staticDummyMethod());
+		Assert.equals(456, JQuery.staticDummyProperty);
 		#else
-		this.assertEquals("static dummy", JQuery._static.staticDummyMethod());
-		this.assertEquals(456, JQueryStatic.staticDummyProperty);
+		Assert.equals("static dummy", JQuery._static.staticDummyMethod());
+		Assert.equals(456, JQueryStatic.staticDummyProperty);
 		#end
 	}
 
 	public function testInstanceMember2():Void {
-		this.assertEquals("dummy", new JQuery().dummyMethod2());
+		Assert.equals("dummy", new JQuery().dummyMethod2());
 	}
 }
