@@ -65,6 +65,8 @@ To use it, add the following compiler option:
 --macro js.jquery.Config.addPlugin('jPlugin.JQueryPlugIn')
 ```
 
+Note that currently import statements are not supported in the plugin extern modules. Please use fully-qualified names for types not existed in top-level or `js.jquery`. (see [#20](https://github.com/andyli/jQueryExternForHaxe/issues/20))
+
 ## License
 
 jQueryExtern is released in the public domain. NO WARRANTY EXPRESSED OR IMPLIED. USE AT YOUR OWN RISK.
