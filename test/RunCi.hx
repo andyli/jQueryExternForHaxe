@@ -53,10 +53,9 @@ class RunCi {
 			cmd("haxe", args);
 			cmd("phantomjs", ["test/bin/PhantomRunner.js"]);
       
-      args.concat(["-lib", "hxnodejs"]);
+			args.concat(["-lib", "hxnodejs"]);
       
-      cmd("haxe", args);
-
+			cmd("haxe", args);
 		}
 	}
 }

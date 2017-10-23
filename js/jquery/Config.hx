@@ -88,17 +88,17 @@ class Config {
 				else clsType.meta.add(":native", [macro $v{native}], clsType.pos);
 
 				for (plugin in plugins) {
-			  		for (field in plugin) {
-			    			fields.push(field);
-			  		}
+					for (field in plugin) {
+						fields.push(field);
+					}
 				}
-		    	default:
-		      		if(Context.defined('hxnodejs')) {
+			default:
+				if(Context.defined('hxnodejs')) {
 					clsType.meta.add(":jsRequire", [macro "JQuery", macro $v{clsType.name}], clsType.pos);
-		      		} else {
+				} else {
 					var native = native + "." + clsType.name;
 					clsType.meta.add(":native", [macro $v{native}], clsType.pos);
-		      		}
+				}
 		}
 		
 		// filter and group the fields
