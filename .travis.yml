@@ -8,6 +8,7 @@ dist: trusty
 sudo: false
 
 install:
+  - haxelib install hxnodejs
   - haxelib install phantomjs
   - haxelib install utest
   - haxelib list
