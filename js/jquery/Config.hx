@@ -84,7 +84,7 @@ class Config {
 		// add @:native
 		switch (clsType.name) {
 			case "JQuery":
-				if(Context.defined('hxnodejs')) clsType.meta.add(":jsRequire", [macro "JQuery"], clsType.pos);
+				if(Context.defined('hxnodejs')) clsType.meta.add(":jsRequire", [macro "jquery"], clsType.pos);
 				else clsType.meta.add(":native", [macro $v{native}], clsType.pos);
 
 				for (plugin in plugins) {
@@ -94,7 +94,7 @@ class Config {
 				}
 			default:
 				if(Context.defined('hxnodejs')) {
-					clsType.meta.add(":jsRequire", [macro "JQuery", macro $v{clsType.name}], clsType.pos);
+					clsType.meta.add(":jsRequire", [macro "jquery", macro $v{clsType.name}], clsType.pos);
 				} else {
 					var native = native + "." + clsType.name;
 					clsType.meta.add(":native", [macro $v{native}], clsType.pos);

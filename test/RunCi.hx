@@ -52,10 +52,9 @@ class RunCi {
 				.concat(unflatten);
 			cmd("haxe", args);
 			cmd("phantomjs", ["test/bin/PhantomRunner.js"]);
-      
-			args.concat(["-lib", "hxnodejs"]);
-      
-			cmd("haxe", args);
+
+			cmd("haxe", args.concat(["-lib", "hxnodejs"]));
+			cmd("node", ["test/bin/Test.js"]);
 		}
 	}
 }

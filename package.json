@@ -1,0 +1,31 @@
+{
+  "name": "jquery-extern-for-haxe",
+  "version": "3.0.0",
+  "description": "This version of jQuery extern requires Haxe 3.3+. Users of Haxe 3.2.0- should checkout [jQueryExtern 2.0.4](https://github.com/andyli/jQueryExternForHaxe/tree/2.0.4).",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+    "jquery": "^3.2.1",
+    "jsdom": "^11.3.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andyli/jQueryExternForHaxe.git"
+  },
+  "keywords": [
+    "haxe"
+  ],
+  "author": "Andy Li",
+  "license": "Unlicense",
+  "bugs": {
+    "url": "https://github.com/andyli/jQueryExternForHaxe/issues"
+  },
+  "homepage": "https://github.com/andyli/jQueryExternForHaxe#readme"
+}

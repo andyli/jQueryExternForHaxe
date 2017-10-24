@@ -12,6 +12,7 @@ install:
   - haxelib install phantomjs
   - haxelib install utest
   - haxelib list
+  - npm install --dev
 
 script:
   - haxe RunCi.hxml

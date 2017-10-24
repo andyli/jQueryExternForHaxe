@@ -5,3 +5,4 @@ Thumbs.db
 *.js
 *.js.map
 api.xml
+node_modules
