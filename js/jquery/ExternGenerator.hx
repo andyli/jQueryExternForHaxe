@@ -6,6 +6,7 @@ import haxe.xml.*;
 import haxe.macro.*;
 import haxe.macro.Expr;
 import mcli.*;
+import haxe.ds.*;
 using haxe.macro.ComplexTypeTools;
 using StringTools;
 using Lambda;
