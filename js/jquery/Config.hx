@@ -3,6 +3,7 @@ package js.jquery;
 import js.jquery.*;
 import haxe.macro.Expr;
 import haxe.macro.Context;
+import haxe.ds.*;
 using Lambda;
 
 #if macro
