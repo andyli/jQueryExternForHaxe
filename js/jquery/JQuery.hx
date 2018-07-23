@@ -32,14 +32,14 @@ package js.jquery;
 		Set default values for future Ajax requests. Its use is not recommended.
 	**/
 	@:jQueryVersion({ added : "1.1" })
-	static public function ajaxSetup(options:Dynamic):Void;
+	static public function ajaxSetup(options:Dynamic):Dynamic;
 	/**
 		Creates an object that handles the actual transmission of Ajax data.
 	**/
 	@:jQueryVersion({ added : "1.5" })
 	static public function ajaxTransport(dataType:String, handler:Dynamic -> Dynamic -> js.jquery.JqXHR -> Void):Void;
 	/**
-		States if the current page, in the user's browser, is being rendered using the <a href="http://www.w3.org/TR/REC-CSS2/box.html">W3C CSS Box Model</a>. <strong>This property was removed in jQuery 1.8</strong>. Please try to use feature detection instead.
+		States if the current page, in the user's browser, is being rendered using the <a href="https://www.w3.org/TR/REC-CSS2/box.html">W3C CSS Box Model</a>. <strong>This property was removed in jQuery 1.8</strong>. Please try to use feature detection instead.
 	**/
 	@:jQueryVersion({ added : "1.0", deprecated : "1.3", removed : "1.8" })
 	static public var boxModel : Bool;
@@ -91,7 +91,7 @@ package js.jquery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.0" })
-	static public function each(array:Array<Dynamic>, callback:Int -> Dynamic -> Void):Dynamic;
+	static public function each(array:haxe.extern.EitherType<Array<Dynamic>, js.html.NodeList>, callback:Int -> Dynamic -> Void):Dynamic;
 	/**
 		A generic iterator function, which can be used to seamlessly iterate over both objects and arrays. Arrays and array-like objects with a length property (such as a function's arguments object) are iterated by numeric index, from 0 to length-1. Other objects are iterated via their named properties.
 	**/
@@ -159,7 +159,7 @@ package js.jquery;
 		Execute some JavaScript code globally.
 	**/
 	@:jQueryVersion({ added : "1.0.4" })
-	static public function globalEval(code:String):Void;
+	static public function globalEval(code:String):Dynamic;
 	/**
 		Finds the elements of an array which satisfy a filter function. The original array is not affected.
 	**/
@@ -196,10 +196,10 @@ package js.jquery;
 	@:jQueryVersion({ added : "1.4" })
 	static public function isEmptyObject(object:Dynamic):Bool;
 	/**
-		Determine if the argument passed is a JavaScript function object.
+		Determines if its argument is callable as a function.
 	**/
-	@:jQueryVersion({ added : "1.2" })
-	static public function isFunction(obj:Dynamic):Bool;
+	@:jQueryVersion({ added : "1.2", deprecated : "3.3" })
+	static public function isFunction(value:Dynamic):Bool;
 	/**
 		Determines whether its argument represents a JavaScript number.
 	**/
@@ -213,7 +213,7 @@ package js.jquery;
 	/**
 		Determine whether the argument is a window.
 	**/
-	@:jQueryVersion({ added : "1.4.3" })
+	@:jQueryVersion({ added : "1.4.3", deprecated : "3.3" })
 	static public function isWindow(obj:Dynamic):Bool;
 	/**
 		Check to see if a DOM node is within an XML document (or is an XML document).
@@ -377,7 +377,7 @@ package js.jquery;
 	@:jQueryVersion({ added : "1.5", deprecated : "1.7", removed : "1.9" })
 	static public function sub():js.jquery.JQuery;
 	/**
-		A collection of properties that represent the presence of different browser features or bugs. Intended for jQuery's internal use; specific properties may be removed when they are no longer needed internally to improve page startup performance. For your own project's feature-detection needs, we strongly recommend the use of an external library such as <a href="http://modernizr.com">Modernizr</a> instead of dependency on properties in <code>jQuery.support</code>.
+		A collection of properties that represent the presence of different browser features or bugs. Intended for jQuery's internal use; specific properties may be removed when they are no longer needed internally to improve page startup performance. For your own project's feature-detection needs, we strongly recommend the use of an external library such as <a href="https://modernizr.com">Modernizr</a> instead of dependency on properties in <code>jQuery.support</code>.
 	**/
 	@:jQueryVersion({ added : "1.3", deprecated : "1.9" })
 	static public var support : Dynamic;
