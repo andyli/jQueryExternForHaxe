@@ -15,6 +15,7 @@ using Lambda;
 class Config {
 	static var plugins(default, null):Map<String, Array<Field>> = new Map();
 	static var isBuilt(default, null):Bool = false;
+	static var defaultVersion = '30301'; // assume to be latest supported version
 	
 	/**
 		Add an Plugin extern class. All fields of the class will be injected into JQuery/JQueryStatic.
@@ -48,6 +49,9 @@ class Config {
 	static public var version(get, never):String;
 	static function get_version():String {
 		var jquery_ver = haxe.macro.Context.definedValue("jquery_ver");
+		if (jquery_ver == null) {
+			jquery_ver = defaultVersion;
+		}
 		return Utils.parseIntVersion(Std.parseInt(jquery_ver)).join(".");
 	}
 	
