@@ -15,6 +15,10 @@ using Reflect;
 @:noPackageRestrict
 typedef FuncConfig = { ?doc:String, ?added:String, ?deprecated:String, ?removed:String }
 
+#if (haxe_ver >= 4)
+typedef Fast = haxe.xml.Access
+#end
+
 /**
 	Generates extern classes.
 */

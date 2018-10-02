@@ -15,7 +15,8 @@ class JqEltsIterator {
 	}
 
 	static function __init__() {
-		if (js.Syntax.typeof(JQuery) != "undefined" && JQuery.fn != null)
+		var typeofJQuery = #if (haxe_ver < 4) untyped __typeof__(JQuery) #else js.Syntax.typeof(JQuery) #end ;
+		if (typeofJQuery != 'undefined' && JQuery.fn != null)
 			JQuery.fn.elements = function() return new JqEltsIterator(js.Lib.nativeThis);
 	}
 }
