@@ -160,21 +160,21 @@ class Config {
 			if (field.doc != null)
 				docMap.set(field.doc, null);
 			
-			for (overload in fields) {
-				var func:Function = switch(overload.kind) {
+			for (overloadField in fields) {
+				var func:Function = switch(overloadField.kind) {
 					case FFun(f): f;
 					default: throw "Should only overload a function.";
 				}
 				func.expr = macro {};
 				field.meta.push({
 					name: ":overload",
-					params: [{ expr: EFunction(null, func), pos: overload.pos }],
-					pos: overload.pos
+					params: [{ expr: EFunction(null, func), pos: overloadField.pos }],
+					pos: overloadField.pos
 				});
 				
-				if (overload.doc != null && !docMap.exists(overload.doc)) {
-					field.doc = (field.doc == null ? "" : field.doc + "\n OR: ") + overload.doc;
-					docMap.set(overload.doc, null);
+				if (overloadField.doc != null && !docMap.exists(overloadField.doc)) {
+					field.doc = (field.doc == null ? "" : field.doc + "\n OR: ") + overloadField.doc;
+					docMap.set(overloadField.doc, null);
 				}
 			}
 			newFields.push(field);
