@@ -15,6 +15,7 @@ using Lambda;
 class Config {
 	static var plugins(default, null):Map<String, Array<Field>> = new Map();
 	static var isBuilt(default, null):Bool = false;
+	static var defaultVersion = '30301'; // assume to be latest supported version
 	
 	/**
 		Add an Plugin extern class. All fields of the class will be injected into JQuery/JQueryStatic.
@@ -48,6 +49,9 @@ class Config {
 	static public var version(get, never):String;
 	static function get_version():String {
 		var jquery_ver = haxe.macro.Context.definedValue("jquery_ver");
+		if (jquery_ver == null) {
+			jquery_ver = defaultVersion;
+		}
 		return Utils.parseIntVersion(Std.parseInt(jquery_ver)).join(".");
 	}
 	
@@ -160,21 +164,21 @@ class Config {
 			if (field.doc != null)
 				docMap.set(field.doc, null);
 			
-			for (overload in fields) {
-				var func:Function = switch(overload.kind) {
+			for (overloadField in fields) {
+				var func:Function = switch(overloadField.kind) {
 					case FFun(f): f;
 					default: throw "Should only overload a function.";
 				}
 				func.expr = macro {};
 				field.meta.push({
 					name: ":overload",
-					params: [{ expr: EFunction(null, func), pos: overload.pos }],
-					pos: overload.pos
+					params: [{ expr: EFunction(null, func), pos: overloadField.pos }],
+					pos: overloadField.pos
 				});
 				
-				if (overload.doc != null && !docMap.exists(overload.doc)) {
-					field.doc = (field.doc == null ? "" : field.doc + "\n OR: ") + overload.doc;
-					docMap.set(overload.doc, null);
+				if (overloadField.doc != null && !docMap.exists(overloadField.doc)) {
+					field.doc = (field.doc == null ? "" : field.doc + "\n OR: ") + overloadField.doc;
+					docMap.set(overloadField.doc, null);
 				}
 			}
 			newFields.push(field);

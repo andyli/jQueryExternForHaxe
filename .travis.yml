@@ -10,7 +10,7 @@ sudo: false
 install:
   - haxelib install hxnodejs
   - haxelib install phantomjs
-  - haxelib install utest
+  - haxelib install utest 1.8.1
   - haxelib list
   - npm install
 
