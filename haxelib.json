@@ -4,7 +4,7 @@
   "license": "Public",
   "tags": ["js","extern"],
   "description": "Unleash the full power of jQuery in Haxe.",
-  "version": "3.1.0",
-  "releasenote": "Support jQuery version up to 3.3.1. Fixed Haxe 4 compatibility (#23). Added support for hxnodejs require (#21).",
+  "version": "3.1.1",
+  "releasenote": "Fixed Haxe 4 compatibility (#25).",
   "contributors": ["andyli"]
 }
