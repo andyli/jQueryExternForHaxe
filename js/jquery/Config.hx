@@ -44,7 +44,7 @@ class Config {
 	
 	/**
 		jQuery version to be used. Encoded as dot-format, e.g. "1.12.4".
-		Default is the version supported by haxe std lib.
+		Default is the version supported by Haxe 3 std lib, or the version this extern is generated for.
 	**/
 	static public var version(get, never):String;
 	static function get_version():String {
