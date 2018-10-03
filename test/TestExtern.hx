@@ -1,3 +1,4 @@
+import haxe.macro.Context;
 import js.jquery.*;
 import js.jquery.Helper.*;
 import utest.*;
@@ -29,4 +30,10 @@ class TestExtern {
         });
     }
 
+    function testVersion() {
+        var versionStr:String = JQuery.fn.jquery;
+        var v = versionStr.split(".");
+        Assert.equals(3, v.length);
+        Assert.equals(haxe.macro.Compiler.getDefine("jquery_ver"), v[0] + StringTools.lpad(v[1], "0", 2) + StringTools.lpad(v[2], "0", 2));
+    }
 }
