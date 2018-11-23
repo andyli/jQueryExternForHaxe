@@ -25,7 +25,8 @@ class Config {
 		plugins.set(pluginFullName, null);
 		
 		//force building the Plugin
-		Context.getType(pluginFullName);
+		var ct = Context.toComplexType(Context.getType(pluginFullName));
+		Context.typeof(macro {var v:$ct = null; v;});
 	}
 	
 	/**
