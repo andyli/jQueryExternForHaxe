@@ -31,7 +31,7 @@ Then add `-lib jQueryExtern` in our hxml.
 By default, jQueryExtern provides API same as the one supported by the std extern. It means that using jQueryExtern will not change the default jQuery version. The default jQuery is *1.6.4* in Haxe 3.2 and earlier. Since Haxe 3.3, the default version is set in compiler define `jquery-ver`. You may check the value of `jquery-ver` using [`haxe.macro.Compiler.getDefine`](http://api.haxe.org/haxe/macro/Compiler.html#getDefine). The version is encoded as an interger. e.g. 1.11.3 is encoded as 11103.
 
 jQueryExtern allows changing the supported jQuery version using `js.jquery.Config.setVersion`. It can be called in a hxml file like this:
-```
+```hxml
 --macro js.jquery.Config.setVersion('1.8.3')
 ```
 The function will also set `jquery-ver` to the corresponding integer value automatically.
@@ -41,7 +41,7 @@ The function will also set `jquery-ver` to the corresponding integer value autom
 jQuery in the JS output is referred as `$`, which is an alise of `jQuery`. Some JS libs, eg. [PrototypeJS](http://prototypejs.org/) also use the `$` variable, so we may want to refer jQuery by its original name instead.
 
 To do so, add the following compiler option:
-```
+```hxml
 --macro js.jquery.Config.setNative('jQuery')
 ```
 Under the surface, it changes the metadata on the JQuery classes from `@:native("$")` to `@:native("jQuery")`.
@@ -61,7 +61,7 @@ extern class JQueryPlugIn implements js.jquery.Plugin {
 ```
 
 To use it, add the following compiler option:
-```
+```hxml
 --macro js.jquery.Config.addPlugin('jPlugin.JQueryPlugIn')
 ```
 
