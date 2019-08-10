@@ -6,3 +6,4 @@ Thumbs.db
 *.js.map
 api.xml
 node_modules
+.haxelib

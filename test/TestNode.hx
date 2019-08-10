@@ -1,12 +1,18 @@
 import js.jquery.*;
 import utest.*;
 
+#if (haxe_ver >= 4)
+import js.lib.Promise;
+#else
+import js.Promise;
+#end
+
 @:jsRequire("jsdom", "JSDOM")
 extern class JSDOM implements Dynamic {
     public function new(str:String, ?options:Dynamic):Void;
 
-    static public function fromURL(url:String, ?options:Dynamic):js.Promise<Dynamic>;
-    static public function fromFile(url:String, ?options:Dynamic):js.Promise<Dynamic>;
+    static public function fromURL(url:String, ?options:Dynamic):Promise<Dynamic>;
+    static public function fromFile(url:String, ?options:Dynamic):Promise<Dynamic>;
 }
 
 class TestNode {

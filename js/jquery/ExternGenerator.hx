@@ -298,7 +298,7 @@ class ExternGenerator #if (mcli && !macro) extends CommandLine #end {
 			case "Promise":
 				[jqType("Promise")];
 			case "Thenable":
-				[macro:js.Promise.Thenable<Dynamic>];
+				[macro:js.jquery.Thenable<Dynamic>];
 			case "jqXHR":
 				[jqType("JqXHR")];
 			case "Selector", "selector":
@@ -313,7 +313,7 @@ class ExternGenerator #if (mcli && !macro) extends CommandLine #end {
 				[macro:Array<$element>];*/
 
 			case "Error":
-				[macro:js.Error];
+				[macro:js.jquery.Error];
 			
 			case "Boolean", "boolean":
 				[macro:Bool];

@@ -158,8 +158,15 @@ package js.jquery;
 	/**
 		Execute some JavaScript code globally.
 	**/
+	@:overload
 	@:jQueryVersion({ added : "1.0.4" })
 	static public function globalEval(code:String):Dynamic;
+	/**
+		Execute some JavaScript code globally.
+	**/
+	@:overload
+	@:jQueryVersion({ added : "3.4.0" })
+	static public function globalEval(code:String, ?options:Dynamic):Dynamic;
 	/**
 		Finds the elements of an array which satisfy a filter function. The original array is not affected.
 	**/
@@ -342,12 +349,12 @@ package js.jquery;
 		A Promise-like object (or "thenable") that resolves when the document is ready.
 	**/
 	@:jQueryVersion({ added : "1.8" })
-	static public var ready : js.Promise.Thenable<Dynamic>;
+	static public var ready : js.jquery.Thenable<Dynamic>;
 	/**
 		Handles errors thrown synchronously in functions wrapped in <code>jQuery()</code>.
 	**/
 	@:jQueryVersion({ added : "3.1" })
-	static public dynamic function readyException(error:js.Error):String;
+	static public dynamic function readyException(error:js.jquery.Error):String;
 	/**
 		Remove a previously-stored piece of data.
 	**/
@@ -405,7 +412,7 @@ package js.jquery;
 		Provides a way to execute callback functions based on zero or more Thenable objects, usually <a href="/category/deferred-object/">Deferred</a> objects that represent asynchronous events.
 	**/
 	@:jQueryVersion({ added : "1.5" })
-	static public function when(deferreds:haxe.extern.EitherType<js.jquery.Promise, haxe.extern.EitherType<haxe.extern.Rest<js.jquery.Deferred>, js.Promise.Thenable<Dynamic>>>):js.jquery.Promise;
+	static public function when(deferreds:haxe.extern.EitherType<js.jquery.Promise, haxe.extern.EitherType<js.jquery.Thenable<Dynamic>, haxe.extern.Rest<js.jquery.Deferred>>>):js.jquery.Promise;
 	/**
 		Create a new jQuery object with elements added to the set of matched elements.
 	**/
@@ -760,13 +767,13 @@ package js.jquery;
 	@:jQueryVersion({ added : "1.4" })
 	public function css(propertyName:String, _function:Int -> String -> haxe.extern.EitherType<Float, String>):js.jquery.JQuery;
 	/**
-		Return the value at the named data store for the first element in the jQuery collection, as set by data(name, value) or by an HTML5 data-* attribute.
+		Return arbitrary data associated with the first element in the jQuery collection, as set by data() or by an HTML5 <code>data-*</code> attribute.
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.4" })
 	public function data():Dynamic;
 	/**
-		Return the value at the named data store for the first element in the jQuery collection, as set by data(name, value) or by an HTML5 data-* attribute.
+		Return arbitrary data associated with the first element in the jQuery collection, as set by data() or by an HTML5 <code>data-*</code> attribute.
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.2.3" })
@@ -1340,7 +1347,7 @@ package js.jquery;
 	@:jQueryVersion({ added : "1.4.3", deprecated : "1.8", removed : "3.0" })
 	public function load(?eventData:Dynamic, handler:js.jquery.Event -> Void):js.jquery.JQuery;
 	/**
-		Load data from the server and place the returned HTML into the matched element.
+		Load data from the server and place the returned HTML into the matched elements.
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.0" })
@@ -1661,12 +1668,6 @@ package js.jquery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.8.0" })
-	public function outerHeight(value:haxe.extern.EitherType<Float, String>):js.jquery.JQuery;
-	/**
-		Set the CSS outer height of each element in the set of matched elements.
-	**/
-	@:overload
-	@:jQueryVersion({ added : "1.8.0" })
 	public function outerHeight(_function:Int -> Float -> haxe.extern.EitherType<Float, String>):js.jquery.JQuery;
 	/**
 		Get the current computed outer height (including padding, border, and optionally margin) for the first element in the set of matched elements.
@@ -1675,11 +1676,11 @@ package js.jquery;
 	@:jQueryVersion({ added : "1.2.6" })
 	public function outerHeight(?includeMargin:Bool):Float;
 	/**
-		Set the CSS outer width of each element in the set of matched elements.
+		Set the CSS outer height of each element in the set of matched elements.
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.8.0" })
-	public function outerWidth(value:haxe.extern.EitherType<Float, String>):js.jquery.JQuery;
+	public function outerHeight(value:haxe.extern.EitherType<Float, String>, ?includeMargin:Bool):js.jquery.JQuery;
 	/**
 		Set the CSS outer width of each element in the set of matched elements.
 	**/
@@ -1692,6 +1693,12 @@ package js.jquery;
 	@:overload
 	@:jQueryVersion({ added : "1.2.6" })
 	public function outerWidth(?includeMargin:Bool):Float;
+	/**
+		Set the CSS outer width of each element in the set of matched elements.
+	**/
+	@:overload
+	@:jQueryVersion({ added : "1.8.0" })
+	public function outerWidth(value:haxe.extern.EitherType<Float, String>, ?includeMargin:Bool):js.jquery.JQuery;
 	/**
 		Get the parent of each element in the current set of matched elements, optionally filtered by a selector.
 	**/
