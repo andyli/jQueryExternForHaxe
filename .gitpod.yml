@@ -1,1 +1,5 @@
 image: haxe:3.4.7
+
+vscode:
+  extensions:
+    - nadako.vshaxe@2.13.7:fSIpS7qFulwuCtMXnCiOjw==
