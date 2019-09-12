@@ -4,8 +4,7 @@ haxe:
   - development
   - "3.4.7"
 
-dist: trusty
-sudo: false
+dist: xenial
 
 install:
   - haxelib install hxnodejs
