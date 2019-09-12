@@ -4,7 +4,7 @@
   "license": "Public",
   "tags": ["js","extern"],
   "description": "Unleash the full power of jQuery in Haxe.",
-  "version": "3.2.0",
-  "releasenote": "Support jQuery version up to 3.4.1. Avoid some Haxe 4 deprecation warnings.",
+  "version": "3.2.1",
+  "releasenote": "Avoid Haxe 4 warning about Compiler.define().",
   "contributors": ["andyli"]
 }
