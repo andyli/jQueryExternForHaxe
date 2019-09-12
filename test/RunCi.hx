@@ -26,6 +26,7 @@ class RunCi {
 			"-main", "Test",
 			"-cp", "test",
 			"-lib", "utest",
+			"-lib", "jQueryExtern",
 			"-D", "travis"
 		];
 

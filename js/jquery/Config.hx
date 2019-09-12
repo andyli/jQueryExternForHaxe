@@ -16,7 +16,14 @@ class Config {
 	static var plugins(default, null):Map<String, Array<Field>> = new Map();
 	static var isBuilt(default, null):Bool = false;
 	static var defaultVersion(default, null) = '30401'; // assume to be latest supported version
-	
+
+	static public function init():Void {
+		var jquery_ver = haxe.macro.Context.definedValue("jquery_ver");
+		if (jquery_ver == null) {
+			haxe.macro.Compiler.define("jquery_ver", defaultVersion);
+		}
+	}
+
 	/**
 		Add an Plugin extern class. All fields of the class will be injected into JQuery/JQueryStatic.
 	**/
@@ -51,8 +58,7 @@ class Config {
 	static function get_version():String {
 		var jquery_ver = haxe.macro.Context.definedValue("jquery_ver");
 		if (jquery_ver == null) {
-			jquery_ver = defaultVersion;
-			haxe.macro.Compiler.define("jquery_ver", defaultVersion);
+			throw "Missing compiler define jquery_ver. If not using -lib jQueryExtern, try add --macro js.jquery.Config.init().";
 		}
 		return Utils.parseIntVersion(Std.parseInt(jquery_ver)).join(".");
 	}

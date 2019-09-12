@@ -3,4 +3,5 @@
 -cp test
 -lib phantomjs
 -lib utest
+-lib jQueryExtern
 -D travis
