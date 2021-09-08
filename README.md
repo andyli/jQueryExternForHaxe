@@ -6,7 +6,7 @@ This version of jQuery extern requires Haxe 3.3+. Users of Haxe 3.2.0- should ch
 
 # jQueryExtern [![Build Status](https://travis-ci.org/andyli/jQueryExternForHaxe.svg?branch=master)](https://travis-ci.org/andyli/jQueryExternForHaxe)
 
-jQueryExtern unleash the full power of [jQuery](http://jquery.com/) in [Haxe](http://haxe.org/). Currently supports jQuery version up to *3.4.1*.
+jQueryExtern unleash the full power of [jQuery](https://jquery.com/) in [Haxe](https://haxe.org/). Currently supports jQuery version up to *3.4.1*.
 
 This library, jQueryExtern, is a drop-in replacement of the externs in the standard library (`js.jquery.*`). It utilizes build macros to provide advanced control over the extern for all the special needs.
 
@@ -17,7 +17,7 @@ jQueryExtern allows us to:
 
 ## Download and Install
 
-Install via [haxelib](http://haxe.org/doc/haxelib/using_haxelib):
+Install via [haxelib](https://haxe.org/doc/haxelib/using_haxelib):
 ```
 haxelib install jQueryExtern
 ```
@@ -28,7 +28,7 @@ Then add `-lib jQueryExtern` in our hxml.
 
 ### Version Selection
 
-By default, jQueryExtern provides API same as the one supported by the std extern. It means that using jQueryExtern will not change the default jQuery version. The default jQuery is *1.6.4* in Haxe 3.2 and earlier. Since Haxe 3.3, the default version is set in compiler define `jquery-ver`. You may check the value of `jquery-ver` using [`haxe.macro.Compiler.getDefine`](http://api.haxe.org/haxe/macro/Compiler.html#getDefine). The version is encoded as an interger. e.g. 1.11.3 is encoded as 11103.
+By default, jQueryExtern provides API same as the one supported by the std extern. It means that using jQueryExtern will not change the default jQuery version. The default jQuery is *1.6.4* in Haxe 3.2 and earlier. Since Haxe 3.3, the default version is set in compiler define `jquery-ver`. You may check the value of `jquery-ver` using [`haxe.macro.Compiler.getDefine`](https://api.haxe.org/haxe/macro/Compiler.html#getDefine). The version is encoded as an interger. e.g. 1.11.3 is encoded as 11103.
 
 jQueryExtern allows changing the supported jQuery version using `js.jquery.Config.setVersion`. It can be called in a hxml file like this:
 ```hxml
@@ -38,7 +38,7 @@ The function will also set `jquery-ver` to the corresponding integer value autom
 
 ### Changing Native Reference
 
-jQuery in the JS output is referred as `$`, which is an alise of `jQuery`. Some JS libs, eg. [PrototypeJS](http://prototypejs.org/) also use the `$` variable, so we may want to refer jQuery by its original name instead.
+jQuery in the JS output is referred as `$`, which is an alise of `jQuery`. Some JS libs, eg. [PrototypeJS](https://prototypejs.org/) also use the `$` variable, so we may want to refer jQuery by its original name instead.
 
 To do so, add the following compiler option:
 ```hxml
@@ -71,4 +71,4 @@ Note that currently import statements are not supported in the plugin extern mod
 
 jQueryExtern is released in the public domain. NO WARRANTY EXPRESSED OR IMPLIED. USE AT YOUR OWN RISK.
 
-jQuery's license can be found at http://jquery.org/license.
+jQuery's license can be found at https://jquery.org/license.

@@ -36,7 +36,7 @@ class ExternGenerator #if (mcli && !macro) extends CommandLine #end {
 
 	/**
 		The path to api.xml.
-		You can get the latest one from http://api.jquery.com/resources/api.xml.
+		You can get the latest one from https://api.jquery.com/resources/api.xml.
 	*/
 	public var apiXml(default, null):String = "api.xml";
 
@@ -86,7 +86,7 @@ class ExternGenerator #if (mcli && !macro) extends CommandLine #end {
 	public var addHaxeIterator(default, null):Bool = false;
 
 	/**
-		http://api.jquery.com/category/events/event-object/
+		https://api.jquery.com/category/events/event-object/
 		https://github.com/jquery/jquery/blob/master/src/event.js
 		https://github.com/jquery/api.jquery.com/blob/master/categories.xml#L146
 	*/
@@ -1204,7 +1204,7 @@ class ExternGenerator #if (mcli && !macro) extends CommandLine #end {
 		var deferred = out.find(function(t) return t.name == "Deferred");
 		var promiseFields = [
 			for (field in deferred.fields)
-			// http://api.jquery.com/Types/#Promise
+			// https://api.jquery.com/Types/#Promise
 			if ([
 				"then",
 				"done",
@@ -1318,7 +1318,7 @@ class ExternGenerator #if (mcli && !macro) extends CommandLine #end {
 
 		var printer = new Printer();
 		for (td in tds) {
-			var clsStr = "/* This file is generated, do not edit! Visit http://api.jquery.com/ for API documentation. */\n" + printer.printTypeDefinition(td);
+			var clsStr = "/* This file is generated, do not edit! Visit https://api.jquery.com/ for API documentation. */\n" + printer.printTypeDefinition(td);
 			var packDir = td.pack.join("/");
 			FileSystem.createDirectory(packDir);
 			File.saveContent(packDir + "/" + td.name + ".hx", clsStr);
