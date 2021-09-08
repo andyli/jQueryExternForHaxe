@@ -1,4 +1,4 @@
-/* This file is generated, do not edit! Visit http://api.jquery.com/ for API documentation. */
+/* This file is generated, do not edit! Visit https://api.jquery.com/ for API documentation. */
 package js.jquery;
 @:build(js.jquery.Config.build()) extern class Event extends js.html.Event {
 	/**
@@ -69,14 +69,14 @@ package js.jquery;
 	public var altKey : Bool;
 	/**
 		
-				The button number that was pressed when the mouse event was fired. 
+				The button number that was pressed (if applicable) when the mouse event was fired.
 			
 	**/
 	public var button : Int;
 	/**
 		
 				
-				 The buttons being pressed when the mouse event was fired
+				 The buttons being depressed (if any) when the mouse event was fired.
 				 
 			
 	**/

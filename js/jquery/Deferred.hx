@@ -1,4 +1,4 @@
-/* This file is generated, do not edit! Visit http://api.jquery.com/ for API documentation. */
+/* This file is generated, do not edit! Visit https://api.jquery.com/ for API documentation. */
 package js.jquery;
 @:build(js.jquery.Config.build()) extern class Deferred {
 	/**

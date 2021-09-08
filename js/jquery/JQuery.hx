@@ -1,4 +1,4 @@
-/* This file is generated, do not edit! Visit http://api.jquery.com/ for API documentation. */
+/* This file is generated, do not edit! Visit https://api.jquery.com/ for API documentation. */
 package js.jquery;
 @:build(js.jquery.Config.build()) extern class JQuery implements ArrayAccess<js.html.Element> {
 	/**
@@ -27,7 +27,7 @@ package js.jquery;
 		Handle custom Ajax options or modify existing options before each request is sent and before they are processed by <code>$.ajax()</code>.
 	**/
 	@:jQueryVersion({ added : "1.5" })
-	static public function ajaxPrefilter(?dataTypes:String, handler:Dynamic -> Dynamic -> js.jquery.JqXHR -> Void):Void;
+	static public function ajaxPrefilter(?dataTypes:String, handler:(Dynamic, Dynamic, js.jquery.JqXHR) -> Void):Void;
 	/**
 		Set default values for future Ajax requests. Its use is not recommended.
 	**/
@@ -37,9 +37,9 @@ package js.jquery;
 		Creates an object that handles the actual transmission of Ajax data.
 	**/
 	@:jQueryVersion({ added : "1.5" })
-	static public function ajaxTransport(dataType:String, handler:Dynamic -> Dynamic -> js.jquery.JqXHR -> Void):Void;
+	static public function ajaxTransport(dataType:String, handler:(Dynamic, Dynamic, js.jquery.JqXHR) -> Void):Void;
 	/**
-		States if the current page, in the user's browser, is being rendered using the <a href="https://www.w3.org/TR/REC-CSS2/box.html">W3C CSS Box Model</a>. <strong>This property was removed in jQuery 1.8</strong>. Please try to use feature detection instead.
+		States if the current page, in the user's browser, is being rendered using the <a href="https://www.w3.org/TR/REC-CSS2/box.html">W3C CSS Box Model</a>.
 	**/
 	@:jQueryVersion({ added : "1.0", deprecated : "1.3", removed : "1.8" })
 	static public var boxModel : Bool;
@@ -91,13 +91,13 @@ package js.jquery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.0" })
-	static public function each(array:haxe.extern.EitherType<Array<Dynamic>, js.html.NodeList>, callback:Int -> Dynamic -> Void):Dynamic;
+	static public function each(array:haxe.extern.EitherType<Array<Dynamic>, js.html.NodeList>, callback:(Int, Dynamic) -> Void):Dynamic;
 	/**
 		A generic iterator function, which can be used to seamlessly iterate over both objects and arrays. Arrays and array-like objects with a length property (such as a function's arguments object) are iterated by numeric index, from 0 to length-1. Other objects are iterated via their named properties.
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.0" })
-	static public function each(object:Dynamic, callback:String -> Dynamic -> Void):Dynamic;
+	static public function each(object:Dynamic, callback:(String, Dynamic) -> Void):Dynamic;
 	/**
 		Takes a string and throws an exception containing it.
 	**/
@@ -113,7 +113,13 @@ package js.jquery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.0" })
-	static public function extend(target:Dynamic, ?object1:Dynamic, ?objectN:Dynamic):Dynamic;
+	static public function extend(object:Dynamic):Dynamic;
+	/**
+		Merge the contents of two or more objects together into the first object.
+	**/
+	@:overload
+	@:jQueryVersion({ added : "1.0" })
+	static public function extend(target:Dynamic, object1:Dynamic, ?objectN:Dynamic):Dynamic;
 	/**
 		Merge the contents of two or more objects together into the first object.
 	**/
@@ -137,24 +143,24 @@ package js.jquery;
 		Load data from the server using a HTTP GET request.
 	**/
 	@:overload
-	@:jQueryVersion({ added : "1.12/2.2" })
+	@:jQueryVersion({ added : "1.12-and-2.2" })
 	static public function get(settings:Dynamic):js.jquery.JqXHR;
 	/**
 		Load data from the server using a HTTP GET request.
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.0" })
-	static public function get(url:String, ?data:Dynamic, ?success:Dynamic -> String -> js.jquery.JqXHR -> Void, ?dataType:String):js.jquery.JqXHR;
+	static public function get(url:String, ?data:Dynamic, ?success:(Dynamic, String, js.jquery.JqXHR) -> Void, ?dataType:String):js.jquery.JqXHR;
 	/**
 		Load JSON-encoded data from the server using a GET HTTP request.
 	**/
 	@:jQueryVersion({ added : "1.0" })
-	static public function getJSON(url:String, ?data:Dynamic, ?success:Dynamic -> String -> js.jquery.JqXHR -> Void):js.jquery.JqXHR;
+	static public function getJSON(url:String, ?data:Dynamic, ?success:(Dynamic, String, js.jquery.JqXHR) -> Void):js.jquery.JqXHR;
 	/**
 		Load a JavaScript file from the server using a GET HTTP request, then execute it.
 	**/
 	@:jQueryVersion({ added : "1.0" })
-	static public function getScript(url:String, ?success:String -> String -> js.jquery.JqXHR -> Void):js.jquery.JqXHR;
+	static public function getScript(url:String, ?success:(String, String, js.jquery.JqXHR) -> Void):js.jquery.JqXHR;
 	/**
 		Execute some JavaScript code globally.
 	**/
@@ -168,10 +174,16 @@ package js.jquery;
 	@:jQueryVersion({ added : "3.4.0" })
 	static public function globalEval(code:String, ?options:Dynamic):Dynamic;
 	/**
+		Execute some JavaScript code globally.
+	**/
+	@:overload
+	@:jQueryVersion({ added : "3.5.0" })
+	static public function globalEval(code:String, ?options:Dynamic, ?doc:js.html.Document):Dynamic;
+	/**
 		Finds the elements of an array which satisfy a filter function. The original array is not affected.
 	**/
 	@:jQueryVersion({ added : "1.0" })
-	static public function grep(array:haxe.extern.EitherType<Array<Dynamic>, js.html.NodeList>, _function:Dynamic -> Int -> Bool, ?invert:Bool):Array<Dynamic>;
+	static public function grep(array:haxe.extern.EitherType<Array<Dynamic>, js.html.NodeList>, _function:(Dynamic, Int) -> Bool, ?invert:Bool):Array<Dynamic>;
 	/**
 		Determine whether an element has any jQuery data associated with it.
 	**/
@@ -180,12 +192,12 @@ package js.jquery;
 	/**
 		Holds or releases the execution of jQuery's ready event.
 	**/
-	@:jQueryVersion({ added : "1.6" })
+	@:jQueryVersion({ added : "1.6", deprecated : "3.2" })
 	static public function holdReady(hold:Bool):Void;
 	/**
 		Modify and filter HTML strings passed through <a href="/category/manipulation/">jQuery manipulation methods</a>.
 	**/
-	@:jQueryVersion({ added : "1.12/2.2" })
+	@:jQueryVersion({ added : "1.12-and-2.2" })
 	static public function htmlPrefilter(html:String):String;
 	/**
 		Search for a specified value within an array and return its index (or -1 if not found).
@@ -195,7 +207,7 @@ package js.jquery;
 	/**
 		Determine whether the argument is an array.
 	**/
-	@:jQueryVersion({ added : "1.3" })
+	@:jQueryVersion({ added : "1.3", deprecated : "3.2" })
 	static public function isArray(obj:Dynamic):Bool;
 	/**
 		Check to see if an object is empty (contains no enumerable properties).
@@ -210,7 +222,7 @@ package js.jquery;
 	/**
 		Determines whether its argument represents a JavaScript number.
 	**/
-	@:jQueryVersion({ added : "1.7" })
+	@:jQueryVersion({ added : "1.7", deprecated : "3.3" })
 	static public function isNumeric(value:Dynamic):Bool;
 	/**
 		Check to see if an object is a plain object (created using "{}" or "new Object").
@@ -237,13 +249,13 @@ package js.jquery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.0" })
-	static public function map(array:Array<Dynamic>, callback:Dynamic -> Int -> Dynamic):Array<Dynamic>;
+	static public function map(array:Array<Dynamic>, callback:(Dynamic, Int) -> Dynamic):Array<Dynamic>;
 	/**
 		Translate all items in an array or object to new array of items.
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.6" })
-	static public function map(object:Dynamic, callback:Dynamic -> String -> Dynamic):Array<Dynamic>;
+	static public function map(object:Dynamic, callback:(Dynamic, String) -> Dynamic):Array<Dynamic>;
 	/**
 		Merge the contents of two arrays together into the first array.
 	**/
@@ -262,7 +274,7 @@ package js.jquery;
 	/**
 		Return a number representing the current time.
 	**/
-	@:jQueryVersion({ added : "1.4.3" })
+	@:jQueryVersion({ added : "1.4.3", deprecated : "3.3" })
 	static public function now():Float;
 	/**
 		Create a serialized representation of an array, a plain object, or a jQuery object suitable for use in a URL query string or Ajax request. In case a jQuery object is passed, it should contain input elements with name/value properties.
@@ -292,40 +304,40 @@ package js.jquery;
 	@:jQueryVersion({ added : "1.5" })
 	static public function parseXML(data:String):js.html.Document;
 	/**
-		Load data from the server using a HTTP POST request.
+		Send data to the server using a HTTP POST request.
 	**/
 	@:overload
-	@:jQueryVersion({ added : "1.12/2.2" })
+	@:jQueryVersion({ added : "1.12-and-2.2" })
 	static public function post(settings:Dynamic):js.jquery.JqXHR;
 	/**
-		Load data from the server using a HTTP POST request.
+		Send data to the server using a HTTP POST request.
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.0" })
-	static public function post(url:String, ?data:Dynamic, ?success:Dynamic -> String -> js.jquery.JqXHR -> Void, ?dataType:String):js.jquery.JqXHR;
+	static public function post(url:String, ?data:Dynamic, ?success:(Dynamic, String, js.jquery.JqXHR) -> Void, ?dataType:String):js.jquery.JqXHR;
 	/**
 		Takes a function and returns a new one that will always have a particular context.
 	**/
 	@:overload
-	@:jQueryVersion({ added : "1.4" })
+	@:jQueryVersion({ added : "1.4", deprecated : "3.3" })
 	static public function proxy(_function:haxe.Constraints.Function, context:Dynamic):haxe.Constraints.Function;
 	/**
 		Takes a function and returns a new one that will always have a particular context.
 	**/
 	@:overload
-	@:jQueryVersion({ added : "1.4" })
+	@:jQueryVersion({ added : "1.4", deprecated : "3.3" })
 	static public function proxy(context:Dynamic, name:String):haxe.Constraints.Function;
 	/**
 		Takes a function and returns a new one that will always have a particular context.
 	**/
 	@:overload
-	@:jQueryVersion({ added : "1.6" })
+	@:jQueryVersion({ added : "1.6", deprecated : "3.3" })
 	static public function proxy(_function:haxe.Constraints.Function, context:Dynamic, ?additionalArguments:Dynamic):haxe.Constraints.Function;
 	/**
 		Takes a function and returns a new one that will always have a particular context.
 	**/
 	@:overload
-	@:jQueryVersion({ added : "1.6" })
+	@:jQueryVersion({ added : "1.6", deprecated : "3.3" })
 	static public function proxy(context:Dynamic, name:String, ?additionalArguments:Dynamic):haxe.Constraints.Function;
 	/**
 		Show the queue of functions to be executed on the matched element.
@@ -338,13 +350,13 @@ package js.jquery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.3" })
-	static public function queue(element:js.html.Element, queueName:String, newQueue:Array<Void -> Void>):js.jquery.JQuery;
+	static public function queue(element:js.html.Element, queueName:String, newQueue:Array<Void -> Void>):Array<Void -> Void>;
 	/**
 		Manipulate the queue of functions to be executed on the matched element.
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.3" })
-	static public function queue(element:js.html.Element, queueName:String, callback:haxe.Constraints.Function):js.jquery.JQuery;
+	static public function queue(element:js.html.Element, queueName:String, callback:haxe.Constraints.Function):Array<Void -> Void>;
 	/**
 		A Promise-like object (or "thenable") that resolves when the document is ready.
 	**/
@@ -359,7 +371,7 @@ package js.jquery;
 		Remove a previously-stored piece of data.
 	**/
 	@:jQueryVersion({ added : "1.2.3" })
-	static public function removeData(element:js.html.Element, ?name:String):js.jquery.JQuery;
+	static public function removeData(element:js.html.Element, ?name:String):Void;
 	/**
 		Creates an object containing a set of properties ready to be used in the definition of custom animations.
 	**/
@@ -391,12 +403,12 @@ package js.jquery;
 	/**
 		Remove the whitespace from the beginning and end of a string.
 	**/
-	@:jQueryVersion({ added : "1.0" })
+	@:jQueryVersion({ added : "1.0", deprecated : "3.5" })
 	static public function trim(str:String):String;
 	/**
 		Determine the internal JavaScript [[Class]] of an object.
 	**/
-	@:jQueryVersion({ added : "1.4.3" })
+	@:jQueryVersion({ added : "1.4.3", deprecated : "3.3" })
 	static public function type(obj:Dynamic):String;
 	/**
 		Sorts an array of DOM elements, in place, with the duplicates removed. Note that this only works on arrays of DOM elements, not strings or numbers.
@@ -406,7 +418,7 @@ package js.jquery;
 	/**
 		Sorts an array of DOM elements, in place, with the duplicates removed. Note that this only works on arrays of DOM elements, not strings or numbers.
 	**/
-	@:jQueryVersion({ added : "1.12-2.2" })
+	@:jQueryVersion({ added : "1.12-and-2.2" })
 	static public function uniqueSort(array:Array<js.html.Element>):Array<js.html.Element>;
 	/**
 		Provides a way to execute callback functions based on zero or more Thenable objects, usually <a href="/category/deferred-object/">Deferred</a> objects that represent asynchronous events.
@@ -458,8 +470,20 @@ package js.jquery;
 		Adds the specified class(es) to each element in the set of matched elements.
 	**/
 	@:overload
+	@:jQueryVersion({ added : "3.3" })
+	public function addClass(classNames:Array<String>):js.jquery.JQuery;
+	/**
+		Adds the specified class(es) to each element in the set of matched elements.
+	**/
+	@:overload
 	@:jQueryVersion({ added : "1.4" })
-	public function addClass(_function:Int -> String -> String):js.jquery.JQuery;
+	public function addClass(_function:(Int, String) -> String):js.jquery.JQuery;
+	/**
+		Adds the specified class(es) to each element in the set of matched elements.
+	**/
+	@:overload
+	@:jQueryVersion({ added : "3.3" })
+	public function addClass(_function:(Int, String) -> String):js.jquery.JQuery;
 	/**
 		Insert content, specified by the parameter, after each element in the set of matched elements.
 	**/
@@ -471,7 +495,7 @@ package js.jquery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.10" })
-	public function after(_function:Int -> String -> haxe.extern.EitherType<js.html.Element, haxe.extern.EitherType<String, js.jquery.JQuery>>):js.jquery.JQuery;
+	public function after(_function:(Int, String) -> haxe.extern.EitherType<js.html.Element, haxe.extern.EitherType<String, js.jquery.JQuery>>):js.jquery.JQuery;
 	/**
 		Insert content, specified by the parameter, after each element in the set of matched elements.
 	**/
@@ -482,17 +506,17 @@ package js.jquery;
 		Register a handler to be called when Ajax requests complete. This is an <a href="/Ajax_Events/">AjaxEvent</a>.
 	**/
 	@:jQueryVersion({ added : "1.0" })
-	public function ajaxComplete(handler:js.jquery.Event -> js.jquery.JqXHR -> Dynamic -> Void):js.jquery.JQuery;
+	public function ajaxComplete(handler:(js.jquery.Event, js.jquery.JqXHR, Dynamic) -> Void):js.jquery.JQuery;
 	/**
 		Register a handler to be called when Ajax requests complete with an error. This is an <a href="/Ajax_Events/">Ajax Event</a>.
 	**/
 	@:jQueryVersion({ added : "1.0" })
-	public function ajaxError(handler:js.jquery.Event -> js.jquery.JqXHR -> Dynamic -> String -> Void):js.jquery.JQuery;
+	public function ajaxError(handler:(js.jquery.Event, js.jquery.JqXHR, Dynamic, String) -> Void):js.jquery.JQuery;
 	/**
 		Attach a function to be executed before an Ajax request is sent. This is an <a href="/Ajax_Events/">Ajax Event</a>.
 	**/
 	@:jQueryVersion({ added : "1.0" })
-	public function ajaxSend(handler:js.jquery.Event -> js.jquery.JqXHR -> Dynamic -> Void):js.jquery.JQuery;
+	public function ajaxSend(handler:(js.jquery.Event, js.jquery.JqXHR, Dynamic) -> Void):js.jquery.JQuery;
 	/**
 		Register a handler to be called when the first Ajax request begins. This is an <a href="/Ajax_Events/">Ajax Event</a>.
 	**/
@@ -507,7 +531,7 @@ package js.jquery;
 		Attach a function to be executed whenever an Ajax request completes successfully. This is an <a href="/Ajax_Events/">Ajax Event</a>.
 	**/
 	@:jQueryVersion({ added : "1.0" })
-	public function ajaxSuccess(handler:js.jquery.Event -> js.jquery.JqXHR -> Dynamic -> Dynamic -> Void):js.jquery.JQuery;
+	public function ajaxSuccess(handler:(js.jquery.Event, js.jquery.JqXHR, Dynamic, Dynamic) -> Void):js.jquery.JQuery;
 	/**
 		Add the previous set of elements on the stack to the current set.
 	**/
@@ -530,7 +554,7 @@ package js.jquery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.4" })
-	public function append(_function:Int -> String -> haxe.extern.EitherType<js.html.Element, haxe.extern.EitherType<String, js.jquery.JQuery>>):js.jquery.JQuery;
+	public function append(_function:(Int, String) -> haxe.extern.EitherType<js.html.Element, haxe.extern.EitherType<String, js.jquery.JQuery>>):js.jquery.JQuery;
 	/**
 		Insert content, specified by the parameter, to the end of each element in the set of matched elements.
 	**/
@@ -565,7 +589,7 @@ package js.jquery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.1" })
-	public function attr(attributeName:String, _function:Int -> String -> haxe.extern.EitherType<Float, String>):js.jquery.JQuery;
+	public function attr(attributeName:String, _function:(Int, String) -> haxe.extern.EitherType<Float, String>):js.jquery.JQuery;
 	/**
 		Insert content, specified by the parameter, before each element in the set of matched elements.
 	**/
@@ -577,7 +601,7 @@ package js.jquery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.10" })
-	public function before(_function:Int -> String -> haxe.extern.EitherType<js.html.Element, haxe.extern.EitherType<String, js.jquery.JQuery>>):js.jquery.JQuery;
+	public function before(_function:(Int, String) -> haxe.extern.EitherType<js.html.Element, haxe.extern.EitherType<String, js.jquery.JQuery>>):js.jquery.JQuery;
 	/**
 		Insert content, specified by the parameter, before each element in the set of matched elements.
 	**/
@@ -765,7 +789,7 @@ package js.jquery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.4" })
-	public function css(propertyName:String, _function:Int -> String -> haxe.extern.EitherType<Float, String>):js.jquery.JQuery;
+	public function css(propertyName:String, _function:(Int, String) -> haxe.extern.EitherType<Float, String>):js.jquery.JQuery;
 	/**
 		Return arbitrary data associated with the first element in the jQuery collection, as set by data() or by an HTML5 <code>data-*</code> attribute.
 	**/
@@ -863,7 +887,7 @@ package js.jquery;
 		Iterate over a jQuery object, executing a function for each matched element.
 	**/
 	@:jQueryVersion({ added : "1.0" })
-	public function each(_function:Int -> js.html.Element -> Void):js.jquery.JQuery;
+	public function each(_function:(Int, js.html.Element) -> Void):js.jquery.JQuery;
 	/**
 		Remove all child nodes of the set of matched elements from the DOM.
 	**/
@@ -898,6 +922,11 @@ package js.jquery;
 	@:overload
 	@:jQueryVersion({ added : "1.4.3", deprecated : "1.8", removed : "3.0" })
 	public function error(?eventData:Dynamic, handler:js.jquery.Event -> Void):js.jquery.JQuery;
+	/**
+		Reduce the set of matched elements to the even ones in the set, numbered from zero.
+	**/
+	@:jQueryVersion({ added : "3.5" })
+	public function even():js.jquery.JQuery;
 	/**
 		Display the matched elements by fading them to opaque.
 	**/
@@ -981,7 +1010,7 @@ package js.jquery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.0" })
-	public function filter(_function:Int -> js.html.Element -> Bool):js.jquery.JQuery;
+	public function filter(_function:(Int, js.html.Element) -> Bool):js.jquery.JQuery;
 	/**
 		Get the descendants of each element in the current set of matched elements, filtered by a selector, jQuery object, or element.
 	**/
@@ -1104,7 +1133,7 @@ package js.jquery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.4.1" })
-	public function height(_function:Int -> Int -> haxe.extern.EitherType<Float, String>):js.jquery.JQuery;
+	public function height(_function:(Int, Int) -> haxe.extern.EitherType<Float, String>):js.jquery.JQuery;
 	/**
 		Hide the matched elements.
 	**/
@@ -1158,7 +1187,7 @@ package js.jquery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.4" })
-	public function html(_function:Int -> String -> String):js.jquery.JQuery;
+	public function html(_function:(Int, String) -> String):js.jquery.JQuery;
 	/**
 		Search for a given element from among the matched elements.
 	**/
@@ -1194,7 +1223,7 @@ package js.jquery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.8.0" })
-	public function innerHeight(_function:Int -> Float -> haxe.extern.EitherType<Float, String>):js.jquery.JQuery;
+	public function innerHeight(_function:(Int, Float) -> haxe.extern.EitherType<Float, String>):js.jquery.JQuery;
 	/**
 		Get the current computed inner width for the first element in the set of matched elements, including padding but not border.
 	**/
@@ -1212,7 +1241,7 @@ package js.jquery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.8.0" })
-	public function innerWidth(_function:Int -> Float -> haxe.extern.EitherType<Float, String>):js.jquery.JQuery;
+	public function innerWidth(_function:(Int, Float) -> haxe.extern.EitherType<Float, String>):js.jquery.JQuery;
 	/**
 		Insert every element in the set of matched elements after the target.
 	**/
@@ -1246,7 +1275,7 @@ package js.jquery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.6" })
-	public function is(_function:Int -> js.html.Element -> Bool):Bool;
+	public function is(_function:(Int, js.html.Element) -> Bool):Bool;
 	/**
 		A string containing the jQuery version number.
 	**/
@@ -1351,12 +1380,12 @@ package js.jquery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.0" })
-	public function load(url:String, ?data:Dynamic, ?complete:String -> String -> js.jquery.JqXHR -> Void):js.jquery.JQuery;
+	public function load(url:String, ?data:Dynamic, ?complete:(String, String, js.jquery.JqXHR) -> Void):js.jquery.JQuery;
 	/**
 		Pass each element in the current matched set through a function, producing a new jQuery object containing the return values.
 	**/
 	@:jQueryVersion({ added : "1.2" })
-	public function map(callback:Int -> js.html.Element -> Dynamic):js.jquery.JQuery;
+	public function map(callback:(Int, js.html.Element) -> Dynamic):js.jquery.JQuery;
 	/**
 		Bind an event handler to the "mousedown" JavaScript event, or trigger that event on an element.
 	**/
@@ -1538,7 +1567,7 @@ package js.jquery;
 	@:selfCall
 	@:overload
 	@:jQueryVersion({ added : "1.0" })
-	public function new(selector:String, ?context:haxe.extern.EitherType<js.html.Element, js.jquery.JQuery>):Void;
+	public function new(selector:String, ?context:haxe.extern.EitherType<js.html.Element, haxe.extern.EitherType<String, js.jquery.JQuery>>):Void;
 	/**
 		Creates DOM elements on the fly from the provided string of raw HTML.
 	**/
@@ -1585,7 +1614,12 @@ package js.jquery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.4" })
-	public function not(_function:Int -> js.html.Element -> Bool):js.jquery.JQuery;
+	public function not(_function:(Int, js.html.Element) -> Bool):js.jquery.JQuery;
+	/**
+		Reduce the set of matched elements to the odd ones in the set, numbered from zero.
+	**/
+	@:jQueryVersion({ added : "3.5" })
+	public function odd():js.jquery.JQuery;
 	/**
 		Remove an event handler.
 	**/
@@ -1627,7 +1661,7 @@ package js.jquery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.4" })
-	public function offset(_function:Int -> { var top : Float; var left : Float; } -> Dynamic):js.jquery.JQuery;
+	public function offset(_function:(Int, { var top : Float; var left : Float; }) -> Dynamic):js.jquery.JQuery;
 	/**
 		Get the closest ancestor element that is positioned.
 	**/
@@ -1644,7 +1678,7 @@ package js.jquery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.7" })
-	public function on(events:String, ?selector:String, ?data:Dynamic, handler:js.jquery.Event -> haxe.extern.Rest<Dynamic> -> Void):js.jquery.JQuery;
+	public function on(events:String, ?selector:String, ?data:Dynamic, handler:(js.jquery.Event, haxe.extern.Rest<Dynamic>) -> Void):js.jquery.JQuery;
 	/**
 		Attach a handler to an event for the elements. The handler is executed at most once per element per event type.
 	**/
@@ -1668,7 +1702,7 @@ package js.jquery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.8.0" })
-	public function outerHeight(_function:Int -> Float -> haxe.extern.EitherType<Float, String>):js.jquery.JQuery;
+	public function outerHeight(_function:(Int, Float) -> haxe.extern.EitherType<Float, String>):js.jquery.JQuery;
 	/**
 		Get the current computed outer height (including padding, border, and optionally margin) for the first element in the set of matched elements.
 	**/
@@ -1686,7 +1720,7 @@ package js.jquery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.8.0" })
-	public function outerWidth(_function:Int -> Float -> haxe.extern.EitherType<Float, String>):js.jquery.JQuery;
+	public function outerWidth(_function:(Int, Float) -> haxe.extern.EitherType<Float, String>):js.jquery.JQuery;
 	/**
 		Get the current computed outer width (including padding, border, and optionally margin) for the first element in the set of matched elements.
 	**/
@@ -1731,7 +1765,7 @@ package js.jquery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.4" })
-	public function prepend(_function:Int -> String -> haxe.extern.EitherType<js.html.Element, haxe.extern.EitherType<String, js.jquery.JQuery>>):js.jquery.JQuery;
+	public function prepend(_function:(Int, String) -> haxe.extern.EitherType<js.html.Element, haxe.extern.EitherType<String, js.jquery.JQuery>>):js.jquery.JQuery;
 	/**
 		Insert content, specified by the parameter, to the beginning of each element in the set of matched elements.
 	**/
@@ -1787,7 +1821,7 @@ package js.jquery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.6" })
-	public function prop(propertyName:String, _function:Int -> Dynamic -> Dynamic):js.jquery.JQuery;
+	public function prop(propertyName:String, _function:(Int, Dynamic) -> Dynamic):js.jquery.JQuery;
 	/**
 		Set one or more properties for the set of matched elements.
 	**/
@@ -1840,17 +1874,35 @@ package js.jquery;
 	@:jQueryVersion({ added : "1.0" })
 	public function removeAttr(attributeName:String):js.jquery.JQuery;
 	/**
-		Remove a single class, multiple classes, or all classes from each element in the set of matched elements.
-	**/
-	@:overload
-	@:jQueryVersion({ added : "1.4" })
-	public function removeClass(_function:Int -> String -> String):js.jquery.JQuery;
-	/**
-		Remove a single class, multiple classes, or all classes from each element in the set of matched elements.
+		Remove all classes from each matched element.
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.0" })
-	public function removeClass(?className:String):js.jquery.JQuery;
+	public function removeClass():js.jquery.JQuery;
+	/**
+		Remove a single class or multiple classes from each element in the set of matched elements.
+	**/
+	@:overload
+	@:jQueryVersion({ added : "1.0" })
+	public function removeClass(className:String):js.jquery.JQuery;
+	/**
+		Remove a single class or multiple classes from each element in the set of matched elements.
+	**/
+	@:overload
+	@:jQueryVersion({ added : "3.3" })
+	public function removeClass(classNames:Array<String>):js.jquery.JQuery;
+	/**
+		Remove a single class or multiple classes from each element in the set of matched elements.
+	**/
+	@:overload
+	@:jQueryVersion({ added : "1.4" })
+	public function removeClass(_function:(Int, String) -> String):js.jquery.JQuery;
+	/**
+		Remove a single class or multiple classes from each element in the set of matched elements.
+	**/
+	@:overload
+	@:jQueryVersion({ added : "3.3" })
+	public function removeClass(_function:(Int, String) -> String):js.jquery.JQuery;
 	/**
 		Remove a previously-stored piece of data.
 	**/
@@ -2118,7 +2170,7 @@ package js.jquery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.4" })
-	public function text(_function:Int -> String -> String):js.jquery.JQuery;
+	public function text(_function:(Int, String) -> String):js.jquery.JQuery;
 	/**
 		Retrieve all the elements contained in the jQuery set, as an array.
 	**/
@@ -2160,6 +2212,12 @@ package js.jquery;
 	@:overload
 	@:jQueryVersion({ added : "1.0" })
 	public function toggleClass(className:String):js.jquery.JQuery;
+	/**
+		Add or remove one or more classes from each element in the set of matched elements, depending on either the class's presence or the value of the state argument.
+	**/
+	@:overload
+	@:jQueryVersion({ added : "3.3" })
+	public function toggleClass(classNames:Array<String>):js.jquery.JQuery;
 	@:overload
 	@:jQueryVersion({ added : "1.4", deprecated : "3.0" })
 	public function toggleClass(?state:Bool):js.jquery.JQuery;
@@ -2173,8 +2231,20 @@ package js.jquery;
 		Add or remove one or more classes from each element in the set of matched elements, depending on either the class's presence or the value of the state argument.
 	**/
 	@:overload
+	@:jQueryVersion({ added : "3.3" })
+	public function toggleClass(classNames:Array<String>, state:Bool):js.jquery.JQuery;
+	/**
+		Add or remove one or more classes from each element in the set of matched elements, depending on either the class's presence or the value of the state argument.
+	**/
+	@:overload
 	@:jQueryVersion({ added : "1.4" })
-	public function toggleClass(_function:Int -> String -> Bool -> String, ?state:Bool):js.jquery.JQuery;
+	public function toggleClass(_function:(Int, String, Bool) -> String, ?state:Bool):js.jquery.JQuery;
+	/**
+		Add or remove one or more classes from each element in the set of matched elements, depending on either the class's presence or the value of the state argument.
+	**/
+	@:overload
+	@:jQueryVersion({ added : "3.3" })
+	public function toggleClass(_function:(Int, String, Bool) -> String, ?state:Bool):js.jquery.JQuery;
 	/**
 		Execute all handlers and behaviors attached to the matched elements for the given event type.
 	**/
@@ -2294,7 +2364,7 @@ package js.jquery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.4" })
-	public function val(_function:Int -> String -> String):js.jquery.JQuery;
+	public function val(_function:(Int, String) -> String):js.jquery.JQuery;
 	/**
 		Get the current computed width for the first element in the set of matched elements.
 	**/
@@ -2312,7 +2382,7 @@ package js.jquery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.4.1" })
-	public function width(_function:Int -> Int -> haxe.extern.EitherType<Float, String>):js.jquery.JQuery;
+	public function width(_function:(Int, Int) -> haxe.extern.EitherType<Float, String>):js.jquery.JQuery;
 	/**
 		Wrap an HTML structure around each element in the set of matched elements.
 	**/
@@ -2336,7 +2406,7 @@ package js.jquery;
 	**/
 	@:overload
 	@:jQueryVersion({ added : "1.4" })
-	public function wrapAll(_function:Void -> haxe.extern.EitherType<String, js.jquery.JQuery>):js.jquery.JQuery;
+	public function wrapAll(_function:() -> haxe.extern.EitherType<String, js.jquery.JQuery>):js.jquery.JQuery;
 	/**
 		Wrap an HTML structure around the content of each element in the set of matched elements.
 	**/

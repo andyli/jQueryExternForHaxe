@@ -5,6 +5,7 @@ import haxe.macro.Expr;
 import haxe.macro.Context;
 import haxe.ds.*;
 using Lambda;
+using StringTools;
 
 #if macro
 /**
@@ -129,7 +130,10 @@ class Config {
 							if (fields.exists(function(f):Bool {
 								return switch(f) {
 									case { field: "added", expr: {expr: EConst(CString(val)), pos:_} }:
-										val = val.split("/")[0];
+										if (val.contains("/"))
+											val = val.split("/")[0];
+										if (val.contains("-and-"))
+											val = val.split("-and-")[0];
 										Utils.compareVersion(ver, Utils.parseStringVersion(val)) < 0;
 									case { field: "deprecated", expr: {expr: EConst(CString(val)), pos:_} }:
 										!allowDeprecated && Utils.compareVersion(ver, Utils.parseStringVersion(val)) >= 0;

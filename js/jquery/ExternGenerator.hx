@@ -350,6 +350,8 @@ class ExternGenerator #if (mcli && !macro) extends CommandLine #end {
 		}
 		
 		return simple != null ? simple : switch ([entryName, tagName, type]) {
+			case ["jQuery.globalEval", "doc", "Document"]:
+				[macro:js.html.Document];
 			case ["jQuery.each", "array", "Array"]:
 				[macro:Array<Dynamic>];
 			case ["jQuery.parseHTML", "jQuery.parseHTML", "Array"]:
@@ -358,6 +360,8 @@ class ExternGenerator #if (mcli && !macro) extends CommandLine #end {
 				[macro:Array<Dynamic>];
 			case ["add", "elements", "Elements"]:
 				[element, macro:js.html.NodeList];
+			case ["addClass" | "removeClass" | "toggleClass", "classNames", "Array"]:
+				[macro:Array<String>];
 			case ["appendTo" | "insertBefore" | "replaceAll" | "prependTo" | "insertAfter", "target", "Array"]:
 				[macro:Array<$element>];
 			case ["css", "propertyNames", "Array"]:
@@ -388,6 +392,8 @@ class ExternGenerator #if (mcli && !macro) extends CommandLine #end {
 				[macro:Array<Dynamic>];
 			case ["jQuery", "elementArray", "Array"]:
 				[macro:js.html.NodeList, macro:Array<$element>];
+			case ["jQuery", "ownerDocument", "Document"]:
+				[macro:js.html.Document];
 			case ["toArray", "toArray", "Array"]:
 				[macro:Array<$element>];
 			case ["jQuery.inArray", "array", "Array"]:
