@@ -1,0 +1,21 @@
+name: CI
+on: ["push", "pull_request"]
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        haxe: [4.2, 4.1, 4.0, 3.4]
+    steps:
+      - uses: actions/checkout@v2
+      - run: sudo add-apt-repository -y ppa:haxe/haxe${{ matrix.haxe }}
+      - run: sudo apt-get install -y haxe=1:${{ matrix.haxe }}.*
+      - run: mkdir -p ~/haxelib && haxelib setup ~/haxelib
+      - run: haxelib install hxnodejs
+      - run: haxelib install phantomjs
+      - run: haxelib install utest 1.8.1
+      - run: haxelib dev jQueryExtern .
+      - run: haxelib list
+      - run: npm i
+      - run: haxe test.hxml -lib hxnodejs
+      - run: node test/bin/Test.js
