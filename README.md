@@ -4,7 +4,7 @@ This version of jQuery extern requires Haxe 3.3+. Users of Haxe 3.2.0- should ch
 
 ------------------------
 
-# jQueryExtern [![Build Status](https://travis-ci.org/andyli/jQueryExternForHaxe.svg?branch=master)](https://travis-ci.org/andyli/jQueryExternForHaxe)
+# jQueryExtern
 
 jQueryExtern unleash the full power of [jQuery](https://jquery.com/) in [Haxe](https://haxe.org/). Currently supports jQuery version up to *3.6.0*.
 
