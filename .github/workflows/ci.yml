@@ -19,3 +19,8 @@ jobs:
       - run: npm i
       - run: haxe test.hxml -lib hxnodejs
       - run: node test/bin/Test.js
+      - run: ./package.sh
+      - uses: actions/upload-artifact@v2
+        with:
+          name: haxelib-zip
+          path: jQueryExtern-*.zip
