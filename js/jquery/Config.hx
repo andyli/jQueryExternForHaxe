@@ -130,9 +130,9 @@ class Config {
 							if (fields.exists(function(f):Bool {
 								return switch(f) {
 									case { field: "added", expr: {expr: EConst(CString(val)), pos:_} }:
-										if (val.contains("/"))
+										if (val.indexOf("/") != -1)
 											val = val.split("/")[0];
-										if (val.contains("-and-"))
+										if (val.indexOf("-and-") != -1)
 											val = val.split("-and-")[0];
 										Utils.compareVersion(ver, Utils.parseStringVersion(val)) < 0;
 									case { field: "deprecated", expr: {expr: EConst(CString(val)), pos:_} }:
