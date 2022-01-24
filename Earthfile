@@ -122,7 +122,7 @@ devcontainer:
 
 api-xml:
     RUN curl -fsSLO https://api.jquery.com/resources/api.xml
-    SAVE ARTIFACT api.xml AS LOCAL ./api.xml
+    SAVE ARTIFACT --keep-ts api.xml AS LOCAL ./api.xml
 
 extern-generator:
     FROM haxe:3.4
@@ -143,4 +143,44 @@ generate-extern:
     COPY +extern-generator/ExternGenerator.n ExternGenerator.n
     COPY api.xml .
     RUN neko ExternGenerator.n --api-xml api.xml --output-folder out --pack js.jquery --native '$' --use-element --use-haxe-either --use-haxe-rest --no-seperated-static --no-rename-static-field --add-haxe-iterator
-    SAVE ARTIFACT out/js/jquery/*.hx AS LOCAL ./js/jquery/
+    SAVE ARTIFACT --keep-ts out/js/jquery/*.hx AS LOCAL ./js/jquery/
+
+node-modules:
+    FROM node:16
+    WORKDIR "$WORKDIR"
+    COPY package.json package-lock.json .
+    RUN npm i
+    SAVE ARTIFACT node_modules
+
+test-runner:
+    ARG HAXE_VERSION=4.2
+    FROM haxe:$HAXE_VERSION
+    WORKDIR "$WORKDIR"
+    COPY --chown=$USER_UID:$USER_GID +haxelibs/.haxelib .haxelib
+    COPY js js
+    COPY test test
+    COPY test.hxml extraParams.hxml .
+    RUN haxe test.hxml -lib hxnodejs
+    SAVE ARTIFACT test/bin/Test.js
+
+test:
+    FROM node:16
+    WORKDIR "$WORKDIR"
+    ARG HAXE_VERSION=4.2
+    COPY +node-modules/node_modules node_modules
+    COPY test/bin/test.html test/bin/test.html
+    COPY --build-arg HAXE_VERSION="$HAXE_VERSION" +test-runner/Test.js test/bin/Test.js
+    RUN node test/bin/Test.js
+
+test-all:
+    BUILD +test \
+        --HAXE_VERSION=4.2 \
+        --HAXE_VERSION=4.1 \
+        --HAXE_VERSION=4.0 \
+        --HAXE_VERSION=3.4
+
+package:
+    COPY js js
+    COPY haxelib.json extraParams.hxml README.md .
+    RUN zip -FSr "jQueryExtern-$(jq -r '.version' haxelib.json).zip" js haxelib.json extraParams.hxml README.md
+    SAVE ARTIFACT --keep-ts "jQueryExtern-*.zip" AS LOCAL .
