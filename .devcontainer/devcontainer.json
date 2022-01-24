@@ -1,0 +1,16 @@
+{
+	"name": "jQueryExternForHaxe",
+	"dockerComposeFile": "docker-compose.yml",
+	"service": "workspace",
+	"workspaceFolder": "/workspace",
+	"remoteEnv": {
+		"LOCAL_WORKSPACE_FOLDER": "${localWorkspaceFolder}"
+	},
+	"settings": {},
+	"extensions": [
+		"ms-azuretools.vscode-docker",
+		"nadako.vshaxe",
+		"earthly.earthfile-syntax-highlighting",
+	],
+	"remoteUser": "vscode"
+}
