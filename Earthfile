@@ -120,6 +120,14 @@ devcontainer:
     ARG IMAGE_CACHE="$IMAGE_NAME:$IMAGE_TAG"
     SAVE IMAGE --cache-from="$IMAGE_CACHE" --push "$IMAGE_NAME:$IMAGE_TAG"
 
+ci-devcontainer:
+    ARG --required GIT_SHA
+    ARG --required GIT_REF_NAME
+    BUILD +devcontainer \
+        --GIT_SHA="$GIT_SHA" \
+        --IMAGE_TAG="$GIT_SHA" \
+        --IMAGE_TAG="$GIT_REF_NAME"
+
 api-xml:
     RUN curl -fsSLO https://api.jquery.com/resources/api.xml
     SAVE ARTIFACT --keep-ts api.xml AS LOCAL ./api.xml

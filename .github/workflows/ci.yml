@@ -1,25 +1,42 @@
 name: CI
 on: ["push", "pull_request"]
+
+env:
+  EARTHLY_BUILDKIT_HOST: tcp://earthly:8372
+  EARTHLY_USE_INLINE_CACHE: "true"
+  EARTHLY_SAVE_INLINE_CACHE: "true"
+  FORCE_COLOR: 1
+
 jobs:
   build:
-    runs-on: ubuntu-18.04
-    strategy:
-      matrix:
-        haxe: ["4.2", "4.1", "4.0", "3.4"]
+    runs-on: ubuntu-latest
+    container: ghcr.io/andyli/jqueryexternforhaxe_devcontainer:master
+    services:
+      earthly:
+        image: earthly/buildkitd:v0.6.4
+        options: --privileged
+        env:
+          BUILDKIT_TCP_TRANSPORT_ENABLED: "true"
+        ports:
+          - 8372
+        volumes:
+          - /tmp/earthly
     steps:
       - uses: actions/checkout@v2
-      - run: sudo add-apt-repository -y ppa:haxe/haxe${{ matrix.haxe }}
-      - run: sudo apt-get install -y haxe=1:${{ matrix.haxe }}.*
-      - run: mkdir -p ~/haxelib && haxelib setup ~/haxelib
-      - run: haxelib install hxnodejs
-      - run: haxelib install phantomjs
-      - run: haxelib install utest 1.8.1
-      - run: haxelib dev jQueryExtern .
-      - run: haxelib list
-      - run: npm i
-      - run: haxe test.hxml -lib hxnodejs
-      - run: node test/bin/Test.js
-      - run: ./package.sh
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build devcontainer
+        run: earthly +ci-devcontainer --GIT_REF_NAME="${{ github.ref_name }}" --GIT_SHA="${{ github.sha }}"
+        env:
+          EARTHLY_PUSH: "${{ github.repository_owner == 'andyli' && github.event_name == 'push' }}"
+      - name: Test
+        run: earthly +test-all
+      - name: Package
+        run: earthly +package
       - uses: actions/upload-artifact@v2
         with:
           name: haxelib-zip
